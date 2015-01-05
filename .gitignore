@@ -1,0 +1,8 @@
+# built application files
+*.ap_
+# Java class files
+*.class
+# generated files
+bin/
+gen/
+/LiquidBol/nbproject/private/
