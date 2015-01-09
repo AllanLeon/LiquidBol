@@ -6,3 +6,5 @@
 bin/
 gen/
 /LiquidBol/nbproject/private/
+/build/
+/dist/
