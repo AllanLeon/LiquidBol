@@ -7,3 +7,7 @@ bin/
 gen/
 /LiquidBol/nbproject/private/
 /build/
+<<<<<<< HEAD
+/dist/
+=======
+>>>>>>> upstream/master
