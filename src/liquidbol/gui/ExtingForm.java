@@ -1,6 +1,5 @@
 package liquidbol.gui;
 
-import java.awt.Component;
 import liquidbol.addons.DateLabelFormatter;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -47,7 +46,7 @@ public class ExtingForm extends JFrame {
     private JLabel balanceLbl;
     private JTextField balanceAmount;
     private JLabel dateLbl;
-    private JTextField dateField;
+    private JDatePickerImpl dateField;
     private JTextField hourField;
     private JLabel hourLbl;
     private JLabel amountLbl;
@@ -125,7 +124,7 @@ public class ExtingForm extends JFrame {
         balanceLbl = new JLabel("Saldo");
         balanceAmount = new JTextField();
         dateLbl = new JLabel("Fecha de entrega");
-        dateField = new JTextField();
+        dateField = new JDatePickerImpl(datePanel, new DateLabelFormatter());
         hourLbl = new JLabel("Hora");
         hourField = new JTextField();
         jButton1 = new JButton();
@@ -143,10 +142,10 @@ public class ExtingForm extends JFrame {
         getContentPane().add(new JScrollPane(contentTable), new AbsoluteConstraints(30, 200, 640, 150));
         getContentPane().add(quantLbl, new AbsoluteConstraints(30, 350, 70, 30));
         getContentPane().add(quantAmount, new AbsoluteConstraints(90, 350, 50, 30));
-        getContentPane().add(dateLbl, new AbsoluteConstraints(180, 350, 110, 30));
-        getContentPane().add(dateField, new AbsoluteConstraints(180, 370, 90, 30));
-        getContentPane().add(hourLbl, new AbsoluteConstraints(180, 390, 50, 30));
-        getContentPane().add(hourField, new AbsoluteConstraints(180, 410, 90, 30));
+        getContentPane().add(dateLbl, new AbsoluteConstraints(150, 345, 110, 30));
+        getContentPane().add(dateField, new AbsoluteConstraints(150, 370, 130, 30));
+        getContentPane().add(hourLbl, new AbsoluteConstraints(150, 390, 50, 30));
+        getContentPane().add(hourField, new AbsoluteConstraints(150, 410, 90, 30));
         getContentPane().add(amountLbl, new AbsoluteConstraints(320, 370, 120, 30));
         getContentPane().add(totalLbl, new AbsoluteConstraints(430, 350, 50, 30));
         getContentPane().add(totalAmount, new AbsoluteConstraints(430, 370, 70, 30));
