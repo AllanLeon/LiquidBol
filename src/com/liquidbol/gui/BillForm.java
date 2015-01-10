@@ -1,6 +1,6 @@
-package liquidbol.gui;
+package com.liquidbol.gui;
 
-import liquidbol.addons.DateLabelFormatter;
+import com.liquidbol.addons.DateLabelFormatter;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.Properties;

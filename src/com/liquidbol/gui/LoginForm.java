@@ -1,4 +1,4 @@
-package liquidbol.gui;
+package com.liquidbol.gui;
 
 import java.awt.EventQueue;
 import java.util.logging.Level;
