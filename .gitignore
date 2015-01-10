@@ -5,5 +5,5 @@
 # generated files
 bin/
 gen/
-build/
 /LiquidBol/nbproject/private/
+/build/
