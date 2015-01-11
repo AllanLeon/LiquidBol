@@ -28,7 +28,7 @@ public class Supplier {
     private String email;
     private String city;
     private Date regDate;
-    private Collection<SupplierDebt> debts;
+    private Collection<Debt> debts;
 
     /**
      * Constructor of the class that includes all the variables as parameters.
@@ -207,17 +207,17 @@ public class Supplier {
     /**
      * @return all the supplier's debts
      */
-    public Collection<SupplierDebt> getAllDebts() {
+    public Collection<Debt> getAllDebts() {
         return debts;
     }
     
     /**
      * @return all the supplier's valid debts
      */
-    public Collection<SupplierDebt> getValidDebts() {
-        Set<SupplierDebt> result = new HashSet<>();
+    public Collection<Debt> getValidDebts() {
+        Set<Debt> result = new HashSet<>();
         Date today = new Date();
-        for (SupplierDebt debt : debts) {
+        for (Debt debt : debts) {
             if (debt.getLimitDate().compareTo(today) < 0 && debt.getAmmount() > 0) {
                 result.add(debt);
             }

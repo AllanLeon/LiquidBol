@@ -6,19 +6,22 @@
 
 package com.liquidbol.model.commons;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 
 /**
- *
+ * Class that represents a debt.
  * @author Allan Leon
  */
-public class SupplierDebt {
+public class Debt {
     
     private int id;
     private Double ammount;
     private Double maxAmmount;
     private Date limitDate;
+    private Collection<PaidDebt> payments;
 
     /**
      * Constructor method that includes all the variables as parameters
@@ -27,11 +30,12 @@ public class SupplierDebt {
      * @param maxAmmount
      * @param limitDate 
      */
-    public SupplierDebt(int id, Double ammount, Double maxAmmount, Date limitDate) {
+    public Debt(int id, Double ammount, Double maxAmmount, Date limitDate) {
         this.id = id;
         this.ammount = ammount;
         this.maxAmmount = maxAmmount;
         this.limitDate = limitDate;
+        this.payments = new HashSet<>();
     }
 
     /**
@@ -90,6 +94,20 @@ public class SupplierDebt {
         this.limitDate = limitDate;
     }
     
+    /**
+     * @return the number of payments
+     */
+    public int getNumberOfPayments() {
+        return payments.size();
+    }
+    
+    /**
+     * @return all the payments
+     */
+    public Collection<PaidDebt> getAllPayments() {
+        return payments;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 5;
@@ -108,7 +126,7 @@ public class SupplierDebt {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SupplierDebt other = (SupplierDebt) obj;
+        final Debt other = (Debt) obj;
         if (this.id != other.id) {
             return false;
         }
