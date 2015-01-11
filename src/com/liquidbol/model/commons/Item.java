@@ -35,8 +35,6 @@ public class Item {
      * @param subtype
      * @param cost
      * @param price
-     * @param dif
-     * @param profit 
      */
     public Item(String id, String measure, String name, String brand, String industry, String type, String subtype, Double cost, Double price) {
         this.id = id;
