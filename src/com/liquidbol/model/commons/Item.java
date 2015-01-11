@@ -6,6 +6,8 @@
 
 package com.liquidbol.model.commons;
 
+import java.util.Objects;
+
 /**
  * Class that represent an item.
  * @author Allan Leon
@@ -23,6 +25,7 @@ public class Item {
     private Double price;
     private Double dif;
     private Double profit;
+    private Discount discount;
 
     /**
      * Constructor of the class that includes all the variables as parameters.
@@ -35,8 +38,9 @@ public class Item {
      * @param subtype
      * @param cost
      * @param price
+     * @param discount
      */
-    public Item(String id, String measure, String name, String brand, String industry, String type, String subtype, Double cost, Double price) {
+    public Item(String id, String measure, String name, String brand, String industry, String type, String subtype, Double cost, Double price, Discount discount) {
         this.id = id;
         this.measure = measure;
         this.name = name;
@@ -48,6 +52,7 @@ public class Item {
         this.price = price;
         this.dif = price - cost;
         this.profit = 100 * dif / cost;
+        this.discount = discount;
     }
 
     /**
@@ -126,6 +131,13 @@ public class Item {
     public Double getProfit() {
         return profit;
     }
+    
+    /**
+     * @return the discount
+     */
+    public Discount getDiscount() {
+        return discount;
+    }
 
     /**
      * @param id the id to set
@@ -202,5 +214,34 @@ public class Item {
      */
     public void setProfit(Double profit) {
         this.profit = profit;
+    }
+
+    /**
+     * @param discount the discount to set
+     */
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 43 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Item other = (Item) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 }

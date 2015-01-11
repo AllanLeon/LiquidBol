@@ -13,7 +13,7 @@ import java.util.Objects;
  * Class that represents a debt's payment.
  * @author Allan Leon
  */
-public class PaidDebt {
+public class DebtPayment {
     
     private int id;
     private Date payDate;
@@ -25,7 +25,7 @@ public class PaidDebt {
      * @param payDate
      * @param ammount 
      */
-    public PaidDebt(int id, Date payDate, Double ammount) {
+    public DebtPayment(int id, Date payDate, Double ammount) {
         this.id = id;
         this.payDate = payDate;
         this.ammount = ammount;
@@ -76,7 +76,7 @@ public class PaidDebt {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final PaidDebt other = (PaidDebt) obj;
+        final DebtPayment other = (DebtPayment) obj;
         if (this.id != other.id) {
             return false;
         }

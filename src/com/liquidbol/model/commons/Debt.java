@@ -21,7 +21,7 @@ public class Debt {
     private Double ammount;
     private Double maxAmmount;
     private Date limitDate;
-    private Collection<PaidDebt> payments;
+    private Collection<DebtPayment> payments;
 
     /**
      * Constructor method that includes all the variables as parameters
@@ -104,17 +104,16 @@ public class Debt {
     /**
      * @return all the payments
      */
-    public Collection<PaidDebt> getAllPayments() {
+    public Collection<DebtPayment> getAllPayments() {
         return payments;
     }
-    
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 71 * hash + this.id;
-        hash = 71 * hash + Objects.hashCode(this.ammount);
-        hash = 71 * hash + Objects.hashCode(this.maxAmmount);
-        hash = 71 * hash + Objects.hashCode(this.limitDate);
+        int hash = 7;
+        hash = 79 * hash + this.id;
+        hash = 79 * hash + Objects.hashCode(this.ammount);
+        hash = 79 * hash + Objects.hashCode(this.limitDate);
         return hash;
     }
 
@@ -131,9 +130,6 @@ public class Debt {
             return false;
         }
         if (!Objects.equals(this.ammount, other.ammount)) {
-            return false;
-        }
-        if (!Objects.equals(this.maxAmmount, other.maxAmmount)) {
             return false;
         }
         if (!Objects.equals(this.limitDate, other.limitDate)) {
