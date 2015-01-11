@@ -224,6 +224,14 @@ public class Supplier {
         }
         return result;
     }
+    
+    /**
+     * Adds a debt to the supplier's debts.
+     * @param debt to be added
+     */
+    public void addDebt(Debt debt) {
+       debts.add(debt);
+    }
 
     @Override
     public int hashCode() {

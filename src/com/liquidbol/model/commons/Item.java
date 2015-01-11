@@ -6,6 +6,8 @@
 
 package com.liquidbol.model.commons;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 
 /**
@@ -25,7 +27,7 @@ public class Item {
     private Double price;
     private Double dif;
     private Double profit;
-    private Discount discount;
+    private Collection<Discount> discounts;
 
     /**
      * Constructor of the class that includes all the variables as parameters.
@@ -38,9 +40,8 @@ public class Item {
      * @param subtype
      * @param cost
      * @param price
-     * @param discount
      */
-    public Item(String id, String measure, String name, String brand, String industry, String type, String subtype, Double cost, Double price, Discount discount) {
+    public Item(String id, String measure, String name, String brand, String industry, String type, String subtype, Double cost, Double price) {
         this.id = id;
         this.measure = measure;
         this.name = name;
@@ -52,7 +53,7 @@ public class Item {
         this.price = price;
         this.dif = price - cost;
         this.profit = 100 * dif / cost;
-        this.discount = discount;
+        this.discounts = new HashSet<>();
     }
 
     /**
@@ -131,13 +132,6 @@ public class Item {
     public Double getProfit() {
         return profit;
     }
-    
-    /**
-     * @return the discount
-     */
-    public Discount getDiscount() {
-        return discount;
-    }
 
     /**
      * @param id the id to set
@@ -215,14 +209,19 @@ public class Item {
     public void setProfit(Double profit) {
         this.profit = profit;
     }
-
-    /**
-     * @param discount the discount to set
-     */
-    public void setDiscount(Discount discount) {
-        this.discount = discount;
+    
+    public int getNumberOfDiscounts() {
+        return discounts.size();
     }
-
+    
+    public Collection<Discount> getAllDiscounts() {
+        return discounts;
+    }
+    
+    public void addDiscount(Discount discount) {
+        discounts.add(discount);
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

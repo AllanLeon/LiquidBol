@@ -6,6 +6,11 @@
 
 package com.liquidbol.model.commons;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Class that represents a store.
  * @author Allan Leon
@@ -16,6 +21,7 @@ public class Store {
     private String name;
     private String address;
     private int phone;
+    private Collection<Expense> expenses;
 
     /**
      * Constructor method.
@@ -29,6 +35,7 @@ public class Store {
         this.name = name;
         this.address = address;
         this.phone = phone;
+        this.expenses = new HashSet<>();
     }
 
     /**
@@ -86,6 +93,50 @@ public class Store {
     public void setPhone(int phone) {
         this.phone = phone;
     }
+    
+    public int getNumberOfExpenses() {
+        return expenses.size();
+    }
+    
+    public Collection<Expense> getAllExpenses() {
+        return expenses;
+    }
+    
+    public Collection<Expense> findExpensesByDescription(String desc) {
+        Set<Expense> result = new HashSet<>();
+        for (Expense expense : expenses) {
+            if (expense.getDescription().contains(desc)) {
+                result.add(expense);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Expense> findExpensesByDate(Date date) {
+        Set<Expense> result = new HashSet<>();
+        for (Expense expense : expenses) {
+            if (expense.getPayDate().compareTo(date) == 0) {
+                result.add(expense);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Expense> findExpensesBetweenDates(Date startDate, Date endDate) {
+        Set<Expense> result = new HashSet<>();
+        for (Expense expense : expenses) {
+            Date expenseDate = expense.getPayDate();
+            if (expenseDate.compareTo(startDate) >= 0 && expenseDate.compareTo(endDate) <= 0) {
+                result.add(expense);
+            }
+        }
+        return result;
+    }
+    
+    public void addExpense(Expense expense) {
+        expenses.add(expense);
+    }
+    
 
     @Override
     public int hashCode() {

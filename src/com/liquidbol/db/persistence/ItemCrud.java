@@ -6,7 +6,6 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.Discount;
 import com.liquidbol.model.commons.Item;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -170,7 +169,7 @@ public class ItemCrud implements DBCrud<Item> {
         Double cost = resultSet.getDouble(8);
         Double price = resultSet.getDouble(9);
         LOG.log(Level.FINE, "Creating Item %s", id);
-        Item result = new Item(id, measure, name, brand, industry, type, subtype, cost, price, new Discount(0, 0, 0.0));
+        Item result = new Item(id, measure, name, brand, industry, type, subtype, cost, price);
         return result;
     }
 }
