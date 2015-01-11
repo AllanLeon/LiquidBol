@@ -6,7 +6,11 @@
 
 package com.liquidbol.model.commons;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Class that represents a supplier.
@@ -24,6 +28,7 @@ public class Supplier {
     private String email;
     private String city;
     private Date regDate;
+    private Collection<SupplierDebt> debts;
 
     /**
      * Constructor of the class that includes all the variables as parameters.
@@ -49,6 +54,7 @@ public class Supplier {
         this.email = email;
         this.city = city;
         this.regDate = regDate;
+        this.debts = new HashSet<>();
     }
 
     /**
@@ -189,5 +195,63 @@ public class Supplier {
      */
     public void setRegDate(Date regDate) {
         this.regDate = regDate;
+    }
+    
+    /**
+     * @return the supplier's number of debts
+     */
+    public int getNumberOfDebts() {
+        return debts.size();
+    }
+    
+    /**
+     * @return all the supplier's debts
+     */
+    public Collection<SupplierDebt> getAllDebts() {
+        return debts;
+    }
+    
+    /**
+     * @return all the supplier's valid debts
+     */
+    public Collection<SupplierDebt> getValidDebts() {
+        Set<SupplierDebt> result = new HashSet<>();
+        Date today = new Date();
+        for (SupplierDebt debt : debts) {
+            if (debt.getLimitDate().compareTo(today) < 0 && debt.getAmmount() > 0) {
+                result.add(debt);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 41 * hash + this.id;
+        hash = 41 * hash + Objects.hashCode(this.name);
+        hash = 41 * hash + Objects.hashCode(this.lastname);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Supplier other = (Supplier) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastname, other.lastname)) {
+            return false;
+        }
+        return true;
     }
 }
