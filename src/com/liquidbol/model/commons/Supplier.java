@@ -9,23 +9,15 @@ package com.liquidbol.model.commons;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 /**
  * Class that represents a supplier.
  * @author Allan Leon
  */
-public class Supplier {
+public class Supplier extends Person {
     
-    private int id;
-    private String name;
-    private String lastname;
-    private int phone;
-    private int phone2;
     private String company;
-    private String address;
-    private String email;
     private String city;
     private Date regDate;
     private Collection<Debt> debts;
@@ -44,52 +36,11 @@ public class Supplier {
      * @param regDate 
      */
     public Supplier(int id, String name, String lastname, int phone, int phone2, String company, String address, String email, String city, Date regDate) {
-        this.id = id;
-        this.name = name;
-        this.lastname = lastname;
-        this.phone = phone;
-        this.phone2 = phone2;
+        super(id, name, lastname, address, phone, phone2, email);
         this.company = company;
-        this.address = address;
-        this.email = email;
         this.city = city;
         this.regDate = regDate;
         this.debts = new HashSet<>();
-    }
-
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @return the lastname
-     */
-    public String getLastname() {
-        return lastname;
-    }
-
-    /**
-     * @return the phone
-     */
-    public int getPhone() {
-        return phone;
-    }
-
-    /**
-     * @return the phone2
-     */
-    public int getPhone2() {
-        return phone2;
     }
 
     /**
@@ -97,20 +48,6 @@ public class Supplier {
      */
     public String getCompany() {
         return company;
-    }
-
-    /**
-     * @return the address
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
     }
 
     /**
@@ -128,59 +65,10 @@ public class Supplier {
     }
 
     /**
-     * @param id the id to set
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @param lastname the lastname to set
-     */
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    /**
-     * @param phone the phone to set
-     */
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
-    /**
-     * @param phone2 the phone2 to set
-     */
-    public void setPhone2(int phone2) {
-        this.phone2 = phone2;
-    }
-
-    /**
      * @param company the company to set
      */
     public void setCompany(String company) {
         this.company = company;
-    }
-
-    /**
-     * @param address the address to set
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     /**
@@ -231,35 +119,5 @@ public class Supplier {
      */
     public void addDebt(Debt debt) {
        debts.add(debt);
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 41 * hash + this.id;
-        hash = 41 * hash + Objects.hashCode(this.name);
-        hash = 41 * hash + Objects.hashCode(this.lastname);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Supplier other = (Supplier) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.lastname, other.lastname)) {
-            return false;
-        }
-        return true;
     }
 }
