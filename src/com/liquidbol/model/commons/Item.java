@@ -38,7 +38,7 @@ public class Item {
      * @param dif
      * @param profit 
      */
-    public Item(String id, String measure, String name, String brand, String industry, String type, String subtype, Double cost, Double price, Double dif, Double profit) {
+    public Item(String id, String measure, String name, String brand, String industry, String type, String subtype, Double cost, Double price) {
         this.id = id;
         this.measure = measure;
         this.name = name;
@@ -48,8 +48,8 @@ public class Item {
         this.subtype = subtype;
         this.cost = cost;
         this.price = price;
-        this.dif = dif;
-        this.profit = profit;
+        this.dif = price - cost;
+        this.profit = 100 * dif / cost;
     }
 
     /**
@@ -205,5 +205,4 @@ public class Item {
     public void setProfit(Double profit) {
         this.profit = profit;
     }
-    
 }
