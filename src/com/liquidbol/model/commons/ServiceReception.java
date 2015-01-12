@@ -8,6 +8,9 @@ package com.liquidbol.model.commons;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Class that represents a service reception.
@@ -22,6 +25,7 @@ public class ServiceReception {
     private Double ammountPaid;
     private Double totalAmmount;
     private String obs;
+    private Collection<ServiceSale> sales;
 
     /**
      * Constructor method.
@@ -41,6 +45,7 @@ public class ServiceReception {
         this.ammountPaid = ammountPaid;
         this.totalAmmount = totalAmmount;
         this.obs = obs;
+        this.sales = new HashSet<>();
     }
 
     /**
@@ -139,6 +144,29 @@ public class ServiceReception {
      */
     public void setObs(String obs) {
         this.obs = obs;
+    }
+    
+    public int getNumberOfSales() {
+        return sales.size();
+    }
+    
+    public Collection<ServiceSale> getAllSales() {
+        return sales;
+    }
+    
+    public Collection<ServiceSale> findSalesBetweenDates(Date startDate, Date endDate) {
+        Set<ServiceSale> result = new HashSet<>();
+        for (ServiceSale sale : sales) {
+            Date paymentDate = sale.getPayDate();
+            if (paymentDate.compareTo(startDate) >= 0 && paymentDate.compareTo(endDate) <= 0) {
+                result.add(sale);
+            }
+        }
+        return result;
+    }
+    
+    public void addSale(ServiceSale sale) {
+        sales.add(sale);
     }
 
     @Override

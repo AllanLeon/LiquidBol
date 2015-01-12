@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Class that represents a debt.
@@ -106,6 +107,21 @@ public class Debt {
      */
     public Collection<DebtPayment> getAllPayments() {
         return payments;
+    }
+    
+    public Collection<DebtPayment> findPaymentsBetweenDates(Date startDate, Date endDate) {
+        Set<DebtPayment> result = new HashSet<>();
+        for (DebtPayment payment : payments) {
+            Date paymentDate = payment.getPayDate();
+            if (paymentDate.compareTo(startDate) >= 0 && paymentDate.compareTo(endDate) <= 0) {
+                result.add(payment);
+            }
+        }
+        return result;
+    }
+    
+    public void addPayment(DebtPayment payment) {
+        payments.add(payment);
     }
 
     @Override
