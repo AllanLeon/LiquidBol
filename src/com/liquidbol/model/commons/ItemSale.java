@@ -6,29 +6,45 @@
 
 package com.liquidbol.model.commons;
 
+import java.sql.Date;
+
 /**
- * Class that represents an item request.
+ * Class that represents an item sale.
  * @author Allan Leon
  */
-public class ItemRequest {
+public class ItemSale {
     
     private int id;
     private Item item;
+    private Store store;
+    private Date payDate;
     private int quantity;
     private Double ammount;
+    private Double paidAmmount;
+    private boolean route;
+    private String obs;
 
     /**
      * Constructor method.
      * @param id
      * @param item
+     * @param store
+     * @param payDate
      * @param quantity
-     * @param ammount 
+     * @param paidAmmount
+     * @param route
+     * @param obs 
      */
-    public ItemRequest(int id, Item item, int quantity) {
+    public ItemSale(int id, Item item, Store store, Date payDate, int quantity, Double paidAmmount, boolean route, String obs) {
         this.id = id;
         this.item = item;
+        this.store = store;
+        this.payDate = payDate;
         this.quantity = quantity;
         this.ammount = item.getPrice() * quantity;
+        this.paidAmmount = paidAmmount;
+        this.route = route;
+        this.obs = obs;
     }
 
     /**
@@ -46,6 +62,20 @@ public class ItemRequest {
     }
 
     /**
+     * @return the store
+     */
+    public Store getStore() {
+        return store;
+    }
+
+    /**
+     * @return the payDate
+     */
+    public Date getPayDate() {
+        return payDate;
+    }
+
+    /**
      * @return the quantity
      */
     public int getQuantity() {
@@ -57,6 +87,27 @@ public class ItemRequest {
      */
     public Double getAmmount() {
         return ammount;
+    }
+
+    /**
+     * @return the paidAmmount
+     */
+    public Double getPaidAmmount() {
+        return paidAmmount;
+    }
+
+    /**
+     * @return the route
+     */
+    public boolean isRoute() {
+        return route;
+    }
+
+    /**
+     * @return the obs
+     */
+    public String getObs() {
+        return obs;
     }
 
     /**
@@ -74,6 +125,20 @@ public class ItemRequest {
     }
 
     /**
+     * @param store the store to set
+     */
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    /**
+     * @param payDate the payDate to set
+     */
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
+    }
+
+    /**
      * @param quantity the quantity to set
      */
     public void setQuantity(int quantity) {
@@ -87,10 +152,31 @@ public class ItemRequest {
         this.ammount = ammount;
     }
 
+    /**
+     * @param paidAmmount the paidAmmount to set
+     */
+    public void setPaidAmmount(Double paidAmmount) {
+        this.paidAmmount = paidAmmount;
+    }
+
+    /**
+     * @param route the route to set
+     */
+    public void setRoute(boolean route) {
+        this.route = route;
+    }
+
+    /**
+     * @param obs the obs to set
+     */
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 47 * hash + this.id;
+        hash = 29 * hash + this.id;
         return hash;
     }
 
@@ -102,7 +188,7 @@ public class ItemRequest {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ItemRequest other = (ItemRequest) obj;
+        final ItemSale other = (ItemSale) obj;
         if (this.id != other.id) {
             return false;
         }
