@@ -6,7 +6,7 @@
 
 package com.liquidbol.model.commons;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Class that represents an expense.

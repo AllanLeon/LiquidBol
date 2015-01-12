@@ -7,7 +7,7 @@
 package com.liquidbol.model.commons;
 
 import java.util.Collection;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -102,7 +102,7 @@ public class Client extends Person {
     
     public Collection<CXC> getValidReceivableAccounts() {
         Set<CXC> result = new HashSet<>();
-        Date today = new Date();
+        Date today = new Date(new java.util.Date().getTime());
         for (CXC cxc : receivableAccounts) {
             if (cxc.getCreditLimitDate().compareTo(today) < 0 && cxc.getDebt() > 0) {
                 result.add(cxc);

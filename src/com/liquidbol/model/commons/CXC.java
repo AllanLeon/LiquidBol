@@ -7,7 +7,7 @@
 package com.liquidbol.model.commons;
 
 import java.util.Collection;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 
 /**
@@ -110,15 +110,15 @@ public class CXC {
         this.state = state;
     }
     
-    private int getNumberOfCollectedReceivableAccounts() {
+    public int getNumberOfCollectedReceivableAccounts() {
         return collectedReceivableAccounts.size();
     }
     
-    private Collection<CXCC> getAllCollectedReceivableAccounts() {
+    public Collection<CXCC> getAllCollectedReceivableAccounts() {
         return collectedReceivableAccounts;
     }
     
-    private void addCollectedReceivableAccount(CXCC cxcc) {
+    public void addCollectedReceivableAccount(CXCC cxcc) {
         collectedReceivableAccounts.add(cxcc);
     }
 

@@ -22,7 +22,6 @@ public class ItemRequest {
      * @param id
      * @param item
      * @param quantity
-     * @param ammount 
      */
     public ItemRequest(int id, Item item, int quantity) {
         this.id = id;

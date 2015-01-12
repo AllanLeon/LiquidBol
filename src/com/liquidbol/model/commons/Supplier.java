@@ -7,7 +7,7 @@
 package com.liquidbol.model.commons;
 
 import java.util.Collection;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -90,7 +90,7 @@ public class Supplier extends Person {
      */
     public Collection<Debt> getValidDebts() {
         Set<Debt> result = new HashSet<>();
-        Date today = new Date();
+        Date today = new Date(new java.util.Date().getTime());
         for (Debt debt : debts) {
             if (debt.getLimitDate().compareTo(today) < 0 && debt.getAmmount() > 0) {
                 result.add(debt);
