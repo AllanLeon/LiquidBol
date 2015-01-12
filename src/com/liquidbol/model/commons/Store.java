@@ -23,6 +23,7 @@ public class Store {
     private int phone;
     private Collection<Expense> expenses;
     private Collection<Inventory> inventorys;
+    private Collection<Employee> employees;
 
     /**
      * Constructor method.
@@ -38,6 +39,7 @@ public class Store {
         this.phone = phone;
         this.expenses = new HashSet<>();
         this.inventorys = new HashSet<>();
+        this.employees = new HashSet<>();
     }
 
     /**
@@ -159,6 +161,28 @@ public class Store {
 
     public void addInventory(Inventory inventory) {
        inventorys.add(inventory);
+    }
+    
+    public int getNumberOfEmployees() {
+        return employees.size();
+    }
+    
+    public Collection<Employee> getAllEmployees() {
+        return employees;
+    }
+    
+    public Collection<Employee> findEmployeesByName(String name) {
+        Set<Employee> result = new HashSet<>();
+        for (Employee employee : employees) {
+            if (employee.getName().contains(name)) {
+                result.add(employee);
+            }
+        }
+        return result;
+    }
+
+    public void addEmployee(Employee employee) {
+       employees.add(employee);
     }
 
     @Override
