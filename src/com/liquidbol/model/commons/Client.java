@@ -6,7 +6,10 @@
 
 package com.liquidbol.model.commons;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Class that represents a client.
@@ -17,6 +20,7 @@ public class Client extends Person {
     private int nit;
     private String companyName;
     private int frequency;
+    private Collection<CXC> receivableAccounts;
 
     /**
      * Constructor method.
@@ -37,6 +41,7 @@ public class Client extends Person {
         this.nit = nit;
         this.companyName = companyName;
         this.frequency = frequency;
+        this.receivableAccounts = new HashSet<>();
     }
 
     /**
@@ -79,5 +84,28 @@ public class Client extends Person {
      */
     public void setFrequency(int frequency) {
         this.frequency = frequency;
+    }
+    
+    public int getNumberOfReceivableAccounts() {
+        return receivableAccounts.size();
+    }
+    
+    public Collection<CXC> getAllReceivableAccounts() {
+        return receivableAccounts;
+    }
+    
+    public Collection<CXC> getValidReceivableAccounts() {
+        Set<CXC> result = new HashSet<>();
+        Date today = new Date();
+        for (CXC cxc : receivableAccounts) {
+            if (cxc.getCreditLimitDate().compareTo(today) < 0 && cxc.getDebt() > 0) {
+                result.add(cxc);
+            }
+        }
+        return result;
+    }
+    
+    public void addReceivableAccount(CXC cxc) {
+        receivableAccounts.add(cxc);
     }
 }
