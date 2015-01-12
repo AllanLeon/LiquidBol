@@ -35,6 +35,7 @@ public interface DBCrud<T> {
      * @throws java.lang.ClassNotFoundException if the driver is missing
      */
     public T find(String id) throws PersistenceException, ClassNotFoundException;
+    public T find(int id) throws PersistenceException, ClassNotFoundException;
     
     /**
      * Updates and synchronize the instance of the class this crud is

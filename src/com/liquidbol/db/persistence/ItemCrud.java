@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class responsible of all persistence operations related to items
+ * Class responsible of all persistence operations related to items.
  * @author Allan Leon
  */
 public class ItemCrud implements DBCrud<Item> {
@@ -37,19 +37,19 @@ public class ItemCrud implements DBCrud<Item> {
             String insert = "INSERT INTO items(item_id, item_measure, item_name,"
                     + "item_brand, item_industry, item_type, item_subtype, item_cost"
                     + "item_price, item_dif, item_profit) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement stm = connection.prepareCall(insert);
-            stm.setString(1, item.getId());
-            stm.setString(2, item.getMeasure());
-            stm.setString(3, item.getName());
-            stm.setString(4, item.getBrand());
-            stm.setString(5, item.getIndustry());
-            stm.setString(6, item.getType());
-            stm.setString(7, item.getSubtype());
-            stm.setDouble(8, item.getCost());
-            stm.setDouble(9, item.getPrice());
-            stm.setDouble(10, item.getDif());
-            stm.setDouble(11, item.getProfit());
-            int rowsAffected = stm.executeUpdate();
+            PreparedStatement statement = connection.prepareCall(insert);
+            statement.setString(1, item.getId());
+            statement.setString(2, item.getMeasure());
+            statement.setString(3, item.getName());
+            statement.setString(4, item.getBrand());
+            statement.setString(5, item.getIndustry());
+            statement.setString(6, item.getType());
+            statement.setString(7, item.getSubtype());
+            statement.setDouble(8, item.getCost());
+            statement.setDouble(9, item.getPrice());
+            statement.setDouble(10, item.getDif());
+            statement.setDouble(11, item.getProfit());
+            int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("Item was not saved");
             }
@@ -96,7 +96,11 @@ public class ItemCrud implements DBCrud<Item> {
                 LOG.log(Level.SEVERE, null, ex);
             }
         }
-
+    }
+    
+    @Override
+    public Item find(int id) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
