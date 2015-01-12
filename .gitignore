@@ -5,7 +5,7 @@
 # generated files
 bin/
 gen/
-/LiquidBol/nbproject/private/
+nbproject/private/
 /build/
 <<<<<<< HEAD
 /dist/
