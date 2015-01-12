@@ -6,7 +6,9 @@
 
 package com.liquidbol.model.commons;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 /**
  * Class that represents a receivable account.
@@ -19,6 +21,7 @@ public class CXC {
     private Double creditMaxAmmount;
     private Date creditLimitDate;
     private String state;
+    private Collection<CXCC> collectedReceivableAccounts;
 
     /**
      * Constructor method.
@@ -34,6 +37,7 @@ public class CXC {
         this.creditMaxAmmount = creditMaxAmmount;
         this.creditLimitDate = creditLimitDate;
         this.state = state;
+        this.collectedReceivableAccounts = new HashSet<>();
     }
 
     /**
@@ -104,6 +108,18 @@ public class CXC {
      */
     public void setState(String state) {
         this.state = state;
+    }
+    
+    private int getNumberOfCollectedReceivableAccounts() {
+        return collectedReceivableAccounts.size();
+    }
+    
+    private Collection<CXCC> getAllCollectedReceivableAccounts() {
+        return collectedReceivableAccounts;
+    }
+    
+    private void addCollectedReceivableAccount(CXCC cxcc) {
+        collectedReceivableAccounts.add(cxcc);
     }
 
     @Override
