@@ -6,6 +6,8 @@
 
 package com.liquidbol.model.commons;
 
+import java.util.Date;
+
 /**
  * Class that represents a person.
  * @author Allan Leon
@@ -19,8 +21,20 @@ public class Person {
     private int phone;
     private int phone2;
     private String email;
+    private Date regDate;
 
-    public Person(int id, String name, String lastname, String address, int phone, int phone2, String email) {
+    /**
+     * Constructor method.
+     * @param id
+     * @param name
+     * @param lastname
+     * @param address
+     * @param phone
+     * @param phone2
+     * @param email
+     * @param regDate 
+     */
+    public Person(int id, String name, String lastname, String address, int phone, int phone2, String email, Date regDate) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
@@ -28,6 +42,7 @@ public class Person {
         this.phone = phone;
         this.phone2 = phone2;
         this.email = email;
+        this.regDate = regDate;
     }
 
     /**
@@ -80,6 +95,13 @@ public class Person {
     }
 
     /**
+     * @return the regDate
+     */
+    public Date getRegDate() {
+        return regDate;
+    }
+
+    /**
      * @param id the id to set
      */
     public void setId(int id) {
@@ -128,10 +150,17 @@ public class Person {
         this.email = email;
     }
 
+    /**
+     * @param regDate the regDate to set
+     */
+    public void setRegDate(Date regDate) {
+        this.regDate = regDate;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + this.id;
+        hash = 19 * hash + this.id;
         return hash;
     }
 

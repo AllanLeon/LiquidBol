@@ -19,7 +19,6 @@ public class Supplier extends Person {
     
     private String company;
     private String city;
-    private Date regDate;
     private Collection<Debt> debts;
 
     /**
@@ -36,10 +35,9 @@ public class Supplier extends Person {
      * @param regDate 
      */
     public Supplier(int id, String name, String lastname, int phone, int phone2, String company, String address, String email, String city, Date regDate) {
-        super(id, name, lastname, address, phone, phone2, email);
+        super(id, name, lastname, address, phone, phone2, email, regDate);
         this.company = company;
         this.city = city;
-        this.regDate = regDate;
         this.debts = new HashSet<>();
     }
 
@@ -58,13 +56,6 @@ public class Supplier extends Person {
     }
 
     /**
-     * @return the regDate
-     */
-    public Date getRegDate() {
-        return regDate;
-    }
-
-    /**
      * @param company the company to set
      */
     public void setCompany(String company) {
@@ -76,13 +67,6 @@ public class Supplier extends Person {
      */
     public void setCity(String city) {
         this.city = city;
-    }
-
-    /**
-     * @param regDate the regDate to set
-     */
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
     }
     
     /**
