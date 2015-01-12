@@ -22,6 +22,8 @@ public class Client extends Person {
     private int frequency;
     private Collection<CXC> receivableAccounts;
     private Collection<RechargeableItem> rechargeableItems;
+    private Collection<ItemEstimate> itemEstimates;
+    private Collection<ItemSale> itemSales;
 
     /**
      * Constructor method.
@@ -44,6 +46,8 @@ public class Client extends Person {
         this.frequency = frequency;
         this.receivableAccounts = new HashSet<>();
         this.rechargeableItems = new HashSet<>();
+        this.itemEstimates = new HashSet<>();
+        this.itemSales = new HashSet<>();
     }
 
     /**
@@ -131,5 +135,29 @@ public class Client extends Person {
     
     public void addRechargeableItem(RechargeableItem rechargeableItem) {
         rechargeableItems.add(rechargeableItem);
+    }
+    
+    public int getNumberOfItemEstimates() {
+        return itemEstimates.size();
+    }
+    
+    public Collection<ItemEstimate> getAllItemEstimates() {
+        return itemEstimates;
+    }
+    
+    public void addItemEstimate(ItemEstimate itemEstimate) {
+        itemEstimates.add(itemEstimate);
+    }
+    
+    public int getNumberOfItemSales() {
+        return itemSales.size();
+    }
+    
+    public Collection<ItemSale> getAllItemSales() {
+        return itemSales;
+    }
+    
+    public void addItemSale(ItemSale itemSale) {
+        itemSales.add(itemSale);
     }
 }
