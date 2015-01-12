@@ -21,6 +21,7 @@ public class Client extends Person {
     private String companyName;
     private int frequency;
     private Collection<CXC> receivableAccounts;
+    private Collection<RechargeableItem> rechargeableItems;
 
     /**
      * Constructor method.
@@ -42,6 +43,7 @@ public class Client extends Person {
         this.companyName = companyName;
         this.frequency = frequency;
         this.receivableAccounts = new HashSet<>();
+        this.rechargeableItems = new HashSet<>();
     }
 
     /**
@@ -107,5 +109,27 @@ public class Client extends Person {
     
     public void addReceivableAccount(CXC cxc) {
         receivableAccounts.add(cxc);
+    }
+    
+    public int getNumberOfRechargeableItems() {
+        return rechargeableItems.size();
+    }
+    
+    public Collection<RechargeableItem> getAllRechargeableItems() {
+        return rechargeableItems;
+    }
+    
+    public Collection<RechargeableItem> findRechargeableItemsByType(String type) {
+        Set<RechargeableItem> result = new HashSet<>();
+        for (RechargeableItem recItem : rechargeableItems) {
+            if (recItem.getType().contains(type)) {
+                result.add(recItem);
+            }
+        }
+        return result;
+    }
+    
+    public void addRechargeableItem(RechargeableItem rechargeableItem) {
+        rechargeableItems.add(rechargeableItem);
     }
 }
