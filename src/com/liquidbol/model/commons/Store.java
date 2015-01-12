@@ -22,6 +22,7 @@ public class Store {
     private String address;
     private int phone;
     private Collection<Expense> expenses;
+    private Collection<Inventory> inventorys;
 
     /**
      * Constructor method.
@@ -36,6 +37,7 @@ public class Store {
         this.address = address;
         this.phone = phone;
         this.expenses = new HashSet<>();
+        this.inventorys = new HashSet<>();
     }
 
     /**
@@ -137,6 +139,27 @@ public class Store {
         expenses.add(expense);
     }
     
+    public int getNumberOfInventorys() {
+        return inventorys.size();
+    }
+    
+    public Collection<Inventory> getAllInventorys() {
+        return inventorys;
+    }
+    
+    public Collection<Inventory> findInventoryByItemId(String itemId) {
+        Set<Inventory> result = new HashSet<>();
+        for (Inventory inventory : inventorys) {
+            if (inventory.getItem().getId().equals(itemId)) {
+                result.add(inventory);
+            }
+        }
+        return result;
+    }
+
+    public void addInventory(Inventory inventory) {
+       inventorys.add(inventory);
+    }
 
     @Override
     public int hashCode() {
