@@ -20,6 +20,7 @@ public class Supplier extends Person {
     private String company;
     private String city;
     private Collection<Debt> debts;
+    private Collection<Purchase> purchases;
 
     /**
      * Constructor of the class that includes all the variables as parameters.
@@ -39,6 +40,7 @@ public class Supplier extends Person {
         this.company = company;
         this.city = city;
         this.debts = new HashSet<>();
+        this.purchases = new HashSet<>();
     }
 
     /**
@@ -103,5 +105,38 @@ public class Supplier extends Person {
      */
     public void addDebt(Debt debt) {
        debts.add(debt);
+    }
+    
+    public int getNumberOfPurchases() {
+        return purchases.size();
+    }
+    
+    public Collection<Purchase> getAllPurchases() {
+        return purchases;
+    }
+    
+    public Collection<Purchase> findPurchasesBetweenDates(Date startDate, Date endDate) {
+        Set<Purchase> result = new HashSet<>();
+        for (Purchase purchase : purchases) {
+            Date purchaseDate = purchase.getDate();
+            if (purchaseDate.compareTo(startDate) >= 0 && purchaseDate.compareTo(endDate) <= 0) {
+                result.add(purchase);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Purchase> findPurchasesByItemId(String itemId) {
+        Set<Purchase> result = new HashSet<>();
+        for (Purchase purchase : purchases) {
+            if (purchase.getItem().getId().equals(itemId)) {
+                result.add(purchase);
+            }
+        }
+        return result;
+    }
+
+    public void addPurchase(Purchase purchase) {
+       purchases.add(purchase);
     }
 }
