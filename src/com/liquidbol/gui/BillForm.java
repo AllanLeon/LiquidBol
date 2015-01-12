@@ -1,6 +1,7 @@
-package liquidbol.gui;
+package com.liquidbol.gui;
 
-import liquidbol.addons.DateLabelFormatter;
+import com.liquidbol.addons.DateLabelFormatter;
+import com.sun.corba.se.spi.orbutil.closure.Closure;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.Properties;
@@ -89,8 +90,8 @@ public class BillForm extends JFrame {
         };
 
         Object[][] tempData = {
-            {"00126", 20, "Kg.", "Electrodo 7018 1/8", 22.8, 456},
-            {"00119", 20, "Kg.", "Electrodo 6013 1/8", 22.8, 456}
+            {"00126", 20, "Kg.", "Electrodo 7018 1/8", 22.8, 0},
+            {"00119", 20, "Kg.", "Electrodo 6013 1/8", 22.8, 0}
         };
         contentTable = new JTable(tempData, columnNames);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -103,13 +104,16 @@ public class BillForm extends JFrame {
         contentTable.getColumnModel().getColumn(5).setMinWidth(20);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         
+        //calculate import for each article
+        calculateEachArticlePrice(1,4,5);
+        
         totalLbl = new JLabel("Total");
         totalAmount = new JTextField();
         double total = 0;
+        //calculate Total
         for (int i = 0; i < contentTable.getRowCount(); i++) {
             total += Double.parseDouble(contentTable.getModel().getValueAt(i,5).toString());
         }
-
         totalAmount.setText(String.valueOf(total));
         sonLbl = new JLabel("Son:");
         declarate = new JTextField();
@@ -133,7 +137,7 @@ public class BillForm extends JFrame {
         getContentPane().add(jButton1, new AbsoluteConstraints(580, 420, -1, 30));
     }
 
-    private void setStyle() {
+    public static void setStyle() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -143,6 +147,15 @@ public class BillForm extends JFrame {
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void calculateEachArticlePrice(int qValueCol, int upValueCol, int resValueCol) {
+        for (int i = 0; i < contentTable.getRowCount(); i++) {
+            double quantity = Double.parseDouble(contentTable.getModel().getValueAt(i, qValueCol).toString());
+            double unitPrice = Double.parseDouble(contentTable.getModel().getValueAt(i, upValueCol).toString());
+            double calcdSubtotal = quantity * unitPrice;
+            contentTable.getModel().setValueAt(calcdSubtotal, i, resValueCol);
         }
     }
 }
