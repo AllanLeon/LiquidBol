@@ -14,19 +14,12 @@ import java.util.Objects;
  * Class that represent an item.
  * @author Allan Leon
  */
-public class Item {
+public class Item extends Product {
     
-    private String id;
-    private String measure;
     private String name;
     private String brand;
     private String industry;
-    private String type;
     private String subtype;
-    private Double cost;
-    private Double price;
-    private Double dif;
-    private Double profit;
     private Collection<Discount> discounts;
 
     /**
@@ -42,32 +35,12 @@ public class Item {
      * @param price
      */
     public Item(String id, String measure, String name, String brand, String industry, String type, String subtype, Double cost, Double price) {
-        this.id = id;
-        this.measure = measure;
+        super(id, measure, type, cost, price);
         this.name = name;
         this.brand = brand;
         this.industry = industry;
-        this.type = type;
         this.subtype = subtype;
-        this.cost = cost;
-        this.price = price;
-        this.dif = price - cost;
-        this.profit = 100 * dif / cost;
         this.discounts = new HashSet<>();
-    }
-
-    /**
-     * @return the id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @return the measure
-     */
-    public String getMeasure() {
-        return measure;
     }
 
     /**
@@ -92,59 +65,10 @@ public class Item {
     }
 
     /**
-     * @return the type
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
      * @return the subtype
      */
     public String getSubtype() {
         return subtype;
-    }
-
-    /**
-     * @return the cost
-     */
-    public Double getCost() {
-        return cost;
-    }
-
-    /**
-     * @return the price
-     */
-    public Double getPrice() {
-        return price;
-    }
-
-    /**
-     * @return the dif
-     */
-    public Double getDif() {
-        return dif;
-    }
-
-    /**
-     * @return the profit
-     */
-    public Double getProfit() {
-        return profit;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * @param measure the measure to set
-     */
-    public void setMeasure(String measure) {
-        this.measure = measure;
     }
 
     /**
@@ -169,45 +93,10 @@ public class Item {
     }
 
     /**
-     * @param type the type to set
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
      * @param subtype the subtype to set
      */
     public void setSubtype(String subtype) {
         this.subtype = subtype;
-    }
-
-    /**
-     * @param cost the cost to set
-     */
-    public void setCost(Double cost) {
-        this.cost = cost;
-    }
-
-    /**
-     * @param price the price to set
-     */
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    /**
-     * @param dif the dif to set
-     */
-    public void setDif(Double dif) {
-        this.dif = dif;
-    }
-
-    /**
-     * @param profit the profit to set
-     */
-    public void setProfit(Double profit) {
-        this.profit = profit;
     }
     
     public int getNumberOfDiscounts() {
@@ -220,27 +109,5 @@ public class Item {
     
     public void addDiscount(Discount discount) {
         discounts.add(discount);
-    }
-    
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Item other = (Item) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
     }
 }
