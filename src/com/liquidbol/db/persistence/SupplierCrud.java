@@ -82,7 +82,7 @@ public class SupplierCrud implements DBCrud<Supplier> {
             if (resultSet.next()) {
                 return createElementFromResultSet(resultSet);
             } else {
-                throw new PersistenceException(String.format("Couldn't find supplier with code %s", id));
+                throw new PersistenceException(String.format("Couldn't find supplier with code %d", id));
             }
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
@@ -99,7 +99,7 @@ public class SupplierCrud implements DBCrud<Supplier> {
     @Override
     public Supplier merge(Supplier supplier) throws ClassNotFoundException {
         try {
-            String query = "UPDATE supplier SET supplier_phone=?, supplier_phone2=?, "
+            String query = "UPDATE suppliers SET supplier_phone=?, supplier_phone2=?, "
                     + "supplier_company=?, supplier_address=?, supplier_email=?, "
                     + "supplier_city=? WHERE supplier_id=?";
             PreparedStatement statement = 

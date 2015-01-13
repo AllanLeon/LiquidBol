@@ -110,7 +110,7 @@ public class ItemCrud implements DBCrud<Item> {
     @Override
     public Item merge(Item item) throws ClassNotFoundException {
         try {
-            String query = "UPDATE item SET item_brand=?, item_industry=?, item_cost=?"
+            String query = "UPDATE items SET item_brand=?, item_industry=?, item_cost=?"
                     + "item_price=?, item_dif=?, item_profit=? WHERE item_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
