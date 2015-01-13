@@ -6,7 +6,8 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.DebtPayment;
+import com.liquidbol.model.commons.Item;
+import com.liquidbol.model.commons.Purchase;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -18,35 +19,37 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class responsible of all persistence operations related to debts payments.
+ * Class responsible of all persistence operations related to purchases.
  * @author Allan Leon
  */
-public class DebtPaymentCrud implements DBCrud<DebtPayment> {
+public class PurchaseCrud implements DBCrud<Purchase> {
 
-    private static final Logger LOG = Logger.getLogger(DebtPaymentCrud.class.getName());
+    private static final Logger LOG = Logger.getLogger(PurchaseCrud.class.getName());
 
     private Connection connection;
     
     @Override
-    public DebtPayment save(DebtPayment payment) throws PersistenceException, ClassNotFoundException {
+    public Purchase save(Purchase purchase) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO debt_payments(debt_id, pay_date, ammount) "
-                    + "VALUES(?, ?, ?)";
+            String insert = "INSERT INTO purchases(item_id, supplier_id, quantity, "
+                    + "purchase_date, total_ammount) VALUES(?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setInt(1, payment.getId());
-            statement.setDate(2, payment.getPayDate());
-            statement.setDouble(3, payment.getAmmount());
+            statement.setString(1, purchase.getItem().getId());
+            statement.setInt(2, 0);
+            statement.setInt(3, purchase.getQuantity());
+            statement.setDate(4, purchase.getDate());
+            statement.setDouble(5, purchase.getAmmount());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new PersistenceException("Debt payment was not saved");
+                throw new PersistenceException("Purchase was not saved");
             }
-            LOG.info(String.format("Debt payment: %d successfuly saved", payment.getId()));
-            return payment;
+            LOG.info(String.format("Purchase: %d successfuly saved", purchase.getId()));
+            return purchase;
         } catch (SQLException error) {
             try {
                 throw new PersistenceException(
-                    String.format("Couldn't save debt payment: %d", payment.getId()), error);
+                    String.format("Couldn't save purchase: %d", purchase.getId()), error);
 
             } finally {
                 try {
@@ -59,14 +62,14 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
     }
 
     @Override
-    public DebtPayment find(String id) throws PersistenceException, ClassNotFoundException {
+    public Purchase find(String id) throws PersistenceException, ClassNotFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public DebtPayment find(int id) throws PersistenceException, ClassNotFoundException {
+    public Purchase find(int id) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM debt_payments WHERE debt_payment_id = ?";
+            String query = "SELECT * FROM purchases WHERE purchase_id = ?";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
@@ -89,51 +92,54 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
     }
 
     @Override
-    public DebtPayment merge(DebtPayment payment) throws ClassNotFoundException {
+    public Purchase merge(Purchase purchase) throws ClassNotFoundException {
         try {
-            String query = "UPDATE debt_payments SET pay_date=?, ammount=? WHERE debt_payment_id=?";
+            String query = "UPDATE purchases SET quantity=?, purchase_date=?, "
+                    + "total_ammount=? WHERE purchase_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
-            statement.setDate(1, payment.getPayDate());
-            statement.setDouble(2, payment.getAmmount());
-            statement.setInt(3, payment.getId());
+            statement.setInt(1, purchase.getQuantity());
+            statement.setDate(2, purchase.getDate());
+            statement.setDouble(3, purchase.getAmmount());
+            statement.setInt(4, purchase.getId());
         } catch (SQLException sqlError) {
             LOG.log(Level.SEVERE, null, sqlError);
         }
-        return payment;
+        return purchase;
     }
 
     @Override
-    public Collection<DebtPayment> getAll() throws PersistenceException, ClassNotFoundException {
+    public Collection<Purchase> getAll() throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM debt_payments";
+            String query = "SELECT * FROM purchases";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
-            Collection<DebtPayment> result = new HashSet<>();
+            Collection<Purchase> result = new HashSet<>();
             while (resultSet.next()) {
-                DebtPayment payment = createElementFromResultSet(resultSet);
-                result.add(payment);
+                Purchase purchase = createElementFromResultSet(resultSet);
+                result.add(purchase);
             }
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to get the debt payments", ex);
+            throw new PersistenceException("Failed to get the purchases", ex);
         }
     }
 
     @Override
-    public DebtPayment refresh(DebtPayment payment) throws PersistenceException, ClassNotFoundException {
-        return find(payment.getId());
+    public Purchase refresh(Purchase purchase) throws PersistenceException, ClassNotFoundException {
+        return find(purchase.getId());
     }
 
     @Override
-    public DebtPayment createElementFromResultSet(ResultSet resultSet) throws SQLException {
+    public Purchase createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Date payDate = resultSet.getDate(3);
-        Double ammount = resultSet.getDouble(4);
-        LOG.log(Level.FINE, "Creating debt payment %d", id);
-        DebtPayment result = new DebtPayment(id, payDate, ammount);
+        Item item = null;
+        int quantity = resultSet.getInt(4);
+        Date purchaseDate = resultSet.getDate(5);
+        LOG.log(Level.FINE, "Creating purchase %d", id);
+        Purchase result = new Purchase(id, item, quantity, purchaseDate);
         return result;
     }
     
