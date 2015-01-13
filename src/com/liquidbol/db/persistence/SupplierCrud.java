@@ -51,17 +51,14 @@ public class SupplierCrud implements DBCrud<Supplier> {
             }
             LOG.info(String.format("Supplier: %s %s successfuly saved", supplier.getName(), supplier.getLastname()));
             return supplier;
-        } catch (SQLException error) {
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(String.format("Failed to save supplier: %d", supplier.getId()), ex);
+        } finally {
             try {
-                throw new PersistenceException(
-                    String.format("Couldn't save supplier: %s %s", supplier.getName(), supplier.getLastname()), error);
-
-            } finally {
-                try {
-                    ConnectionManager.getInstance().releaseConnection();
-                } catch (SQLException ex) {
-                    LOG.warning("Couldn't release connection");
-                }
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -97,7 +94,7 @@ public class SupplierCrud implements DBCrud<Supplier> {
     }
 
     @Override
-    public Supplier merge(Supplier supplier) throws ClassNotFoundException {
+    public Supplier merge(Supplier supplier) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE suppliers SET supplier_phone=?, supplier_phone2=?, "
                     + "supplier_company=?, supplier_address=?, supplier_email=?, "
@@ -111,10 +108,17 @@ public class SupplierCrud implements DBCrud<Supplier> {
             statement.setString(5, supplier.getEmail());
             statement.setString(6, supplier.getCity());
             statement.setInt(7, supplier.getId());
-        } catch (SQLException sqlError) {
-            LOG.log(Level.SEVERE, null, sqlError);
+            return supplier;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(String.format("Failed to update supplier: %d", supplier.getId()), ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
         }
-        return supplier;
     }
 
     @Override
@@ -132,7 +136,13 @@ public class SupplierCrud implements DBCrud<Supplier> {
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to get the suppliers", ex);
+            throw new PersistenceException("Failed to read the suppliers", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
         }
     }
 

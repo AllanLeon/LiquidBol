@@ -55,17 +55,14 @@ public class ItemCrud implements DBCrud<Item> {
             }
             LOG.info(String.format("Item: %s successfuly saved", item.getName()));
             return item;
-        } catch (SQLException error) {
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(String.format("Failed to save item: %s", item.getId()), ex);
+        } finally {
             try {
-                throw new PersistenceException(
-                    String.format("Couldn't save item: %s", item.getName()), error);
-
-            } finally {
-                try {
-                    ConnectionManager.getInstance().releaseConnection();
-                } catch (SQLException ex) {
-                    LOG.warning("Couldn't release connection");
-                }
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -108,7 +105,7 @@ public class ItemCrud implements DBCrud<Item> {
      * @param item to be synchronized
      */
     @Override
-    public Item merge(Item item) throws ClassNotFoundException {
+    public Item merge(Item item) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE items SET item_brand=?, item_industry=?, item_cost=?"
                     + "item_price=?, item_dif=?, item_profit=? WHERE item_id=?";
@@ -121,10 +118,17 @@ public class ItemCrud implements DBCrud<Item> {
             statement.setDouble(5, item.getDif());
             statement.setDouble(6, item.getProfit());
             statement.setString(7, item.getId());
-        } catch (SQLException sqlError) {
-            LOG.log(Level.SEVERE, null, sqlError);
+            return item;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(String.format("Failed to update item: %s", item.getId()), ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
         }
-        return item;
     }
 
     /**
@@ -145,7 +149,13 @@ public class ItemCrud implements DBCrud<Item> {
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to get the items", ex);
+            throw new PersistenceException("Failed to read the items", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
         }
     }
 

@@ -44,7 +44,7 @@ public interface DBCrud<T> {
      * @return the synchronized instance
      * @throws java.lang.ClassNotFoundException if the driver is missing
      */
-    public T merge(T element) throws ClassNotFoundException;
+    public T merge(T element) throws PersistenceException, ClassNotFoundException;
     
     /**
      * Reads an instance of the class this crud is implementing that exist

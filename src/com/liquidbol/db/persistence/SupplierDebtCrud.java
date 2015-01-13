@@ -44,17 +44,14 @@ public class SupplierDebtCrud implements DBCrud<Debt>{
             }
             LOG.info(String.format("Supplier debt: %d successfuly saved", debt.getId()));
             return debt;
-        } catch (SQLException error) {
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(String.format("Failed to save supplier debt: %d", debt.getId()), ex);
+        } finally {
             try {
-                throw new PersistenceException(
-                    String.format("Couldn't save supplier debt: %d", debt.getId()), error);
-
-            } finally {
-                try {
-                    ConnectionManager.getInstance().releaseConnection();
-                } catch (SQLException ex) {
-                    LOG.warning("Couldn't release connection");
-                }
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -90,7 +87,7 @@ public class SupplierDebtCrud implements DBCrud<Debt>{
     }
 
     @Override
-    public Debt merge(Debt debt) throws ClassNotFoundException {
+    public Debt merge(Debt debt) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE supplier_debts SET ammount=?, limit_date=?, max_ammount=? WHERE debt_id=?";
             PreparedStatement statement = 
@@ -99,10 +96,17 @@ public class SupplierDebtCrud implements DBCrud<Debt>{
             statement.setDate(2, debt.getLimitDate());
             statement.setDouble(3, debt.getMaxAmmount());
             statement.setInt(4, debt.getId());
-        } catch (SQLException sqlError) {
-            LOG.log(Level.SEVERE, null, sqlError);
+            return debt;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(String.format("Failed to update supplier debt: %d", debt.getId()), ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
         }
-        return debt;
     }
 
     @Override
@@ -120,7 +124,13 @@ public class SupplierDebtCrud implements DBCrud<Debt>{
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to get the suppliers debts", ex);
+            throw new PersistenceException("Failed to read the suppliers debts", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
         }
     }
 

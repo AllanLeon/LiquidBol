@@ -46,17 +46,14 @@ public class PurchaseCrud implements DBCrud<Purchase> {
             }
             LOG.info(String.format("Purchase: %d successfuly saved", purchase.getId()));
             return purchase;
-        } catch (SQLException error) {
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(String.format("Failed to save purchase: %d", purchase.getId()), ex);
+        } finally {
             try {
-                throw new PersistenceException(
-                    String.format("Couldn't save purchase: %d", purchase.getId()), error);
-
-            } finally {
-                try {
-                    ConnectionManager.getInstance().releaseConnection();
-                } catch (SQLException ex) {
-                    LOG.warning("Couldn't release connection");
-                }
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -77,11 +74,11 @@ public class PurchaseCrud implements DBCrud<Purchase> {
             if (resultSet.next()) {
                 return createElementFromResultSet(resultSet);
             } else {
-                throw new PersistenceException(String.format("Couldn't find debt payment with code %d", id));
+                throw new PersistenceException(String.format("Couldn't find purchase with code %d", id));
             }
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read debt payment", ex);
+            throw new PersistenceException("Failed to read purchase", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -92,7 +89,7 @@ public class PurchaseCrud implements DBCrud<Purchase> {
     }
 
     @Override
-    public Purchase merge(Purchase purchase) throws ClassNotFoundException {
+    public Purchase merge(Purchase purchase) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE purchases SET quantity=?, purchase_date=?, "
                     + "total_ammount=? WHERE purchase_id=?";
@@ -102,10 +99,17 @@ public class PurchaseCrud implements DBCrud<Purchase> {
             statement.setDate(2, purchase.getDate());
             statement.setDouble(3, purchase.getAmmount());
             statement.setInt(4, purchase.getId());
-        } catch (SQLException sqlError) {
-            LOG.log(Level.SEVERE, null, sqlError);
+            return purchase;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(String.format("Failed to update purchase: %d", purchase.getId()), ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
         }
-        return purchase;
     }
 
     @Override
@@ -123,7 +127,13 @@ public class PurchaseCrud implements DBCrud<Purchase> {
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to get the purchases", ex);
+            throw new PersistenceException("Failed to read the purchases", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
         }
     }
 

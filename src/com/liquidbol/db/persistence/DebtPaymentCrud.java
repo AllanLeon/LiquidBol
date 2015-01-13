@@ -43,18 +43,16 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
             }
             LOG.info(String.format("Debt payment: %d successfuly saved", payment.getId()));
             return payment;
-        } catch (SQLException error) {
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(String.format("Failed to save debt payment:%d", payment.getId()), ex);
+        } finally {
             try {
-                throw new PersistenceException(
-                    String.format("Couldn't save debt payment: %d", payment.getId()), error);
-
-            } finally {
-                try {
-                    ConnectionManager.getInstance().releaseConnection();
-                } catch (SQLException ex) {
-                    LOG.warning("Couldn't release connection");
-                }
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
             }
+            return payment;
         }
     }
 
@@ -89,7 +87,7 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
     }
 
     @Override
-    public DebtPayment merge(DebtPayment payment) throws ClassNotFoundException {
+    public DebtPayment merge(DebtPayment payment) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE debt_payments SET pay_date=?, ammount=? WHERE debt_payment_id=?";
             PreparedStatement statement = 
@@ -97,10 +95,17 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
             statement.setDate(1, payment.getPayDate());
             statement.setDouble(2, payment.getAmmount());
             statement.setInt(3, payment.getId());
-        } catch (SQLException sqlError) {
-            LOG.log(Level.SEVERE, null, sqlError);
+            return payment;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException(String.format("Failed to update debt payment: %d", payment.getId()), ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
         }
-        return payment;
     }
 
     @Override
@@ -118,7 +123,13 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to get the debt payments", ex);
+            throw new PersistenceException("Failed to read the debt payments", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
         }
     }
 
