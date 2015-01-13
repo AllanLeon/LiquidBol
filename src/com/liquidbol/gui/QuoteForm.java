@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -18,17 +19,17 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /**
  * @author Franco
  */
 public class QuoteForm extends JFrame {
 
+    private JPanel contentPane;
     private JButton jButton1;
     private JDatePickerImpl datePicker;
     private JLabel title;
@@ -40,9 +41,11 @@ public class QuoteForm extends JFrame {
     private JTextField totalAmount;
     private JLabel compLbl;
     private JTextField clientComp;
-    private DecimalFormat df;
+    private final DecimalFormat df;
     private JTextArea obsArea;
-
+    private JLabel offerValLbl;
+    private JTextField offerVal;
+    
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
             @Override
@@ -62,11 +65,13 @@ public class QuoteForm extends JFrame {
         setTitle("Liquid");
         setSize(700, 500);
         setResizable(false);
-        setLocationRelativeTo(null);
-
+               
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new AbsoluteLayout());
-
+	contentPane = new JPanel();
+	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	setContentPane(contentPane);
+        contentPane.setLayout(null);
+ 
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
         p.put("text.today", "Today");
@@ -116,6 +121,7 @@ public class QuoteForm extends JFrame {
         contentTable.getColumnModel().getColumn(4).setPreferredWidth(40);
         contentTable.getColumnModel().getColumn(5).setPreferredWidth(40);
         contentTable.setDefaultRenderer(contentTable.getColumnModel().getColumn(3).getClass(), new MultiLineCellRenderer());
+        JScrollPane tablesp = new JScrollPane(contentTable);
 
         //calculate import for each article
         calculateEachArticlePrice(1, 4, 5);
@@ -125,6 +131,8 @@ public class QuoteForm extends JFrame {
         totalAmount.setText(String.valueOf(calculateTotal()));
         totalAmount.setFont(new Font("Arial", Font.PLAIN, 16));
         
+        offerValLbl = new JLabel("Validez de la oferta:            días");
+        offerVal = new JTextField();
         obsArea = new JTextArea();
         obsArea.setText(
             "* Los precios incluyen Impuestos de Ley.\n" +
@@ -134,21 +142,36 @@ public class QuoteForm extends JFrame {
             "* Consultar disponibilidad de stock."
         );
         JScrollPane sp = new JScrollPane(obsArea); 
-        jButton1 = new JButton();
-        jButton1.setText("OK");
+        jButton1 = new JButton("OK");
 
-        getContentPane().add(title, new AbsoluteConstraints(280, 20, 500, 30));
-        getContentPane().add(datePicker, new AbsoluteConstraints(300, 70, 150, 30));
-        getContentPane().add(idShower, new AbsoluteConstraints(500, 120, 150, 30));
-        getContentPane().add(nameLbl, new AbsoluteConstraints(40, 110, 150, 30));
-        getContentPane().add(clientName, new AbsoluteConstraints(100, 110, 350, 30));
-        getContentPane().add(compLbl, new AbsoluteConstraints(40, 140, 150, 30));
-        getContentPane().add(clientComp, new AbsoluteConstraints(100, 140, 350, 30));
-        getContentPane().add(new JScrollPane(contentTable), new AbsoluteConstraints(30, 180, 640, 180));
-        getContentPane().add(totalLbl, new AbsoluteConstraints(540, 360, 50, 30));
-        getContentPane().add(totalAmount, new AbsoluteConstraints(570, 360, 100, 30));
-        getContentPane().add(sp, new AbsoluteConstraints(40, 390, 470, 70));
-        getContentPane().add(jButton1, new AbsoluteConstraints(580, 410, 70, 30));
+        title.setBounds(280, 20, 500, 30);
+        datePicker.setBounds(300, 70, 150, 30);
+        idShower.setBounds(500, 120, 150, 30);
+        nameLbl.setBounds(40, 110, 150, 30);
+        clientName.setBounds(100, 110, 350, 30);
+        compLbl.setBounds(40, 140, 150, 30);
+        clientComp.setBounds(100, 140, 350, 30);
+        tablesp.setBounds(30, 180, 640, 180);
+        totalLbl.setBounds(540, 360, 50, 30);
+        totalAmount.setBounds(570, 360, 100, 30);
+        offerValLbl.setBounds(40, 360, 200, 30);
+        offerVal.setBounds(150, 360, 30, 30);
+        sp.setBounds(40, 390, 470, 70);
+        jButton1.setBounds(580, 410, 70, 30);
+        contentPane.add(title);
+        contentPane.add(datePicker);
+        contentPane.add(idShower);
+        contentPane.add(nameLbl);
+        contentPane.add(clientName);
+        contentPane.add(compLbl);
+        contentPane.add(clientComp);
+        contentPane.add(tablesp);
+        contentPane.add(totalLbl);
+        contentPane.add(totalAmount);
+        contentPane.add(offerValLbl);
+        contentPane.add(offerVal);
+        contentPane.add(sp);
+        contentPane.add(jButton1);
     }
 
     private void setStyle() {
@@ -169,7 +192,6 @@ public class QuoteForm extends JFrame {
             double quantity = Double.parseDouble(contentTable.getModel().getValueAt(i, qValueCol).toString());
             double unitPrice = Double.parseDouble(contentTable.getModel().getValueAt(i, upValueCol).toString());
             double calcdSubtotal = quantity * unitPrice;
-            df = new DecimalFormat("##.00");
             String result = df.format(calcdSubtotal).replaceAll(",",".");
             contentTable.getModel().setValueAt(result, i, resValueCol);
         }
@@ -180,7 +202,6 @@ public class QuoteForm extends JFrame {
         for (int i = 0; i < contentTable.getRowCount(); i++) {
             total += Double.parseDouble(contentTable.getModel().getValueAt(i, 5).toString());
         }
-        df = new DecimalFormat("##.00");
         double rounded = (double) Math.round(total * 10) / 10;
         String result = df.format(rounded).replaceAll(",",".");
         return result;

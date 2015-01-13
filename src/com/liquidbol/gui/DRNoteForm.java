@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,11 +19,10 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /**
  * @author Franco
@@ -37,6 +37,14 @@ public class DRNoteForm extends JFrame {
     private JLabel idShower;
     private JLabel nameLbl;
     private JTextField clientName;
+    private JTextField clientPhone;
+    private JLabel phoneLbl;
+    private JCheckBox jCheckBox1;
+    private JCheckBox jCheckBox2;
+    private JTable contentTable;
+    private JLabel totalLbl;
+    private JTextField totalAmount;
+    private JPanel contentPane;
 
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
@@ -46,13 +54,6 @@ public class DRNoteForm extends JFrame {
             }
         });
     }
-    private JTextField clientPhone;
-    private JLabel phoneLbl;
-    private JCheckBox jCheckBox1;
-    private JCheckBox jCheckBox2;
-    private JTable contentTable;
-    private JLabel totalLbl;
-    private JTextField totalAmount;
 
     public DRNoteForm() {
         setStyle();
@@ -66,8 +67,11 @@ public class DRNoteForm extends JFrame {
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new AbsoluteLayout());
-
+	contentPane = new JPanel();
+	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	setContentPane(contentPane);
+        contentPane.setLayout(null);
+ 
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
         p.put("text.today", "Today");
@@ -111,6 +115,7 @@ public class DRNoteForm extends JFrame {
         contentTable.getColumnModel().getColumn(4).setPreferredWidth(70);
         contentTable.getColumnModel().getColumn(5).setMinWidth(20);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        JScrollPane tablejs = new JScrollPane(contentTable);
         
         totalLbl = new JLabel("Total");
         totalAmount = new JTextField();
@@ -121,27 +126,42 @@ public class DRNoteForm extends JFrame {
 
         totalAmount.setText(String.valueOf(total));
 
-        
         jCheckBox1 = new JCheckBox("x Cancelar");
         jCheckBox2 = new JCheckBox("x Facturar");
         jButton1 = new JButton();
         jButton1.setText("OK");
 
-        getContentPane().add(title, new AbsoluteConstraints(300, 50, 150, 30));
-        getContentPane().add(datePicker, new AbsoluteConstraints(300, 120, 150, 30));
-        getContentPane().add(idShower, new AbsoluteConstraints(500, 120, 150, 30));
-        getContentPane().add(jRadioButton1, new AbsoluteConstraints(550, 60, 100, 30));
-        getContentPane().add(jRadioButton2, new AbsoluteConstraints(550, 80, 100, 30));
-        getContentPane().add(nameLbl, new AbsoluteConstraints(40, 160, 150, 30));
-        getContentPane().add(clientName, new AbsoluteConstraints(100, 160, 350, 30));
-        getContentPane().add(phoneLbl, new AbsoluteConstraints(465, 160, 150, 30));
-        getContentPane().add(clientPhone, new AbsoluteConstraints(510, 160, 150, 30));
-        getContentPane().add(new JScrollPane(contentTable), new AbsoluteConstraints(30, 210, 640, 150));
-        getContentPane().add(totalLbl, new AbsoluteConstraints(540, 360, 50, 30));
-        getContentPane().add(totalAmount, new AbsoluteConstraints(570, 360, 100, 30));
-        getContentPane().add(jCheckBox1, new AbsoluteConstraints(250, 370, 100, 30));
-        getContentPane().add(jCheckBox2, new AbsoluteConstraints(350, 370, 100, 30));
-        getContentPane().add(jButton1, new AbsoluteConstraints(350, 420, -1, 30));
+        title.setBounds(300, 50, 150, 30);
+        datePicker.setBounds(300, 120, 150, 30);
+        idShower.setBounds(500, 120, 150, 30);
+        jRadioButton1.setBounds(550, 60, 100, 30);
+        jRadioButton2.setBounds(550, 80, 100, 30);
+        nameLbl.setBounds(40, 160, 150, 30);
+        clientName.setBounds(100, 160, 350, 30);
+        phoneLbl.setBounds(465, 160, 150, 30);
+        clientPhone.setBounds(510, 160, 150, 30);
+        tablejs.setBounds(30, 210, 640, 150);
+        totalLbl.setBounds(540, 360, 50, 30);
+        totalAmount.setBounds(570, 360, 100, 30);
+        jCheckBox1.setBounds(250, 370, 100, 30);
+        jCheckBox2.setBounds(350, 370, 100, 30);
+        jButton1.setBounds(350, 420, -1, 30);
+
+        getContentPane().add(title);
+        getContentPane().add(datePicker);
+        getContentPane().add(idShower);
+        getContentPane().add(jRadioButton1);
+        getContentPane().add(jRadioButton2);
+        getContentPane().add(nameLbl);
+        getContentPane().add(clientName);
+        getContentPane().add(phoneLbl);
+        getContentPane().add(clientPhone);
+        getContentPane().add(tablejs);
+        getContentPane().add(totalLbl);
+        getContentPane().add(totalAmount);
+        getContentPane().add(jCheckBox1);
+        getContentPane().add(jCheckBox2);
+        getContentPane().add(jButton1);
     }
 
     private void setStyle() {

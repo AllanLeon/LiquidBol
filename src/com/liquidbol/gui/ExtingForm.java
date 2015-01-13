@@ -9,23 +9,24 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /**
  * @author Franco
  */
 public class ExtingForm extends JFrame {
 
+    private JPanel contentPane;
     private JButton jButton1;
     private JDatePickerImpl datePicker;
     private JLabel title;
@@ -72,7 +73,10 @@ public class ExtingForm extends JFrame {
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new AbsoluteLayout());
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
 
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
@@ -113,7 +117,8 @@ public class ExtingForm extends JFrame {
         contentTable.getColumnModel().getColumn(4).setPreferredWidth(50);
         contentTable.getColumnModel().getColumn(5).setMinWidth(170);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        
+        JScrollPane tablesp = new JScrollPane(contentTable);
+
         quantLbl = new JLabel("Cant. Total");
         quantAmount = new JTextField();
         amountLbl = new JLabel("Monto a pagar (Bs)");
@@ -130,30 +135,55 @@ public class ExtingForm extends JFrame {
         jButton1 = new JButton();
         jButton1.setText("OK");
 
-        getContentPane().add(title, new AbsoluteConstraints(120, 20, 500, 30));
-        getContentPane().add(datePicker, new AbsoluteConstraints(300, 90, 150, 30));
-        getContentPane().add(idShower, new AbsoluteConstraints(500, 90, 150, 30));
-        getContentPane().add(nameLbl, new AbsoluteConstraints(40, 130, 150, 30));
-        getContentPane().add(clientName, new AbsoluteConstraints(100, 130, 350, 30));
-        getContentPane().add(compLbl, new AbsoluteConstraints(40, 160, 150, 30));
-        getContentPane().add(clientComp, new AbsoluteConstraints(100, 160, 350, 30));
-        getContentPane().add(phoneLbl, new AbsoluteConstraints(465, 130, 150, 30));
-        getContentPane().add(clientPhone, new AbsoluteConstraints(510, 130, 150, 30));
-        getContentPane().add(new JScrollPane(contentTable), new AbsoluteConstraints(30, 200, 640, 150));
-        getContentPane().add(quantLbl, new AbsoluteConstraints(30, 350, 70, 30));
-        getContentPane().add(quantAmount, new AbsoluteConstraints(90, 350, 50, 30));
-        getContentPane().add(dateLbl, new AbsoluteConstraints(150, 345, 110, 30));
-        getContentPane().add(dateField, new AbsoluteConstraints(150, 370, 130, 30));
-        getContentPane().add(hourLbl, new AbsoluteConstraints(150, 390, 50, 30));
-        getContentPane().add(hourField, new AbsoluteConstraints(150, 410, 90, 30));
-        getContentPane().add(amountLbl, new AbsoluteConstraints(320, 370, 120, 30));
-        getContentPane().add(totalLbl, new AbsoluteConstraints(430, 350, 50, 30));
-        getContentPane().add(totalAmount, new AbsoluteConstraints(430, 370, 70, 30));
-        getContentPane().add(ACLbl, new AbsoluteConstraints(500, 350, 50, 30));
-        getContentPane().add(ACAmount, new AbsoluteConstraints(500, 370, 70, 30));
-        getContentPane().add(balanceLbl, new AbsoluteConstraints(570, 350, 50, 30));
-        getContentPane().add(balanceAmount, new AbsoluteConstraints(570, 370, 70, 30));
-        getContentPane().add(jButton1, new AbsoluteConstraints(350, 430, -1, 30));
+        title.setBounds(120, 20, 500, 30);
+        datePicker.setBounds(300, 90, 150, 30);
+        idShower.setBounds(500, 90, 150, 30);
+        nameLbl.setBounds(40, 130, 150, 30);
+        clientName.setBounds(100, 130, 350, 30);
+        compLbl.setBounds(40, 160, 150, 30);
+        clientComp.setBounds(100, 160, 350, 30);
+        phoneLbl.setBounds(465, 130, 150, 30);
+        clientPhone.setBounds(510, 130, 150, 30);
+        tablesp.setBounds(30, 200, 640, 150);
+        quantLbl.setBounds(30, 350, 70, 30);
+        quantAmount.setBounds(90, 350, 50, 30);
+        dateLbl.setBounds(150, 345, 110, 30);
+        dateField.setBounds(150, 370, 130, 30);
+        hourLbl.setBounds(150, 390, 50, 30);
+        hourField.setBounds(150, 410, 90, 30);
+        amountLbl.setBounds(320, 370, 120, 30);
+        totalLbl.setBounds(430, 350, 50, 30);
+        totalAmount.setBounds(430, 370, 70, 30);
+        ACLbl.setBounds(500, 350, 50, 30);
+        ACAmount.setBounds(500, 370, 70, 30);
+        balanceLbl.setBounds(570, 350, 50, 30);
+        balanceAmount.setBounds(570, 370, 70, 30);
+        jButton1.setBounds(350, 430, -1, 30);
+
+        contentPane.add(title);
+        contentPane.add(datePicker);
+        contentPane.add(idShower);
+        contentPane.add(nameLbl);
+        contentPane.add(clientName);
+        contentPane.add(compLbl);
+        contentPane.add(clientComp);
+        contentPane.add(phoneLbl);
+        contentPane.add(clientPhone);
+        contentPane.add(tablesp);
+        contentPane.add(quantLbl);
+        contentPane.add(quantAmount);
+        contentPane.add(dateLbl);
+        contentPane.add(dateField);
+        contentPane.add(hourLbl);
+        contentPane.add(hourField);
+        contentPane.add(amountLbl);
+        contentPane.add(totalLbl);
+        contentPane.add(totalAmount);
+        contentPane.add(ACLbl);
+        contentPane.add(ACAmount);
+        contentPane.add(balanceLbl);
+        contentPane.add(balanceAmount);
+        contentPane.add(jButton1);
     }
 
     private void setStyle() {
