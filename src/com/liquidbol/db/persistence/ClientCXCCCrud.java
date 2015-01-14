@@ -6,7 +6,7 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.CXC;
+import com.liquidbol.model.commons.CXCC;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -18,38 +18,35 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class responsible of all persistence operations related to client's
+ * Class responsible of all persistence operations related to client's collected
  * receivable accounts.
  * @author Allan Leon
  */
-public class ClientCXCCrud implements DBCrud<CXC> {
+public class ClientCXCCCrud implements DBCrud<CXCC> {
     
-    private static final Logger LOG = Logger.getLogger(ClientCXCCrud.class.getName());
+    private static final Logger LOG = Logger.getLogger(ClientCXCCCrud.class.getName());
 
     private Connection connection;
 
     @Override
-    public CXC save(CXC element) throws PersistenceException, ClassNotFoundException {
+    public CXCC save(CXCC element) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO clients_cxc(client_id, clientscxc_debt, "
-                    + "clientscxc_creditammount, clientscxc_creditdate, "
-                    + "clientscxc_state) VALUES(?,?,?,?,?)";
+            String insert = "INSERT INTO clients_cxcc(clientscxc_id, ammount_paid, "
+                    + "pay_date) VALUES(?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setInt(1, 0);
-            statement.setDouble(2, element.getDebt());
-            statement.setDouble(3, element.getCreditMaxAmmount());
-            statement.setDate(4, element.getCreditLimitDate());
-            statement.setString(5, element.getState());
+            statement.setInt(1, 0);;
+            statement.setDouble(2, element.getAmmountPaid());
+            statement.setDate(3, element.getPayDate());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new PersistenceException("client receivable account was not saved");
+                throw new PersistenceException("client collected receivable account was not saved");
             }
-            LOG.info(String.format("client receivable account: %d successfuly saved", element.getId()));
+            LOG.info(String.format("client collected receivable account: %d successfuly saved", element.getId()));
             return element;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException(String.format("Failed to save client receivable account: %d", element.getId()), ex);
+            throw new PersistenceException(String.format("Failed to save client collected receivable account: %d", element.getId()), ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -60,14 +57,14 @@ public class ClientCXCCrud implements DBCrud<CXC> {
     }
 
     @Override
-    public CXC find(String id) throws PersistenceException, ClassNotFoundException {
+    public CXCC find(String id) throws PersistenceException, ClassNotFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public CXC find(int id) throws PersistenceException, ClassNotFoundException {
+    public CXCC find(int id) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM clients_cxc WHERE clientscxc_id = ?";
+            String query = "SELECT * FROM clients_cxcc WHERE clientscxcc_id = ?";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
@@ -75,11 +72,11 @@ public class ClientCXCCrud implements DBCrud<CXC> {
             if (resultSet.next()) {
                 return createElementFromResultSet(resultSet);
             } else {
-                throw new PersistenceException(String.format("Couldn't find client receivable account with code %d", id));
+                throw new PersistenceException(String.format("Couldn't find client collected receivable account with code %d", id));
             }
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read client receivable account", ex);
+            throw new PersistenceException("Failed to read client collected receivable account", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -90,25 +87,23 @@ public class ClientCXCCrud implements DBCrud<CXC> {
     }
 
     @Override
-    public CXC merge(CXC element) throws PersistenceException, ClassNotFoundException {
+    public CXCC merge(CXCC element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE table SET clientscxc_debt=?, clientscxc_creditammount=?, "
-                    + "clientscxc_creditdate=?, clientscxc_state=? WHERE clientscxc_id=?";
+            String query = "UPDATE clients_cxcc SET ammount_paid=?, pay_date=? "
+                    + "WHERE clientscxcc_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
-            statement.setDouble(1, element.getDebt());;
-            statement.setDouble(2, element.getCreditMaxAmmount());
-            statement.setDate(3, element.getCreditLimitDate());
-            statement.setString(4, element.getState());
-            statement.setInt(5, element.getId());
+            statement.setDouble(1, element.getAmmountPaid());
+            statement.setDate(2, element.getPayDate());
+            statement.setInt(3, element.getId());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new PersistenceException("client receivable account was not updated");
+                throw new PersistenceException("client collected receivable account was not updated");
             }
             return element;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException(String.format("Failed to update client receivable account: %d", element.getId()), ex);
+            throw new PersistenceException(String.format("Failed to update client collected receivable account: %d", element.getId()), ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -119,21 +114,21 @@ public class ClientCXCCrud implements DBCrud<CXC> {
     }
 
     @Override
-    public Collection<CXC> getAll() throws PersistenceException, ClassNotFoundException {
+    public Collection<CXCC> getAll() throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM clients_cxc";
+            String query = "SELECT * FROM clients_cxcc";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
-            Collection<CXC> result = new HashSet<>();
+            Collection<CXCC> result = new HashSet<>();
             while (resultSet.next()) {
-                CXC element = createElementFromResultSet(resultSet);
+                CXCC element = createElementFromResultSet(resultSet);
                 result.add(element);
             }
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read the client receivable accounts", ex);
+            throw new PersistenceException("Failed to read the client collected receivable accounts", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -144,19 +139,17 @@ public class ClientCXCCrud implements DBCrud<CXC> {
     }
 
     @Override
-    public CXC refresh(CXC element) throws PersistenceException, ClassNotFoundException {
+    public CXCC refresh(CXCC element) throws PersistenceException, ClassNotFoundException {
         return find(element.getId());
     }
 
     @Override
-    public CXC createElementFromResultSet(ResultSet resultSet) throws SQLException {
+    public CXCC createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Double debt = resultSet.getDouble(3);
-        Double creditMaxAmmount = resultSet.getDouble(4);
-        Date creaditLimitDate = resultSet.getDate(5);
-        String state = resultSet.getString(6);
-        LOG.log(Level.FINE, "Creating client receivable account %d", id);
-        CXC result = new CXC(id, debt, creditMaxAmmount, creaditLimitDate, state);
+        Double ammountPaid = resultSet.getDouble(3);
+        Date payDate = resultSet.getDate(4);
+        LOG.log(Level.FINE, "Creating client collected receivable account %d", id);
+        CXCC result = new CXCC(id, ammountPaid, payDate);
         return result;
     }
 }
