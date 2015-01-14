@@ -145,7 +145,7 @@ public class DRNoteForm extends JFrame {
         totalAmount.setBounds(570, 360, 100, 30);
         jCheckBox1.setBounds(250, 370, 100, 30);
         jCheckBox2.setBounds(350, 370, 100, 30);
-        jButton1.setBounds(350, 420, -1, 30);
+        jButton1.setBounds(350, 420, 50, 30);
 
         getContentPane().add(title);
         getContentPane().add(datePicker);

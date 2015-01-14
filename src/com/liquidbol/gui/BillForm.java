@@ -138,7 +138,7 @@ public class BillForm extends JFrame {
         totalLbl.setBounds(540, 360, 50, 30);
         totalAmount.setBounds(570, 360, 100, 30);
         bsLbl.setBounds(425, 390, 70, 30);
-        jButton1.setBounds(580, 420, -1, 30);
+        jButton1.setBounds(580, 420, 80, 30);
 
         contentPane.add(title);
         contentPane.add(datePicker);

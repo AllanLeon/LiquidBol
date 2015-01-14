@@ -65,7 +65,7 @@ public class LoginForm extends JFrame {
         jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
         
         jTextField1.setBounds(90, 160, 200, 30);
-        jButton1.setBounds(280, 160, -1, 30);
+        jButton1.setBounds(300, 160, 50, 30);
         jLabel1.setBounds(0, 0, 400, 250);
         jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
         contentPane.add(jTextField1);
