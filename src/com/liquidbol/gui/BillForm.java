@@ -9,17 +9,17 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 /**
  * @author Franco
@@ -40,6 +40,7 @@ public class BillForm extends JFrame {
     private JLabel bsLbl;
     private JLabel totalLbl;
     private JTextField totalAmount;
+    private JPanel contentPane;
 
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
@@ -62,7 +63,10 @@ public class BillForm extends JFrame {
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new AbsoluteLayout());
+	contentPane = new JPanel();
+	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	setContentPane(contentPane);
+        contentPane.setLayout(null);
 
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
@@ -89,8 +93,8 @@ public class BillForm extends JFrame {
         };
 
         Object[][] tempData = {
-            {"00126", 20, "Kg.", "Electrodo 7018 1/8", 22.8, 456},
-            {"00119", 20, "Kg.", "Electrodo 6013 1/8", 22.8, 456}
+            {"00126", 20, "Kg.", "Electrodo 7018 1/8", 22.8, 0},
+            {"00119", 20, "Kg.", "Electrodo 6013 1/8", 22.8, 0}
         };
         contentTable = new JTable(tempData, columnNames);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -102,14 +106,18 @@ public class BillForm extends JFrame {
         contentTable.getColumnModel().getColumn(4).setPreferredWidth(70);
         contentTable.getColumnModel().getColumn(5).setMinWidth(20);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        JScrollPane tablesp = new JScrollPane(contentTable);
+        
+        //calculate import for each article
+        calculateEachArticlePrice(1,4,5);
         
         totalLbl = new JLabel("Total");
         totalAmount = new JTextField();
         double total = 0;
+        //calculate Total
         for (int i = 0; i < contentTable.getRowCount(); i++) {
             total += Double.parseDouble(contentTable.getModel().getValueAt(i,5).toString());
         }
-
         totalAmount.setText(String.valueOf(total));
         sonLbl = new JLabel("Son:");
         declarate = new JTextField();
@@ -117,23 +125,38 @@ public class BillForm extends JFrame {
         jButton1 = new JButton();
         jButton1.setText("PRINT");
 
-        getContentPane().add(title, new AbsoluteConstraints(270, 30, 200, 30));
-        getContentPane().add(datePicker, new AbsoluteConstraints(300, 80, 150, 30));
-        getContentPane().add(idShower, new AbsoluteConstraints(500, 80, 160, 30));
-        getContentPane().add(nameLbl, new AbsoluteConstraints(40, 120, 140, 30));
-        getContentPane().add(clientName, new AbsoluteConstraints(100, 120, 350, 30));
-        getContentPane().add(nitLbl, new AbsoluteConstraints(460, 120, 60, 30));
-        getContentPane().add(clientNit, new AbsoluteConstraints(510, 120, 150, 30));
-        getContentPane().add(new JScrollPane(contentTable), new AbsoluteConstraints(30, 160, 640, 200));
-        getContentPane().add(sonLbl, new AbsoluteConstraints(40, 390, 50, 30));
-        getContentPane().add(declarate, new AbsoluteConstraints(70, 390, 350, 30));
-        getContentPane().add(totalLbl, new AbsoluteConstraints(540, 360, 50, 30));
-        getContentPane().add(totalAmount, new AbsoluteConstraints(570, 360, 100, 30));
-        getContentPane().add(bsLbl, new AbsoluteConstraints(425, 390, 70, 30));
-        getContentPane().add(jButton1, new AbsoluteConstraints(580, 420, -1, 30));
+        title.setBounds(270, 30, 200, 30);
+        datePicker.setBounds(300, 80, 150, 30);
+        idShower.setBounds(500, 80, 160, 30);
+        nameLbl.setBounds(40, 120, 140, 30);
+        clientName.setBounds(100, 120, 350, 30);
+        nitLbl.setBounds(460, 120, 60, 30);
+        clientNit.setBounds(510, 120, 150, 30);
+        tablesp.setBounds(30, 160, 640, 200);
+        sonLbl.setBounds(40, 390, 50, 30);
+        declarate.setBounds(70, 390, 350, 30);
+        totalLbl.setBounds(540, 360, 50, 30);
+        totalAmount.setBounds(570, 360, 100, 30);
+        bsLbl.setBounds(425, 390, 70, 30);
+        jButton1.setBounds(580, 420, -1, 30);
+
+        contentPane.add(title);
+        contentPane.add(datePicker);
+        contentPane.add(idShower);
+        contentPane.add(nameLbl);
+        contentPane.add(clientName);
+        contentPane.add(nitLbl);
+        contentPane.add(clientNit);
+        contentPane.add(tablesp);
+        contentPane.add(sonLbl);
+        contentPane.add(declarate);
+        contentPane.add(totalLbl);
+        contentPane.add(totalAmount);
+        contentPane.add(bsLbl);
+        contentPane.add(jButton1);
     }
 
-    private void setStyle() {
+    public static void setStyle() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -143,6 +166,15 @@ public class BillForm extends JFrame {
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void calculateEachArticlePrice(int qValueCol, int upValueCol, int resValueCol) {
+        for (int i = 0; i < contentTable.getRowCount(); i++) {
+            double quantity = Double.parseDouble(contentTable.getModel().getValueAt(i, qValueCol).toString());
+            double unitPrice = Double.parseDouble(contentTable.getModel().getValueAt(i, upValueCol).toString());
+            double calcdSubtotal = quantity * unitPrice;
+            contentTable.getModel().setValueAt(calcdSubtotal, i, resValueCol);
         }
     }
 }
