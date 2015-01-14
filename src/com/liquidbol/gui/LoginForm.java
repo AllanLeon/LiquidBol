@@ -62,7 +62,6 @@ public class LoginForm extends JFrame {
         } catch (IOException ex) {
             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //jLabel1.setIcon(new ImageIcon(getClass().getResource("/com/liquidbol/images/logo.jpg")));
         jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
         
         jTextField1.setBounds(90, 160, 200, 30);
