@@ -23,7 +23,7 @@ public class Service extends Product {
      * @param cost
      * @param price 
      */
-    public Service(String description, String id, String measure, String type, Double cost, Double price) {
+    public Service(String id, String measure, String description, String type, Double cost, Double price) {
         super(id, measure, type, cost, price);
         this.description = description;
     }
