@@ -20,6 +20,8 @@ public class Client extends Person {
     private int nit;
     private String companyName;
     private int frequency;
+    private String billName;
+    private boolean route;
     private Collection<CXC> receivableAccounts;
     private Collection<RechargeableItem> rechargeableItems;
     private Collection<ItemEstimate> itemEstimates;
@@ -30,6 +32,8 @@ public class Client extends Person {
      * @param nit
      * @param companyName
      * @param frequency
+     * @param billName
+     * @param route
      * @param id
      * @param name
      * @param lastname
@@ -39,15 +43,13 @@ public class Client extends Person {
      * @param email
      * @param regDate 
      */
-    public Client(int nit, String companyName, int frequency, int id, String name, String lastname, String address, int phone, int phone2, String email, Date regDate) {
+    public Client(int id, String name, String lastname, String address, int phone, int phone2, String email, Date regDate, int nit, String companyName, int frequency, String billName, boolean route) {
         super(id, name, lastname, address, phone, phone2, email, regDate);
         this.nit = nit;
         this.companyName = companyName;
         this.frequency = frequency;
-        this.receivableAccounts = new HashSet<>();
-        this.rechargeableItems = new HashSet<>();
-        this.itemEstimates = new HashSet<>();
-        this.itemSales = new HashSet<>();
+        this.billName = billName;
+        this.route = route;
     }
 
     /**
@@ -159,5 +161,33 @@ public class Client extends Person {
     
     public void addItemSale(ItemSale itemSale) {
         itemSales.add(itemSale);
+    }
+
+    /**
+     * @return the billName
+     */
+    public String getBillName() {
+        return billName;
+    }
+
+    /**
+     * @return the route
+     */
+    public boolean isRoute() {
+        return route;
+    }
+
+    /**
+     * @param billName the billName to set
+     */
+    public void setBillName(String billName) {
+        this.billName = billName;
+    }
+
+    /**
+     * @param route the route to set
+     */
+    public void setRoute(boolean route) {
+        this.route = route;
     }
 }

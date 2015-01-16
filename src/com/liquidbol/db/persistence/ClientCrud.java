@@ -16,8 +16,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javafx.scene.input.KeyCode.T;
-import static jdk.nashorn.internal.runtime.Debug.id;
 
 /**
  * Class responsible of all persistence operations related to clients.
@@ -34,20 +32,23 @@ public class ClientCrud implements DBCrud<Client> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO clients(client_name, client_lastname, "
-                    + "client_nit, client_address, client_phone, client_phone2, "
-                    + "client_email, client_companyname, client_frequency, "
-                    + "client_regdate) VALUES(?,?,?,?,?,?,?,?,?,?)";
+                    + "client_nit, client_billname, client_address, client_phone, "
+                    + "client_phone2, client_email, client_companyname, "
+                    + "client_frequency, client_regdate, client_isroute) "
+                    + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, element.getName());
             statement.setString(2, element.getLastname());
             statement.setInt(3, element.getNit());
-            statement.setString(4, element.getAddress());
-            statement.setInt(5, element.getPhone());
-            statement.setInt(6, element.getPhone2());
-            statement.setString(7, element.getEmail());
-            statement.setString(8, element.getCompanyName());
-            statement.setInt(9, element.getFrequency());
-            statement.setDate(10, element.getRegDate());
+            statement.setString(4, element.getBillName());
+            statement.setString(5, element.getAddress());
+            statement.setInt(6, element.getPhone());
+            statement.setInt(7, element.getPhone2());
+            statement.setString(8, element.getEmail());
+            statement.setString(9, element.getCompanyName());
+            statement.setInt(10, element.getFrequency());
+            statement.setDate(11, element.getRegDate());
+            statement.setBoolean(12, element.isRoute());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("client was not saved");
@@ -99,19 +100,22 @@ public class ClientCrud implements DBCrud<Client> {
     @Override
     public Client merge(Client element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE table SET client_nit=?, client_address=?, "
-                    + "client_phone=?, client_phone2=?, client_email=?, "
-                    + "client_companyname=?, client_frequency=?  WHERE table_id=?";
+            String query = "UPDATE table SET client_nit=?, client_billname, "
+                    + "client_address=?, client_phone=?, client_phone2=?, "
+                    + "client_email=?, client_companyname=?, client_frequency=?, "
+                    + "client_isroute WHERE table_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setInt(1, element.getNit());
-            statement.setString(2, element.getAddress());
-            statement.setInt(3, element.getPhone());
-            statement.setInt(4, element.getPhone2());
-            statement.setString(5, element.getEmail());
-            statement.setString(6, element.getCompanyName());
-            statement.setInt(7, element.getFrequency());
-            statement.setInt(8, element.getId());
+            statement.setString(2, element.getBillName());
+            statement.setString(3, element.getAddress());
+            statement.setInt(4, element.getPhone());
+            statement.setInt(5, element.getPhone2());
+            statement.setString(6, element.getEmail());
+            statement.setString(7, element.getCompanyName());
+            statement.setInt(8, element.getFrequency());
+            statement.setInt(9, element.getId());
+            statement.setBoolean(10, element.isRoute());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("client was not updated");
@@ -165,15 +169,17 @@ public class ClientCrud implements DBCrud<Client> {
         String name = resultSet.getString(2);
         String lastname = resultSet.getString(3);
         int nit = resultSet.getInt(4);
-        String address = resultSet.getString(5);
-        int phone = resultSet.getInt(6);
-        int phone2 = resultSet.getInt(7);
-        String email = resultSet.getString(8);
-        String companyName = resultSet.getString(9);
-        int frequency = resultSet.getInt(10);
-        Date regDate = resultSet.getDate(11);
+        String billName = resultSet.getString(5);
+        String address = resultSet.getString(6);
+        int phone = resultSet.getInt(7);
+        int phone2 = resultSet.getInt(8);
+        String email = resultSet.getString(9);
+        String companyName = resultSet.getString(10);
+        int frequency = resultSet.getInt(11);
+        Date regDate = resultSet.getDate(12);
+        boolean route = resultSet.getBoolean(13);
         LOG.log(Level.FINE, "Creating client %d", id);
-        Client result = new Client(nit, companyName, frequency, id, name, lastname, address, phone, phone2, email, regDate);
+        Client result = new Client(id, name, lastname, address, phone, phone2, email, regDate, nit, companyName, frequency, billName, route);
         return result;
     }
 }
