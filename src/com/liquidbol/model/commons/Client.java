@@ -51,6 +51,11 @@ public class Client extends Person {
         this.frequency = frequency;
         this.billName = billName;
         this.route = route;
+        this.receivableAccounts = new HashSet<>();
+        this.rechargeableItems = new HashSet<>();
+        this.itemEstimates = new HashSet<>();
+        this.itemBills = new HashSet<>();
+        this.serviceBills = new HashSet<>();
     }
 
     /**

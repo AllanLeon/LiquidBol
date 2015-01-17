@@ -17,7 +17,6 @@ import java.util.HashSet;
 public class ServiceBill extends Bill {
 
     private Collection<ServiceReception> serviceReceptions;
-    private Collection<BillPayment> payments;
     
     /**
      * Constructor method.
@@ -29,7 +28,6 @@ public class ServiceBill extends Bill {
     public ServiceBill(int id, Employee employee, Date date, String obs) {
         super(id, employee, date, obs);
         this.serviceReceptions = new HashSet<>();
-        this.payments = new HashSet<>();
     }
     
     public int getNumberOfServiceReceptions() {
@@ -42,17 +40,5 @@ public class ServiceBill extends Bill {
     
     public void addServiceReception(ServiceReception serviceReception) {
         serviceReceptions.add(serviceReception);
-    }
-    
-    public int getNumberOfPayments() {
-        return payments.size();
-    }
-    
-    public Collection<BillPayment> getAllPayments() {
-        return payments;
-    }
-    
-    public void addPayment(BillPayment payment) {
-        payments.add(payment);
     }
 }

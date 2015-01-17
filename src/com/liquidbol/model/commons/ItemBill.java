@@ -19,7 +19,6 @@ public class ItemBill extends Bill {
     private Store store;
     private boolean route;
     private Collection<ItemSale> itemSales;
-    private Collection<BillPayment> payments;
 
     /**
      * Constructor method.
@@ -35,7 +34,6 @@ public class ItemBill extends Bill {
         this.store = store;
         this.route = route;
         this.itemSales = new HashSet<>();
-        this.payments = new HashSet<>();
     }
 
     /**
@@ -76,17 +74,5 @@ public class ItemBill extends Bill {
     
     public void addItemSale(ItemSale itemSale) {
         itemSales.add(itemSale);
-    }
-    
-    public int getNumberOfPayments() {
-        return payments.size();
-    }
-    
-    public Collection<BillPayment> getAllPayments() {
-        return payments;
-    }
-    
-    public void addPayment(BillPayment payment) {
-        payments.add(payment);
     }
 }

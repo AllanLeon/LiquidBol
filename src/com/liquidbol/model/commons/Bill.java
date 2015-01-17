@@ -7,6 +7,8 @@
 package com.liquidbol.model.commons;
 
 import java.sql.Date;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Class that represents a bill.
@@ -19,6 +21,7 @@ public class Bill {
     private Date date;
     private Double totalAmmount;
     private String obs;
+    private Collection<BillPayment> payments;
 
     /**
      * Constructor method.
@@ -33,6 +36,7 @@ public class Bill {
         this.date = date;
         this.totalAmmount = 0.0;
         this.obs = obs;
+        this.payments = new HashSet<>();
     }
 
     /**
@@ -96,6 +100,18 @@ public class Bill {
      */
     public void setTotalAmmount(Double totalAmmount) {
         this.totalAmmount = totalAmmount;
+    }
+    
+    public int getNumberOfPayments() {
+        return payments.size();
+    }
+    
+    public Collection<BillPayment> getAllPayments() {
+        return payments;
+    }
+    
+    public void addPayment(BillPayment payment) {
+        payments.add(payment);
     }
 
     /**

@@ -149,5 +149,4 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
         ItemPurchase result = new ItemPurchase(id, item, quantity);
         return result;
     }
-    
 }

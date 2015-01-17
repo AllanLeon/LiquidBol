@@ -25,12 +25,11 @@ public class Purchase {
     /**
      * Constructor method.
      * @param id
-     * @param totalAmmount
      * @param date 
      */
-    public Purchase(int id, Double totalAmmount, Date date) {
+    public Purchase(int id, Date date) {
         this.id = id;
-        this.totalAmmount = totalAmmount;
+        this.totalAmmount = 0.0;
         this.date = date;
         this.itemPurchases = new HashSet<>();
     }
