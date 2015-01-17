@@ -8,9 +8,6 @@ package com.liquidbol.model.commons;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Class that represents a service reception.
@@ -20,25 +17,32 @@ public class ServiceReception {
     
     private int id;
     private Service service;
-    private Employee employee;
+    private RechargeableItem item;
     private Date receptionDate;
     private Timestamp deliverTime;
-    private Double ammountPaid;
     private Double totalAmmount;
     private String obs;
-    private Collection<ServiceSale> sales;
 
-    public ServiceReception(int id, Service service, Employee employee, Date receptionDate, Timestamp deliverTime, Double ammountPaid, Double totalAmmount, String obs) {
+    /**
+     * Constructor method.
+     * @param id
+     * @param service
+     * @param item
+     * @param receptionDate
+     * @param deliverTime
+     * @param totalAmmount
+     * @param obs 
+     */
+    public ServiceReception(int id, Service service, RechargeableItem item, Date receptionDate, Timestamp deliverTime, Double totalAmmount, String obs) {
         this.id = id;
         this.service = service;
-        this.employee = employee;
+        this.item = item;
         this.receptionDate = receptionDate;
         this.deliverTime = deliverTime;
-        this.ammountPaid = ammountPaid;
         this.totalAmmount = totalAmmount;
         this.obs = obs;
     }
-    
+
     /**
      * @return the id
      */
@@ -54,10 +58,10 @@ public class ServiceReception {
     }
 
     /**
-     * @return the employee
+     * @return the item
      */
-    public Employee getEmployee() {
-        return employee;
+    public RechargeableItem getItem() {
+        return item;
     }
 
     /**
@@ -72,13 +76,6 @@ public class ServiceReception {
      */
     public Timestamp getDeliverTime() {
         return deliverTime;
-    }
-
-    /**
-     * @return the ammountPaid
-     */
-    public Double getAmmountPaid() {
-        return ammountPaid;
     }
 
     /**
@@ -110,10 +107,10 @@ public class ServiceReception {
     }
 
     /**
-     * @param employee the employee to set
+     * @param item the item to set
      */
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setItem(RechargeableItem item) {
+        this.item = item;
     }
 
     /**
@@ -131,13 +128,6 @@ public class ServiceReception {
     }
 
     /**
-     * @param ammountPaid the ammountPaid to set
-     */
-    public void setAmmountPaid(Double ammountPaid) {
-        this.ammountPaid = ammountPaid;
-    }
-
-    /**
      * @param totalAmmount the totalAmmount to set
      */
     public void setTotalAmmount(Double totalAmmount) {
@@ -151,25 +141,6 @@ public class ServiceReception {
         this.obs = obs;
     }
     
-    public Collection<ServiceSale> getAllSales() {
-        return sales;
-    }
-    
-    public Collection<ServiceSale> findSalesBetweenDates(Date startDate, Date endDate) {
-        Set<ServiceSale> result = new HashSet<>();
-        for (ServiceSale sale : sales) {
-            Date paymentDate = sale.getPayDate();
-            if (paymentDate.compareTo(startDate) >= 0 && paymentDate.compareTo(endDate) <= 0) {
-                result.add(sale);
-            }
-        }
-        return result;
-    }
-    
-    public void addSale(ServiceSale sale) {
-        sales.add(sale);
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
