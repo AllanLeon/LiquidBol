@@ -14,6 +14,8 @@ import java.sql.Date;
  */
 public class Employee extends Person {
 
+    private String password;
+
     /**
      * Constructor method.
      * @param id
@@ -23,9 +25,25 @@ public class Employee extends Person {
      * @param phone
      * @param phone2
      * @param email
-     * @param regDate 
+     * @param regDate
+     * @param password 
      */
-    public Employee(int id, String name, String lastname, String address, int phone, int phone2, String email, Date regDate) {
+    public Employee(int id, String name, String lastname, String address, int phone, int phone2, String email, Date regDate, String password) {
         super(id, name, lastname, address, phone, phone2, email, regDate);
+        this.password = password;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

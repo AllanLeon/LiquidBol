@@ -33,8 +33,8 @@ public class EmployeeCrud implements DBCrud<Employee> {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO employees(employee_id, employee_name, "
                     + "employee_lastname, employee_address, employee_phone, "
-                    + "employee_phone2, employee_email, employee_regdate) "
-                    + "VALUES(?,?,?,?,?,?,?,?)";
+                    + "employee_phone2, employee_email, employee_regdate, "
+                    + "employee_password) VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, element.getId());
             statement.setString(2, element.getName());
@@ -44,6 +44,7 @@ public class EmployeeCrud implements DBCrud<Employee> {
             statement.setInt(6, element.getPhone2());
             statement.setString(7, element.getEmail());
             statement.setDate(8, element.getRegDate());
+            statement.setString(9, element.getPassword());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("employee was not saved");
@@ -96,13 +97,15 @@ public class EmployeeCrud implements DBCrud<Employee> {
     public Employee merge(Employee element) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE employees SET employee_address=?, employee_phone=?, "
-                    + "employee_phone2=?, employee_email=? WHERE employee_id=?";
+                    + "employee_phone2=?, employee_email=?, employee_password=? "
+                    + "WHERE employee_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setString(1, element.getAddress());
             statement.setInt(2, element.getPhone());
             statement.setInt(3, element.getPhone2());
             statement.setString(4, element.getEmail());
+            statement.setString(5, element.getPassword());
             statement.setInt(5, element.getId());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -161,8 +164,9 @@ public class EmployeeCrud implements DBCrud<Employee> {
         int phone2 = resultSet.getInt(6);
         String email = resultSet.getString(7);
         Date regDate = resultSet.getDate(8);
+        String password = resultSet.getString(9);
         LOG.log(Level.FINE, "Creating employee %d", id);
-        Employee result = new Employee(id, name, lastname, address, phone, phone2, email, regDate);
+        Employee result = new Employee(id, name, lastname, address, phone, phone2, email, regDate, password);
         return result;
     }
 }

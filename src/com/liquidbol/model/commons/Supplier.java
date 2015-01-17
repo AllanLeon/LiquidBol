@@ -125,16 +125,6 @@ public class Supplier extends Person {
         }
         return result;
     }
-    
-    public Collection<Purchase> findPurchasesByItemId(String itemId) {
-        Set<Purchase> result = new HashSet<>();
-        for (Purchase purchase : purchases) {
-            if (purchase.getItem().getId().equals(itemId)) {
-                result.add(purchase);
-            }
-        }
-        return result;
-    }
 
     public void addPurchase(Purchase purchase) {
        purchases.add(purchase);
