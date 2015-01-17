@@ -20,6 +20,7 @@ public class ServiceReception {
     
     private int id;
     private Service service;
+    private Employee employee;
     private Date receptionDate;
     private Timestamp deliverTime;
     private Double ammountPaid;
@@ -27,27 +28,17 @@ public class ServiceReception {
     private String obs;
     private Collection<ServiceSale> sales;
 
-    /**
-     * Constructor method.
-     * @param id
-     * @param service
-     * @param receptionDate
-     * @param deliverTime
-     * @param ammountPaid
-     * @param totalAmmount
-     * @param obs 
-     */
-    public ServiceReception(int id, Service service, Date receptionDate, Timestamp deliverTime, Double ammountPaid, Double totalAmmount, String obs) {
+    public ServiceReception(int id, Service service, Employee employee, Date receptionDate, Timestamp deliverTime, Double ammountPaid, Double totalAmmount, String obs) {
         this.id = id;
         this.service = service;
+        this.employee = employee;
         this.receptionDate = receptionDate;
         this.deliverTime = deliverTime;
         this.ammountPaid = ammountPaid;
         this.totalAmmount = totalAmmount;
         this.obs = obs;
-        this.sales = new HashSet<>();
     }
-
+    
     /**
      * @return the id
      */
@@ -60,6 +51,13 @@ public class ServiceReception {
      */
     public Service getService() {
         return service;
+    }
+
+    /**
+     * @return the employee
+     */
+    public Employee getEmployee() {
+        return employee;
     }
 
     /**
@@ -112,6 +110,13 @@ public class ServiceReception {
     }
 
     /**
+     * @param employee the employee to set
+     */
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    /**
      * @param receptionDate the receptionDate to set
      */
     public void setReceptionDate(Date receptionDate) {
@@ -146,10 +151,6 @@ public class ServiceReception {
         this.obs = obs;
     }
     
-    public int getNumberOfSales() {
-        return sales.size();
-    }
-    
     public Collection<ServiceSale> getAllSales() {
         return sales;
     }
@@ -172,7 +173,7 @@ public class ServiceReception {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 73 * hash + this.id;
+        hash = 73 * hash + this.getId();
         return hash;
     }
 
@@ -185,7 +186,7 @@ public class ServiceReception {
             return false;
         }
         final ServiceReception other = (ServiceReception) obj;
-        if (this.id != other.id) {
+        if (this.getId() != other.getId()) {
             return false;
         }
         return true;
