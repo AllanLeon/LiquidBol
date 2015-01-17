@@ -25,7 +25,8 @@ public class Client extends Person {
     private Collection<CXC> receivableAccounts;
     private Collection<RechargeableItem> rechargeableItems;
     private Collection<ItemEstimate> itemEstimates;
-    private Collection<ItemSale> itemSales;
+    private Collection<ItemBill> itemBills;
+    private Collection<ServiceBill> serviceBills;
 
     /**
      * Constructor method.
@@ -72,6 +73,20 @@ public class Client extends Person {
     public int getFrequency() {
         return frequency;
     }
+    
+    /**
+     * @return the billName
+     */
+    public String getBillName() {
+        return billName;
+    }
+
+    /**
+     * @return the route
+     */
+    public boolean isRoute() {
+        return route;
+    }
 
     /**
      * @param nit the nit to set
@@ -92,6 +107,20 @@ public class Client extends Person {
      */
     public void setFrequency(int frequency) {
         this.frequency = frequency;
+    }
+    
+    /**
+     * @param billName the billName to set
+     */
+    public void setBillName(String billName) {
+        this.billName = billName;
+    }
+
+    /**
+     * @param route the route to set
+     */
+    public void setRoute(boolean route) {
+        this.route = route;
     }
     
     public int getNumberOfReceivableAccounts() {
@@ -151,43 +180,27 @@ public class Client extends Person {
         itemEstimates.add(itemEstimate);
     }
     
-    public int getNumberOfItemSales() {
-        return itemSales.size();
+    public int getNumberOfItemBills() {
+        return itemBills.size();
     }
     
-    public Collection<ItemSale> getAllItemSales() {
-        return itemSales;
+    public Collection<ItemBill> getAllItemBills() {
+        return itemBills;
     }
     
-    public void addItemSale(ItemSale itemSale) {
-        itemSales.add(itemSale);
+    public void addItemBill(ItemBill itemBill) {
+        itemBills.add(itemBill);
     }
-
-    /**
-     * @return the billName
-     */
-    public String getBillName() {
-        return billName;
+    
+    public int getNumberOfServiceBills() {
+        return serviceBills.size();
     }
-
-    /**
-     * @return the route
-     */
-    public boolean isRoute() {
-        return route;
+    
+    public Collection<ServiceBill> getAllServiceBills() {
+        return serviceBills;
     }
-
-    /**
-     * @param billName the billName to set
-     */
-    public void setBillName(String billName) {
-        this.billName = billName;
-    }
-
-    /**
-     * @param route the route to set
-     */
-    public void setRoute(boolean route) {
-        this.route = route;
+    
+    public void addServiceBill(ServiceBill serviceBill) {
+        serviceBills.add(serviceBill);
     }
 }
