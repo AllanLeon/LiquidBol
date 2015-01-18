@@ -2,6 +2,11 @@ package com.liquidbol.gui;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,8 +14,10 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -18,6 +25,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * @author Franco
@@ -67,11 +75,11 @@ public class NewClientForm extends JFrame {
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	contentPane = new JPanel();
-	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-	setContentPane(contentPane);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
         contentPane.setLayout(null);
-        
+
         title = new JLabel("NUEVO CLIENTE");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         idShower = new JLabel("Nº 000001");
@@ -80,7 +88,7 @@ public class NewClientForm extends JFrame {
         nitBox = new JTextField();
         nameLbl = new JLabel("Señor(es)");
         clientName = new JTextField();
-        companyLbl =  new JLabel("Empresa/Taller");
+        companyLbl = new JLabel("Empresa/Taller");
         clientCompany = new JTextField();
         jCheckBox1 = new JCheckBox("Ruta");
         addressLbl = new JLabel("Dirección");
@@ -91,16 +99,16 @@ public class NewClientForm extends JFrame {
         clientPhone2 = new JTextField();
         emailLbl = new JLabel("Email");
         clientEmail = new JTextField();
-        
+
         try {
-            clientPhoto = new JLabel(new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/chap.jpg"))));
-           // clientPhoto.setHorizontalAlignment(SwingConstants.CENTER);
-           // companyPhoto = new JLabel(new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/chap.jpg"))));
-           // companyPhoto.setHorizontalAlignment(SwingConstants.RIGHT);
+            clientPhoto = new JLabel(new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/weld.jpg"))));
+            clientPhoto.setHorizontalAlignment(SwingConstants.CENTER);
+            companyPhoto = new JLabel(new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/chap.jpg"))));
+            companyPhoto.setHorizontalAlignment(SwingConstants.LEFT);
         } catch (IOException ex) {
             Logger.getLogger(NewClientForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         jButton1 = new JButton("Add");
 
         title.setBounds(120, 30, 350, 30);
@@ -121,9 +129,9 @@ public class NewClientForm extends JFrame {
         emailLbl.setBounds(50, 290, 70, 30);
         clientEmail.setBounds(100, 290, 250, 30);
         clientPhoto.setBounds(75, 330, 100, 100);
-        //companyPhoto.setBounds(75, 330, 100, 100);
+        companyPhoto.setBounds(200, 330, 150, 100);
         jButton1.setBounds(400, 380, 70, 30);
-        
+
         getContentPane().add(title);
         getContentPane().add(idShower);
         getContentPane().add(nitLbl);
@@ -142,8 +150,10 @@ public class NewClientForm extends JFrame {
         getContentPane().add(emailLbl);
         getContentPane().add(clientEmail);
         getContentPane().add(clientPhoto);
-//        getContentPane().add(companyPhoto);
+        getContentPane().add(companyPhoto);
         getContentPane().add(jButton1);
+        onMouseHover(clientPhoto);
+        onMouseHover(companyPhoto);
     }
 
     private void setStyle() {
@@ -157,5 +167,48 @@ public class NewClientForm extends JFrame {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void onMouseHover(JLabel lbl) {
+
+        lbl.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                try {
+                    JFileChooser fc = new JFileChooser();
+                    fc.addChoosableFileFilter(new FileNameExtensionFilter("JPEG file", "jpg", "jpeg"));
+                    fc.removeChoosableFileFilter(fc.getAcceptAllFileFilter());
+                    fc.showOpenDialog(fc);
+
+                    File selectedIMG = fc.getSelectedFile();
+                    if (selectedIMG != null) {
+                        BufferedImage img = ImageIO.read(selectedIMG);
+                        Image dimg = img.getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_SMOOTH);
+                        lbl.setIcon(new ImageIcon(dimg));
+                    }
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, ex + ""
+                            + "\nNo se ha encontrado el archivo", "ADVERTENCIA!!!", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                lbl.setEnabled(false);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                lbl.setEnabled(true);
+            }
+        });
     }
 }
