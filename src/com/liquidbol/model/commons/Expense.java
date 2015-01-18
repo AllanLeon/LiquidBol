@@ -17,14 +17,14 @@ public class Expense {
     private int id;
     private Date payDate;
     private String description;
-    private Double ammount;
+    private Double amount;
     private String obs;
 
-    public Expense(int id, Date payDate, String description, Double ammount, String obs) {
+    public Expense(int id, Date payDate, String description, Double amount, String obs) {
         this.id = id;
         this.payDate = payDate;
         this.description = description;
-        this.ammount = ammount;
+        this.amount = amount;
         this.obs = obs;
     }
 
@@ -50,10 +50,10 @@ public class Expense {
     }
 
     /**
-     * @return the ammount
+     * @return the amount
      */
-    public Double getAmmount() {
-        return ammount;
+    public Double getAmount() {
+        return amount;
     }
 
     /**
@@ -85,10 +85,10 @@ public class Expense {
     }
 
     /**
-     * @param ammount the ammount to set
+     * @param amount the amount to set
      */
-    public void setAmmount(Double ammount) {
-        this.ammount = ammount;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     /**

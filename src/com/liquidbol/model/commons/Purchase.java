@@ -7,32 +7,43 @@
 package com.liquidbol.model.commons;
 
 import java.sql.Date;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Class that represents a purchase.
+ * Class that represents a group item´s purchases.
  * @author Allan Leon
  */
 public class Purchase {
     
     private int id;
-    private Item item;
-    private int quantity;
+    private Double totalAmount;
     private Date date;
-    private Double ammount;
+    private Collection<ItemPurchase> itemPurchases;
 
     /**
      * Constructor method.
      * @param id
-     * @param item
-     * @param quantity
      * @param date 
      */
-    public Purchase(int id, Item item, int quantity, Date date) {
+    public Purchase(int id, Date date) {
         this.id = id;
-        this.item = item;
-        this.quantity = quantity;
+        this.totalAmount = 0.0;
         this.date = date;
-        this.ammount = item.getCost() * quantity;
+        this.itemPurchases = new HashSet<>();
+    }
+
+    /**
+     * Constructor method with amount.
+     * @param id
+     * @param totalAmount
+     * @param date 
+     */
+    public Purchase(int id, Double totalAmount, Date date) {
+        this.id = id;
+        this.totalAmount = totalAmount;
+        this.date = date;
     }
 
     /**
@@ -43,17 +54,10 @@ public class Purchase {
     }
 
     /**
-     * @return the item
+     * @return the totalAmount
      */
-    public Item getItem() {
-        return item;
-    }
-
-    /**
-     * @return the quantity
-     */
-    public int getQuantity() {
-        return quantity;
+    public Double getTotalAmount() {
+        return totalAmount;
     }
 
     /**
@@ -64,10 +68,14 @@ public class Purchase {
     }
 
     /**
-     * @return the ammount
+     * @return the itemPurchases
      */
-    public Double getAmmount() {
-        return ammount;
+    public Collection<ItemPurchase> getAllItemPurchases() {
+        return itemPurchases;
+    }
+    
+    public int getNumberOfItemPurchases() {
+        return itemPurchases.size();
     }
 
     /**
@@ -78,37 +86,37 @@ public class Purchase {
     }
 
     /**
-     * @param item the item to set
+     * @param totalAmount the totalAmount to set
      */
-    public void setItem(Item item) {
-        this.item = item;
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     /**
-     * @param quantity the quantity to set
-     */
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    /**
-     * @param date the date to set
+     * @param date the purchaseDate to set
      */
     public void setDate(Date date) {
         this.date = date;
     }
-
-    /**
-     * @param ammount the ammount to set
-     */
-    public void setAmmount(Double ammount) {
-        this.ammount = ammount;
+    
+    public void addItemPurchase(ItemPurchase itemPurchase) {
+        itemPurchases.add(itemPurchase);
+    }
+    
+    public Collection<ItemPurchase> findItemPurchasesByItemId(String itemId) {
+        Set<ItemPurchase> result = new HashSet<>();
+        for (ItemPurchase purchase : itemPurchases) {
+            if (purchase.getItem().getId().equals(itemId)) {
+                result.add(purchase);
+            }
+        }
+        return result;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 67 * hash + this.id;
+        int hash = 7;
+        hash = 41 * hash + this.id;
         return hash;
     }
 

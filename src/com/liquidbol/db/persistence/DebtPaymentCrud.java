@@ -31,12 +31,12 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
     public DebtPayment save(DebtPayment payment) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO debt_payments(debt_id, pay_date, ammount) "
+            String insert = "INSERT INTO debt_payments(debt_id, pay_date, amount) "
                     + "VALUES(?, ?, ?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, payment.getId());
             statement.setDate(2, payment.getPayDate());
-            statement.setDouble(3, payment.getAmmount());
+            statement.setDouble(3, payment.getAmount());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("Debt payment was not saved");
@@ -89,11 +89,11 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
     @Override
     public DebtPayment merge(DebtPayment payment) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE debt_payments SET pay_date=?, ammount=? WHERE debt_payment_id=?";
+            String query = "UPDATE debt_payments SET pay_date=?, amount=? WHERE debt_payment_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, payment.getPayDate());
-            statement.setDouble(2, payment.getAmmount());
+            statement.setDouble(2, payment.getAmount());
             statement.setInt(3, payment.getId());
             return payment;
         } catch (SQLException ex) {
@@ -142,9 +142,9 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
     public DebtPayment createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
         Date payDate = resultSet.getDate(3);
-        Double ammount = resultSet.getDouble(4);
+        Double amount = resultSet.getDouble(4);
         LOG.log(Level.FINE, "Creating debt payment %d", id);
-        DebtPayment result = new DebtPayment(id, payDate, ammount);
+        DebtPayment result = new DebtPayment(id, payDate, amount);
         return result;
     }
     

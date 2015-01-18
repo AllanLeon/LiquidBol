@@ -33,12 +33,12 @@ public class ClientCXCCrud implements DBCrud<CXC> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO clients_cxc(client_id, clientscxc_debt, "
-                    + "clientscxc_creditammount, clientscxc_creditdate, "
+                    + "clientscxc_creditamount, clientscxc_creditdate, "
                     + "clientscxc_state) VALUES(?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, 0);
             statement.setDouble(2, element.getDebt());
-            statement.setDouble(3, element.getCreditMaxAmmount());
+            statement.setDouble(3, element.getCreditMaxAmount());
             statement.setDate(4, element.getCreditLimitDate());
             statement.setString(5, element.getState());
             int rowsAffected = statement.executeUpdate();
@@ -92,12 +92,12 @@ public class ClientCXCCrud implements DBCrud<CXC> {
     @Override
     public CXC merge(CXC element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE table SET clientscxc_debt=?, clientscxc_creditammount=?, "
+            String query = "UPDATE table SET clientscxc_debt=?, clientscxc_creditamount=?, "
                     + "clientscxc_creditdate=?, clientscxc_state=? WHERE clientscxc_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDouble(1, element.getDebt());;
-            statement.setDouble(2, element.getCreditMaxAmmount());
+            statement.setDouble(2, element.getCreditMaxAmount());
             statement.setDate(3, element.getCreditLimitDate());
             statement.setString(4, element.getState());
             statement.setInt(5, element.getId());
@@ -152,11 +152,11 @@ public class ClientCXCCrud implements DBCrud<CXC> {
     public CXC createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
         Double debt = resultSet.getDouble(3);
-        Double creditMaxAmmount = resultSet.getDouble(4);
+        Double creditMaxAmount = resultSet.getDouble(4);
         Date creaditLimitDate = resultSet.getDate(5);
         String state = resultSet.getString(6);
         LOG.log(Level.FINE, "Creating client receivable account %d", id);
-        CXC result = new CXC(id, debt, creditMaxAmmount, creaditLimitDate, state);
+        CXC result = new CXC(id, debt, creditMaxAmount, creaditLimitDate, state);
         return result;
     }
 }

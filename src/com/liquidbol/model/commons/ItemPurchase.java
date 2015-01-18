@@ -7,30 +7,27 @@
 package com.liquidbol.model.commons;
 
 /**
- * Class that represents an item sale.
+ * Class that represents a purchase of a single item.
  * @author Allan Leon
  */
-public class ItemSale {
+public class ItemPurchase {
     
     private int id;
     private Item item;
     private int quantity;
     private Double amount;
-    private String obs;
 
     /**
      * Constructor method.
      * @param id
      * @param item
      * @param quantity
-     * @param obs 
      */
-    public ItemSale(int id, Item item, int quantity, String obs) {
+    public ItemPurchase(int id, Item item, int quantity) {
         this.id = id;
         this.item = item;
         this.quantity = quantity;
-        this.obs = obs;
-        this.amount = item.getPrice() * quantity;
+        this.amount = item.getCost() * quantity;
     }
 
     /**
@@ -38,15 +35,13 @@ public class ItemSale {
      * @param id
      * @param item
      * @param quantity
-     * @param amount
-     * @param obs 
+     * @param amount 
      */
-    public ItemSale(int id, Item item, int quantity, Double amount, String obs) {
+    public ItemPurchase(int id, Item item, int quantity, Double amount) {
         this.id = id;
         this.item = item;
         this.quantity = quantity;
         this.amount = amount;
-        this.obs = obs;
     }
 
     /**
@@ -78,13 +73,6 @@ public class ItemSale {
     }
 
     /**
-     * @return the obs
-     */
-    public String getObs() {
-        return obs;
-    }
-
-    /**
      * @param id the id to set
      */
     public void setId(int id) {
@@ -112,17 +100,10 @@ public class ItemSale {
         this.amount = amount;
     }
 
-    /**
-     * @param obs the obs to set
-     */
-    public void setObs(String obs) {
-        this.obs = obs;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 47 * hash + this.id;
+        int hash = 5;
+        hash = 67 * hash + this.id;
         return hash;
     }
 
@@ -134,7 +115,7 @@ public class ItemSale {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ItemSale other = (ItemSale) obj;
+        final ItemPurchase other = (ItemPurchase) obj;
         if (this.id != other.id) {
             return false;
         }

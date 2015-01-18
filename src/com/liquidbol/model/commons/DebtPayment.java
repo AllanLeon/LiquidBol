@@ -17,18 +17,18 @@ public class DebtPayment {
     
     private int id;
     private Date payDate;
-    private Double ammount;
+    private Double amount;
 
     /**
      * Constructor method of the class.
      * @param id
      * @param payDate
-     * @param ammount 
+     * @param amount 
      */
-    public DebtPayment(int id, Date payDate, Double ammount) {
+    public DebtPayment(int id, Date payDate, Double amount) {
         this.id = id;
         this.payDate = payDate;
-        this.ammount = ammount;
+        this.amount = amount;
     }
 
     /**
@@ -46,10 +46,10 @@ public class DebtPayment {
     }
 
     /**
-     * @return the ammount
+     * @return the amount
      */
-    public Double getAmmount() {
-        return ammount;
+    public Double getAmount() {
+        return amount;
     }
 
     /**
@@ -64,7 +64,7 @@ public class DebtPayment {
         int hash = 7;
         hash = 59 * hash + this.id;
         hash = 59 * hash + Objects.hashCode(this.payDate);
-        hash = 59 * hash + Objects.hashCode(this.ammount);
+        hash = 59 * hash + Objects.hashCode(this.amount);
         return hash;
     }
 
@@ -83,7 +83,7 @@ public class DebtPayment {
         if (!Objects.equals(this.payDate, other.payDate)) {
             return false;
         }
-        if (!Objects.equals(this.ammount, other.ammount)) {
+        if (!Objects.equals(this.amount, other.amount)) {
             return false;
         }
         return true;

@@ -18,7 +18,7 @@ public class CXC {
     
     private int id;
     private Double debt;
-    private Double creditMaxAmmount;
+    private Double creditMaxAmount;
     private Date creditLimitDate;
     private String state;
     private Collection<CXCC> collectedReceivableAccounts;
@@ -27,14 +27,14 @@ public class CXC {
      * Constructor method.
      * @param id
      * @param debt
-     * @param creditMaxAmmount
+     * @param creditMaxAmount
      * @param creditLimitDate
      * @param state 
      */
-    public CXC(int id, Double debt, Double creditMaxAmmount, Date creditLimitDate, String state) {
+    public CXC(int id, Double debt, Double creditMaxAmount, Date creditLimitDate, String state) {
         this.id = id;
         this.debt = debt;
-        this.creditMaxAmmount = creditMaxAmmount;
+        this.creditMaxAmount = creditMaxAmount;
         this.creditLimitDate = creditLimitDate;
         this.state = state;
         this.collectedReceivableAccounts = new HashSet<>();
@@ -55,10 +55,10 @@ public class CXC {
     }
 
     /**
-     * @return the creditMaxAmmount
+     * @return the creditMaxAmount
      */
-    public Double getCreditMaxAmmount() {
-        return creditMaxAmmount;
+    public Double getCreditMaxAmount() {
+        return creditMaxAmount;
     }
 
     /**
@@ -90,10 +90,10 @@ public class CXC {
     }
 
     /**
-     * @param creditMaxAmmount the creditMaxAmmount to set
+     * @param creditMaxAmount the creditMaxAmount to set
      */
-    public void setCreditMaxAmmount(Double creditMaxAmmount) {
-        this.creditMaxAmmount = creditMaxAmmount;
+    public void setCreditMaxAmount(Double creditMaxAmount) {
+        this.creditMaxAmount = creditMaxAmount;
     }
 
     /**

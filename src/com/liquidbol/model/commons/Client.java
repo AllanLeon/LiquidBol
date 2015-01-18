@@ -20,16 +20,21 @@ public class Client extends Person {
     private int nit;
     private String companyName;
     private int frequency;
+    private String billName;
+    private boolean route;
     private Collection<CXC> receivableAccounts;
     private Collection<RechargeableItem> rechargeableItems;
     private Collection<ItemEstimate> itemEstimates;
-    private Collection<ItemSale> itemSales;
+    private Collection<ItemBill> itemBills;
+    private Collection<ServiceBill> serviceBills;
 
     /**
      * Constructor method.
      * @param nit
      * @param companyName
      * @param frequency
+     * @param billName
+     * @param route
      * @param id
      * @param name
      * @param lastname
@@ -39,15 +44,18 @@ public class Client extends Person {
      * @param email
      * @param regDate 
      */
-    public Client(int nit, String companyName, int frequency, int id, String name, String lastname, String address, int phone, int phone2, String email, Date regDate) {
+    public Client(int id, String name, String lastname, String address, int phone, int phone2, String email, Date regDate, int nit, String companyName, int frequency, String billName, boolean route) {
         super(id, name, lastname, address, phone, phone2, email, regDate);
         this.nit = nit;
         this.companyName = companyName;
         this.frequency = frequency;
+        this.billName = billName;
+        this.route = route;
         this.receivableAccounts = new HashSet<>();
         this.rechargeableItems = new HashSet<>();
         this.itemEstimates = new HashSet<>();
-        this.itemSales = new HashSet<>();
+        this.itemBills = new HashSet<>();
+        this.serviceBills = new HashSet<>();
     }
 
     /**
@@ -70,6 +78,20 @@ public class Client extends Person {
     public int getFrequency() {
         return frequency;
     }
+    
+    /**
+     * @return the billName
+     */
+    public String getBillName() {
+        return billName;
+    }
+
+    /**
+     * @return the route
+     */
+    public boolean isRoute() {
+        return route;
+    }
 
     /**
      * @param nit the nit to set
@@ -90,6 +112,20 @@ public class Client extends Person {
      */
     public void setFrequency(int frequency) {
         this.frequency = frequency;
+    }
+    
+    /**
+     * @param billName the billName to set
+     */
+    public void setBillName(String billName) {
+        this.billName = billName;
+    }
+
+    /**
+     * @param route the route to set
+     */
+    public void setRoute(boolean route) {
+        this.route = route;
     }
     
     public int getNumberOfReceivableAccounts() {
@@ -149,15 +185,27 @@ public class Client extends Person {
         itemEstimates.add(itemEstimate);
     }
     
-    public int getNumberOfItemSales() {
-        return itemSales.size();
+    public int getNumberOfItemBills() {
+        return itemBills.size();
     }
     
-    public Collection<ItemSale> getAllItemSales() {
-        return itemSales;
+    public Collection<ItemBill> getAllItemBills() {
+        return itemBills;
     }
     
-    public void addItemSale(ItemSale itemSale) {
-        itemSales.add(itemSale);
+    public void addItemBill(ItemBill itemBill) {
+        itemBills.add(itemBill);
+    }
+    
+    public int getNumberOfServiceBills() {
+        return serviceBills.size();
+    }
+    
+    public Collection<ServiceBill> getAllServiceBills() {
+        return serviceBills;
+    }
+    
+    public void addServiceBill(ServiceBill serviceBill) {
+        serviceBills.add(serviceBill);
     }
 }

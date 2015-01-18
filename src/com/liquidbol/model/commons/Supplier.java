@@ -92,7 +92,7 @@ public class Supplier extends Person {
         Set<Debt> result = new HashSet<>();
         Date today = new Date(new java.util.Date().getTime());
         for (Debt debt : debts) {
-            if (debt.getLimitDate().compareTo(today) < 0 && debt.getAmmount() > 0) {
+            if (debt.getLimitDate().compareTo(today) < 0 && debt.getAmount() > 0) {
                 result.add(debt);
             }
         }
@@ -120,16 +120,6 @@ public class Supplier extends Person {
         for (Purchase purchase : purchases) {
             Date purchaseDate = purchase.getDate();
             if (purchaseDate.compareTo(startDate) >= 0 && purchaseDate.compareTo(endDate) <= 0) {
-                result.add(purchase);
-            }
-        }
-        return result;
-    }
-    
-    public Collection<Purchase> findPurchasesByItemId(String itemId) {
-        Set<Purchase> result = new HashSet<>();
-        for (Purchase purchase : purchases) {
-            if (purchase.getItem().getId().equals(itemId)) {
                 result.add(purchase);
             }
         }

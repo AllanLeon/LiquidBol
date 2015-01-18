@@ -16,20 +16,20 @@ public class ServiceSale {
     
     private int id;
     private Date payDate;
-    private Double ammountPaid;
+    private Double amountPaid;
     private String obs;
 
     /**
      * Constructor method.
      * @param id
      * @param payDate
-     * @param ammountPaid
+     * @param amountPaid
      * @param obs 
      */
-    public ServiceSale(int id, Date payDate, Double ammountPaid, String obs) {
+    public ServiceSale(int id, Date payDate, Double amountPaid, String obs) {
         this.id = id;
         this.payDate = payDate;
-        this.ammountPaid = ammountPaid;
+        this.amountPaid = amountPaid;
         this.obs = obs;
     }
 
@@ -48,10 +48,10 @@ public class ServiceSale {
     }
 
     /**
-     * @return the ammountPaid
+     * @return the amountPaid
      */
-    public Double getAmmountPaid() {
-        return ammountPaid;
+    public Double getAmountPaid() {
+        return amountPaid;
     }
 
     /**
@@ -76,10 +76,10 @@ public class ServiceSale {
     }
 
     /**
-     * @param ammountPaid the ammountPaid to set
+     * @param amountPaid the amountPaid to set
      */
-    public void setAmmountPaid(Double ammountPaid) {
-        this.ammountPaid = ammountPaid;
+    public void setAmountPaid(Double amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
     /**

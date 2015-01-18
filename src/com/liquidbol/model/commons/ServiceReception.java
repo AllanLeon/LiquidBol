@@ -8,9 +8,6 @@ package com.liquidbol.model.commons;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Class that represents a service reception.
@@ -20,32 +17,30 @@ public class ServiceReception {
     
     private int id;
     private Service service;
+    private RechargeableItem item;
     private Date receptionDate;
     private Timestamp deliverTime;
-    private Double ammountPaid;
-    private Double totalAmmount;
+    private Double totalAmount;
     private String obs;
-    private Collection<ServiceSale> sales;
 
     /**
      * Constructor method.
      * @param id
      * @param service
+     * @param item
      * @param receptionDate
      * @param deliverTime
-     * @param ammountPaid
-     * @param totalAmmount
+     * @param totalAmount
      * @param obs 
      */
-    public ServiceReception(int id, Service service, Date receptionDate, Timestamp deliverTime, Double ammountPaid, Double totalAmmount, String obs) {
+    public ServiceReception(int id, Service service, RechargeableItem item, Date receptionDate, Timestamp deliverTime, Double totalAmount, String obs) {
         this.id = id;
         this.service = service;
+        this.item = item;
         this.receptionDate = receptionDate;
         this.deliverTime = deliverTime;
-        this.ammountPaid = ammountPaid;
-        this.totalAmmount = totalAmmount;
+        this.totalAmount = totalAmount;
         this.obs = obs;
-        this.sales = new HashSet<>();
     }
 
     /**
@@ -63,6 +58,13 @@ public class ServiceReception {
     }
 
     /**
+     * @return the item
+     */
+    public RechargeableItem getItem() {
+        return item;
+    }
+
+    /**
      * @return the receptionDate
      */
     public Date getReceptionDate() {
@@ -77,17 +79,10 @@ public class ServiceReception {
     }
 
     /**
-     * @return the ammountPaid
+     * @return the totalAmount
      */
-    public Double getAmmountPaid() {
-        return ammountPaid;
-    }
-
-    /**
-     * @return the totalAmmount
-     */
-    public Double getTotalAmmount() {
-        return totalAmmount;
+    public Double getTotalAmount() {
+        return totalAmount;
     }
 
     /**
@@ -112,6 +107,13 @@ public class ServiceReception {
     }
 
     /**
+     * @param item the item to set
+     */
+    public void setItem(RechargeableItem item) {
+        this.item = item;
+    }
+
+    /**
      * @param receptionDate the receptionDate to set
      */
     public void setReceptionDate(Date receptionDate) {
@@ -126,17 +128,10 @@ public class ServiceReception {
     }
 
     /**
-     * @param ammountPaid the ammountPaid to set
+     * @param totalAmount the totalAmount to set
      */
-    public void setAmmountPaid(Double ammountPaid) {
-        this.ammountPaid = ammountPaid;
-    }
-
-    /**
-     * @param totalAmmount the totalAmmount to set
-     */
-    public void setTotalAmmount(Double totalAmmount) {
-        this.totalAmmount = totalAmmount;
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     /**
@@ -146,33 +141,10 @@ public class ServiceReception {
         this.obs = obs;
     }
     
-    public int getNumberOfSales() {
-        return sales.size();
-    }
-    
-    public Collection<ServiceSale> getAllSales() {
-        return sales;
-    }
-    
-    public Collection<ServiceSale> findSalesBetweenDates(Date startDate, Date endDate) {
-        Set<ServiceSale> result = new HashSet<>();
-        for (ServiceSale sale : sales) {
-            Date paymentDate = sale.getPayDate();
-            if (paymentDate.compareTo(startDate) >= 0 && paymentDate.compareTo(endDate) <= 0) {
-                result.add(sale);
-            }
-        }
-        return result;
-    }
-    
-    public void addSale(ServiceSale sale) {
-        sales.add(sale);
-    }
-
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 73 * hash + this.id;
+        hash = 73 * hash + this.getId();
         return hash;
     }
 
@@ -185,7 +157,7 @@ public class ServiceReception {
             return false;
         }
         final ServiceReception other = (ServiceReception) obj;
-        if (this.id != other.id) {
+        if (this.getId() != other.getId()) {
             return false;
         }
         return true;
