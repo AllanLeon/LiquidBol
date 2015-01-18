@@ -29,6 +29,18 @@ public class ServiceBill extends Bill {
         super(id, employee, date, obs);
         this.serviceReceptions = new HashSet<>();
     }
+
+    /**
+     * Constructor method with amount.
+     * @param id
+     * @param employee
+     * @param date
+     * @param totalAmount
+     * @param obs 
+     */
+    public ServiceBill(int id, Employee employee, Date date, Double totalAmount, String obs) {
+        super(id, employee, date, totalAmount, obs);
+    }
     
     public int getNumberOfServiceReceptions() {
         return serviceReceptions.size();

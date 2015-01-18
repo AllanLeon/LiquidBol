@@ -32,12 +32,12 @@ public class ItemRequestCrud implements DBCrud<ItemRequest> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_requests(itemestimate_id, item_id, "
-                    + "quantity, total_ammount) VALUES(?,?,?,?)";
+                    + "quantity, total_amount) VALUES(?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, 0);
             statement.setString(2, element.getItem().getId());
             statement.setInt(3, element.getQuantity());
-            statement.setDouble(4, element.getAmmount());
+            statement.setDouble(4, element.getAmount());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("item request was not saved");
@@ -89,12 +89,12 @@ public class ItemRequestCrud implements DBCrud<ItemRequest> {
     @Override
     public ItemRequest merge(ItemRequest element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE item_requests SET quantity=?, total_ammount=? "
+            String query = "UPDATE item_requests SET quantity=?, total_amount=? "
                     + "WHERE itemrequest_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setInt(1, element.getQuantity());
-            statement.setDouble(2, element.getAmmount());
+            statement.setDouble(2, element.getAmount());
             statement.setInt(3, element.getId());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -148,8 +148,9 @@ public class ItemRequestCrud implements DBCrud<ItemRequest> {
         int id = resultSet.getInt(1);
         Item item = null;
         int quantity = resultSet.getInt(4);
+        Double amount = resultSet.getDouble(5);
         LOG.log(Level.FINE, "Creating item request %d", id);
-        ItemRequest result = new ItemRequest(id, item, quantity);
+        ItemRequest result = new ItemRequest(id, item, quantity, amount);
         return result;
     }
 }

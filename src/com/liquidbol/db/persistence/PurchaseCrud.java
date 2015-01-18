@@ -31,11 +31,11 @@ public class PurchaseCrud implements DBCrud<Purchase> {
     public Purchase save(Purchase element) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO purchases(supplier_id, total_ammount, "
+            String insert = "INSERT INTO purchases(supplier_id, total_amount, "
                     + "purchase_date) VALUES(?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, 0);
-            statement.setDouble(2, element.getTotalAmmount());
+            statement.setDouble(2, element.getTotalAmount());
             statement.setDate(3, element.getDate());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -88,11 +88,11 @@ public class PurchaseCrud implements DBCrud<Purchase> {
     @Override
     public Purchase merge(Purchase element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE purchases SET total_ammount=?, purchase_date=? "
+            String query = "UPDATE purchases SET total_amount=?, purchase_date=? "
                     + "WHERE purchase_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
-            statement.setDouble(1, element.getTotalAmmount());
+            statement.setDouble(1, element.getTotalAmount());
             statement.setDate(2, element.getDate());
             statement.setInt(3, element.getId());
             int rowsAffected = statement.executeUpdate();

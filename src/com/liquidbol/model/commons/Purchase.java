@@ -18,7 +18,7 @@ import java.util.Set;
 public class Purchase {
     
     private int id;
-    private Double totalAmmount;
+    private Double totalAmount;
     private Date date;
     private Collection<ItemPurchase> itemPurchases;
 
@@ -29,9 +29,21 @@ public class Purchase {
      */
     public Purchase(int id, Date date) {
         this.id = id;
-        this.totalAmmount = 0.0;
+        this.totalAmount = 0.0;
         this.date = date;
         this.itemPurchases = new HashSet<>();
+    }
+
+    /**
+     * Constructor method with amount.
+     * @param id
+     * @param totalAmount
+     * @param date 
+     */
+    public Purchase(int id, Double totalAmount, Date date) {
+        this.id = id;
+        this.totalAmount = totalAmount;
+        this.date = date;
     }
 
     /**
@@ -42,10 +54,10 @@ public class Purchase {
     }
 
     /**
-     * @return the totalAmmount
+     * @return the totalAmount
      */
-    public Double getTotalAmmount() {
-        return totalAmmount;
+    public Double getTotalAmount() {
+        return totalAmount;
     }
 
     /**
@@ -74,10 +86,10 @@ public class Purchase {
     }
 
     /**
-     * @param totalAmmount the totalAmmount to set
+     * @param totalAmount the totalAmount to set
      */
-    public void setTotalAmmount(Double totalAmmount) {
-        this.totalAmmount = totalAmmount;
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     /**

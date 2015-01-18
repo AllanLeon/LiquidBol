@@ -19,22 +19,22 @@ import java.util.Set;
 public class Debt {
     
     private int id;
-    private Double ammount;
-    private Double maxAmmount;
+    private Double amount;
+    private Double maxAmount;
     private Date limitDate;
     private Collection<DebtPayment> payments;
 
     /**
      * Constructor method that includes all the variables as parameters
      * @param id
-     * @param ammount
-     * @param maxAmmount
+     * @param amount
+     * @param maxAmount
      * @param limitDate 
      */
-    public Debt(int id, Double ammount, Double maxAmmount, Date limitDate) {
+    public Debt(int id, Double amount, Double maxAmount, Date limitDate) {
         this.id = id;
-        this.ammount = ammount;
-        this.maxAmmount = maxAmmount;
+        this.amount = amount;
+        this.maxAmount = maxAmount;
         this.limitDate = limitDate;
         this.payments = new HashSet<>();
     }
@@ -47,17 +47,17 @@ public class Debt {
     }
 
     /**
-     * @return the ammount
+     * @return the amount
      */
-    public Double getAmmount() {
-        return ammount;
+    public Double getAmount() {
+        return amount;
     }
 
     /**
-     * @return the maxAmmount
+     * @return the maxAmount
      */
-    public Double getMaxAmmount() {
-        return maxAmmount;
+    public Double getMaxAmount() {
+        return maxAmount;
     }
 
     /**
@@ -75,17 +75,17 @@ public class Debt {
     }
 
     /**
-     * @param ammount the ammount to set
+     * @param amount the amount to set
      */
-    public void setAmmount(Double ammount) {
-        this.ammount = ammount;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     /**
-     * @param maxAmmount the maxAmmount to set
+     * @param maxAmount the maxAmount to set
      */
-    public void setMaxAmmount(Double maxAmmount) {
-        this.maxAmmount = maxAmmount;
+    public void setMaxAmount(Double maxAmount) {
+        this.maxAmount = maxAmount;
     }
 
     /**
@@ -128,7 +128,7 @@ public class Debt {
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + this.id;
-        hash = 79 * hash + Objects.hashCode(this.ammount);
+        hash = 79 * hash + Objects.hashCode(this.amount);
         hash = 79 * hash + Objects.hashCode(this.limitDate);
         return hash;
     }
@@ -145,7 +145,7 @@ public class Debt {
         if (this.id != other.id) {
             return false;
         }
-        if (!Objects.equals(this.ammount, other.ammount)) {
+        if (!Objects.equals(this.amount, other.amount)) {
             return false;
         }
         if (!Objects.equals(this.limitDate, other.limitDate)) {

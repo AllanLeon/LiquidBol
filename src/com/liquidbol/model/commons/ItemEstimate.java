@@ -20,7 +20,7 @@ public class ItemEstimate {
     private Store store;
     private Date requestDate;
     private Date limitDate;
-    private Double totalAmmount;
+    private Double totalAmount;
     private String obs;
     private Collection<ItemRequest> requests;
 
@@ -30,15 +30,15 @@ public class ItemEstimate {
      * @param store
      * @param requestDate
      * @param limitDate
-     * @param totalAmmount
+     * @param totalAmount
      * @param obs 
      */
-    public ItemEstimate(int id, Store store, Date requestDate, Date limitDate, Double totalAmmount, String obs) {
+    public ItemEstimate(int id, Store store, Date requestDate, Date limitDate, Double totalAmount, String obs) {
         this.id = id;
         this.store = store;
         this.requestDate = requestDate;
         this.limitDate = limitDate;
-        this.totalAmmount = totalAmmount;
+        this.totalAmount = totalAmount;
         this.obs = obs;
         this.requests = new HashSet<>();
     }
@@ -72,10 +72,10 @@ public class ItemEstimate {
     }
 
     /**
-     * @return the totalAmmount
+     * @return the totalAmount
      */
-    public Double getTotalAmmount() {
-        return totalAmmount;
+    public Double getTotalAmount() {
+        return totalAmount;
     }
 
     /**
@@ -114,10 +114,10 @@ public class ItemEstimate {
     }
 
     /**
-     * @param totalAmmount the totalAmmount to set
+     * @param totalAmount the totalAmount to set
      */
-    public void setTotalAmmount(Double totalAmmount) {
-        this.totalAmmount = totalAmmount;
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     /**

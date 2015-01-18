@@ -32,12 +32,12 @@ public class SupplierDebtCrud implements DBCrud<Debt>{
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO supplier_debts(supplier_id,"
-                    + "ammount, limit_date, max_ammount) VALUES(?, ?, ?, ?)";
+                    + "amount, limit_date, max_amount) VALUES(?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, debt.getId());
-            statement.setDouble(2, debt.getAmmount());
+            statement.setDouble(2, debt.getAmount());
             statement.setDate(3, debt.getLimitDate());
-            statement.setDouble(4, debt.getMaxAmmount());
+            statement.setDouble(4, debt.getMaxAmount());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("Supplier debt was not saved");
@@ -89,12 +89,12 @@ public class SupplierDebtCrud implements DBCrud<Debt>{
     @Override
     public Debt merge(Debt debt) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE supplier_debts SET ammount=?, limit_date=?, max_ammount=? WHERE debt_id=?";
+            String query = "UPDATE supplier_debts SET amount=?, limit_date=?, max_amount=? WHERE debt_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
-            statement.setDouble(1, debt.getAmmount());
+            statement.setDouble(1, debt.getAmount());
             statement.setDate(2, debt.getLimitDate());
-            statement.setDouble(3, debt.getMaxAmmount());
+            statement.setDouble(3, debt.getMaxAmount());
             statement.setInt(4, debt.getId());
             return debt;
         } catch (SQLException ex) {
@@ -142,11 +142,11 @@ public class SupplierDebtCrud implements DBCrud<Debt>{
     @Override
     public Debt createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Double ammount = resultSet.getDouble(3);
+        Double amount = resultSet.getDouble(3);
         Date limitDate = resultSet.getDate(4);
-        Double maxAmmount = resultSet.getDouble(5);
+        Double maxAmount = resultSet.getDouble(5);
         LOG.log(Level.FINE, "Creating supplier debt %d", id);
-        Debt result = new Debt(id, ammount, maxAmmount, limitDate);
+        Debt result = new Debt(id, amount, maxAmount, limitDate);
         return result;
     }
 }

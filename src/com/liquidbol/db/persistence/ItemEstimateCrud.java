@@ -33,13 +33,13 @@ public class ItemEstimateCrud implements DBCrud<ItemEstimate> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_estimates(client_id, store_id, "
-                    + "request_date, limit_date, total_ammount, obs) VALUES(?,?,?,?,?,?)";
+                    + "request_date, limit_date, total_amount, obs) VALUES(?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, 0);
             statement.setInt(2, element.getStore().getId());
             statement.setDate(3, element.getRequestDate());
             statement.setDate(4, element.getLimitDate());
-            statement.setDouble(5, element.getTotalAmmount());
+            statement.setDouble(5, element.getTotalAmount());
             statement.setString(6, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -93,12 +93,12 @@ public class ItemEstimateCrud implements DBCrud<ItemEstimate> {
     public ItemEstimate merge(ItemEstimate element) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE item_estimates SET request_date=?, limit_date=?, "
-                    + "total_ammount=?, obs=? WHERE itemestimate_id=?";
+                    + "total_amount=?, obs=? WHERE itemestimate_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, element.getRequestDate());
             statement.setDate(2, element.getLimitDate());
-            statement.setDouble(3, element.getTotalAmmount());
+            statement.setDouble(3, element.getTotalAmount());
             statement.setString(4, element.getObs());
             statement.setInt(5, element.getId());
             int rowsAffected = statement.executeUpdate();
@@ -154,10 +154,10 @@ public class ItemEstimateCrud implements DBCrud<ItemEstimate> {
         Store store = null;
         Date requestDate = resultSet.getDate(4);
         Date limitDate = resultSet.getDate(5);
-        Double totalAmmount = resultSet.getDouble(6);
+        Double totalAmount = resultSet.getDouble(6);
         String obs = resultSet.getString(7);
         LOG.log(Level.FINE, "Creating item estimate %d", id);
-        ItemEstimate result = new ItemEstimate(id, store, requestDate, limitDate, totalAmmount, obs);
+        ItemEstimate result = new ItemEstimate(id, store, requestDate, limitDate, totalAmount, obs);
         return result;
     }
 }

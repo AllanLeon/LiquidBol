@@ -37,6 +37,22 @@ public class ItemBill extends Bill {
     }
 
     /**
+     * Constructor method with amount.
+     * @param store
+     * @param route
+     * @param id
+     * @param employee
+     * @param date
+     * @param totalAmount
+     * @param obs 
+     */
+    public ItemBill(int id, Employee employee, Date date, Double totalAmount, String obs, Store store, boolean route) {
+        super(id, employee, date, totalAmount, obs);
+        this.store = store;
+        this.route = route;
+    }
+
+    /**
      * @return the store
      */
     public Store getStore() {

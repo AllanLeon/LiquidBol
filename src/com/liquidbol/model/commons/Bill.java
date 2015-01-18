@@ -19,7 +19,7 @@ public class Bill {
     private int id;
     private Employee employee;
     private Date date;
-    private Double totalAmmount;
+    private Double totalAmount;
     private String obs;
     private Collection<BillPayment> payments;
 
@@ -34,9 +34,25 @@ public class Bill {
         this.id = id;
         this.employee = employee;
         this.date = date;
-        this.totalAmmount = 0.0;
+        this.totalAmount = 0.0;
         this.obs = obs;
         this.payments = new HashSet<>();
+    }
+
+    /**
+     * Constructor method with amount.
+     * @param id
+     * @param employee
+     * @param date
+     * @param totalAmount
+     * @param obs 
+     */
+    public Bill(int id, Employee employee, Date date, Double totalAmount, String obs) {
+        this.id = id;
+        this.employee = employee;
+        this.date = date;
+        this.totalAmount = totalAmount;
+        this.obs = obs;
     }
 
     /**
@@ -61,10 +77,10 @@ public class Bill {
     }
 
     /**
-     * @return the totalAmmount
+     * @return the totalAmount
      */
-    public Double getTotalAmmount() {
-        return totalAmmount;
+    public Double getTotalAmount() {
+        return totalAmount;
     }
 
     /**
@@ -96,10 +112,10 @@ public class Bill {
     }
 
     /**
-     * @param totalAmmount the totalAmmount to set
+     * @param totalAmount the totalAmount to set
      */
-    public void setTotalAmmount(Double totalAmmount) {
-        this.totalAmmount = totalAmmount;
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
     }
     
     public int getNumberOfPayments() {

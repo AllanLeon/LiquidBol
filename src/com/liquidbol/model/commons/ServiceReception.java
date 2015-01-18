@@ -20,7 +20,7 @@ public class ServiceReception {
     private RechargeableItem item;
     private Date receptionDate;
     private Timestamp deliverTime;
-    private Double totalAmmount;
+    private Double totalAmount;
     private String obs;
 
     /**
@@ -30,16 +30,16 @@ public class ServiceReception {
      * @param item
      * @param receptionDate
      * @param deliverTime
-     * @param totalAmmount
+     * @param totalAmount
      * @param obs 
      */
-    public ServiceReception(int id, Service service, RechargeableItem item, Date receptionDate, Timestamp deliverTime, Double totalAmmount, String obs) {
+    public ServiceReception(int id, Service service, RechargeableItem item, Date receptionDate, Timestamp deliverTime, Double totalAmount, String obs) {
         this.id = id;
         this.service = service;
         this.item = item;
         this.receptionDate = receptionDate;
         this.deliverTime = deliverTime;
-        this.totalAmmount = totalAmmount;
+        this.totalAmount = totalAmount;
         this.obs = obs;
     }
 
@@ -79,10 +79,10 @@ public class ServiceReception {
     }
 
     /**
-     * @return the totalAmmount
+     * @return the totalAmount
      */
-    public Double getTotalAmmount() {
-        return totalAmmount;
+    public Double getTotalAmount() {
+        return totalAmount;
     }
 
     /**
@@ -128,10 +128,10 @@ public class ServiceReception {
     }
 
     /**
-     * @param totalAmmount the totalAmmount to set
+     * @param totalAmount the totalAmount to set
      */
-    public void setTotalAmmount(Double totalAmmount) {
-        this.totalAmmount = totalAmmount;
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     /**

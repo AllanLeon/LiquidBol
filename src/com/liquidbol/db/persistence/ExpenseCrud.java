@@ -32,12 +32,12 @@ public class ExpenseCrud implements DBCrud<Expense> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO expenses(store_id, pay_date, description, "
-                    + "ammount, obs) VALUES(?,?,?,?,?)";
+                    + "amount, obs) VALUES(?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, 0);
             statement.setDate(2, element.getPayDate());
             statement.setString(3, element.getDescription());
-            statement.setDouble(4, element.getAmmount());
+            statement.setDouble(4, element.getAmount());
             statement.setString(5, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -91,12 +91,12 @@ public class ExpenseCrud implements DBCrud<Expense> {
     public Expense merge(Expense element) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE expenses SET pay_date=?, description=?, "
-                    + "ammount=?, obs=? WHERE expense_id=?";
+                    + "amount=?, obs=? WHERE expense_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, element.getPayDate());
             statement.setString(2, element.getDescription());
-            statement.setDouble(3, element.getAmmount());
+            statement.setDouble(3, element.getAmount());
             statement.setString(4, element.getObs());
             statement.setInt(5, element.getId());
             int rowsAffected = statement.executeUpdate();
@@ -151,10 +151,10 @@ public class ExpenseCrud implements DBCrud<Expense> {
         int id = resultSet.getInt(1);
         Date payDate = resultSet.getDate(3);
         String description = resultSet.getString(4);
-        Double ammount = resultSet.getDouble(5);
+        Double amount = resultSet.getDouble(5);
         String obs = resultSet.getString(6);
         LOG.log(Level.FINE, "Creating expense %d", id);
-        Expense result = new Expense(id, payDate, description, ammount, obs);
+        Expense result = new Expense(id, payDate, description, amount, obs);
         return result;
     }
 }

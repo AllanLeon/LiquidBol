@@ -15,7 +15,7 @@ public class ItemSale {
     private int id;
     private Item item;
     private int quantity;
-    private Double ammount;
+    private Double amount;
     private String obs;
 
     /**
@@ -30,7 +30,23 @@ public class ItemSale {
         this.item = item;
         this.quantity = quantity;
         this.obs = obs;
-        this.ammount = item.getPrice() * quantity;
+        this.amount = item.getPrice() * quantity;
+    }
+
+    /**
+     * Constructor method with amount.
+     * @param id
+     * @param item
+     * @param quantity
+     * @param amount
+     * @param obs 
+     */
+    public ItemSale(int id, Item item, int quantity, Double amount, String obs) {
+        this.id = id;
+        this.item = item;
+        this.quantity = quantity;
+        this.amount = amount;
+        this.obs = obs;
     }
 
     /**
@@ -55,10 +71,10 @@ public class ItemSale {
     }
 
     /**
-     * @return the ammount
+     * @return the amount
      */
-    public Double getAmmount() {
-        return ammount;
+    public Double getAmount() {
+        return amount;
     }
 
     /**
@@ -90,10 +106,10 @@ public class ItemSale {
     }
 
     /**
-     * @param ammount the ammount to set
+     * @param amount the amount to set
      */
-    public void setAmmount(Double ammount) {
-        this.ammount = ammount;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     /**

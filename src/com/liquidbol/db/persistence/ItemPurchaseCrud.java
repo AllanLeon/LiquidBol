@@ -33,12 +33,12 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_purchases(item_id, purchase_id, quantity, "
-                    + "total_ammount) VALUES(?, ?, ?, ?)";
+                    + "total_amount) VALUES(?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, purchase.getItem().getId());
             statement.setInt(2, 0);
             statement.setInt(3, purchase.getQuantity());
-            statement.setDouble(4, purchase.getAmmount());
+            statement.setDouble(4, purchase.getAmount());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("Item purchase was not saved");
@@ -90,12 +90,12 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
     @Override
     public ItemPurchase merge(ItemPurchase purchase) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE item_purchases SET quantity=?, total_ammount=? "
+            String query = "UPDATE item_purchases SET quantity=?, total_amount=? "
                     + "WHERE item_purchase_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setInt(1, purchase.getQuantity());
-            statement.setDouble(2, purchase.getAmmount());
+            statement.setDouble(2, purchase.getAmount());
             statement.setInt(3, purchase.getId());
             return purchase;
         } catch (SQLException ex) {
@@ -145,8 +145,9 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
         int id = resultSet.getInt(1);
         Item item = null;
         int quantity = resultSet.getInt(4);
+        Double amount = resultSet.getDouble(5);
         LOG.log(Level.FINE, "Creating purchase %d", id);
-        ItemPurchase result = new ItemPurchase(id, item, quantity);
+        ItemPurchase result = new ItemPurchase(id, item, quantity, amount);
         return result;
     }
 }

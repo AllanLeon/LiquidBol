@@ -32,12 +32,12 @@ public class ItemSaleCrud implements DBCrud<ItemSale> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_sales(itembill_id, item_id, quantity, "
-                    + "total_ammount, obs) VALUES(?,?,?,?,?)";
+                    + "total_amount, obs) VALUES(?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, 0);
             statement.setString(2, element.getItem().getId());
             statement.setInt(3, element.getQuantity());
-            statement.setDouble(4, element.getAmmount());
+            statement.setDouble(4, element.getAmount());
             statement.setString(5, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -90,12 +90,12 @@ public class ItemSaleCrud implements DBCrud<ItemSale> {
     @Override
     public ItemSale merge(ItemSale element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE item_sales SET quantity=?, total_ammount=?, "
+            String query = "UPDATE item_sales SET quantity=?, total_amount=?, "
                     + "obs=? WHERE itemsale_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setInt(1, element.getQuantity());
-            statement.setDouble(2, element.getAmmount());
+            statement.setDouble(2, element.getAmount());
             statement.setString(3, element.getObs());
             statement.setInt(4, element.getId());
             int rowsAffected = statement.executeUpdate();
@@ -150,9 +150,10 @@ public class ItemSaleCrud implements DBCrud<ItemSale> {
         int id = resultSet.getInt(1);
         Item item = null;
         int quantity = resultSet.getInt(4);
+        Double amount = resultSet.getDouble(5);
         String obs = resultSet.getString(6);
         LOG.log(Level.FINE, "Creating item sale %d", id);
-        ItemSale result = new ItemSale(id, item, quantity, obs);
+        ItemSale result = new ItemSale(id, item, quantity, amount, obs);
         return result;
     }
 }

@@ -15,18 +15,18 @@ import java.sql.Date;
 public class CXCC {
     
     private int id;
-    private Double ammountPaid;
+    private Double amountPaid;
     private Date payDate;
 
     /**
      * Constructor method.
      * @param id
-     * @param ammountPaid
+     * @param amountPaid
      * @param payDate 
      */
-    public CXCC(int id, Double ammountPaid, Date payDate) {
+    public CXCC(int id, Double amountPaid, Date payDate) {
         this.id = id;
-        this.ammountPaid = ammountPaid;
+        this.amountPaid = amountPaid;
         this.payDate = payDate;
     }
 
@@ -38,10 +38,10 @@ public class CXCC {
     }
 
     /**
-     * @return the ammountPaid
+     * @return the amountPaid
      */
-    public Double getAmmountPaid() {
-        return ammountPaid;
+    public Double getAmountPaid() {
+        return amountPaid;
     }
 
     /**
@@ -59,10 +59,10 @@ public class CXCC {
     }
 
     /**
-     * @param ammountPaid the ammountPaid to set
+     * @param amountPaid the amountPaid to set
      */
-    public void setAmmountPaid(Double ammountPaid) {
-        this.ammountPaid = ammountPaid;
+    public void setAmountPaid(Double amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
     /**

@@ -33,12 +33,12 @@ public class ServicePaymentCrud implements DBCrud<BillPayment> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO service_payments(servicebill_id, "
-                    + "employee_id, pay_date, ammount_paid, obs) VALUES(?,?,?,?,?)";
+                    + "employee_id, pay_date, amount_paid, obs) VALUES(?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, 0);
             statement.setInt(2, element.getEmployee().getId());
             statement.setDate(3, element.getPayDate());
-            statement.setDouble(4, element.getAmmountPaid());
+            statement.setDouble(4, element.getAmountPaid());
             statement.setString(5, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -91,12 +91,12 @@ public class ServicePaymentCrud implements DBCrud<BillPayment> {
     @Override
     public BillPayment merge(BillPayment element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE service_payments SET pay_date=?, ammount_paid=?, "
+            String query = "UPDATE service_payments SET pay_date=?, amount_paid=?, "
                     + "obs=? WHERE servicepayment_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, element.getPayDate());
-            statement.setDouble(2, element.getAmmountPaid());
+            statement.setDouble(2, element.getAmountPaid());
             statement.setString(3, element.getObs());
             statement.setInt(4, element.getId());
             int rowsAffected = statement.executeUpdate();
@@ -151,10 +151,10 @@ public class ServicePaymentCrud implements DBCrud<BillPayment> {
         int id = resultSet.getInt(1);
         Employee employee = null;
         Date payDate = resultSet.getDate(4);
-        Double ammountPaid = resultSet.getDouble(5);
+        Double amountPaid = resultSet.getDouble(5);
         String obs = resultSet.getString(6);
         LOG.log(Level.FINE, "Creating service payment %d", id);
-        BillPayment result = new BillPayment(id, employee, payDate, ammountPaid, obs);
+        BillPayment result = new BillPayment(id, employee, payDate, amountPaid, obs);
         return result;
     }
 }

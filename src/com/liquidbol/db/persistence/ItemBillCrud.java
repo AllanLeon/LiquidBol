@@ -34,13 +34,13 @@ public class ItemBillCrud implements DBCrud<ItemBill> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_bills(client_id, store_id, employee_id, "
-                    + "bill_date, total_ammount, is_route, obs) VALUES(?,?,?,?,?,?,?)";
+                    + "bill_date, total_amount, is_route, obs) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, 0);
             statement.setInt(2, element.getStore().getId());
             statement.setInt(3, element.getEmployee().getId());
             statement.setDate(4, element.getDate());
-            statement.setDouble(5, element.getTotalAmmount());
+            statement.setDouble(5, element.getTotalAmount());
             statement.setBoolean(6, element.isRoute());
             statement.setString(7, element.getObs());
             int rowsAffected = statement.executeUpdate();
@@ -94,12 +94,12 @@ public class ItemBillCrud implements DBCrud<ItemBill> {
     @Override
     public ItemBill merge(ItemBill element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE item_bills SET bill_date=?, total_ammount=?, "
+            String query = "UPDATE item_bills SET bill_date=?, total_amount=?, "
                     + "is_route=?, obs=? WHERE itembill_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, element.getDate());
-            statement.setDouble(2, element.getTotalAmmount());
+            statement.setDouble(2, element.getTotalAmount());
             statement.setBoolean(3, element.isRoute());
             statement.setString(4, element.getObs());
             statement.setInt(5, element.getId());
@@ -156,11 +156,11 @@ public class ItemBillCrud implements DBCrud<ItemBill> {
         Store store = null;
         Employee employee = null;
         Date date = resultSet.getDate(5);
-        Double totalAmmount = resultSet.getDouble(6);
+        Double totalAmount = resultSet.getDouble(6);
         boolean route = resultSet.getBoolean(7);
         String obs = resultSet.getString(8);
         LOG.log(Level.FINE, "Creating item bill %d", id);
-        ItemBill result = new ItemBill(id, employee, date, obs, store, route);
+        ItemBill result = new ItemBill(id, employee, date, totalAmount, obs, store, route);
         return result;
     }
 }

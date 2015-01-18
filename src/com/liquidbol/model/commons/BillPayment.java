@@ -17,7 +17,7 @@ public class BillPayment {
     private int id;
     private Employee employee;
     private Date payDate;
-    private Double ammountPaid;
+    private Double amountPaid;
     private String obs;
 
     /**
@@ -25,14 +25,14 @@ public class BillPayment {
      * @param id
      * @param employee
      * @param payDate
-     * @param ammountPaid
+     * @param amountPaid
      * @param obs 
      */
-    public BillPayment(int id, Employee employee, Date payDate, Double ammountPaid, String obs) {
+    public BillPayment(int id, Employee employee, Date payDate, Double amountPaid, String obs) {
         this.id = id;
         this.employee = employee;
         this.payDate = payDate;
-        this.ammountPaid = ammountPaid;
+        this.amountPaid = amountPaid;
         this.obs = obs;
     }
 
@@ -58,10 +58,10 @@ public class BillPayment {
     }
 
     /**
-     * @return the ammountPaid
+     * @return the amountPaid
      */
-    public Double getAmmountPaid() {
-        return ammountPaid;
+    public Double getAmountPaid() {
+        return amountPaid;
     }
 
     /**
@@ -93,10 +93,10 @@ public class BillPayment {
     }
 
     /**
-     * @param ammountPaid the ammountPaid to set
+     * @param amountPaid the amountPaid to set
      */
-    public void setAmmountPaid(Double ammountPaid) {
-        this.ammountPaid = ammountPaid;
+    public void setAmountPaid(Double amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
     /**

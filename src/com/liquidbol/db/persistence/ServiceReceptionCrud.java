@@ -36,14 +36,14 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO service_receptions(servicebill_id, "
                     + "service_id, rechargeableitem_id, reception_date, "
-                    + "deliver_time, total_ammount, obs) VALUES(?,?,?,?,?,?,?)";
+                    + "deliver_time, total_amount, obs) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, 0);
             statement.setString(2, element.getService().getId());
             statement.setString(3, element.getItem().getId());
             statement.setDate(4, element.getReceptionDate());
             statement.setTimestamp(5, element.getDeliverTime());
-            statement.setDouble(6, element.getTotalAmmount());
+            statement.setDouble(6, element.getTotalAmount());
             statement.setString(7, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -97,12 +97,12 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
     public ServiceReception merge(ServiceReception element) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE service_receptions SET reception_date=?, "
-                    + "deliver_time=?, total_ammount=?, obs=? WHERE servicereception_id=?";
+                    + "deliver_time=?, total_amount=?, obs=? WHERE servicereception_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, element.getReceptionDate());
             statement.setTimestamp(2, element.getDeliverTime());
-            statement.setDouble(3, element.getTotalAmmount());
+            statement.setDouble(3, element.getTotalAmount());
             statement.setString(4, element.getObs());
             statement.setInt(1, element.getId());
             int rowsAffected = statement.executeUpdate();
@@ -159,10 +159,10 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
         RechargeableItem item = null;
         Date receptionDate = resultSet.getDate(5);
         Timestamp deliverTime = resultSet.getTimestamp(6);
-        Double ammount = resultSet.getDouble(7);
+        Double amount = resultSet.getDouble(7);
         String obs = resultSet.getString(8);
         LOG.log(Level.FINE, "Creating service reception %d", id);
-        ServiceReception result = new ServiceReception(id, service, item, receptionDate, deliverTime, ammount, obs);
+        ServiceReception result = new ServiceReception(id, service, item, receptionDate, deliverTime, amount, obs);
         return result;
     }
 }
