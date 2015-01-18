@@ -6,7 +6,8 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.Purchase;
+import com.liquidbol.model.commons.BillPayment;
+import com.liquidbol.model.commons.Employee;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -18,34 +19,36 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class responsible of all persistence operations related to purchases.
+ * Class responsible of all persistence operations related to item payments.
  * @author Allan Leon
  */
-public class PurchaseCrud implements DBCrud<Purchase> {
+public class ItemPaymentCrud implements DBCrud<BillPayment> {
     
-    private static final Logger LOG = Logger.getLogger(PurchaseCrud.class.getName());
+    private static final Logger LOG = Logger.getLogger(ItemPaymentCrud.class.getName());
 
     private Connection connection;
-
+    
     @Override
-    public Purchase save(Purchase element) throws PersistenceException, ClassNotFoundException {
+    public BillPayment save(BillPayment element) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO purchases(supplier_id, total_amount, "
-                    + "purchase_date) VALUES(?,?,?)";
+            String insert = "INSERT INTO item_payments(itembill_id, "
+                    + "employee_id, pay_date, amount_paid, obs) VALUES(?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, 0);
-            statement.setDouble(2, element.getTotalAmount());
-            statement.setDate(3, element.getDate());
+            statement.setInt(2, element.getEmployee().getId());
+            statement.setDate(3, element.getPayDate());
+            statement.setDouble(4, element.getAmountPaid());
+            statement.setString(5, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new PersistenceException("tableex was not saved");
+                throw new PersistenceException("item payment was not saved");
             }
-            LOG.info(String.format("tableex: %d successfuly saved", element.getId()));
+            LOG.info(String.format("item payment: %d successfuly saved", element.getId()));
             return element;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException(String.format("Failed to save tableex: %d", element.getId()), ex);
+            throw new PersistenceException(String.format("Failed to save item payment: %d", element.getId()), ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -56,14 +59,14 @@ public class PurchaseCrud implements DBCrud<Purchase> {
     }
 
     @Override
-    public Purchase find(String id) throws PersistenceException, ClassNotFoundException {
+    public BillPayment find(String id) throws PersistenceException, ClassNotFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Purchase find(int id) throws PersistenceException, ClassNotFoundException {
+    public BillPayment find(int id) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM purchases WHERE purchase_id = ?";
+            String query = "SELECT * FROM item_payments WHERE itempayment_id = ?";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
@@ -71,11 +74,11 @@ public class PurchaseCrud implements DBCrud<Purchase> {
             if (resultSet.next()) {
                 return createElementFromResultSet(resultSet);
             } else {
-                throw new PersistenceException(String.format("Couldn't find tableex with code %d", id));
+                throw new PersistenceException(String.format("Couldn't find item payment with code %d", id));
             }
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read tableex", ex);
+            throw new PersistenceException("Failed to read item payment", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -86,23 +89,24 @@ public class PurchaseCrud implements DBCrud<Purchase> {
     }
 
     @Override
-    public Purchase merge(Purchase element) throws PersistenceException, ClassNotFoundException {
+    public BillPayment merge(BillPayment element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE purchases SET total_amount=?, purchase_date=? "
-                    + "WHERE purchase_id=?";
+            String query = "UPDATE item_payments SET pay_date=?, amount_paid=?, "
+                    + "obs=? WHERE itempayment_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
-            statement.setDouble(1, element.getTotalAmount());
-            statement.setDate(2, element.getDate());
-            statement.setInt(3, element.getId());
+            statement.setDate(1, element.getPayDate());
+            statement.setDouble(2, element.getAmountPaid());
+            statement.setString(3, element.getObs());
+            statement.setInt(4, element.getId());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new PersistenceException("tableex was not updated");
+                throw new PersistenceException("item payment was not updated");
             }
             return element;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException(String.format("Failed to update tableex: %d", element.getId()), ex);
+            throw new PersistenceException(String.format("Failed to update item payment: %d", element.getId()), ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -113,21 +117,21 @@ public class PurchaseCrud implements DBCrud<Purchase> {
     }
 
     @Override
-    public Collection<Purchase> getAll() throws PersistenceException, ClassNotFoundException {
+    public Collection<BillPayment> getAll() throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM purchases";
+            String query = "SELECT * FROM item_payments";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
-            Collection<Purchase> result = new HashSet<>();
+            Collection<BillPayment> result = new HashSet<>();
             while (resultSet.next()) {
-                Purchase element = createElementFromResultSet(resultSet);
+                BillPayment element = createElementFromResultSet(resultSet);
                 result.add(element);
             }
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read the tableexs", ex);
+            throw new PersistenceException("Failed to read the item payments", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -138,16 +142,19 @@ public class PurchaseCrud implements DBCrud<Purchase> {
     }
 
     @Override
-    public Purchase refresh(Purchase element) throws PersistenceException, ClassNotFoundException {
+    public BillPayment refresh(BillPayment element) throws PersistenceException, ClassNotFoundException {
         return find(element.getId());
     }
 
     @Override
-    public Purchase createElementFromResultSet(ResultSet resultSet) throws SQLException {
+    public BillPayment createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Date date = resultSet.getDate(4);
-        LOG.log(Level.FINE, "Creating tableex %d", id);
-        Purchase result = new Purchase(id, date);
+        Employee employee = null;
+        Date payDate = resultSet.getDate(4);
+        Double amountPaid = resultSet.getDouble(5);
+        String obs = resultSet.getString(6);
+        LOG.log(Level.FINE, "Creating item payment %d", id);
+        BillPayment result = new BillPayment(id, employee, payDate, amountPaid, obs);
         return result;
     }
 }

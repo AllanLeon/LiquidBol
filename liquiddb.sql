@@ -16,9 +16,9 @@ CREATE TABLE supplier_debts (
     debt_id INTEGER NOT NULL PRIMARY KEY 
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     supplier_id INTEGER NOT NULL,
-    ammount REAL NOT NULL,
+    amount REAL NOT NULL,
     limit_date DATE,
-    max_ammount REAL NOT NULL,
+    max_amount REAL NOT NULL,
     CONSTRAINT debts_supplier_id_ref FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE debt_payments (
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     debt_id INTEGER NOT NULL,
     pay_date DATE NOT NULL,
-    ammount REAL NOT NULL,
+    amount REAL NOT NULL,
     CONSTRAINT payments_debt_id_ref FOREIGN KEY (debt_id) REFERENCES supplier_debts(debt_id)
 );
 
@@ -49,7 +49,7 @@ CREATE TABLE purchases (
     purchase_id INTEGER NOT NULL PRIMARY KEY 
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     supplier_id INTEGER NOT NULL,
-    total_ammount REAL NOT NULL,
+    total_amount REAL NOT NULL,
     purchase_date DATE NOT NULL,
     CONSTRAINT purchases_supplier_id_ref FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)
 )
@@ -60,7 +60,7 @@ CREATE TABLE item_purchases (
     item_id VARCHAR(10) NOT NULL,
     purchase_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL,
-    total_ammount REAL NOT NULL,
+    total_amount REAL NOT NULL,
     CONSTRAINT itempurchases_item_id_ref FOREIGN KEY (item_id) REFERENCES items(item_id),
     CONSTRAINT itempurchases_purchase_id_ref FOREIGN KEY (purchase_id) REFERENCES purchases(purchase_id)
 );
@@ -97,7 +97,7 @@ CREATE TABLE expenses (
     store_id INTEGER NOT NULL,
     pay_date DATE NOT NULL,
     description VARCHAR(100) NOT NULL,
-    ammount REAL NOT NULL,
+    amount REAL NOT NULL,
     obs VARCHAR(100),
     CONSTRAINT expenses_store_id_ref FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
@@ -136,7 +136,7 @@ CREATE TABLE employees_stores (
 CREATE TABLE clients (
     client_id INTEGER NOT NULL PRIMARY KEY 
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    client_name VARCHAR(30) NOT NULL,
+    client_name VARCHAR(30) NOT  NULL,
     client_lastname VARCHAR(30) NOT NULL,
     client_nit INTEGER NOT NULL,
     client_billname VARCHAR(30),
@@ -155,7 +155,7 @@ CREATE TABLE clients_cxc (
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     client_id INTEGER NOT NULL,
     clientscxc_debt REAL NOT NULL,
-    clientscxc_creditammount REAL NOT NULL,
+    clientscxc_creditamount REAL NOT NULL,
     clientscxc_creditdate DATE NOT NULL,
     clientscxc_state VARCHAR(15),
     CONSTRAINT cxc_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id)
@@ -165,7 +165,7 @@ CREATE TABLE clients_cxcc (
     clientscxcc_id INTEGER NOT NULL PRIMARY KEY 
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     clientscxc_id INTEGER NOT NULL,
-    ammount_paid REAL NOT NULL,
+    amount_paid REAL NOT NULL,
     pay_date DATE NOT NULL,
     CONSTRAINT cxcc_clientscxc_id_ref FOREIGN KEY (clientscxc_id) REFERENCES clients_cxc(clientscxc_id)
 );
@@ -192,34 +192,34 @@ CREATE TABLE rechargeable_items (
     CONSTRAINT rechargeableitems_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id)
 );
 
-CREATE TABLE service_receptions (
-    servicereception_id INTEGER NOT NULL PRIMARY KEY 
-                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    service_id VARCHAR(10) NOT NULL,
-    rechargeableitem_id VARCHAR(10) NOT NULL,
-    employee_id INTEGER NOT NULL,
-    reception_date DATE NOT NULL,
-    deliver_time TIMESTAMP NOT NULL,
-    ammount_paid REAL NOT NULL,
-    total_amount REAL NOT NULL,
-    obs VARCHAR(100),
-    CONSTRAINT servicereceptions_service_id_ref FOREIGN KEY (service_id) REFERENCES services(service_id),
-    CONSTRAINT servicereceptions_rechargeableitem_id_ref FOREIGN KEY (rechargeableitem_id) REFERENCES rechargeable_items(rechargeableitem_id),
-    CONSTRAINT servicereceptions_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
-);
-
 CREATE TABLE service_bills (
     servicebill_id INTEGER NOT NULL PRIMARY KEY 
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     client_id INTEGER NOT NULL,
     employee_id INTEGER NOT NULL,
     bill_date DATE NOT NULL,
+    total_amount REAL NOT NULL,
     obs VARCHAR(100),
     CONSTRAINT servicebills_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id),
     CONSTRAINT servicebills_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
 );
 
-CREATE TABLE service_sales (
+CREATE TABLE service_receptions (
+    servicereception_id INTEGER NOT NULL PRIMARY KEY 
+                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    servicebill_id INTEGER NOT NULL,
+    service_id VARCHAR(10) NOT NULL,
+    rechargeableitem_id VARCHAR(10) NOT NULL,
+    reception_date DATE NOT NULL,
+    deliver_time TIMESTAMP NOT NULL,
+    total_amount REAL NOT NULL,
+    obs VARCHAR(100),
+    CONSTRAINT servicereceptions_service_id_ref FOREIGN KEY (service_id) REFERENCES services(service_id),
+    CONSTRAINT servicereceptions_rechargeableitem_id_ref FOREIGN KEY (rechargeableitem_id) REFERENCES rechargeable_items(rechargeableitem_id),
+    CONSTRAINT servicereceptions_servicebill_id_ref FOREIGN KEY (servicebill_id) REFERENCES service_bills(servicebill_id)
+);
+
+/*CREATE TABLE service_sales (
     servicesale_id INTEGER NOT NULL PRIMARY KEY 
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     servicebill_id INTEGER NOT NULL,
@@ -227,16 +227,18 @@ CREATE TABLE service_sales (
     obs VARCHAR(100),
     CONSTRAINT servicesales_servicereception_id_ref FOREIGN KEY (servicereception_id) REFERENCES service_receptions(servicereception_id),
     CONSTRAINT servicesales_servicebill_id_ref FOREIGN KEY (servicebill_id) REFERENCES service_bills(servicebill_id)
-);
+);*/
 
 CREATE TABLE service_payments (
     servicepayment_id INTEGER NOT NULL PRIMARY KEY 
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     servicebill_id INTEGER NOT NULL,
+    employee_id INTEGER NOT NULL,
     pay_date DATE NOT NULL,
-    ammount_paid REAL NOT NULL,
+    amount_paid REAL NOT NULL,
     obs VARCHAR(100),
-    CONSTRAINT servicepayments_servicebill_id_ref FOREIGN KEY (servicebill_id) REFERENCES service_bills(servicebill_id)
+    CONSTRAINT servicepayments_servicebill_id_ref FOREIGN KEY (servicebill_id) REFERENCES service_bills(servicebill_id),
+    CONSTRAINT servicepayments_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
 );
 
 CREATE TABLE item_bills (
@@ -246,7 +248,7 @@ CREATE TABLE item_bills (
     store_id INTEGER NOT NULL,
     employee_id INTEGER NOT NULL,
     bill_date DATE NOT NULL,
-    total_ammount REAL NOT NULL,
+    total_amount REAL NOT NULL,
     is_route BOOLEAN,
     obs VARCHAR(100),
     CONSTRAINT itembills_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id),
@@ -260,7 +262,7 @@ CREATE TABLE item_sales (
     itembill_id INTEGER NOT NULL,
     item_id VARCHAR(10) NOT NULL,
     quantity INTEGER NOT NULL,
-    total_ammount REAL NOT NULL,
+    total_amount REAL NOT NULL,
     obs VARCHAR(100),
     CONSTRAINT itemsales_item_id_ref FOREIGN KEY (item_id) REFERENCES items(item_id),
     CONSTRAINT itemsales_itembill_id_ref FOREIGN KEY (itembill_id) REFERENCES item_bills(itembill_id)
@@ -270,10 +272,12 @@ CREATE TABLE item_payments (
     itempayment_id INTEGER NOT NULL PRIMARY KEY 
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     itembill_id INTEGER NOT NULL,
+    employee_id INTEGER NOT NULL,
     pay_date DATE NOT NULL,
-    ammount_paid REAL NOT NULL,
+    amount_paid REAL NOT NULL,
     obs VARCHAR(100),
-    CONSTRAINT itempayments_itembill_id_ref FOREIGN KEY (itembill_id) REFERENCES item_bills(itembill_id)
+    CONSTRAINT itempayments_itembill_id_ref FOREIGN KEY (itembill_id) REFERENCES item_bills(itembill_id),
+    CONSTRAINT itempayments_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
 );
 
 CREATE TABLE item_estimates (
@@ -283,7 +287,7 @@ CREATE TABLE item_estimates (
     store_id INTEGER NOT NULL,
     request_date DATE NOT NULL,
     limit_date DATE NOT NULL,
-    total_ammount REAL NOT NULL,
+    total_amount REAL NOT NULL,
     obs VARCHAR(100),
     CONSTRAINT estimate_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id),
     CONSTRAINT estimate_store_id_ref FOREIGN KEY (store_id) REFERENCES stores(store_id)
@@ -295,7 +299,7 @@ CREATE TABLE item_requests (
     itemestimate_id INTEGER NOT NULL,
     item_id VARCHAR(10) NOT NULL,
     quantity INTEGER NOT NULL,
-    total_ammount REAL NOT NULL,
+    total_amount REAL NOT NULL,
     CONSTRAINT requests_itemestimate_id_ref FOREIGN KEY (itemestimate_id) REFERENCES item_estimates(itemestimate_id),
     CONSTRAINT requests_item_id_ref FOREIGN KEY (item_id) REFERENCES items(item_id)
 );

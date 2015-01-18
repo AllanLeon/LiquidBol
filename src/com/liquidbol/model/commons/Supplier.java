@@ -92,7 +92,7 @@ public class Supplier extends Person {
         Set<Debt> result = new HashSet<>();
         Date today = new Date(new java.util.Date().getTime());
         for (Debt debt : debts) {
-            if (debt.getLimitDate().compareTo(today) < 0 && debt.getAmmount() > 0) {
+            if (debt.getLimitDate().compareTo(today) < 0 && debt.getAmount() > 0) {
                 result.add(debt);
             }
         }

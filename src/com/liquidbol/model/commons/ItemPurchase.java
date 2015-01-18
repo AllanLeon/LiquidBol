@@ -15,7 +15,7 @@ public class ItemPurchase {
     private int id;
     private Item item;
     private int quantity;
-    private Double ammount;
+    private Double amount;
 
     /**
      * Constructor method.
@@ -27,7 +27,21 @@ public class ItemPurchase {
         this.id = id;
         this.item = item;
         this.quantity = quantity;
-        this.ammount = item.getCost() * quantity;
+        this.amount = item.getCost() * quantity;
+    }
+
+    /**
+     * Constructor method with amount.
+     * @param id
+     * @param item
+     * @param quantity
+     * @param amount 
+     */
+    public ItemPurchase(int id, Item item, int quantity, Double amount) {
+        this.id = id;
+        this.item = item;
+        this.quantity = quantity;
+        this.amount = amount;
     }
 
     /**
@@ -52,10 +66,10 @@ public class ItemPurchase {
     }
 
     /**
-     * @return the ammount
+     * @return the amount
      */
-    public Double getAmmount() {
-        return ammount;
+    public Double getAmount() {
+        return amount;
     }
 
     /**
@@ -80,10 +94,10 @@ public class ItemPurchase {
     }
 
     /**
-     * @param ammount the ammount to set
+     * @param amount the amount to set
      */
-    public void setAmmount(Double ammount) {
-        this.ammount = ammount;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     @Override

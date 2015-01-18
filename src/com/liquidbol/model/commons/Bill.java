@@ -11,36 +11,48 @@ import java.util.Collection;
 import java.util.HashSet;
 
 /**
- * Class that represents and item estimate.
+ * Class that represents a bill.
  * @author Allan Leon
  */
-public class ItemEstimate {
+public class Bill {
     
     private int id;
-    private Store store;
-    private Date requestDate;
-    private Date limitDate;
+    private Employee employee;
+    private Date date;
     private Double totalAmount;
     private String obs;
-    private Collection<ItemRequest> requests;
+    private Collection<BillPayment> payments;
 
     /**
      * Constructor method.
      * @param id
-     * @param store
-     * @param requestDate
-     * @param limitDate
+     * @param employee
+     * @param date
+     * @param obs 
+     */
+    public Bill(int id, Employee employee, Date date, String obs) {
+        this.id = id;
+        this.employee = employee;
+        this.date = date;
+        this.totalAmount = 0.0;
+        this.obs = obs;
+        this.payments = new HashSet<>();
+    }
+
+    /**
+     * Constructor method with amount.
+     * @param id
+     * @param employee
+     * @param date
      * @param totalAmount
      * @param obs 
      */
-    public ItemEstimate(int id, Store store, Date requestDate, Date limitDate, Double totalAmount, String obs) {
+    public Bill(int id, Employee employee, Date date, Double totalAmount, String obs) {
         this.id = id;
-        this.store = store;
-        this.requestDate = requestDate;
-        this.limitDate = limitDate;
+        this.employee = employee;
+        this.date = date;
         this.totalAmount = totalAmount;
         this.obs = obs;
-        this.requests = new HashSet<>();
     }
 
     /**
@@ -51,24 +63,17 @@ public class ItemEstimate {
     }
 
     /**
-     * @return the store
+     * @return the employee
      */
-    public Store getStore() {
-        return store;
+    public Employee getEmployee() {
+        return employee;
     }
 
     /**
-     * @return the requestDate
+     * @return the date
      */
-    public Date getRequestDate() {
-        return requestDate;
-    }
-
-    /**
-     * @return the limitDate
-     */
-    public Date getLimitDate() {
-        return limitDate;
+    public Date getDate() {
+        return date;
     }
 
     /**
@@ -93,24 +98,17 @@ public class ItemEstimate {
     }
 
     /**
-     * @param store the store to set
+     * @param employee the employee to set
      */
-    public void setStore(Store store) {
-        this.store = store;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     /**
-     * @param requestDate the requestDate to set
+     * @param date the date to set
      */
-    public void setRequestDate(Date requestDate) {
-        this.requestDate = requestDate;
-    }
-
-    /**
-     * @param limitDate the limitDate to set
-     */
-    public void setLimitDate(Date limitDate) {
-        this.limitDate = limitDate;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     /**
@@ -119,6 +117,18 @@ public class ItemEstimate {
     public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
+    
+    public int getNumberOfPayments() {
+        return payments.size();
+    }
+    
+    public Collection<BillPayment> getAllPayments() {
+        return payments;
+    }
+    
+    public void addPayment(BillPayment payment) {
+        payments.add(payment);
+    }
 
     /**
      * @param obs the obs to set
@@ -126,23 +136,11 @@ public class ItemEstimate {
     public void setObs(String obs) {
         this.obs = obs;
     }
-    
-    public int getNumberOfRequests() {
-        return requests.size();
-    }
-    
-    public Collection<ItemRequest> getAllRequests() {
-        return requests;
-    }
-    
-    public void addRequest(ItemRequest request) {
-        requests.add(request);
-    }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + this.id;
+        int hash = 5;
+        hash = 59 * hash + this.id;
         return hash;
     }
 
@@ -154,7 +152,7 @@ public class ItemEstimate {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ItemEstimate other = (ItemEstimate) obj;
+        final Bill other = (Bill) obj;
         if (this.id != other.id) {
             return false;
         }

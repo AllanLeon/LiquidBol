@@ -9,25 +9,31 @@ package com.liquidbol.model.commons;
 import java.sql.Date;
 
 /**
- * Class that represents a collected receivable account.
+ * Class that represents a bill payment.
  * @author Allan Leon
  */
-public class CXCC {
+public class BillPayment {
     
     private int id;
-    private Double amountPaid;
+    private Employee employee;
     private Date payDate;
+    private Double amountPaid;
+    private String obs;
 
     /**
      * Constructor method.
      * @param id
+     * @param employee
+     * @param payDate
      * @param amountPaid
-     * @param payDate 
+     * @param obs 
      */
-    public CXCC(int id, Double amountPaid, Date payDate) {
+    public BillPayment(int id, Employee employee, Date payDate, Double amountPaid, String obs) {
         this.id = id;
-        this.amountPaid = amountPaid;
+        this.employee = employee;
         this.payDate = payDate;
+        this.amountPaid = amountPaid;
+        this.obs = obs;
     }
 
     /**
@@ -38,10 +44,10 @@ public class CXCC {
     }
 
     /**
-     * @return the amountPaid
+     * @return the employee
      */
-    public Double getAmountPaid() {
-        return amountPaid;
+    public Employee getEmployee() {
+        return employee;
     }
 
     /**
@@ -52,10 +58,38 @@ public class CXCC {
     }
 
     /**
+     * @return the amountPaid
+     */
+    public Double getAmountPaid() {
+        return amountPaid;
+    }
+
+    /**
+     * @return the obs
+     */
+    public String getObs() {
+        return obs;
+    }
+
+    /**
      * @param id the id to set
      */
     public void setId(int id) {
         this.id = id;
+    }
+
+    /**
+     * @param employee the employee to set
+     */
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    /**
+     * @param payDate the payDate to set
+     */
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
     }
 
     /**
@@ -66,16 +100,16 @@ public class CXCC {
     }
 
     /**
-     * @param payDate the payDate to set
+     * @param obs the obs to set
      */
-    public void setPayDate(Date payDate) {
-        this.payDate = payDate;
+    public void setObs(String obs) {
+        this.obs = obs;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + this.id;
+        int hash = 3;
+        hash = 29 * hash + this.id;
         return hash;
     }
 
@@ -87,7 +121,7 @@ public class CXCC {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final CXCC other = (CXCC) obj;
+        final BillPayment other = (BillPayment) obj;
         if (this.id != other.id) {
             return false;
         }

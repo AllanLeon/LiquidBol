@@ -6,8 +6,6 @@
 
 package com.liquidbol.model.commons;
 
-import java.sql.Date;
-
 /**
  * Class that represents an item sale.
  * @author Allan Leon
@@ -16,34 +14,38 @@ public class ItemSale {
     
     private int id;
     private Item item;
-    private Store store;
-    private Date payDate;
     private int quantity;
-    private Double ammount;
-    private Double paidAmmount;
-    private boolean route;
+    private Double amount;
     private String obs;
 
     /**
      * Constructor method.
      * @param id
      * @param item
-     * @param store
-     * @param payDate
      * @param quantity
-     * @param paidAmmount
-     * @param route
      * @param obs 
      */
-    public ItemSale(int id, Item item, Store store, Date payDate, int quantity, Double paidAmmount, boolean route, String obs) {
+    public ItemSale(int id, Item item, int quantity, String obs) {
         this.id = id;
         this.item = item;
-        this.store = store;
-        this.payDate = payDate;
         this.quantity = quantity;
-        this.ammount = item.getPrice() * quantity;
-        this.paidAmmount = paidAmmount;
-        this.route = route;
+        this.obs = obs;
+        this.amount = item.getPrice() * quantity;
+    }
+
+    /**
+     * Constructor method with amount.
+     * @param id
+     * @param item
+     * @param quantity
+     * @param amount
+     * @param obs 
+     */
+    public ItemSale(int id, Item item, int quantity, Double amount, String obs) {
+        this.id = id;
+        this.item = item;
+        this.quantity = quantity;
+        this.amount = amount;
         this.obs = obs;
     }
 
@@ -62,20 +64,6 @@ public class ItemSale {
     }
 
     /**
-     * @return the store
-     */
-    public Store getStore() {
-        return store;
-    }
-
-    /**
-     * @return the payDate
-     */
-    public Date getPayDate() {
-        return payDate;
-    }
-
-    /**
      * @return the quantity
      */
     public int getQuantity() {
@@ -83,24 +71,10 @@ public class ItemSale {
     }
 
     /**
-     * @return the ammount
+     * @return the amount
      */
-    public Double getAmmount() {
-        return ammount;
-    }
-
-    /**
-     * @return the paidAmmount
-     */
-    public Double getPaidAmmount() {
-        return paidAmmount;
-    }
-
-    /**
-     * @return the route
-     */
-    public boolean isRoute() {
-        return route;
+    public Double getAmount() {
+        return amount;
     }
 
     /**
@@ -125,20 +99,6 @@ public class ItemSale {
     }
 
     /**
-     * @param store the store to set
-     */
-    public void setStore(Store store) {
-        this.store = store;
-    }
-
-    /**
-     * @param payDate the payDate to set
-     */
-    public void setPayDate(Date payDate) {
-        this.payDate = payDate;
-    }
-
-    /**
      * @param quantity the quantity to set
      */
     public void setQuantity(int quantity) {
@@ -146,24 +106,10 @@ public class ItemSale {
     }
 
     /**
-     * @param ammount the ammount to set
+     * @param amount the amount to set
      */
-    public void setAmmount(Double ammount) {
-        this.ammount = ammount;
-    }
-
-    /**
-     * @param paidAmmount the paidAmmount to set
-     */
-    public void setPaidAmmount(Double paidAmmount) {
-        this.paidAmmount = paidAmmount;
-    }
-
-    /**
-     * @param route the route to set
-     */
-    public void setRoute(boolean route) {
-        this.route = route;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     /**
@@ -175,8 +121,8 @@ public class ItemSale {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + this.id;
+        int hash = 3;
+        hash = 47 * hash + this.id;
         return hash;
     }
 

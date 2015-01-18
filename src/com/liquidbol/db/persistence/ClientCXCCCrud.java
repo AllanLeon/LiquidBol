@@ -32,11 +32,11 @@ public class ClientCXCCCrud implements DBCrud<CXCC> {
     public CXCC save(CXCC element) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO clients_cxcc(clientscxc_id, ammount_paid, "
+            String insert = "INSERT INTO clients_cxcc(clientscxc_id, amount_paid, "
                     + "pay_date) VALUES(?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, 0);;
-            statement.setDouble(2, element.getAmmountPaid());
+            statement.setDouble(2, element.getAmountPaid());
             statement.setDate(3, element.getPayDate());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -89,11 +89,11 @@ public class ClientCXCCCrud implements DBCrud<CXCC> {
     @Override
     public CXCC merge(CXCC element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE clients_cxcc SET ammount_paid=?, pay_date=? "
+            String query = "UPDATE clients_cxcc SET amount_paid=?, pay_date=? "
                     + "WHERE clientscxcc_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
-            statement.setDouble(1, element.getAmmountPaid());
+            statement.setDouble(1, element.getAmountPaid());
             statement.setDate(2, element.getPayDate());
             statement.setInt(3, element.getId());
             int rowsAffected = statement.executeUpdate();
@@ -146,10 +146,10 @@ public class ClientCXCCCrud implements DBCrud<CXCC> {
     @Override
     public CXCC createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Double ammountPaid = resultSet.getDouble(3);
+        Double amountPaid = resultSet.getDouble(3);
         Date payDate = resultSet.getDate(4);
         LOG.log(Level.FINE, "Creating client collected receivable account %d", id);
-        CXCC result = new CXCC(id, ammountPaid, payDate);
+        CXCC result = new CXCC(id, amountPaid, payDate);
         return result;
     }
 }
