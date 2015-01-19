@@ -1,6 +1,8 @@
 package com.liquidbol.gui;
 
 import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,8 +28,8 @@ public class LoginForm extends JFrame {
     private JButton jButton1;
     private JLabel jLabel1;
     private JTextField jTextField1;
-    
-    public static void main(String args[]) { 
+
+    public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -35,7 +37,7 @@ public class LoginForm extends JFrame {
             }
         });
     }
-    
+
     public LoginForm() {
         setStyle();
         initComponents();
@@ -43,30 +45,33 @@ public class LoginForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(400,250);
+        setSize(400, 250);
         setResizable(false);
         setLocationRelativeTo(null);
-                
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	contentPane = new JPanel();
-	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-	setContentPane(contentPane);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
         contentPane.setLayout(null);
-        
+
+        jLabel1 = new JLabel();
         jTextField1 = new JTextField();
         jButton1 = new JButton();
         jButton1.setText("OK");
-        
-        try {
-            jLabel1 = new JLabel(new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/logo.jpg"))));
-        } catch (IOException ex) {
-            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
-        
+
         jTextField1.setBounds(90, 160, 200, 30);
         jButton1.setBounds(300, 160, 50, 30);
         jLabel1.setBounds(0, 0, 400, 250);
+
+        try {
+            BufferedImage img = ImageIO.read(this.getClass().getResource("/com/liquidbol/images/logo2.jpg"));
+            Image dimg = img.getScaledInstance(jLabel1.getWidth(), jLabel1.getHeight(), Image.SCALE_SMOOTH);
+            jLabel1.setIcon(new ImageIcon(dimg));
+        } catch (IOException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
         contentPane.add(jTextField1);
         contentPane.add(jButton1);
