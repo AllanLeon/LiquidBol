@@ -1,3 +1,26 @@
+DROP TABLE clients;
+DROP TABLE clients_cxc;
+DROP TABLE clients_cxcc;
+DROP TABLE employees;
+DROP TABLE employees_stores;
+DROP TABLE expenses;
+DROP TABLE inventorys;
+DROP TABLE items;
+DROP TABLE item_discounts;
+DROP TABLE item_estimates;
+DROP TABLE item_promos;
+DROP TABLE item_requests;
+DROP TABLE item_sales;
+DROP TABLE paid_debts;
+DROP TABLE purchases;
+DROP TABLE rechargeable_items;
+DROP TABLE services;
+DROP TABLE service_receptions;
+DROP TABLE service_sales;
+DROP TABLE stores;
+DROP TABLE suppliers;
+DROP TABLE suppliers_debts;
+
 CREATE TABLE suppliers (
     supplier_id INTEGER NOT NULL PRIMARY KEY 
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
@@ -53,7 +76,7 @@ CREATE TABLE purchases (
     total_amount REAL NOT NULL,
     purchase_date DATE NOT NULL,
     CONSTRAINT purchases_supplier_id_ref FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id)
-)
+);
 
 CREATE TABLE item_purchases (
     item_purchase_id INTEGER NOT NULL PRIMARY KEY 
