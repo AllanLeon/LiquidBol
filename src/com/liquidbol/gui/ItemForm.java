@@ -12,10 +12,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -37,23 +36,24 @@ public class ItemForm extends JFrame {
     private JPanel contentPane;
     private JLabel title;
     private JLabel idShower;
-    private JLabel nitLbl;
-    private Component nitBox;
-    private JLabel nameLbl;
-    private Component clientName;
-    private JLabel companyLbl;
-    private Component clientCompany;
-    private JCheckBox routeCB;
-    private JLabel addressLbl;
-    private Component clientAddress;
-    private JLabel phoneLbl;
-    private Component clientPhone;
-    private JLabel phoneLbl2;
-    private Component clientPhone2;
-    private JLabel emailLbl;
-    private Component clientEmail;
-    private JLabel clientPhoto;
-    private JLabel companyPhoto;
+    private JLabel capLbl;
+    private Component capBox;
+    private JComboBox unitCB;
+    private JLabel descLbl;
+    private JTextField itemDesc;
+    private JLabel brandLbl;
+    private Component itemBrand;
+    private JLabel madeLbl;
+    private Component itemMade;
+    private JLabel typeLbl;
+    private Component itemType;
+    private JLabel subtypeLbl;
+    private Component itemSubtype;
+    private JLabel priceLbl;
+    private Component itemPrice;
+    private JLabel costLbl;
+    private JTextField itemCost;
+    private JLabel itemPhoto;
     private JButton submitBtn;
     private MouseListener ml;
 
@@ -67,7 +67,7 @@ public class ItemForm extends JFrame {
     }
 
     public ItemForm(int state) {
-        switch(state){
+        switch (state) {
             case 1: //Add new client
                 setStyle();
                 initComponents();
@@ -75,7 +75,7 @@ public class ItemForm extends JFrame {
             case 2: //show client data
                 setStyle();
                 initComponents();
-                convertToReadOnly();
+                //convertToReadOnly();
                 break;
             case 3: //edit client data
                 setStyle();
@@ -105,76 +105,77 @@ public class ItemForm extends JFrame {
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         idShower = new JLabel("Nº 000001");
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
-        nitLbl = new JLabel("NIT/CI");
-        nitBox = new JTextField();
-        nameLbl = new JLabel("Señor(es)");
-        clientName = new JTextField();
-        companyLbl = new JLabel("Empresa/Taller");
-        clientCompany = new JTextField();
-        routeCB = new JCheckBox("Ruta");
-        addressLbl = new JLabel("Dirección");
-        clientAddress = new JTextField();
-        phoneLbl = new JLabel("Telf/Cel");
-        clientPhone = new JTextField();
-        phoneLbl2 = new JLabel("Telf/Cel 2");
-        clientPhone2 = new JTextField();
-        emailLbl = new JLabel("Email");
-        clientEmail = new JTextField();
+        capLbl = new JLabel("Capacidad");
+        capBox = new JTextField();
+        unitCB = new JComboBox();
+        descLbl = new JLabel("Descripcion");
+        itemDesc = new JTextField();
+        brandLbl = new JLabel("Marca");
+        itemBrand = new JTextField();
+        madeLbl = new JLabel("Industria");
+        itemMade = new JTextField();
+        typeLbl = new JLabel("Tipo");
+        itemType = new JTextField();
+        subtypeLbl = new JLabel("Subtipo");
+        itemSubtype = new JTextField();
+        costLbl = new JLabel("Costo");
+        itemCost = new JTextField();
+        priceLbl = new JLabel("Precio");
+        itemPrice = new JTextField();
 
         try {
-            clientPhoto = new JLabel(new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/weld.jpg"))));
-            clientPhoto.setHorizontalAlignment(SwingConstants.CENTER);
-            companyPhoto = new JLabel(new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/chap.jpg"))));
-            companyPhoto.setHorizontalAlignment(SwingConstants.LEFT);
+            itemPhoto = new JLabel(new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/upload.png"))));
+            itemPhoto.setHorizontalAlignment(SwingConstants.CENTER);
         } catch (IOException ex) {
             Logger.getLogger(ItemForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         submitBtn = new JButton("Add");
 
-        title.setBounds(120, 30, 350, 30);
+        title.setBounds(100, 30, 400, 30);
         idShower.setBounds(350, 80, 150, 30);
-        nitLbl.setBounds(80, 80, 70, 30);
-        nitBox.setBounds(120, 80, 100, 30);
-        nameLbl.setBounds(40, 120, 70, 30);
-        clientName.setBounds(100, 120, 350, 30);
-        companyLbl.setBounds(40, 160, 100, 30);
-        clientCompany.setBounds(130, 160, 300, 30);
-        routeCB.setBounds(470, 210, 100, 30);
-        addressLbl.setBounds(40, 210, 70, 30);
-        clientAddress.setBounds(100, 210, 350, 30);
-        phoneLbl.setBounds(50, 250, 70, 30);
-        clientPhone.setBounds(100, 250, 150, 30);
-        phoneLbl2.setBounds(270, 250, 70, 30);
-        clientPhone2.setBounds(330, 250, 150, 30);
-        emailLbl.setBounds(50, 290, 70, 30);
-        clientEmail.setBounds(100, 290, 250, 30);
-        clientPhoto.setBounds(75, 330, 100, 100);
-        companyPhoto.setBounds(200, 330, 150, 100);
-        submitBtn.setBounds(400, 380, 70, 30);
+        capLbl.setBounds(80, 120, 70, 30);
+        capBox.setBounds(150, 120, 50, 30);
+        unitCB.setBounds(200, 120, 50, 30);
+        descLbl.setBounds(40, 160, 70, 30);
+        itemDesc.setBounds(110, 160, 400, 30);
+        brandLbl.setBounds(40, 200, 40, 30);
+        itemBrand.setBounds(80, 200, 180, 30);
+        madeLbl.setBounds(285, 200, 50, 30);
+        itemMade.setBounds(340, 200, 170, 30);
+        typeLbl.setBounds(50, 240, 70, 30);
+        itemType.setBounds(80, 240, 150, 30);
+        subtypeLbl.setBounds(270, 240, 70, 30);
+        itemSubtype.setBounds(320, 240, 150, 30);
+        costLbl.setBounds(290, 300, 40, 30);
+        itemCost.setBounds(330, 300, 100, 30);
+        priceLbl.setBounds(290, 340, 40, 30);
+        itemPrice.setBounds(330, 340, 100, 30);
+        itemPhoto.setBounds(80, 300, 150, 150);
+        submitBtn.setBounds(350, 400, 100, 30);
 
         contentPane.add(title);
         contentPane.add(idShower);
-        contentPane.add(nitLbl);
-        contentPane.add(nitBox);
-        contentPane.add(nameLbl);
-        contentPane.add(clientName);
-        contentPane.add(companyLbl);
-        contentPane.add(clientCompany);
-        contentPane.add(routeCB);
-        contentPane.add(addressLbl);
-        contentPane.add(clientAddress);
-        contentPane.add(phoneLbl);
-        contentPane.add(clientPhone);
-        contentPane.add(phoneLbl2);
-        contentPane.add(clientPhone2);
-        contentPane.add(emailLbl);
-        contentPane.add(clientEmail);
-        contentPane.add(clientPhoto);
-        contentPane.add(companyPhoto);
+        contentPane.add(capLbl);
+        contentPane.add(capBox);
+        contentPane.add(unitCB);
+        contentPane.add(descLbl);
+        contentPane.add(itemDesc);
+        contentPane.add(brandLbl);
+        contentPane.add(itemBrand);
+        contentPane.add(madeLbl);
+        contentPane.add(itemMade);
+        contentPane.add(typeLbl);
+        contentPane.add(itemType);
+        contentPane.add(subtypeLbl);
+        contentPane.add(itemSubtype);
+        contentPane.add(costLbl);
+        contentPane.add(itemCost);
+        contentPane.add(priceLbl);
+        contentPane.add(itemPrice);
+        contentPane.add(itemPhoto);
         contentPane.add(submitBtn);
-        onMouseHover(clientPhoto);
-        onMouseHover(companyPhoto);
+        onMouseHover(itemPhoto);
     }
 
     private void setStyle() {
@@ -234,64 +235,63 @@ public class ItemForm extends JFrame {
         lbl.addMouseListener(ml);
     }
 
-    private void convertToReadOnly() {
-        Icon temp = clientPhoto.getIcon();
-        Icon temp2 = companyPhoto.getIcon();
-        contentPane.remove(nitBox);
-        contentPane.remove(clientName);
-        contentPane.remove(clientCompany);
-        contentPane.remove(clientAddress);
-        contentPane.remove(clientPhone);
-        contentPane.remove(clientPhone2);
-        contentPane.remove(clientEmail);
-        contentPane.remove(clientPhoto);
-        contentPane.remove(companyPhoto);
-        contentPane.remove(submitBtn);
-        routeCB.setEnabled(false);
+    /*   private void convertToReadOnly() {
+     Icon temp = itemPhoto.getIcon();
+     contentPane.remove(capBox);
+     contentPane.remove(clientName);
+     contentPane.remove(itemBrand);
+     contentPane.remove(itemMade);
+     contentPane.remove(itemType);
+     contentPane.remove(itemSubtype);
+     contentPane.remove(itemPrice);
+     contentPane.remove(itemPhoto);
+     contentPane.remove(companyPhoto);
+     contentPane.remove(submitBtn);
+     brandLbl.setEnabled(false);
 
-        nitBox = new JLabel();
-        clientName = new JLabel();
-        clientCompany = new JLabel();
-        clientAddress = new JLabel();
-        clientPhone = new JLabel();
-        clientPhone2 = new JLabel();
-        clientEmail = new JLabel();
-        clientPhoto = new JLabel(temp);
-        companyPhoto = new JLabel(temp2);
-        JButton cxc = new JButton("CXC");
-        JButton ar = new JButton("Art. Recargables");
-        title.setText("VER ARTICULO"); //CHANGE!!!!
+     capBox = new JLabel();
+     clientName = new JLabel();
+     itemBrand = new JLabel();
+     itemMade = new JLabel();
+     itemType = new JLabel();
+     itemSubtype = new JLabel();
+     itemPrice = new JLabel();
+     itemPhoto = new JLabel(temp);
+     companyPhoto = new JLabel(temp2);
+     JButton cxc = new JButton("CXC");
+     JButton ar = new JButton("Art. Recargables");
+     title.setText("VER ARTICULO"); //CHANGE!!!!
 
-        nitBox.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientName.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientCompany.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientAddress.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientPhone.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientPhone2.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientEmail.setFont(new Font("Arial", Font.PLAIN, 20));
+     capBox.setFont(new Font("Arial", Font.PLAIN, 20));
+     clientName.setFont(new Font("Arial", Font.PLAIN, 20));
+     itemBrand.setFont(new Font("Arial", Font.PLAIN, 20));
+     itemMade.setFont(new Font("Arial", Font.PLAIN, 20));
+     itemType.setFont(new Font("Arial", Font.PLAIN, 20));
+     itemSubtype.setFont(new Font("Arial", Font.PLAIN, 20));
+     itemPrice.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        nitBox.setBounds(120, 80, 100, 30);
-        clientName.setBounds(100, 120, 350, 30);
-        clientCompany.setBounds(130, 160, 300, 30);
-        clientAddress.setBounds(100, 210, 350, 30);
-        clientPhone.setBounds(100, 250, 150, 30);
-        clientPhone2.setBounds(330, 250, 150, 30);
-        clientEmail.setBounds(100, 290, 250, 30);
-        clientPhoto.setBounds(75, 330, 100, 100);
-        companyPhoto.setBounds(200, 330, 150, 100);
-        cxc.setBounds(380, 350, 120, 30);
-        ar.setBounds(380, 390, 120, 30);
+     capBox.setBounds(120, 80, 100, 30);
+     clientName.setBounds(100, 120, 350, 30);
+     itemBrand.setBounds(130, 160, 300, 30);
+     itemMade.setBounds(100, 210, 350, 30);
+     itemType.setBounds(100, 250, 150, 30);
+     itemSubtype.setBounds(330, 250, 150, 30);
+     itemPrice.setBounds(100, 290, 250, 30);
+     itemPhoto.setBounds(75, 330, 100, 100);
+     companyPhoto.setBounds(200, 330, 150, 100);
+     cxc.setBounds(380, 350, 120, 30);
+     ar.setBounds(380, 390, 120, 30);
 
-        contentPane.add(nitBox);
-        contentPane.add(clientName);
-        contentPane.add(clientCompany);
-        contentPane.add(clientAddress);
-        contentPane.add(clientPhone);
-        contentPane.add(clientPhone2);
-        contentPane.add(clientEmail);
-        contentPane.add(clientPhoto);
-        contentPane.add(companyPhoto);
-        contentPane.add(cxc);
-        contentPane.add(ar);
-    }
+     contentPane.add(capBox);
+     contentPane.add(clientName);
+     contentPane.add(itemBrand);
+     contentPane.add(itemMade);
+     contentPane.add(itemType);
+     contentPane.add(itemSubtype);
+     contentPane.add(itemPrice);
+     contentPane.add(itemPhoto);
+     contentPane.add(companyPhoto);
+     contentPane.add(cxc);
+     contentPane.add(ar);
+     } */
 }
