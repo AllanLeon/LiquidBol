@@ -16,6 +16,7 @@ import java.util.Objects;
 public class RechargeableItem {
     
     private String id;
+    private String description;
     private Double capacity;
     private String unit;
     private String type;
@@ -25,14 +26,16 @@ public class RechargeableItem {
     /**
      * Constructor method.
      * @param id
+     * @param description
      * @param capacity
      * @param unit
      * @param type
      * @param warrantyLimitDate
      * @param obs 
      */
-    public RechargeableItem(String id, Double capacity, String unit, String type, Date warrantyLimitDate, String obs) {
+    public RechargeableItem(String id, String description, Double capacity, String unit, String type, Date warrantyLimitDate, String obs) {
         this.id = id;
+        this.description = description;
         this.capacity = capacity;
         this.unit = unit;
         this.type = type;
@@ -45,6 +48,13 @@ public class RechargeableItem {
      */
     public String getId() {
         return id;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -90,6 +100,13 @@ public class RechargeableItem {
     }
 
     /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
      * @param capacity the capacity to set
      */
     public void setCapacity(Double capacity) {
@@ -126,8 +143,8 @@ public class RechargeableItem {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 79 * hash + Objects.hashCode(this.id);
+        int hash = 7;
+        hash = 31 * hash + Objects.hashCode(this.id);
         return hash;
     }
 

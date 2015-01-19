@@ -32,16 +32,17 @@ public class RechargeableItemCrud implements DBCrud<RechargeableItem> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO rechargeable_items(rechargeableitem_id, "
-                    + "client_id, capacity, unit, item_type, warranty_limit_date, "
+                    + "client_id, description, type, capacity, unit, warranty_limit_date, "
                     + "obs) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, element.getId());
             statement.setInt(2, 0);
-            statement.setDouble(3, element.getCapacity());
-            statement.setString(4, element.getUnit());
-            statement.setString(5, element.getType());
-            statement.setDate(6, element.getWarrantyLimitDate());
-            statement.setString(7, element.getObs());
+            statement.setString(3, element.getDescription());
+            statement.setString(4, element.getType());
+            statement.setDouble(5, element.getCapacity());
+            statement.setString(6, element.getUnit());
+            statement.setDate(7, element.getWarrantyLimitDate());
+            statement.setString(8, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("rechargeable item was not saved");
@@ -148,13 +149,14 @@ public class RechargeableItemCrud implements DBCrud<RechargeableItem> {
     @Override
     public RechargeableItem createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Double capacity = resultSet.getDouble(3);
-        String unit = resultSet.getString(4);
-        String type = resultSet.getString(5);
-        Date warrantyLimitDate = resultSet.getDate(6);
-        String obs = resultSet.getString(7);
+        String description = resultSet.getString(3);
+        String type = resultSet.getString(4);
+        Double capacity = resultSet.getDouble(5);
+        String unit = resultSet.getString(6);
+        Date warrantyLimitDate = resultSet.getDate(7);
+        String obs = resultSet.getString(8);
         LOG.log(Level.FINE, "Creating rechargeable item %d", id);
-        RechargeableItem result = new RechargeableItem(obs, capacity, unit, type, warrantyLimitDate, obs);
+        RechargeableItem result = new RechargeableItem(obs, description, capacity, unit, type, warrantyLimitDate, obs);
         return result;
     }
 }
