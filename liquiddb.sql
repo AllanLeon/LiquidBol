@@ -209,9 +209,10 @@ CREATE TABLE services (
 CREATE TABLE rechargeable_items (
     rechargeableitem_id VARCHAR(10) NOT NULL PRIMARY KEY,
     client_id INTEGER NOT NULL,
+    description VARCHAR(50) NOT NULL,
+    type VARCHAR(20) NOT NULL,
     capacity REAL NOT NULL,
     unit VARCHAR(7) NOT NULL,
-    item_type VARCHAR(20) NOT NULL,
     warranty_limit_date DATE NOT NULL,
     obs VARCHAR(100),
     CONSTRAINT rechargeableitems_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id)
