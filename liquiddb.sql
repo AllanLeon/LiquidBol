@@ -33,7 +33,8 @@ CREATE TABLE debt_payments (
 
 CREATE TABLE items (
     item_id VARCHAR(10) NOT NULL PRIMARY KEY,
-    item_measure VARCHAR(15),
+    item_capacity REAL NOT NULL,
+    item_unit VARCHAR(7) NOT NULL,
     item_name VARCHAR(100) NOT NULL,
     item_brand VARCHAR(20),
     item_industry VARCHAR(20),
@@ -172,7 +173,8 @@ CREATE TABLE clients_cxcc (
 
 CREATE TABLE services (
     service_id VARCHAR(10) NOT NULL PRIMARY KEY,
-    service_measure VARCHAR(15),
+    service_capacity REAL NOT NULL,
+    service_unit VARCHAR(7) NOT NULL,
     service_description VARCHAR(100) NOT NULL,
     service_type VARCHAR(50),
     service_cost REAL NOT NULL,
@@ -185,7 +187,7 @@ CREATE TABLE rechargeable_items (
     rechargeableitem_id VARCHAR(10) NOT NULL PRIMARY KEY,
     client_id INTEGER NOT NULL,
     capacity REAL NOT NULL,
-    unit VARCHAR(5) NOT NULL,
+    unit VARCHAR(7) NOT NULL,
     item_type VARCHAR(20) NOT NULL,
     warranty_limit_date DATE NOT NULL,
     obs VARCHAR(100),

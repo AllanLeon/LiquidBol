@@ -17,14 +17,15 @@ public class Service extends Product {
     /**
      * Constructor method.
      * @param description
+     * @param capacity
+     * @param unit
      * @param id
-     * @param measure
      * @param type
      * @param cost
      * @param price 
      */
-    public Service(String id, String measure, String description, String type, Double cost, Double price) {
-        super(id, measure, type, cost, price);
+    public Service(String id, Double capacity, String unit, String description, String type, Double cost, Double price) {
+        super(id, capacity, unit, type, cost, price);
         this.description = description;
     }
 

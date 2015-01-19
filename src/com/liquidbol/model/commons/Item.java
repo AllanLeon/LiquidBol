@@ -24,7 +24,8 @@ public class Item extends Product {
     /**
      * Constructor of the class that includes all the variables as parameters.
      * @param id
-     * @param measure
+     * @param capacity
+     * @param unit
      * @param name
      * @param brand
      * @param industry
@@ -33,8 +34,8 @@ public class Item extends Product {
      * @param cost
      * @param price
      */
-    public Item(String id, String measure, String name, String brand, String industry, String type, String subtype, Double cost, Double price) {
-        super(id, measure, type, cost, price);
+    public Item(String id, Double capacity, String unit, String name, String brand, String industry, String type, String subtype, Double cost, Double price) {
+        super(id, capacity, unit, type, cost, price);
         this.name = name;
         this.brand = brand;
         this.industry = industry;
