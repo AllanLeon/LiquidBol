@@ -15,7 +15,8 @@ import java.util.Objects;
 public class Product {
     
     private String id;
-    private String measure;
+    private Double capacity;
+    private String unit;
     private String type;
     private Double cost;
     private Double price;
@@ -23,21 +24,21 @@ public class Product {
     private Double profit;
 
     /**
-     * Constructor method
+     * Constructor method.
      * @param id
-     * @param measure
+     * @param capacity
+     * @param unit
      * @param type
      * @param cost
      * @param price 
      */
-    public Product(String id, String measure, String type, Double cost, Double price) {
+    public Product(String id, Double capacity, String unit, String type, Double cost, Double price) {
         this.id = id;
-        this.measure = measure;
+        this.capacity = capacity;
+        this.unit = unit;
         this.type = type;
         this.cost = cost;
         this.price = price;
-        this.dif = price - cost;
-        this.profit = 100 * dif / cost;
     }
 
     /**
@@ -48,10 +49,17 @@ public class Product {
     }
 
     /**
-     * @return the measure
+     * @return the capacity
      */
-    public String getMeasure() {
-        return measure;
+    public Double getCapacity() {
+        return capacity;
+    }
+
+    /**
+     * @return the unit
+     */
+    public String getUnit() {
+        return unit;
     }
 
     /**
@@ -97,10 +105,17 @@ public class Product {
     }
 
     /**
-     * @param measure the measure to set
+     * @param capacity the capacity to set
      */
-    public void setMeasure(String measure) {
-        this.measure = measure;
+    public void setCapacity(Double capacity) {
+        this.capacity = capacity;
+    }
+
+    /**
+     * @param unit the unit to set
+     */
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     /**
@@ -141,7 +156,7 @@ public class Product {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 43 * hash + Objects.hashCode(this.id);
+        hash = 37 * hash + Objects.hashCode(this.id);
         return hash;
     }
 

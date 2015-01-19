@@ -15,8 +15,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javafx.scene.input.KeyCode.T;
-import static jdk.nashorn.internal.runtime.Debug.id;
 
 /**
  * Class responsible of all persistence operations related to services.
@@ -32,18 +30,19 @@ public class ServiceCrud implements DBCrud<Service> {
     public Service save(Service element) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO services(service_id, service_measure, "
+            String insert = "INSERT INTO services(service_id, service_capacity, service_unit "
                     + "service_description, service_type, service_cost, "
                     + "service_price, service_dif, service_profit) VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, element.getId());
-            statement.setString(2, element.getMeasure());
-            statement.setString(3, element.getDescription());
-            statement.setString(4, element.getType());
-            statement.setDouble(5, element.getCost());
-            statement.setDouble(6, element.getPrice());
-            statement.setDouble(7, element.getDif());
-            statement.setDouble(8, element.getProfit());
+            statement.setDouble(2, element.getCapacity());
+            statement.setString(3, element.getUnit());
+            statement.setString(4, element.getDescription());
+            statement.setString(5, element.getType());
+            statement.setDouble(6, element.getCost());
+            statement.setDouble(7, element.getPrice());
+            statement.setDouble(8, element.getDif());
+            statement.setDouble(9, element.getProfit());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("service was not saved");
@@ -154,13 +153,14 @@ public class ServiceCrud implements DBCrud<Service> {
     @Override
     public Service createElementFromResultSet(ResultSet resultSet) throws SQLException {
         String id = resultSet.getString(1);
-        String measure = resultSet.getString(2);
-        String description = resultSet.getString(3);
-        String type = resultSet.getString(4);
-        Double cost = resultSet.getDouble(5);
-        Double price = resultSet.getDouble(6);
+        Double capacity = resultSet.getDouble(2);
+        String unit = resultSet.getString(3);
+        String description = resultSet.getString(4);
+        String type = resultSet.getString(5);
+        Double cost = resultSet.getDouble(6);
+        Double price = resultSet.getDouble(7);
         LOG.log(Level.FINE, "Creating service %d", id);
-        Service result = new Service(id, measure, description, type, cost, price);
+        Service result = new Service(id, capacity, unit, description, type, cost, price);
         return result;
     }
 }

@@ -34,21 +34,22 @@ public class ItemCrud implements DBCrud<Item> {
     public Item save(Item item) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO items(item_id, item_measure, item_name,"
+            String insert = "INSERT INTO items(item_id, item_capacity, item_unit, item_name,"
                     + "item_brand, item_industry, item_type, item_subtype, item_cost"
                     + "item_price, item_dif, item_profit) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, item.getId());
-            statement.setString(2, item.getMeasure());
-            statement.setString(3, item.getName());
-            statement.setString(4, item.getBrand());
-            statement.setString(5, item.getIndustry());
-            statement.setString(6, item.getType());
-            statement.setString(7, item.getSubtype());
-            statement.setDouble(8, item.getCost());
-            statement.setDouble(9, item.getPrice());
-            statement.setDouble(10, item.getDif());
-            statement.setDouble(11, item.getProfit());
+            statement.setDouble(2, item.getCapacity());
+            statement.setString(3, item.getUnit());
+            statement.setString(4, item.getName());
+            statement.setString(5, item.getBrand());
+            statement.setString(6, item.getIndustry());
+            statement.setString(7, item.getType());
+            statement.setString(8, item.getSubtype());
+            statement.setDouble(9, item.getCost());
+            statement.setDouble(10, item.getPrice());
+            statement.setDouble(11, item.getDif());
+            statement.setDouble(12, item.getProfit());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("Item was not saved");
@@ -174,16 +175,17 @@ public class ItemCrud implements DBCrud<Item> {
     @Override
     public Item createElementFromResultSet(ResultSet resultSet) throws SQLException {
         String id = resultSet.getString(1);
-        String measure = resultSet.getString(2);
-        String name = resultSet.getString(3);
-        String brand = resultSet.getString(4);
-        String industry = resultSet.getString(5);
-        String type = resultSet.getString(6);
-        String subtype = resultSet.getString(7);
-        Double cost = resultSet.getDouble(8);
-        Double price = resultSet.getDouble(9);
+        Double capacity = resultSet.getDouble(2);
+        String unit = resultSet.getString(3);
+        String name = resultSet.getString(4);
+        String brand = resultSet.getString(5);
+        String industry = resultSet.getString(6);
+        String type = resultSet.getString(7);
+        String subtype = resultSet.getString(8);
+        Double cost = resultSet.getDouble(9);
+        Double price = resultSet.getDouble(10);
         LOG.log(Level.FINE, "Creating Item %s", id);
-        Item result = new Item(id, measure, name, brand, industry, type, subtype, cost, price);
+        Item result = new Item(id, capacity, unit, name, brand, industry, type, subtype, cost, price);
         return result;
     }
 }
