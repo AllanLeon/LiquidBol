@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -30,42 +32,60 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  * @author Franco
  */
-public class NewClientForm extends JFrame {
+public class ClientForm extends JFrame {
 
     private JPanel contentPane;
     private JLabel title;
     private JLabel idShower;
     private JLabel nitLbl;
-    private JTextField nitBox;
+    private Component nitBox;
     private JLabel nameLbl;
-    private JTextField clientName;
+    private Component clientName;
     private JLabel companyLbl;
-    private JTextField clientCompany;
-    private JCheckBox jCheckBox1;
+    private Component clientCompany;
+    private JCheckBox routeCB;
     private JLabel addressLbl;
-    private JTextField clientAddress;
+    private Component clientAddress;
     private JLabel phoneLbl;
-    private JTextField clientPhone;
+    private Component clientPhone;
     private JLabel phoneLbl2;
-    private JTextField clientPhone2;
+    private Component clientPhone2;
     private JLabel emailLbl;
-    private JTextField clientEmail;
+    private Component clientEmail;
     private JLabel clientPhoto;
     private JLabel companyPhoto;
-    private JButton jButton1;
+    private JButton submitBtn;
+    private MouseListener ml;
 
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new NewClientForm().setVisible(true);
+                new ClientForm(0).setVisible(true);
             }
         });
     }
 
-    public NewClientForm() {
-        setStyle();
-        initComponents();
+    public ClientForm(int state) {
+        switch(state){
+            case 1: //Add new client
+                setStyle();
+                initComponents();
+                break;
+            case 2: //show client data
+                setStyle();
+                initComponents();
+                convertToReadOnly();
+                break;
+            case 3: //edit client data
+                setStyle();
+                initComponents();
+                break;
+            default:
+                setStyle();
+                initComponents();
+                break;
+        }
     }
 
     private void initComponents() {
@@ -80,7 +100,8 @@ public class NewClientForm extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        title = new JLabel("NUEVO CLIENTE");
+        title = new JLabel();
+        title.setText("NUEVO CLIENTE");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         idShower = new JLabel("Nº 000001");
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
@@ -90,7 +111,7 @@ public class NewClientForm extends JFrame {
         clientName = new JTextField();
         companyLbl = new JLabel("Empresa/Taller");
         clientCompany = new JTextField();
-        jCheckBox1 = new JCheckBox("Ruta");
+        routeCB = new JCheckBox("Ruta");
         addressLbl = new JLabel("Dirección");
         clientAddress = new JTextField();
         phoneLbl = new JLabel("Telf/Cel");
@@ -106,10 +127,10 @@ public class NewClientForm extends JFrame {
             companyPhoto = new JLabel(new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/chap.jpg"))));
             companyPhoto.setHorizontalAlignment(SwingConstants.LEFT);
         } catch (IOException ex) {
-            Logger.getLogger(NewClientForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        jButton1 = new JButton("Add");
+        submitBtn = new JButton("Add");
 
         title.setBounds(120, 30, 350, 30);
         idShower.setBounds(350, 80, 150, 30);
@@ -119,7 +140,7 @@ public class NewClientForm extends JFrame {
         clientName.setBounds(100, 120, 350, 30);
         companyLbl.setBounds(40, 160, 100, 30);
         clientCompany.setBounds(130, 160, 300, 30);
-        jCheckBox1.setBounds(470, 210, 100, 30);
+        routeCB.setBounds(470, 210, 100, 30);
         addressLbl.setBounds(40, 210, 70, 30);
         clientAddress.setBounds(100, 210, 350, 30);
         phoneLbl.setBounds(50, 250, 70, 30);
@@ -130,28 +151,28 @@ public class NewClientForm extends JFrame {
         clientEmail.setBounds(100, 290, 250, 30);
         clientPhoto.setBounds(75, 330, 100, 100);
         companyPhoto.setBounds(200, 330, 150, 100);
-        jButton1.setBounds(400, 380, 70, 30);
+        submitBtn.setBounds(400, 380, 70, 30);
 
-        getContentPane().add(title);
-        getContentPane().add(idShower);
-        getContentPane().add(nitLbl);
-        getContentPane().add(nitBox);
-        getContentPane().add(nameLbl);
-        getContentPane().add(clientName);
-        getContentPane().add(companyLbl);
-        getContentPane().add(clientCompany);
-        getContentPane().add(jCheckBox1);
-        getContentPane().add(addressLbl);
-        getContentPane().add(clientAddress);
-        getContentPane().add(phoneLbl);
-        getContentPane().add(clientPhone);
-        getContentPane().add(phoneLbl2);
-        getContentPane().add(clientPhone2);
-        getContentPane().add(emailLbl);
-        getContentPane().add(clientEmail);
-        getContentPane().add(clientPhoto);
-        getContentPane().add(companyPhoto);
-        getContentPane().add(jButton1);
+        contentPane.add(title);
+        contentPane.add(idShower);
+        contentPane.add(nitLbl);
+        contentPane.add(nitBox);
+        contentPane.add(nameLbl);
+        contentPane.add(clientName);
+        contentPane.add(companyLbl);
+        contentPane.add(clientCompany);
+        contentPane.add(routeCB);
+        contentPane.add(addressLbl);
+        contentPane.add(clientAddress);
+        contentPane.add(phoneLbl);
+        contentPane.add(clientPhone);
+        contentPane.add(phoneLbl2);
+        contentPane.add(clientPhone2);
+        contentPane.add(emailLbl);
+        contentPane.add(clientEmail);
+        contentPane.add(clientPhoto);
+        contentPane.add(companyPhoto);
+        contentPane.add(submitBtn);
         onMouseHover(clientPhoto);
         onMouseHover(companyPhoto);
     }
@@ -170,10 +191,10 @@ public class NewClientForm extends JFrame {
     }
 
     private void onMouseHover(JLabel lbl) {
-
-        lbl.addMouseListener(new MouseListener() {
+        ml = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                ((Component) e.getSource()).removeMouseListener(this);
             }
 
             @Override
@@ -209,6 +230,68 @@ public class NewClientForm extends JFrame {
             public void mouseExited(MouseEvent e) {
                 lbl.setEnabled(true);
             }
-        });
+        };
+        lbl.addMouseListener(ml);
+    }
+
+    private void convertToReadOnly() {
+        Icon temp = clientPhoto.getIcon();
+        Icon temp2 = companyPhoto.getIcon();
+        contentPane.remove(nitBox);
+        contentPane.remove(clientName);
+        contentPane.remove(clientCompany);
+        contentPane.remove(clientAddress);
+        contentPane.remove(clientPhone);
+        contentPane.remove(clientPhone2);
+        contentPane.remove(clientEmail);
+        contentPane.remove(clientPhoto);
+        contentPane.remove(companyPhoto);
+        contentPane.remove(submitBtn);
+        routeCB.setEnabled(false);
+
+        nitBox = new JLabel();
+        clientName = new JLabel();
+        clientCompany = new JLabel();
+        clientAddress = new JLabel();
+        clientPhone = new JLabel();
+        clientPhone2 = new JLabel();
+        clientEmail = new JLabel();
+        clientPhoto = new JLabel(temp);
+        companyPhoto = new JLabel(temp2);
+        JButton cxc = new JButton("CXC");
+        JButton ar = new JButton("Art. Recargables");
+        title.setText("VER CLIENTE"); //CHANGE!!!!
+
+        nitBox.setFont(new Font("Arial", Font.PLAIN, 20));
+        clientName.setFont(new Font("Arial", Font.PLAIN, 20));
+        clientCompany.setFont(new Font("Arial", Font.PLAIN, 20));
+        clientAddress.setFont(new Font("Arial", Font.PLAIN, 20));
+        clientPhone.setFont(new Font("Arial", Font.PLAIN, 20));
+        clientPhone2.setFont(new Font("Arial", Font.PLAIN, 20));
+        clientEmail.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        nitBox.setBounds(120, 80, 100, 30);
+        clientName.setBounds(100, 120, 350, 30);
+        clientCompany.setBounds(130, 160, 300, 30);
+        clientAddress.setBounds(100, 210, 350, 30);
+        clientPhone.setBounds(100, 250, 150, 30);
+        clientPhone2.setBounds(330, 250, 150, 30);
+        clientEmail.setBounds(100, 290, 250, 30);
+        clientPhoto.setBounds(75, 330, 100, 100);
+        companyPhoto.setBounds(200, 330, 150, 100);
+        cxc.setBounds(380, 350, 120, 30);
+        ar.setBounds(380, 390, 120, 30);
+
+        contentPane.add(nitBox);
+        contentPane.add(clientName);
+        contentPane.add(clientCompany);
+        contentPane.add(clientAddress);
+        contentPane.add(clientPhone);
+        contentPane.add(clientPhone2);
+        contentPane.add(clientEmail);
+        contentPane.add(clientPhoto);
+        contentPane.add(companyPhoto);
+        contentPane.add(cxc);
+        contentPane.add(ar);
     }
 }
