@@ -6,7 +6,11 @@
 
 package com.liquidbol.model.commons;
 
+import com.liquidbol.db.persistence.EmployeeCrud;
+import com.liquidbol.db.persistence.PersistenceException;
 import java.sql.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class that represents a bill payment.
@@ -104,6 +108,16 @@ public class BillPayment {
      */
     public void setObs(String obs) {
         this.obs = obs;
+    }
+    
+    public void refresh() {
+        try {
+            employee = new EmployeeCrud().refresh(employee);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(BillPayment.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BillPayment.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

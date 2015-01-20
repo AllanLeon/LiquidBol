@@ -6,6 +6,11 @@
 
 package com.liquidbol.model.commons;
 
+import com.liquidbol.db.persistence.ItemCrud;
+import com.liquidbol.db.persistence.PersistenceException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Class that represents an inventory.
  * @author Allan Leon
@@ -68,6 +73,16 @@ public class Inventory {
      */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+    
+    public void refresh() {
+        try {
+            item = new ItemCrud().refresh(item);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(ItemSale.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ItemSale.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

@@ -6,9 +6,13 @@
 
 package com.liquidbol.model.commons;
 
+import com.liquidbol.db.persistence.PersistenceException;
+import com.liquidbol.db.persistence.StoreCrud;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class that represents and item estimate.
@@ -137,6 +141,16 @@ public class ItemEstimate {
     
     public void addRequest(ItemRequest request) {
         requests.add(request);
+    }
+    
+    public void refresh() {
+        try {
+            store = new StoreCrud().refresh(store);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(ItemEstimate.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ItemEstimate.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

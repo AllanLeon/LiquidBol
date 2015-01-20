@@ -6,9 +6,13 @@
 
 package com.liquidbol.model.commons;
 
+import com.liquidbol.db.persistence.EmployeeCrud;
+import com.liquidbol.db.persistence.PersistenceException;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class that represents a bill.
@@ -157,5 +161,15 @@ public class Bill {
             return false;
         }
         return true;
+    }
+    
+    public void refresh() {
+        try {
+            employee = new EmployeeCrud().refresh(employee);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
