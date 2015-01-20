@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -38,9 +39,9 @@ public class ItemForm extends JFrame {
     private JLabel idShower;
     private JLabel capLbl;
     private Component capBox;
-    private JComboBox unitCB;
+    private Component unitCB;
     private JLabel descLbl;
-    private JTextField itemDesc;
+    private Component itemDesc;
     private JLabel brandLbl;
     private Component itemBrand;
     private JLabel madeLbl;
@@ -52,7 +53,7 @@ public class ItemForm extends JFrame {
     private JLabel priceLbl;
     private Component itemPrice;
     private JLabel costLbl;
-    private JTextField itemCost;
+    private Component itemCost;
     private JLabel itemPhoto;
     private JButton submitBtn;
     private MouseListener ml;
@@ -68,16 +69,16 @@ public class ItemForm extends JFrame {
 
     public ItemForm(int state) {
         switch (state) {
-            case 1: //Add new client
+            case 1: //Add new item
                 setStyle();
                 initComponents();
                 break;
-            case 2: //show client data
+            case 2: //show item data
                 setStyle();
                 initComponents();
-                //convertToReadOnly();
+                convertToReadOnly();
                 break;
-            case 3: //edit client data
+            case 3: //edit item data
                 setStyle();
                 initComponents();
                 break;
@@ -235,63 +236,62 @@ public class ItemForm extends JFrame {
         lbl.addMouseListener(ml);
     }
 
-    /*   private void convertToReadOnly() {
-     Icon temp = itemPhoto.getIcon();
-     contentPane.remove(capBox);
-     contentPane.remove(clientName);
-     contentPane.remove(itemBrand);
-     contentPane.remove(itemMade);
-     contentPane.remove(itemType);
-     contentPane.remove(itemSubtype);
-     contentPane.remove(itemPrice);
-     contentPane.remove(itemPhoto);
-     contentPane.remove(companyPhoto);
-     contentPane.remove(submitBtn);
-     brandLbl.setEnabled(false);
+    private void convertToReadOnly() {    
+        Icon temp = itemPhoto.getIcon();
+        contentPane.remove(capBox);
+        contentPane.remove(unitCB);
+        contentPane.remove(itemDesc);
+        contentPane.remove(itemBrand);
+        contentPane.remove(itemMade);
+        contentPane.remove(itemType);
+        contentPane.remove(itemSubtype);
+        contentPane.remove(itemCost);
+        contentPane.remove(itemPrice);
+        contentPane.remove(itemPhoto);
+        contentPane.remove(submitBtn);
 
-     capBox = new JLabel();
-     clientName = new JLabel();
-     itemBrand = new JLabel();
-     itemMade = new JLabel();
-     itemType = new JLabel();
-     itemSubtype = new JLabel();
-     itemPrice = new JLabel();
-     itemPhoto = new JLabel(temp);
-     companyPhoto = new JLabel(temp2);
-     JButton cxc = new JButton("CXC");
-     JButton ar = new JButton("Art. Recargables");
-     title.setText("VER ARTICULO"); //CHANGE!!!!
+        capBox = new JLabel();
+        unitCB = new JLabel();
+        itemDesc = new JLabel();
+        itemBrand = new JLabel();
+        itemMade = new JLabel();
+        itemType = new JLabel();
+        itemSubtype = new JLabel();
+        itemCost = new JLabel();
+        itemPrice = new JLabel();
+        itemPhoto = new JLabel(temp);
+        title.setText("VER ARTICULO"); //CHANGE!!!!
 
-     capBox.setFont(new Font("Arial", Font.PLAIN, 20));
-     clientName.setFont(new Font("Arial", Font.PLAIN, 20));
-     itemBrand.setFont(new Font("Arial", Font.PLAIN, 20));
-     itemMade.setFont(new Font("Arial", Font.PLAIN, 20));
-     itemType.setFont(new Font("Arial", Font.PLAIN, 20));
-     itemSubtype.setFont(new Font("Arial", Font.PLAIN, 20));
-     itemPrice.setFont(new Font("Arial", Font.PLAIN, 20));
+        capBox.setFont(new Font("Arial", Font.PLAIN, 20));
+        unitCB.setFont(new Font("Arial", Font.PLAIN, 20));
+        itemDesc.setFont(new Font("Arial", Font.PLAIN, 20));
+        itemBrand.setFont(new Font("Arial", Font.PLAIN, 20));
+        itemMade.setFont(new Font("Arial", Font.PLAIN, 20));
+        itemType.setFont(new Font("Arial", Font.PLAIN, 20));
+        itemSubtype.setFont(new Font("Arial", Font.PLAIN, 20));
+        itemCost.setFont(new Font("Arial", Font.PLAIN, 20));
+        itemPrice.setFont(new Font("Arial", Font.PLAIN, 20));
 
-     capBox.setBounds(120, 80, 100, 30);
-     clientName.setBounds(100, 120, 350, 30);
-     itemBrand.setBounds(130, 160, 300, 30);
-     itemMade.setBounds(100, 210, 350, 30);
-     itemType.setBounds(100, 250, 150, 30);
-     itemSubtype.setBounds(330, 250, 150, 30);
-     itemPrice.setBounds(100, 290, 250, 30);
-     itemPhoto.setBounds(75, 330, 100, 100);
-     companyPhoto.setBounds(200, 330, 150, 100);
-     cxc.setBounds(380, 350, 120, 30);
-     ar.setBounds(380, 390, 120, 30);
+        capBox.setBounds(150, 120, 50, 30);
+        unitCB.setBounds(200, 120, 50, 30);
+        itemDesc.setBounds(110, 160, 400, 30);
+        itemBrand.setBounds(80, 200, 180, 30);
+        itemMade.setBounds(340, 200, 170, 30);
+        itemType.setBounds(80, 240, 150, 30);
+        itemSubtype.setBounds(320, 240, 150, 30);
+        itemCost.setBounds(330, 300, 100, 30);
+        itemPrice.setBounds(330, 340, 100, 30);
+        itemPhoto.setBounds(80, 300, 150, 150);
 
-     contentPane.add(capBox);
-     contentPane.add(clientName);
-     contentPane.add(itemBrand);
-     contentPane.add(itemMade);
-     contentPane.add(itemType);
-     contentPane.add(itemSubtype);
-     contentPane.add(itemPrice);
-     contentPane.add(itemPhoto);
-     contentPane.add(companyPhoto);
-     contentPane.add(cxc);
-     contentPane.add(ar);
-     } */
+        contentPane.add(capBox);
+        contentPane.add(unitCB);
+        contentPane.add(itemDesc);
+        contentPane.add(itemBrand);
+        contentPane.add(itemMade);
+        contentPane.add(itemType);
+        contentPane.add(itemSubtype);
+        contentPane.add(itemCost);
+        contentPane.add(itemPrice);
+        contentPane.add(itemPhoto);
+    }
 }

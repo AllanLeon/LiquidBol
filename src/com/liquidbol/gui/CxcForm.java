@@ -46,7 +46,7 @@ public class CxcForm extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new CxcForm(2).setVisible(true);
+                new CxcForm(0).setVisible(true);
             }
         });
     }
