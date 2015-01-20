@@ -24,6 +24,14 @@ public class Person {
     private Date regDate;
 
     /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public Person(int id) {
+        this.id = id;
+    }
+
+    /**
      * Constructor method.
      * @param id
      * @param name

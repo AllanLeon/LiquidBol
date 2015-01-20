@@ -22,6 +22,14 @@ public class Item extends Product {
     private Collection<Discount> discounts;
 
     /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public Item(String id) {
+        super(id);
+    }
+
+    /**
      * Constructor of the class that includes all the variables as parameters.
      * @param id
      * @param capacity

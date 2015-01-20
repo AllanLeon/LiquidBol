@@ -24,6 +24,14 @@ public class RechargeableItem {
     private String obs;
 
     /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public RechargeableItem(String id) {
+        this.id = id;
+    }
+
+    /**
      * Constructor method.
      * @param id
      * @param description

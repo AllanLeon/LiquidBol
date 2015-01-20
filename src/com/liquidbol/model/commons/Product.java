@@ -24,6 +24,14 @@ public class Product {
     private Double profit;
 
     /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public Product(String id) {
+        this.id = id;
+    }
+
+    /**
      * Constructor method.
      * @param id
      * @param capacity

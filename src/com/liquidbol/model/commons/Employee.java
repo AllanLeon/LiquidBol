@@ -17,6 +17,14 @@ public class Employee extends Person {
     private String password;
 
     /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public Employee(int id) {
+        super(id);
+    }
+
+    /**
      * Constructor method.
      * @param id
      * @param name

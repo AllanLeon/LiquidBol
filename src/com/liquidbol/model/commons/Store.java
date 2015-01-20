@@ -26,6 +26,14 @@ public class Store {
     private Collection<Employee> employees;
 
     /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public Store(int id) {
+        this.id = id;
+    }
+
+    /**
      * Constructor method.
      * @param id
      * @param name

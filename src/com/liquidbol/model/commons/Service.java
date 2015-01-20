@@ -15,6 +15,14 @@ public class Service extends Product {
     private String description;
 
     /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public Service(String id) {
+        super(id);
+    }
+
+    /**
      * Constructor method.
      * @param description
      * @param capacity
