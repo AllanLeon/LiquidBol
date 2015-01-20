@@ -149,7 +149,7 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
     @Override
     public ServiceBill createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Employee employee = null;
+        Employee employee = new Employee(resultSet.getInt(3));
         Date date = resultSet.getDate(4);
         Double totalAmount = resultSet.getDouble(5);
         String obs = resultSet.getString(6);

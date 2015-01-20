@@ -153,8 +153,8 @@ public class ItemBillCrud implements DBCrud<ItemBill> {
     @Override
     public ItemBill createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Store store = null;
-        Employee employee = null;
+        Store store = new Store(resultSet.getInt(3));
+        Employee employee = new Employee(resultSet.getInt(4));
         Date date = resultSet.getDate(5);
         Double totalAmount = resultSet.getDouble(6);
         boolean route = resultSet.getBoolean(7);

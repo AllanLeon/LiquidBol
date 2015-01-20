@@ -146,7 +146,7 @@ public class ItemRequestCrud implements DBCrud<ItemRequest> {
     @Override
     public ItemRequest createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Item item = null;
+        Item item = new Item(resultSet.getString(3));
         int quantity = resultSet.getInt(4);
         Double amount = resultSet.getDouble(5);
         LOG.log(Level.FINE, "Creating item request %d", id);

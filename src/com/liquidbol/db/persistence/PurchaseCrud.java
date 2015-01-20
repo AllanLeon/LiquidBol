@@ -145,9 +145,10 @@ public class PurchaseCrud implements DBCrud<Purchase> {
     @Override
     public Purchase createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
+        Double ammount = resultSet.getDouble(3);
         Date date = resultSet.getDate(4);
         LOG.log(Level.FINE, "Creating tableex %d", id);
-        Purchase result = new Purchase(id, date);
+        Purchase result = new Purchase(id, ammount, date);
         return result;
     }
 }

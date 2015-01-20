@@ -155,8 +155,8 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
     @Override
     public ServiceReception createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Service service = null;
-        RechargeableItem item = null;
+        Service service = new Service(resultSet.getString(3));
+        RechargeableItem item = new RechargeableItem(resultSet.getString(4));
         Date receptionDate = resultSet.getDate(5);
         Timestamp deliverTime = resultSet.getTimestamp(6);
         Double amount = resultSet.getDouble(7);

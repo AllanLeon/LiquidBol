@@ -151,7 +151,7 @@ public class ItemEstimateCrud implements DBCrud<ItemEstimate> {
     @Override
     public ItemEstimate createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Store store = null;
+        Store store = new Store(resultSet.getInt(3));
         Date requestDate = resultSet.getDate(4);
         Date limitDate = resultSet.getDate(5);
         Double totalAmount = resultSet.getDouble(6);

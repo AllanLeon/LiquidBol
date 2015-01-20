@@ -142,7 +142,7 @@ public class InventoryCrud implements DBCrud<Inventory> {
     @Override
     public Inventory createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Item item = null;
+        Item item = new Item(resultSet.getString(2));
         int quantity = resultSet.getInt(4);
         LOG.log(Level.FINE, "Creating inventory %d", id);
         Inventory result = new Inventory(id, item, quantity);
