@@ -6,13 +6,14 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Class that represents a product.
  * @author Allan Leon
  */
-public class Product {
+public class Product implements Serializable {
     
     private String id;
     private Double capacity;

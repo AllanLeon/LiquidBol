@@ -8,6 +8,7 @@ package com.liquidbol.model.commons;
 
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.db.persistence.StoreCrud;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashSet;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  * Class that represents and item estimate.
  * @author Allan Leon
  */
-public class ItemEstimate {
+public class ItemEstimate implements Serializable {
     
     private int id;
     private Store store;

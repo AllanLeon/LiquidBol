@@ -6,6 +6,7 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -13,7 +14,7 @@ import java.util.HashSet;
  * Class that represent an item.
  * @author Allan Leon
  */
-public class Item extends Product {
+public class Item extends Product implements Serializable {
     
     private String name;
     private String brand;

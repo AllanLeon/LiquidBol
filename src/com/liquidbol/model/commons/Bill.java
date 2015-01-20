@@ -8,6 +8,7 @@ package com.liquidbol.model.commons;
 
 import com.liquidbol.db.persistence.EmployeeCrud;
 import com.liquidbol.db.persistence.PersistenceException;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashSet;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  * Class that represents a bill.
  * @author Allan Leon
  */
-public class Bill {
+public class Bill implements Serializable {
     
     private int id;
     private Employee employee;

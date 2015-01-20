@@ -6,11 +6,13 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
+
 /**
  * Class that represents a service.
  * @author Allan Leon
  */
-public class Service extends Product {
+public class Service extends Product implements Serializable {
     
     private String description;
 

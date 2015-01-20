@@ -8,6 +8,7 @@ package com.liquidbol.model.commons;
 
 import com.liquidbol.db.persistence.ItemCrud;
 import com.liquidbol.db.persistence.PersistenceException;
+import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
  * Class that represents an item sale.
  * @author Allan Leon
  */
-public class ItemSale {
+public class ItemSale implements Serializable {
     
     private int id;
     private Item item;

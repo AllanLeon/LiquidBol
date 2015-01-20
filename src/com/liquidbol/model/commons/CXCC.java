@@ -6,13 +6,14 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Class that represents a collected receivable account.
  * @author Allan Leon
  */
-public class CXCC {
+public class CXCC implements Serializable {
     
     private int id;
     private Double amountPaid;

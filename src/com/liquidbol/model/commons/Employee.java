@@ -6,13 +6,14 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Class that represents a employee.
  * @author Allan Leon
  */
-public class Employee extends Person {
+public class Employee extends Person implements Serializable {
 
     private String password;
 
