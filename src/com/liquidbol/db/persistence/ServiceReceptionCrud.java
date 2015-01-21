@@ -6,10 +6,10 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.RechargeableItem;
-import com.liquidbol.model.commons.Service;
-import com.liquidbol.model.commons.ServiceBill;
-import com.liquidbol.model.commons.ServiceReception;
+import com.liquidbol.commons.model.RechargeableItem;
+import com.liquidbol.commons.model.Service;
+import com.liquidbol.commons.model.ServiceBill;
+import com.liquidbol.commons.model.ServiceReception;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.model.commons;
+package com.liquidbol.commons.model;
 
 import com.liquidbol.db.persistence.EmployeeCrud;
 import com.liquidbol.db.persistence.PersistenceException;

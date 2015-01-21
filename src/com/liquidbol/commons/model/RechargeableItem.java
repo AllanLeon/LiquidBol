@@ -4,30 +4,31 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.model.commons;
+package com.liquidbol.commons.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 /**
- * Class that represents a product.
+ * Class that represents a rechargeable item.
  * @author Allan Leon
  */
-public class Product implements Serializable {
+public class RechargeableItem implements Serializable {
     
     private String id;
     private String description;
+    private Double capacity;
+    private String unit;
     private String type;
-    private Double cost;
-    private Double price;
-    private Double dif;
-    private Double profit;
+    private Date warrantyLimitDate;
+    private String obs;
 
     /**
      * Simple constructor method.
      * @param id 
      */
-    public Product(String id) {
+    public RechargeableItem(String id) {
         this.id = id;
     }
 
@@ -35,20 +36,20 @@ public class Product implements Serializable {
      * Constructor method.
      * @param id
      * @param description
+     * @param capacity
+     * @param unit
      * @param type
-     * @param cost
-     * @param price
-     * @param dif
-     * @param profit 
+     * @param warrantyLimitDate
+     * @param obs 
      */
-    public Product(String id, String description, String type, Double cost, Double price) {
+    public RechargeableItem(String id, String description, Double capacity, String unit, String type, Date warrantyLimitDate, String obs) {
         this.id = id;
         this.description = description;
+        this.capacity = capacity;
+        this.unit = unit;
         this.type = type;
-        this.cost = cost;
-        this.price = price;
-        this.dif = price - cost;
-        this.profit = 100 * dif / cost;
+        this.warrantyLimitDate = warrantyLimitDate;
+        this.obs = obs;
     }
 
     /**
@@ -66,6 +67,20 @@ public class Product implements Serializable {
     }
 
     /**
+     * @return the capacity
+     */
+    public Double getCapacity() {
+        return capacity;
+    }
+
+    /**
+     * @return the unit
+     */
+    public String getUnit() {
+        return unit;
+    }
+
+    /**
      * @return the type
      */
     public String getType() {
@@ -73,31 +88,17 @@ public class Product implements Serializable {
     }
 
     /**
-     * @return the cost
+     * @return the warrantyLimitDate
      */
-    public Double getCost() {
-        return cost;
+    public Date getWarrantyLimitDate() {
+        return warrantyLimitDate;
     }
 
     /**
-     * @return the price
+     * @return the obs
      */
-    public Double getPrice() {
-        return price;
-    }
-
-    /**
-     * @return the dif
-     */
-    public Double getDif() {
-        return dif;
-    }
-
-    /**
-     * @return the profit
-     */
-    public Double getProfit() {
-        return profit;
+    public String getObs() {
+        return obs;
     }
 
     /**
@@ -115,6 +116,20 @@ public class Product implements Serializable {
     }
 
     /**
+     * @param capacity the capacity to set
+     */
+    public void setCapacity(Double capacity) {
+        this.capacity = capacity;
+    }
+
+    /**
+     * @param unit the unit to set
+     */
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    /**
      * @param type the type to set
      */
     public void setType(String type) {
@@ -122,31 +137,17 @@ public class Product implements Serializable {
     }
 
     /**
-     * @param cost the cost to set
+     * @param warrantyLimitDate the warrantyLimitDate to set
      */
-    public void setCost(Double cost) {
-        this.cost = cost;
+    public void setWarrantyLimitDate(Date warrantyLimitDate) {
+        this.warrantyLimitDate = warrantyLimitDate;
     }
 
     /**
-     * @param price the price to set
+     * @param obs the obs to set
      */
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    /**
-     * @param dif the dif to set
-     */
-    public void setDif(Double dif) {
-        this.dif = dif;
-    }
-
-    /**
-     * @param profit the profit to set
-     */
-    public void setProfit(Double profit) {
-        this.profit = profit;
+    public void setObs(String obs) {
+        this.obs = obs;
     }
 
     @Override
@@ -164,7 +165,7 @@ public class Product implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Product other = (Product) obj;
+        final RechargeableItem other = (RechargeableItem) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }

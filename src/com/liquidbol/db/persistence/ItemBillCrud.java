@@ -6,10 +6,10 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.Client;
-import com.liquidbol.model.commons.Employee;
-import com.liquidbol.model.commons.ItemBill;
-import com.liquidbol.model.commons.Store;
+import com.liquidbol.commons.model.Client;
+import com.liquidbol.commons.model.Employee;
+import com.liquidbol.commons.model.ItemBill;
+import com.liquidbol.commons.model.Store;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

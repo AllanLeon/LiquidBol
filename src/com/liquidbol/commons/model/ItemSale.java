@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.model.commons;
+package com.liquidbol.commons.model;
 
 import com.liquidbol.db.persistence.ItemCrud;
 import com.liquidbol.db.persistence.PersistenceException;
@@ -13,25 +13,46 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class that represents an inventory.
+ * Class that represents an item sale.
  * @author Allan Leon
  */
-public class Inventory implements Serializable {
+public class ItemSale implements Serializable {
     
     private int id;
     private Item item;
     private int quantity;
+    private Double amount;
+    private String obs;
 
     /**
      * Constructor method.
      * @param id
      * @param item
-     * @param quantity 
+     * @param quantity
+     * @param obs 
      */
-    public Inventory(int id, Item item, int quantity) {
+    public ItemSale(int id, Item item, int quantity, String obs) {
         this.id = id;
         this.item = item;
         this.quantity = quantity;
+        this.obs = obs;
+        this.amount = item.getPrice() * quantity;
+    }
+
+    /**
+     * Constructor method with amount.
+     * @param id
+     * @param item
+     * @param quantity
+     * @param amount
+     * @param obs 
+     */
+    public ItemSale(int id, Item item, int quantity, Double amount, String obs) {
+        this.id = id;
+        this.item = item;
+        this.quantity = quantity;
+        this.amount = amount;
+        this.obs = obs;
     }
 
     /**
@@ -56,6 +77,20 @@ public class Inventory implements Serializable {
     }
 
     /**
+     * @return the amount
+     */
+    public Double getAmount() {
+        return amount;
+    }
+
+    /**
+     * @return the obs
+     */
+    public String getObs() {
+        return obs;
+    }
+
+    /**
      * @param id the id to set
      */
     public void setId(int id) {
@@ -75,6 +110,20 @@ public class Inventory implements Serializable {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    /**
+     * @param amount the amount to set
+     */
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    /**
+     * @param obs the obs to set
+     */
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
     
     public void refresh() {
         try {
@@ -88,8 +137,8 @@ public class Inventory implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + this.id;
+        int hash = 3;
+        hash = 47 * hash + this.id;
         return hash;
     }
 
@@ -101,7 +150,7 @@ public class Inventory implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Inventory other = (Inventory) obj;
+        final ItemSale other = (ItemSale) obj;
         if (this.id != other.id) {
             return false;
         }

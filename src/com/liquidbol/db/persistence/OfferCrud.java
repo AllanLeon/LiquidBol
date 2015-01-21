@@ -6,7 +6,7 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.Offer;
+import com.liquidbol.commons.model.Offer;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

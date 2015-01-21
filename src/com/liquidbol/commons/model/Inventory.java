@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.model.commons;
+package com.liquidbol.commons.model;
 
 import com.liquidbol.db.persistence.ItemCrud;
 import com.liquidbol.db.persistence.PersistenceException;
@@ -13,41 +13,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class that represents a purchase of a single item.
+ * Class that represents an inventory.
  * @author Allan Leon
  */
-public class ItemPurchase implements Serializable {
+public class Inventory implements Serializable {
     
     private int id;
     private Item item;
     private int quantity;
-    private Double amount;
 
     /**
      * Constructor method.
      * @param id
      * @param item
-     * @param quantity
+     * @param quantity 
      */
-    public ItemPurchase(int id, Item item, int quantity) {
+    public Inventory(int id, Item item, int quantity) {
         this.id = id;
         this.item = item;
         this.quantity = quantity;
-        this.amount = item.getCost() * quantity;
-    }
-
-    /**
-     * Constructor method with amount.
-     * @param id
-     * @param item
-     * @param quantity
-     * @param amount 
-     */
-    public ItemPurchase(int id, Item item, int quantity, Double amount) {
-        this.id = id;
-        this.item = item;
-        this.quantity = quantity;
-        this.amount = amount;
     }
 
     /**
@@ -72,13 +56,6 @@ public class ItemPurchase implements Serializable {
     }
 
     /**
-     * @return the amount
-     */
-    public Double getAmount() {
-        return amount;
-    }
-
-    /**
      * @param id the id to set
      */
     public void setId(int id) {
@@ -98,13 +75,6 @@ public class ItemPurchase implements Serializable {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
-    /**
-     * @param amount the amount to set
-     */
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
     
     public void refresh() {
         try {
@@ -118,8 +88,8 @@ public class ItemPurchase implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 67 * hash + this.id;
+        int hash = 7;
+        hash = 79 * hash + this.id;
         return hash;
     }
 
@@ -131,7 +101,7 @@ public class ItemPurchase implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ItemPurchase other = (ItemPurchase) obj;
+        final Inventory other = (Inventory) obj;
         if (this.id != other.id) {
             return false;
         }

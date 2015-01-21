@@ -6,8 +6,8 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.Debt;
-import com.liquidbol.model.commons.DebtPayment;
+import com.liquidbol.commons.model.Debt;
+import com.liquidbol.commons.model.DebtPayment;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.model.commons;
+package com.liquidbol.commons.model;
 
 import com.liquidbol.db.persistence.ItemCrud;
 import com.liquidbol.db.persistence.PersistenceException;
@@ -13,10 +13,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class that represents an item request.
+ * Class that represents a purchase of a single item.
  * @author Allan Leon
  */
-public class ItemRequest implements Serializable {
+public class ItemPurchase implements Serializable {
     
     private int id;
     private Item item;
@@ -29,11 +29,11 @@ public class ItemRequest implements Serializable {
      * @param item
      * @param quantity
      */
-    public ItemRequest(int id, Item item, int quantity) {
+    public ItemPurchase(int id, Item item, int quantity) {
         this.id = id;
         this.item = item;
         this.quantity = quantity;
-        this.amount = item.getPrice() * quantity;
+        this.amount = item.getCost() * quantity;
     }
 
     /**
@@ -43,7 +43,7 @@ public class ItemRequest implements Serializable {
      * @param quantity
      * @param amount 
      */
-    public ItemRequest(int id, Item item, int quantity, Double amount) {
+    public ItemPurchase(int id, Item item, int quantity, Double amount) {
         this.id = id;
         this.item = item;
         this.quantity = quantity;
@@ -118,8 +118,8 @@ public class ItemRequest implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + this.id;
+        int hash = 5;
+        hash = 67 * hash + this.id;
         return hash;
     }
 
@@ -131,7 +131,7 @@ public class ItemRequest implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ItemRequest other = (ItemRequest) obj;
+        final ItemPurchase other = (ItemPurchase) obj;
         if (this.id != other.id) {
             return false;
         }

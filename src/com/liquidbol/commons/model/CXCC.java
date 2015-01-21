@@ -4,32 +4,31 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.model.commons;
+package com.liquidbol.commons.model;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Objects;
 
 /**
- * Class that represents a debt's payment.
+ * Class that represents a collected receivable account.
  * @author Allan Leon
  */
-public class DebtPayment implements Serializable {
+public class CXCC implements Serializable {
     
     private int id;
+    private Double amountPaid;
     private Date payDate;
-    private Double amount;
 
     /**
-     * Constructor method of the class.
+     * Constructor method.
      * @param id
-     * @param payDate
-     * @param amount 
+     * @param amountPaid
+     * @param payDate 
      */
-    public DebtPayment(int id, Date payDate, Double amount) {
+    public CXCC(int id, Double amountPaid, Date payDate) {
         this.id = id;
+        this.amountPaid = amountPaid;
         this.payDate = payDate;
-        this.amount = amount;
     }
 
     /**
@@ -40,17 +39,17 @@ public class DebtPayment implements Serializable {
     }
 
     /**
+     * @return the amountPaid
+     */
+    public Double getAmountPaid() {
+        return amountPaid;
+    }
+
+    /**
      * @return the payDate
      */
     public Date getPayDate() {
         return payDate;
-    }
-
-    /**
-     * @return the amount
-     */
-    public Double getAmount() {
-        return amount;
     }
 
     /**
@@ -60,12 +59,24 @@ public class DebtPayment implements Serializable {
         this.id = id;
     }
 
+    /**
+     * @param amountPaid the amountPaid to set
+     */
+    public void setAmountPaid(Double amountPaid) {
+        this.amountPaid = amountPaid;
+    }
+
+    /**
+     * @param payDate the payDate to set
+     */
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 59 * hash + this.id;
-        hash = 59 * hash + Objects.hashCode(this.payDate);
-        hash = 59 * hash + Objects.hashCode(this.amount);
         return hash;
     }
 
@@ -77,14 +88,8 @@ public class DebtPayment implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DebtPayment other = (DebtPayment) obj;
+        final CXCC other = (CXCC) obj;
         if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.payDate, other.payDate)) {
-            return false;
-        }
-        if (!Objects.equals(this.amount, other.amount)) {
             return false;
         }
         return true;
