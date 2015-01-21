@@ -29,7 +29,79 @@ public class DatabaseCreator {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
+                DatabaseCreator dbCreator = new DatabaseCreator();
+                dbCreator.dropDatabase();
+                dbCreator.createDatabase();
+            }
+        });
+    }
+    
+    public void dropDatabase() {
+        try {
+            Class.forName(DRIVER);
+            Connection result = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            String query1 = "DROP TABLE item_requests";
+            String query2 = "DROP TABLE item_estimates";
+            String query3 = "DROP TABLE item_payments";
+            String query4 = "DROP TABLE item_sales";
+            String query5 = "DROP TABLE item_bills";
+            String query6 = "DROP TABLE service_payments";
+            String query7 = "DROP TABLE service_receptions";
+            String query8 = "DROP TABLE service_bills";
+            String query9 = "DROP TABLE rechargeable_items";
+            String query10 = "DROP TABLE services";
+            String query11 = "DROP TABLE clients_cxcc";
+            String query12 = "DROP TABLE clients_cxc";
+            String query13 = "DROP TABLE clients";
+            String query14 = "DROP TABLE employees_stores";
+            String query15 = "DROP TABLE employees";
+            String query16 = "DROP TABLE inventorys";
+            String query17 = "DROP TABLE expenses";
+            String query18 = "DROP TABLE stores";
+            String query19 = "DROP TABLE item_offers";
+            String query20 = "DROP TABLE item_discounts";
+            String query21 = "DROP TABLE item_purchases";
+            String query22 = "DROP TABLE purchases";
+            String query23 = "DROP TABLE items";
+            String query24 = "DROP TABLE debt_payments";
+            String query25 = "DROP TABLE supplier_debts";
+            String query26 = "DROP TABLE suppliers";
+            
+            result.createStatement().execute(query1);
+            result.createStatement().execute(query2);
+            result.createStatement().execute(query3);
+            result.createStatement().execute(query4);
+            result.createStatement().execute(query5);
+            result.createStatement().execute(query6);
+            result.createStatement().execute(query7);
+            result.createStatement().execute(query8);
+            result.createStatement().execute(query9);
+            result.createStatement().execute(query10);
+            result.createStatement().execute(query11);
+            result.createStatement().execute(query12);
+            result.createStatement().execute(query13);
+            result.createStatement().execute(query14);
+            result.createStatement().execute(query15);
+            result.createStatement().execute(query16);
+            result.createStatement().execute(query17);
+            result.createStatement().execute(query18);
+            result.createStatement().execute(query19);
+            result.createStatement().execute(query20);
+            result.createStatement().execute(query21);
+            result.createStatement().execute(query22);
+            result.createStatement().execute(query23);
+            result.createStatement().execute(query24);
+            result.createStatement().execute(query25);
+            result.createStatement().execute(query26);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void createDatabase() {
+        try {
                     Class.forName(DRIVER);
                     Connection result = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
                     String query1 = "CREATE TABLE suppliers (\n" +
@@ -64,9 +136,8 @@ public class DatabaseCreator {
 ")";
                     String query4 = "CREATE TABLE items (\n" +
 "    item_id VARCHAR(10) NOT NULL PRIMARY KEY,\n" +
-"    item_capacity REAL NOT NULL,\n" +
-"    item_unit VARCHAR(7) NOT NULL,\n" +
-"    item_name VARCHAR(100) NOT NULL,\n" +
+"    item_measure VARCHAR(15),\n" +
+"    item_description VARCHAR(100) NOT NULL,\n" +
 "    item_brand VARCHAR(20),\n" +
 "    item_industry VARCHAR(20),\n" +
 "    item_type VARCHAR(50) NOT NULL,\n" +
@@ -339,7 +410,26 @@ public class DatabaseCreator {
                 } catch (SQLException ex) {
                     Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-        });
+    }
+    
+    public void updateDatabase() {
+        try {
+            Class.forName(DRIVER);
+            Connection result = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            String query1 = "ALTER TABLE items DROP COLUMN item_capacity";
+            String query2 = "ALTER TABLE items DROP COLUMN item_unit ";
+            String query3 = "ALTER TABLE items ADD COLUMN item_measure VARCHAR(15) ";
+            String query4 = "ALTER TABLE items DROP COLUMN item_name ";
+            String query5 = "RENAME COLUMN item_description TO item_name";
+            //result.createStatement().execute(query1);
+            //result.createStatement().execute(query2);
+            //result.createStatement().execute(query3);
+            //result.createStatement().execute(query4);
+            //result.createStatement().execute(query5);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
