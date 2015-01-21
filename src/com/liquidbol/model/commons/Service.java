@@ -15,6 +15,8 @@ import java.io.Serializable;
 public class Service extends Product implements Serializable {
     
     private String description;
+    private Double capacity;
+    private String unit;
 
     /**
      * Simple constructor method.
@@ -26,17 +28,19 @@ public class Service extends Product implements Serializable {
 
     /**
      * Constructor method.
+     * @param id
      * @param description
      * @param capacity
      * @param unit
-     * @param id
      * @param type
      * @param cost
      * @param price 
      */
-    public Service(String id, Double capacity, String unit, String description, String type, Double cost, Double price) {
-        super(id, capacity, unit, type, cost, price);
+    public Service(String id, String description, Double capacity, String unit, String type, Double cost, Double price) {
+        super(id, type, cost, price);
         this.description = description;
+        this.capacity = capacity;
+        this.unit = unit;
     }
 
     /**
@@ -47,9 +51,37 @@ public class Service extends Product implements Serializable {
     }
 
     /**
+     * @return the capacity
+     */
+    public Double getCapacity() {
+        return capacity;
+    }
+
+    /**
+     * @return the unit
+     */
+    public String getUnit() {
+        return unit;
+    }
+
+    /**
      * @param description the description to set
      */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * @param capacity the capacity to set
+     */
+    public void setCapacity(Double capacity) {
+        this.capacity = capacity;
+    }
+
+    /**
+     * @param unit the unit to set
+     */
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

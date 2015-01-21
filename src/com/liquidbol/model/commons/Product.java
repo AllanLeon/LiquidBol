@@ -16,8 +16,6 @@ import java.util.Objects;
 public class Product implements Serializable {
     
     private String id;
-    private Double capacity;
-    private String unit;
     private String type;
     private Double cost;
     private Double price;
@@ -35,16 +33,12 @@ public class Product implements Serializable {
     /**
      * Constructor method.
      * @param id
-     * @param capacity
-     * @param unit
      * @param type
      * @param cost
      * @param price 
      */
-    public Product(String id, Double capacity, String unit, String type, Double cost, Double price) {
+    public Product(String id, String type, Double cost, Double price) {
         this.id = id;
-        this.capacity = capacity;
-        this.unit = unit;
         this.type = type;
         this.cost = cost;
         this.price = price;
@@ -55,20 +49,6 @@ public class Product implements Serializable {
      */
     public String getId() {
         return id;
-    }
-
-    /**
-     * @return the capacity
-     */
-    public Double getCapacity() {
-        return capacity;
-    }
-
-    /**
-     * @return the unit
-     */
-    public String getUnit() {
-        return unit;
     }
 
     /**
@@ -111,20 +91,6 @@ public class Product implements Serializable {
      */
     public void setId(String id) {
         this.id = id;
-    }
-
-    /**
-     * @param capacity the capacity to set
-     */
-    public void setCapacity(Double capacity) {
-        this.capacity = capacity;
-    }
-
-    /**
-     * @param unit the unit to set
-     */
-    public void setUnit(String unit) {
-        this.unit = unit;
     }
 
     /**

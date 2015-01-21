@@ -17,6 +17,7 @@ import java.util.HashSet;
 public class Item extends Product implements Serializable {
     
     private String name;
+    private String measure;
     private String brand;
     private String industry;
     private String subtype;
@@ -33,8 +34,7 @@ public class Item extends Product implements Serializable {
     /**
      * Constructor of the class that includes all the variables as parameters.
      * @param id
-     * @param capacity
-     * @param unit
+     * @param measure
      * @param name
      * @param brand
      * @param industry
@@ -43,9 +43,10 @@ public class Item extends Product implements Serializable {
      * @param cost
      * @param price
      */
-    public Item(String id, Double capacity, String unit, String name, String brand, String industry, String type, String subtype, Double cost, Double price) {
-        super(id, capacity, unit, type, cost, price);
+    public Item(String id, String measure, String name, String brand, String industry, String type, String subtype, Double cost, Double price) {
+        super(id, type, cost, price);
         this.name = name;
+        this.measure = measure;
         this.brand = brand;
         this.industry = industry;
         this.subtype = subtype;
@@ -57,6 +58,13 @@ public class Item extends Product implements Serializable {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * @return the measure
+     */
+    public String getMeasure() {
+        return measure;
     }
 
     /**
@@ -85,6 +93,13 @@ public class Item extends Product implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @param measure the measure to set
+     */
+    public void setMeasure(String measure) {
+        this.measure = measure;
     }
 
     /**
