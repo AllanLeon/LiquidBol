@@ -30,8 +30,6 @@ public class DatabaseCreator {
             @Override
             public void run() {
                 DatabaseCreator dbCreator = new DatabaseCreator();
-                dbCreator.dropDatabase();
-                dbCreator.createDatabase();
             }
         });
     }
@@ -58,7 +56,7 @@ public class DatabaseCreator {
             String query16 = "DROP TABLE inventorys";
             String query17 = "DROP TABLE expenses";
             String query18 = "DROP TABLE stores";
-            String query19 = "DROP TABLE item_offers";
+            String query19 = "DROP TABLE offers";
             String query20 = "DROP TABLE item_discounts";
             String query21 = "DROP TABLE item_purchases";
             String query22 = "DROP TABLE purchases";
@@ -173,10 +171,10 @@ public class DatabaseCreator {
 "    percentage REAL NOT NULL,\n" +
 "    CONSTRAINT discounts_item_id_ref FOREIGN KEY (item_id) REFERENCES items(item_id)\n" +
 ")";
-                    String query8 = "CREATE TABLE item_offers (\n" +
+                    String query8 = "CREATE TABLE offers (\n" +
 "    offer_id INTEGER NOT NULL PRIMARY KEY \n" +
 "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n" +
-"    item_type VARCHAR(50) NOT NULL,\n" +
+"    type VARCHAR(50) NOT NULL,\n" +
 "    percentage REAL NOT NULL,\n" +
 "    start_date DATE NOT NULL,\n" +
 "    end_date DATE NOT NULL\n" +
@@ -416,16 +414,17 @@ public class DatabaseCreator {
         try {
             Class.forName(DRIVER);
             Connection result = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-            String query1 = "ALTER TABLE items DROP COLUMN item_capacity";
-            String query2 = "ALTER TABLE items DROP COLUMN item_unit ";
-            String query3 = "ALTER TABLE items ADD COLUMN item_measure VARCHAR(15) ";
-            String query4 = "ALTER TABLE items DROP COLUMN item_name ";
-            String query5 = "RENAME COLUMN item_description TO item_name";
-            //result.createStatement().execute(query1);
-            //result.createStatement().execute(query2);
-            //result.createStatement().execute(query3);
-            //result.createStatement().execute(query4);
-            //result.createStatement().execute(query5);
+            String query1 = "DROP TABLE item_offers";
+            String query2 = "CREATE TABLE offers (\n" +
+"    offer_id INTEGER NOT NULL PRIMARY KEY \n" +
+"                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n" +
+"    type VARCHAR(50) NOT NULL,\n" +
+"    percentage REAL NOT NULL,\n" +
+"    start_date DATE NOT NULL,\n" +
+"    end_date DATE NOT NULL\n" +
+")";
+            result.createStatement().execute(query1);
+            result.createStatement().execute(query2);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

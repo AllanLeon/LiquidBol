@@ -21,9 +21,9 @@ import java.util.logging.Logger;
  * Class responsible of all persistence operations related to item offer.
  * @author Allan Leon
  */
-public class ItemOfferCrud implements DBCrud<Offer> {
+public class OfferCrud implements DBCrud<Offer> {
     
-    private static final Logger LOG = Logger.getLogger(ItemOfferCrud.class.getName());
+    private static final Logger LOG = Logger.getLogger(OfferCrud.class.getName());
 
     private Connection connection;
 
@@ -31,7 +31,7 @@ public class ItemOfferCrud implements DBCrud<Offer> {
     public Offer save(Offer element) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO item_offers(item_type, percentage, "
+            String insert = "INSERT INTO offers(type, percentage, "
                     + "start_date, end_date) VALUES(?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, element.getType());
@@ -40,13 +40,13 @@ public class ItemOfferCrud implements DBCrud<Offer> {
             statement.setDate(4, element.getEndDate());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new PersistenceException("item offer was not saved");
+                throw new PersistenceException("offer was not saved");
             }
-            LOG.info(String.format("item offer: %d successfuly saved", element.getId()));
+            LOG.info(String.format("offer: %d successfuly saved", element.getId()));
             return element;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException(String.format("Failed to save item offer: %d", element.getId()), ex);
+            throw new PersistenceException(String.format("Failed to save offer: %d", element.getId()), ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -64,7 +64,7 @@ public class ItemOfferCrud implements DBCrud<Offer> {
     @Override
     public Offer find(int id) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM item_offers WHERE offer_id = ?";
+            String query = "SELECT * FROM offers WHERE offer_id = ?";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
@@ -72,11 +72,11 @@ public class ItemOfferCrud implements DBCrud<Offer> {
             if (resultSet.next()) {
                 return createElementFromResultSet(resultSet);
             } else {
-                throw new PersistenceException(String.format("Couldn't find item offer with code %d", id));
+                throw new PersistenceException(String.format("Couldn't find offer with code %d", id));
             }
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read item offer", ex);
+            throw new PersistenceException("Failed to read offer", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -89,7 +89,7 @@ public class ItemOfferCrud implements DBCrud<Offer> {
     @Override
     public Offer merge(Offer element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE item_offers SET percentage=?, start_date=?, "
+            String query = "UPDATE offers SET percentage=?, start_date=?, "
                     + "end_date=? WHERE offer_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
@@ -99,12 +99,12 @@ public class ItemOfferCrud implements DBCrud<Offer> {
             statement.setInt(4, element.getId());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new PersistenceException("item offer was not updated");
+                throw new PersistenceException("offer was not updated");
             }
             return element;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException(String.format("Failed to update item offer: %d", element.getId()), ex);
+            throw new PersistenceException(String.format("Failed to update offer: %d", element.getId()), ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -117,7 +117,7 @@ public class ItemOfferCrud implements DBCrud<Offer> {
     @Override
     public Collection<Offer> getAll() throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM item_offers";
+            String query = "SELECT * FROM offers";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
@@ -129,7 +129,7 @@ public class ItemOfferCrud implements DBCrud<Offer> {
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read the item offers", ex);
+            throw new PersistenceException("Failed to read the offers", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -151,7 +151,7 @@ public class ItemOfferCrud implements DBCrud<Offer> {
         Double percentage = resultSet.getDouble(3);
         Date startDate = resultSet.getDate(4);
         Date endDate = resultSet.getDate(5);
-        LOG.log(Level.FINE, "Creating item offer %d", id);
+        LOG.log(Level.FINE, "Creating offer %d", id);
         Offer result = new Offer(id, type, percentage, startDate, endDate);
         return result;
     }

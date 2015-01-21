@@ -97,10 +97,10 @@ CREATE TABLE item_discounts (
     CONSTRAINT discounts_item_id_ref FOREIGN KEY (item_id) REFERENCES items(item_id)
 );
 
-CREATE TABLE item_offers (
+CREATE TABLE offers (
     offer_id INTEGER NOT NULL PRIMARY KEY 
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    item_type VARCHAR(50) NOT NULL,
+    type VARCHAR(50) NOT NULL,
     percentage REAL NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL
