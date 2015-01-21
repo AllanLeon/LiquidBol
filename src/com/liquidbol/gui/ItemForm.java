@@ -37,9 +37,8 @@ public class ItemForm extends JFrame {
     private JPanel contentPane;
     private JLabel title;
     private JLabel idShower;
-    private JLabel capLbl;
-    private Component capBox;
-    private Component unitCB;
+    private JLabel measureLbl;
+    private Component measureBox;
     private JLabel descLbl;
     private Component itemDesc;
     private JLabel brandLbl;
@@ -106,9 +105,8 @@ public class ItemForm extends JFrame {
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         idShower = new JLabel("Nº 000001");
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
-        capLbl = new JLabel("Capacidad");
-        capBox = new JTextField();
-        unitCB = new JComboBox();
+        measureLbl = new JLabel("Medida");
+        measureBox = new JTextField();
         descLbl = new JLabel("Descripcion");
         itemDesc = new JTextField();
         brandLbl = new JLabel("Marca");
@@ -135,9 +133,8 @@ public class ItemForm extends JFrame {
 
         title.setBounds(100, 30, 400, 30);
         idShower.setBounds(350, 80, 150, 30);
-        capLbl.setBounds(80, 120, 70, 30);
-        capBox.setBounds(150, 120, 50, 30);
-        unitCB.setBounds(200, 120, 50, 30);
+        measureLbl.setBounds(60, 120, 70, 30);
+        measureBox.setBounds(110, 120, 50, 30);
         descLbl.setBounds(40, 160, 70, 30);
         itemDesc.setBounds(110, 160, 400, 30);
         brandLbl.setBounds(40, 200, 40, 30);
@@ -157,9 +154,8 @@ public class ItemForm extends JFrame {
 
         contentPane.add(title);
         contentPane.add(idShower);
-        contentPane.add(capLbl);
-        contentPane.add(capBox);
-        contentPane.add(unitCB);
+        contentPane.add(measureLbl);
+        contentPane.add(measureBox);
         contentPane.add(descLbl);
         contentPane.add(itemDesc);
         contentPane.add(brandLbl);
@@ -238,8 +234,7 @@ public class ItemForm extends JFrame {
 
     private void convertToReadOnly() {    
         Icon temp = itemPhoto.getIcon();
-        contentPane.remove(capBox);
-        contentPane.remove(unitCB);
+        contentPane.remove(measureBox);
         contentPane.remove(itemDesc);
         contentPane.remove(itemBrand);
         contentPane.remove(itemMade);
@@ -250,8 +245,7 @@ public class ItemForm extends JFrame {
         contentPane.remove(itemPhoto);
         contentPane.remove(submitBtn);
 
-        capBox = new JLabel();
-        unitCB = new JLabel();
+        measureBox = new JLabel();
         itemDesc = new JLabel();
         itemBrand = new JLabel();
         itemMade = new JLabel();
@@ -262,8 +256,7 @@ public class ItemForm extends JFrame {
         itemPhoto = new JLabel(temp);
         title.setText("VER ARTICULO"); //CHANGE!!!!
 
-        capBox.setFont(new Font("Arial", Font.PLAIN, 20));
-        unitCB.setFont(new Font("Arial", Font.PLAIN, 20));
+        measureBox.setFont(new Font("Arial", Font.PLAIN, 20));
         itemDesc.setFont(new Font("Arial", Font.PLAIN, 20));
         itemBrand.setFont(new Font("Arial", Font.PLAIN, 20));
         itemMade.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -272,8 +265,7 @@ public class ItemForm extends JFrame {
         itemCost.setFont(new Font("Arial", Font.PLAIN, 20));
         itemPrice.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        capBox.setBounds(150, 120, 50, 30);
-        unitCB.setBounds(200, 120, 50, 30);
+        measureBox.setBounds(110, 120, 50, 30);
         itemDesc.setBounds(110, 160, 400, 30);
         itemBrand.setBounds(80, 200, 180, 30);
         itemMade.setBounds(340, 200, 170, 30);
@@ -283,8 +275,7 @@ public class ItemForm extends JFrame {
         itemPrice.setBounds(330, 340, 100, 30);
         itemPhoto.setBounds(80, 300, 150, 150);
 
-        contentPane.add(capBox);
-        contentPane.add(unitCB);
+        contentPane.add(measureBox);
         contentPane.add(itemDesc);
         contentPane.add(itemBrand);
         contentPane.add(itemMade);
