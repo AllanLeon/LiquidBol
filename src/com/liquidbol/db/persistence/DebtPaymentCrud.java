@@ -6,6 +6,7 @@
 
 package com.liquidbol.db.persistence;
 
+import com.liquidbol.model.commons.Debt;
 import com.liquidbol.model.commons.DebtPayment;
 import java.sql.Connection;
 import java.sql.Date;
@@ -27,8 +28,7 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
 
     private Connection connection;
     
-    @Override
-    public DebtPayment save(DebtPayment payment) throws PersistenceException, ClassNotFoundException {
+    public DebtPayment save(DebtPayment payment, Debt parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO debt_payments(debt_id, pay_date, amount) "
@@ -146,6 +146,11 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
         LOG.log(Level.FINE, "Creating debt payment %d", id);
         DebtPayment result = new DebtPayment(id, payDate, amount);
         return result;
+    }
+
+    @Override
+    public DebtPayment save(DebtPayment element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -6,6 +6,7 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.sql.Date;
 import java.util.HashSet;
@@ -16,7 +17,7 @@ import java.util.Set;
  * Class that represents a debt.
  * @author Allan Leon
  */
-public class Debt {
+public class Debt implements Serializable {
     
     private int id;
     private Double amount;

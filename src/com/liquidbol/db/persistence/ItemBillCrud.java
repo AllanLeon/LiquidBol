@@ -6,6 +6,7 @@
 
 package com.liquidbol.db.persistence;
 
+import com.liquidbol.model.commons.Client;
 import com.liquidbol.model.commons.Employee;
 import com.liquidbol.model.commons.ItemBill;
 import com.liquidbol.model.commons.Store;
@@ -29,14 +30,13 @@ public class ItemBillCrud implements DBCrud<ItemBill> {
 
     private Connection connection;
 
-    @Override
-    public ItemBill save(ItemBill element) throws PersistenceException, ClassNotFoundException {
+    public ItemBill save(ItemBill element, Client parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_bills(client_id, store_id, employee_id, "
                     + "bill_date, total_amount, is_route, obs) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setInt(1, 0);
+            statement.setInt(1, parent.getId());
             statement.setInt(2, element.getStore().getId());
             statement.setInt(3, element.getEmployee().getId());
             statement.setDate(4, element.getDate());
@@ -153,8 +153,8 @@ public class ItemBillCrud implements DBCrud<ItemBill> {
     @Override
     public ItemBill createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Store store = null;
-        Employee employee = null;
+        Store store = new Store(resultSet.getInt(3));
+        Employee employee = new Employee(resultSet.getInt(4));
         Date date = resultSet.getDate(5);
         Double totalAmount = resultSet.getDouble(6);
         boolean route = resultSet.getBoolean(7);
@@ -162,5 +162,10 @@ public class ItemBillCrud implements DBCrud<ItemBill> {
         LOG.log(Level.FINE, "Creating item bill %d", id);
         ItemBill result = new ItemBill(id, employee, date, totalAmount, obs, store, route);
         return result;
+    }
+
+    @Override
+    public ItemBill save(ItemBill element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

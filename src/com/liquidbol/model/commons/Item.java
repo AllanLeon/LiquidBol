@@ -6,6 +6,7 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -13,20 +14,27 @@ import java.util.HashSet;
  * Class that represent an item.
  * @author Allan Leon
  */
-public class Item extends Product {
+public class Item extends Product implements Serializable {
     
-    private String name;
+    private String measure;
     private String brand;
     private String industry;
     private String subtype;
     private Collection<Discount> discounts;
 
     /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public Item(String id) {
+        super(id);
+    }
+
+    /**
      * Constructor of the class that includes all the variables as parameters.
      * @param id
-     * @param capacity
-     * @param unit
-     * @param name
+     * @param measure
+     * @param description
      * @param brand
      * @param industry
      * @param type
@@ -34,9 +42,9 @@ public class Item extends Product {
      * @param cost
      * @param price
      */
-    public Item(String id, Double capacity, String unit, String name, String brand, String industry, String type, String subtype, Double cost, Double price) {
-        super(id, capacity, unit, type, cost, price);
-        this.name = name;
+    public Item(String id, String measure, String description, String brand, String industry, String type, String subtype, Double cost, Double price) {
+        super(id, description, type, cost, price);
+        this.measure = measure;
         this.brand = brand;
         this.industry = industry;
         this.subtype = subtype;
@@ -44,10 +52,10 @@ public class Item extends Product {
     }
 
     /**
-     * @return the name
+     * @return the measure
      */
-    public String getName() {
-        return name;
+    public String getMeasure() {
+        return measure;
     }
 
     /**
@@ -72,10 +80,10 @@ public class Item extends Product {
     }
 
     /**
-     * @param name the name to set
+     * @param measure the measure to set
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setMeasure(String measure) {
+        this.measure = measure;
     }
 
     /**

@@ -6,13 +6,14 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Class that represents a service sale.
  * @author Allan Leon
  */
-public class ServiceSale {
+public class ServiceSale implements Serializable {
     
     private int id;
     private Date payDate;

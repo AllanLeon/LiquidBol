@@ -6,6 +6,7 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ import java.util.Objects;
  * Class that represents a rechargeable item.
  * @author Allan Leon
  */
-public class RechargeableItem {
+public class RechargeableItem implements Serializable {
     
     private String id;
     private String description;
@@ -22,6 +23,14 @@ public class RechargeableItem {
     private String type;
     private Date warrantyLimitDate;
     private String obs;
+
+    /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public RechargeableItem(String id) {
+        this.id = id;
+    }
 
     /**
      * Constructor method.

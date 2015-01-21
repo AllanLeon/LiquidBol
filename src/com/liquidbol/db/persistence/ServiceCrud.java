@@ -160,7 +160,7 @@ public class ServiceCrud implements DBCrud<Service> {
         Double cost = resultSet.getDouble(6);
         Double price = resultSet.getDouble(7);
         LOG.log(Level.FINE, "Creating service %d", id);
-        Service result = new Service(id, capacity, unit, description, type, cost, price);
+        Service result = new Service(id, description, capacity, unit, type, cost, price);
         return result;
     }
 }

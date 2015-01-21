@@ -6,6 +6,7 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.sql.Date;
 import java.util.HashSet;
@@ -14,7 +15,7 @@ import java.util.HashSet;
  * Class that represents a receivable account.
  * @author Allan Leon
  */
-public class CXC {
+public class CXC implements Serializable {
     
     private int id;
     private Double debt;

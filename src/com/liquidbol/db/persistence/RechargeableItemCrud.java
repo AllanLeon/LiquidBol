@@ -6,6 +6,7 @@
 
 package com.liquidbol.db.persistence;
 
+import com.liquidbol.model.commons.Client;
 import com.liquidbol.model.commons.RechargeableItem;
 import java.sql.Connection;
 import java.sql.Date;
@@ -27,8 +28,7 @@ public class RechargeableItemCrud implements DBCrud<RechargeableItem> {
 
     private Connection connection;
 
-    @Override
-    public RechargeableItem save(RechargeableItem element) throws PersistenceException, ClassNotFoundException {
+    public RechargeableItem save(RechargeableItem element, Client parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO rechargeable_items(rechargeableitem_id, "
@@ -36,7 +36,7 @@ public class RechargeableItemCrud implements DBCrud<RechargeableItem> {
                     + "obs) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, element.getId());
-            statement.setInt(2, 0);
+            statement.setInt(2, parent.getId());
             statement.setString(3, element.getDescription());
             statement.setString(4, element.getType());
             statement.setDouble(5, element.getCapacity());
@@ -158,5 +158,10 @@ public class RechargeableItemCrud implements DBCrud<RechargeableItem> {
         LOG.log(Level.FINE, "Creating rechargeable item %d", id);
         RechargeableItem result = new RechargeableItem(obs, description, capacity, unit, type, warrantyLimitDate, obs);
         return result;
+    }
+
+    @Override
+    public RechargeableItem save(RechargeableItem element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
