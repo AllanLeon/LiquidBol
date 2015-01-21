@@ -34,13 +34,13 @@ public class ItemCrud implements DBCrud<Item> {
     public Item save(Item item) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO items(item_id, item_measure, item_name,"
+            String insert = "INSERT INTO items(item_id, item_measure, item_description,"
                     + "item_brand, item_industry, item_type, item_subtype, item_cost"
                     + "item_price, item_dif, item_profit) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, item.getId());
             statement.setString(2, item.getMeasure());
-            statement.setString(3, item.getName());
+            statement.setString(3, item.getDescription());
             statement.setString(4, item.getBrand());
             statement.setString(5, item.getIndustry());
             statement.setString(6, item.getType());
@@ -53,7 +53,7 @@ public class ItemCrud implements DBCrud<Item> {
             if (rowsAffected == 0) {
                 throw new PersistenceException("Item was not saved");
             }
-            LOG.info(String.format("Item: %s successfuly saved", item.getName()));
+            LOG.info(String.format("Item: %s successfuly saved", item.getDescription()));
             return item;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
@@ -175,7 +175,7 @@ public class ItemCrud implements DBCrud<Item> {
     public Item createElementFromResultSet(ResultSet resultSet) throws SQLException {
         String id = resultSet.getString(1);
         String measure = resultSet.getString(2);
-        String name = resultSet.getString(3);
+        String description = resultSet.getString(3);
         String brand = resultSet.getString(4);
         String industry = resultSet.getString(5);
         String type = resultSet.getString(6);
@@ -183,7 +183,7 @@ public class ItemCrud implements DBCrud<Item> {
         Double cost = resultSet.getDouble(8);
         Double price = resultSet.getDouble(9);
         LOG.log(Level.FINE, "Creating Item %s", id);
-        Item result = new Item(id, measure, name, brand, industry, type, subtype, cost, price);
+        Item result = new Item(id, measure, description, brand, industry, type, subtype, cost, price);
         return result;
     }
 }

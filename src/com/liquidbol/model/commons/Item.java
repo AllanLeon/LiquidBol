@@ -16,7 +16,6 @@ import java.util.HashSet;
  */
 public class Item extends Product implements Serializable {
     
-    private String name;
     private String measure;
     private String brand;
     private String industry;
@@ -35,7 +34,7 @@ public class Item extends Product implements Serializable {
      * Constructor of the class that includes all the variables as parameters.
      * @param id
      * @param measure
-     * @param name
+     * @param description
      * @param brand
      * @param industry
      * @param type
@@ -43,21 +42,13 @@ public class Item extends Product implements Serializable {
      * @param cost
      * @param price
      */
-    public Item(String id, String measure, String name, String brand, String industry, String type, String subtype, Double cost, Double price) {
-        super(id, type, cost, price);
-        this.name = name;
+    public Item(String id, String measure, String description, String brand, String industry, String type, String subtype, Double cost, Double price) {
+        super(id, description, type, cost, price);
         this.measure = measure;
         this.brand = brand;
         this.industry = industry;
         this.subtype = subtype;
         this.discounts = new HashSet<>();
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
     }
 
     /**
@@ -86,13 +77,6 @@ public class Item extends Product implements Serializable {
      */
     public String getSubtype() {
         return subtype;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**

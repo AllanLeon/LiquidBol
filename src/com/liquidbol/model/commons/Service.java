@@ -14,7 +14,6 @@ import java.io.Serializable;
  */
 public class Service extends Product implements Serializable {
     
-    private String description;
     private Double capacity;
     private String unit;
 
@@ -37,17 +36,9 @@ public class Service extends Product implements Serializable {
      * @param price 
      */
     public Service(String id, String description, Double capacity, String unit, String type, Double cost, Double price) {
-        super(id, type, cost, price);
-        this.description = description;
+        super(id, description, type, cost, price);
         this.capacity = capacity;
         this.unit = unit;
-    }
-
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
     }
 
     /**
@@ -62,13 +53,6 @@ public class Service extends Product implements Serializable {
      */
     public String getUnit() {
         return unit;
-    }
-
-    /**
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     /**

@@ -16,6 +16,7 @@ import java.util.Objects;
 public class Product implements Serializable {
     
     private String id;
+    private String description;
     private String type;
     private Double cost;
     private Double price;
@@ -33,15 +34,21 @@ public class Product implements Serializable {
     /**
      * Constructor method.
      * @param id
+     * @param description
      * @param type
      * @param cost
-     * @param price 
+     * @param price
+     * @param dif
+     * @param profit 
      */
-    public Product(String id, String type, Double cost, Double price) {
+    public Product(String id, String description, String type, Double cost, Double price) {
         this.id = id;
+        this.description = description;
         this.type = type;
         this.cost = cost;
         this.price = price;
+        this.dif = price - cost;
+        this.profit = 100 * dif / cost;
     }
 
     /**
@@ -49,6 +56,13 @@ public class Product implements Serializable {
      */
     public String getId() {
         return id;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -94,6 +108,13 @@ public class Product implements Serializable {
     }
 
     /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
      * @param type the type to set
      */
     public void setType(String type) {
@@ -131,7 +152,7 @@ public class Product implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 31 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
