@@ -4,28 +4,33 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.commons.model;
+package com.liquidbol.model;
 
 import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Class that represents an expense.
+ * Class that represents a service sale.
  * @author Allan Leon
  */
-public class Expense implements Serializable {
+public class ServiceSale implements Serializable {
     
     private int id;
     private Date payDate;
-    private String description;
-    private Double amount;
+    private Double amountPaid;
     private String obs;
 
-    public Expense(int id, Date payDate, String description, Double amount, String obs) {
+    /**
+     * Constructor method.
+     * @param id
+     * @param payDate
+     * @param amountPaid
+     * @param obs 
+     */
+    public ServiceSale(int id, Date payDate, Double amountPaid, String obs) {
         this.id = id;
         this.payDate = payDate;
-        this.description = description;
-        this.amount = amount;
+        this.amountPaid = amountPaid;
         this.obs = obs;
     }
 
@@ -44,17 +49,10 @@ public class Expense implements Serializable {
     }
 
     /**
-     * @return the description
+     * @return the amountPaid
      */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * @return the amount
-     */
-    public Double getAmount() {
-        return amount;
+    public Double getAmountPaid() {
+        return amountPaid;
     }
 
     /**
@@ -79,17 +77,10 @@ public class Expense implements Serializable {
     }
 
     /**
-     * @param description the description to set
+     * @param amountPaid the amountPaid to set
      */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * @param amount the amount to set
-     */
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public void setAmountPaid(Double amountPaid) {
+        this.amountPaid = amountPaid;
     }
 
     /**
@@ -101,8 +92,8 @@ public class Expense implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + this.id;
+        int hash = 3;
+        hash = 73 * hash + this.id;
         return hash;
     }
 
@@ -114,7 +105,7 @@ public class Expense implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Expense other = (Expense) obj;
+        final ServiceSale other = (ServiceSale) obj;
         if (this.id != other.id) {
             return false;
         }

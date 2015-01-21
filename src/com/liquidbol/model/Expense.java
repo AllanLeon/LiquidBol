@@ -4,32 +4,29 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.commons.model;
+package com.liquidbol.model;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Objects;
 
 /**
- * Class that represents a debt's payment.
+ * Class that represents an expense.
  * @author Allan Leon
  */
-public class DebtPayment implements Serializable {
+public class Expense implements Serializable {
     
     private int id;
     private Date payDate;
+    private String description;
     private Double amount;
+    private String obs;
 
-    /**
-     * Constructor method of the class.
-     * @param id
-     * @param payDate
-     * @param amount 
-     */
-    public DebtPayment(int id, Date payDate, Double amount) {
+    public Expense(int id, Date payDate, String description, Double amount, String obs) {
         this.id = id;
         this.payDate = payDate;
+        this.description = description;
         this.amount = amount;
+        this.obs = obs;
     }
 
     /**
@@ -47,10 +44,24 @@ public class DebtPayment implements Serializable {
     }
 
     /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
      * @return the amount
      */
     public Double getAmount() {
         return amount;
+    }
+
+    /**
+     * @return the obs
+     */
+    public String getObs() {
+        return obs;
     }
 
     /**
@@ -60,12 +71,38 @@ public class DebtPayment implements Serializable {
         this.id = id;
     }
 
+    /**
+     * @param payDate the payDate to set
+     */
+    public void setPayDate(Date payDate) {
+        this.payDate = payDate;
+    }
+
+    /**
+     * @param description the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * @param amount the amount to set
+     */
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    /**
+     * @param obs the obs to set
+     */
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 59 * hash + this.id;
-        hash = 59 * hash + Objects.hashCode(this.payDate);
-        hash = 59 * hash + Objects.hashCode(this.amount);
         return hash;
     }
 
@@ -77,14 +114,8 @@ public class DebtPayment implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final DebtPayment other = (DebtPayment) obj;
+        final Expense other = (Expense) obj;
         if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.payDate, other.payDate)) {
-            return false;
-        }
-        if (!Objects.equals(this.amount, other.amount)) {
             return false;
         }
         return true;

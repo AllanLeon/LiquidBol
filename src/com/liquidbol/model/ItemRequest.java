@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.commons.model;
+package com.liquidbol.model;
 
 import com.liquidbol.db.persistence.ItemCrud;
 import com.liquidbol.db.persistence.PersistenceException;
@@ -13,29 +13,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class that represents an item sale.
+ * Class that represents an item request.
  * @author Allan Leon
  */
-public class ItemSale implements Serializable {
+public class ItemRequest implements Serializable {
     
     private int id;
     private Item item;
     private int quantity;
     private Double amount;
-    private String obs;
 
     /**
      * Constructor method.
      * @param id
      * @param item
      * @param quantity
-     * @param obs 
      */
-    public ItemSale(int id, Item item, int quantity, String obs) {
+    public ItemRequest(int id, Item item, int quantity) {
         this.id = id;
         this.item = item;
         this.quantity = quantity;
-        this.obs = obs;
         this.amount = item.getPrice() * quantity;
     }
 
@@ -44,15 +41,13 @@ public class ItemSale implements Serializable {
      * @param id
      * @param item
      * @param quantity
-     * @param amount
-     * @param obs 
+     * @param amount 
      */
-    public ItemSale(int id, Item item, int quantity, Double amount, String obs) {
+    public ItemRequest(int id, Item item, int quantity, Double amount) {
         this.id = id;
         this.item = item;
         this.quantity = quantity;
         this.amount = amount;
-        this.obs = obs;
     }
 
     /**
@@ -84,13 +79,6 @@ public class ItemSale implements Serializable {
     }
 
     /**
-     * @return the obs
-     */
-    public String getObs() {
-        return obs;
-    }
-
-    /**
      * @param id the id to set
      */
     public void setId(int id) {
@@ -117,13 +105,6 @@ public class ItemSale implements Serializable {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
-
-    /**
-     * @param obs the obs to set
-     */
-    public void setObs(String obs) {
-        this.obs = obs;
-    }
     
     public void refresh() {
         try {
@@ -137,7 +118,7 @@ public class ItemSale implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = 7;
         hash = 47 * hash + this.id;
         return hash;
     }
@@ -150,7 +131,7 @@ public class ItemSale implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ItemSale other = (ItemSale) obj;
+        final ItemRequest other = (ItemRequest) obj;
         if (this.id != other.id) {
             return false;
         }

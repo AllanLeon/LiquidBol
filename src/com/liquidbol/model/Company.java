@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.commons.model;
+package com.liquidbol.model;
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -4,34 +4,32 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.commons.model;
+package com.liquidbol.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Objects;
 
 /**
- * Class that represents a service sale.
+ * Class that represents a debt's payment.
  * @author Allan Leon
  */
-public class ServiceSale implements Serializable {
+public class DebtPayment implements Serializable {
     
     private int id;
     private Date payDate;
-    private Double amountPaid;
-    private String obs;
+    private Double amount;
 
     /**
-     * Constructor method.
+     * Constructor method of the class.
      * @param id
      * @param payDate
-     * @param amountPaid
-     * @param obs 
+     * @param amount 
      */
-    public ServiceSale(int id, Date payDate, Double amountPaid, String obs) {
+    public DebtPayment(int id, Date payDate, Double amount) {
         this.id = id;
         this.payDate = payDate;
-        this.amountPaid = amountPaid;
-        this.obs = obs;
+        this.amount = amount;
     }
 
     /**
@@ -49,17 +47,10 @@ public class ServiceSale implements Serializable {
     }
 
     /**
-     * @return the amountPaid
+     * @return the amount
      */
-    public Double getAmountPaid() {
-        return amountPaid;
-    }
-
-    /**
-     * @return the obs
-     */
-    public String getObs() {
-        return obs;
+    public Double getAmount() {
+        return amount;
     }
 
     /**
@@ -69,31 +60,12 @@ public class ServiceSale implements Serializable {
         this.id = id;
     }
 
-    /**
-     * @param payDate the payDate to set
-     */
-    public void setPayDate(Date payDate) {
-        this.payDate = payDate;
-    }
-
-    /**
-     * @param amountPaid the amountPaid to set
-     */
-    public void setAmountPaid(Double amountPaid) {
-        this.amountPaid = amountPaid;
-    }
-
-    /**
-     * @param obs the obs to set
-     */
-    public void setObs(String obs) {
-        this.obs = obs;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 73 * hash + this.id;
+        int hash = 7;
+        hash = 59 * hash + this.id;
+        hash = 59 * hash + Objects.hashCode(this.payDate);
+        hash = 59 * hash + Objects.hashCode(this.amount);
         return hash;
     }
 
@@ -105,8 +77,14 @@ public class ServiceSale implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ServiceSale other = (ServiceSale) obj;
+        final DebtPayment other = (DebtPayment) obj;
         if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.payDate, other.payDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.amount, other.amount)) {
             return false;
         }
         return true;
