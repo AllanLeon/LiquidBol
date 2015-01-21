@@ -7,6 +7,7 @@
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.commons.Item;
+import com.liquidbol.model.commons.ItemEstimate;
 import com.liquidbol.model.commons.ItemRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,14 +28,13 @@ public class ItemRequestCrud implements DBCrud<ItemRequest> {
 
     private Connection connection;
 
-    @Override
-    public ItemRequest save(ItemRequest element) throws PersistenceException, ClassNotFoundException {
+    public ItemRequest save(ItemRequest element, ItemEstimate parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_requests(itemestimate_id, item_id, "
                     + "quantity, total_amount) VALUES(?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setInt(1, 0);
+            statement.setInt(1, parent.getId());
             statement.setString(2, element.getItem().getId());
             statement.setInt(3, element.getQuantity());
             statement.setDouble(4, element.getAmount());
@@ -152,5 +152,10 @@ public class ItemRequestCrud implements DBCrud<ItemRequest> {
         LOG.log(Level.FINE, "Creating item request %d", id);
         ItemRequest result = new ItemRequest(id, item, quantity, amount);
         return result;
+    }
+
+    @Override
+    public ItemRequest save(ItemRequest element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -6,6 +6,7 @@
 
 package com.liquidbol.db.persistence;
 
+import com.liquidbol.model.commons.Client;
 import com.liquidbol.model.commons.Employee;
 import com.liquidbol.model.commons.ServiceBill;
 import java.sql.Connection;
@@ -28,14 +29,13 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
 
     private Connection connection;
 
-    @Override
-    public ServiceBill save(ServiceBill element) throws PersistenceException, ClassNotFoundException {
+    public ServiceBill save(ServiceBill element, Client parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO service_bills(client_id, employee_id, "
                     + "bill_date, total_amount, obs) VALUES(?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setInt(1, 0);
+            statement.setInt(1, parent.getId());
             statement.setInt(2, element.getEmployee().getId());
             statement.setDate(3, element.getDate());
             statement.setDouble(4, element.getTotalAmount());
@@ -156,5 +156,10 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
         LOG.log(Level.FINE, "Creating service bill %d", id);
         ServiceBill result = new ServiceBill(id, employee, date, totalAmount, obs);
         return result;
+    }
+
+    @Override
+    public ServiceBill save(ServiceBill element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

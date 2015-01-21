@@ -6,6 +6,7 @@
 
 package com.liquidbol.db.persistence;
 
+import com.liquidbol.model.commons.CXC;
 import com.liquidbol.model.commons.CXCC;
 import java.sql.Connection;
 import java.sql.Date;
@@ -28,14 +29,13 @@ public class ClientCXCCCrud implements DBCrud<CXCC> {
 
     private Connection connection;
 
-    @Override
-    public CXCC save(CXCC element) throws PersistenceException, ClassNotFoundException {
+    public CXCC save(CXCC element, CXC parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO clients_cxcc(clientscxc_id, amount_paid, "
                     + "pay_date) VALUES(?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setInt(1, 0);;
+            statement.setInt(1, parent.getId());;
             statement.setDouble(2, element.getAmountPaid());
             statement.setDate(3, element.getPayDate());
             int rowsAffected = statement.executeUpdate();
@@ -151,5 +151,10 @@ public class ClientCXCCCrud implements DBCrud<CXCC> {
         LOG.log(Level.FINE, "Creating client collected receivable account %d", id);
         CXCC result = new CXCC(id, amountPaid, payDate);
         return result;
+    }
+
+    @Override
+    public CXCC save(CXCC element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

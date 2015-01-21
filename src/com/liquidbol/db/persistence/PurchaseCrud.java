@@ -7,6 +7,7 @@
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.commons.Purchase;
+import com.liquidbol.model.commons.Supplier;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -27,14 +28,13 @@ public class PurchaseCrud implements DBCrud<Purchase> {
 
     private Connection connection;
 
-    @Override
-    public Purchase save(Purchase element) throws PersistenceException, ClassNotFoundException {
+    public Purchase save(Purchase element, Supplier parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO purchases(supplier_id, total_amount, "
                     + "purchase_date) VALUES(?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setInt(1, 0);
+            statement.setInt(1, parent.getId());
             statement.setDouble(2, element.getTotalAmount());
             statement.setDate(3, element.getDate());
             int rowsAffected = statement.executeUpdate();
@@ -150,5 +150,10 @@ public class PurchaseCrud implements DBCrud<Purchase> {
         LOG.log(Level.FINE, "Creating tableex %d", id);
         Purchase result = new Purchase(id, ammount, date);
         return result;
+    }
+
+    @Override
+    public Purchase save(Purchase element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

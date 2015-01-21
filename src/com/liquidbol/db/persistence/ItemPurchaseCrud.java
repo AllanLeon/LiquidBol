@@ -8,8 +8,8 @@ package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.commons.Item;
 import com.liquidbol.model.commons.ItemPurchase;
+import com.liquidbol.model.commons.Purchase;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,15 +28,14 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
 
     private Connection connection;
     
-    @Override
-    public ItemPurchase save(ItemPurchase purchase) throws PersistenceException, ClassNotFoundException {
+    public ItemPurchase save(ItemPurchase purchase, Purchase parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_purchases(item_id, purchase_id, quantity, "
                     + "total_amount) VALUES(?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, purchase.getItem().getId());
-            statement.setInt(2, 0);
+            statement.setInt(2, parent.getId());
             statement.setInt(3, purchase.getQuantity());
             statement.setDouble(4, purchase.getAmount());
             int rowsAffected = statement.executeUpdate();
@@ -149,5 +148,10 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
         LOG.log(Level.FINE, "Creating purchase %d", id);
         ItemPurchase result = new ItemPurchase(id, item, quantity, amount);
         return result;
+    }
+
+    @Override
+    public ItemPurchase save(ItemPurchase element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

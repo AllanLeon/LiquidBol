@@ -8,6 +8,7 @@ package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.commons.BillPayment;
 import com.liquidbol.model.commons.Employee;
+import com.liquidbol.model.commons.ItemBill;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -28,14 +29,13 @@ public class ItemPaymentCrud implements DBCrud<BillPayment> {
 
     private Connection connection;
     
-    @Override
-    public BillPayment save(BillPayment element) throws PersistenceException, ClassNotFoundException {
+    public BillPayment save(BillPayment element, ItemBill parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_payments(itembill_id, "
                     + "employee_id, pay_date, amount_paid, obs) VALUES(?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setInt(1, 0);
+            statement.setInt(1, parent.getId());
             statement.setInt(2, element.getEmployee().getId());
             statement.setDate(3, element.getPayDate());
             statement.setDouble(4, element.getAmountPaid());
@@ -156,5 +156,10 @@ public class ItemPaymentCrud implements DBCrud<BillPayment> {
         LOG.log(Level.FINE, "Creating item payment %d", id);
         BillPayment result = new BillPayment(id, employee, payDate, amountPaid, obs);
         return result;
+    }
+
+    @Override
+    public BillPayment save(BillPayment element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
