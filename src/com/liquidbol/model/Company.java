@@ -6,6 +6,7 @@
 
 package com.liquidbol.model;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -13,7 +14,7 @@ import java.util.HashSet;
  * Class that represents LiquidBol company.
  * @author Allan Leon
  */
-public class Company {
+public class Company implements Serializable {
     
     private Collection<Client> clients;
     private Collection<Item> items;
@@ -74,6 +75,48 @@ public class Company {
      */
     public Collection<Supplier> getAllSuppliers() {
         return suppliers;
+    }
+
+    /**
+     * @param clients the clients to set
+     */
+    public void setClients(Collection<Client> clients) {
+        this.clients = clients;
+    }
+
+    /**
+     * @param items the items to set
+     */
+    public void setItems(Collection<Item> items) {
+        this.items = items;
+    }
+
+    /**
+     * @param services the services to set
+     */
+    public void setServices(Collection<Service> services) {
+        this.services = services;
+    }
+
+    /**
+     * @param offers the offers to set
+     */
+    public void setOffers(Collection<Offer> offers) {
+        this.offers = offers;
+    }
+
+    /**
+     * @param stores the stores to set
+     */
+    public void setStores(Collection<Store> stores) {
+        this.stores = stores;
+    }
+
+    /**
+     * @param suppliers the suppliers to set
+     */
+    public void setSuppliers(Collection<Supplier> suppliers) {
+        this.suppliers = suppliers;
     }
     
     public void addClient(Client client) {
