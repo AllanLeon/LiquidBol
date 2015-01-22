@@ -6,9 +6,9 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.Client;
-import com.liquidbol.model.commons.ItemEstimate;
-import com.liquidbol.model.commons.Store;
+import com.liquidbol.model.Client;
+import com.liquidbol.model.ItemEstimate;
+import com.liquidbol.model.Store;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

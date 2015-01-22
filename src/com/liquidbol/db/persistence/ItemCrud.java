@@ -6,7 +6,7 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.Item;
+import com.liquidbol.model.Item;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,7 +35,7 @@ public class ItemCrud implements DBCrud<Item> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO items(item_id, item_measure, item_description,"
-                    + "item_brand, item_industry, item_type, item_subtype, item_cost"
+                    + "item_brand, item_industry, item_type, item_subtype, item_cost, "
                     + "item_price, item_dif, item_profit) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, item.getId());

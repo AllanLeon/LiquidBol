@@ -6,8 +6,8 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.Client;
-import com.liquidbol.model.commons.RechargeableItem;
+import com.liquidbol.model.Client;
+import com.liquidbol.model.RechargeableItem;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

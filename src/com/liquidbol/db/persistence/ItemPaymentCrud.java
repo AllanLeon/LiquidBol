@@ -6,9 +6,9 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.BillPayment;
-import com.liquidbol.model.commons.Employee;
-import com.liquidbol.model.commons.ItemBill;
+import com.liquidbol.model.BillPayment;
+import com.liquidbol.model.Employee;
+import com.liquidbol.model.ItemBill;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

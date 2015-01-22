@@ -6,8 +6,8 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.CXC;
-import com.liquidbol.model.commons.CXCC;
+import com.liquidbol.model.CXC;
+import com.liquidbol.model.CXCC;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

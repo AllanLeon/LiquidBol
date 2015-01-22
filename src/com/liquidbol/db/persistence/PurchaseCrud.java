@@ -6,8 +6,8 @@
 
 package com.liquidbol.db.persistence;
 
-import com.liquidbol.model.commons.Purchase;
-import com.liquidbol.model.commons.Supplier;
+import com.liquidbol.model.Purchase;
+import com.liquidbol.model.Supplier;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
