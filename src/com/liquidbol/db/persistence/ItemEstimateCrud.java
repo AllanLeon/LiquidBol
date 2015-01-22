@@ -6,6 +6,7 @@
 
 package com.liquidbol.db.persistence;
 
+import com.liquidbol.model.commons.Client;
 import com.liquidbol.model.commons.ItemEstimate;
 import com.liquidbol.model.commons.Store;
 import java.sql.Connection;
@@ -28,14 +29,13 @@ public class ItemEstimateCrud implements DBCrud<ItemEstimate> {
 
     private Connection connection;
 
-    @Override
-    public ItemEstimate save(ItemEstimate element) throws PersistenceException, ClassNotFoundException {
+    public ItemEstimate save(ItemEstimate element, Client parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_estimates(client_id, store_id, "
                     + "request_date, limit_date, total_amount, obs) VALUES(?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setInt(1, 0);
+            statement.setInt(1, parent.getId());
             statement.setInt(2, element.getStore().getId());
             statement.setDate(3, element.getRequestDate());
             statement.setDate(4, element.getLimitDate());
@@ -151,7 +151,7 @@ public class ItemEstimateCrud implements DBCrud<ItemEstimate> {
     @Override
     public ItemEstimate createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Store store = null;
+        Store store = new Store(resultSet.getInt(3));
         Date requestDate = resultSet.getDate(4);
         Date limitDate = resultSet.getDate(5);
         Double totalAmount = resultSet.getDouble(6);
@@ -159,5 +159,10 @@ public class ItemEstimateCrud implements DBCrud<ItemEstimate> {
         LOG.log(Level.FINE, "Creating item estimate %d", id);
         ItemEstimate result = new ItemEstimate(id, store, requestDate, limitDate, totalAmount, obs);
         return result;
+    }
+
+    @Override
+    public ItemEstimate save(ItemEstimate element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

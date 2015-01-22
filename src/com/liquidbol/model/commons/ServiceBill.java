@@ -6,6 +6,7 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,7 +15,7 @@ import java.util.HashSet;
  * Class that represents a service bill.
  * @author Allan Leon
  */
-public class ServiceBill extends Bill {
+public class ServiceBill extends Bill implements Serializable {
 
     private Collection<ServiceReception> serviceReceptions;
     

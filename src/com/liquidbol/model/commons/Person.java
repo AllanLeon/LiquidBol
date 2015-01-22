@@ -6,13 +6,14 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * Class that represents a person.
  * @author Allan Leon
  */
-public class Person {
+public class Person implements Serializable {
     
     private int id;
     private String name;
@@ -22,6 +23,14 @@ public class Person {
     private int phone2;
     private String email;
     private Date regDate;
+
+    /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public Person(int id) {
+        this.id = id;
+    }
 
     /**
      * Constructor method.

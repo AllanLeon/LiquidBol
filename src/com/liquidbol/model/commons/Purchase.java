@@ -6,6 +6,7 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,7 +16,7 @@ import java.util.Set;
  * Class that represents a group item´s purchases.
  * @author Allan Leon
  */
-public class Purchase {
+public class Purchase implements Serializable {
     
     private int id;
     private Double totalAmount;

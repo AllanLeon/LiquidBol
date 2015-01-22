@@ -6,6 +6,7 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.sql.Date;
 import java.util.HashSet;
@@ -15,7 +16,7 @@ import java.util.Set;
  * Class that represents a supplier.
  * @author Allan Leon
  */
-public class Supplier extends Person {
+public class Supplier extends Person implements Serializable {
     
     private String company;
     private String city;

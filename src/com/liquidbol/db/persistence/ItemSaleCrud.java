@@ -7,6 +7,7 @@
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.commons.Item;
+import com.liquidbol.model.commons.ItemBill;
 import com.liquidbol.model.commons.ItemSale;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,14 +28,13 @@ public class ItemSaleCrud implements DBCrud<ItemSale> {
 
     private Connection connection;
 
-    @Override
-    public ItemSale save(ItemSale element) throws PersistenceException, ClassNotFoundException {
+    public ItemSale save(ItemSale element, ItemBill parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_sales(itembill_id, item_id, quantity, "
                     + "total_amount, obs) VALUES(?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setInt(1, 0);
+            statement.setInt(1, parent.getId());
             statement.setString(2, element.getItem().getId());
             statement.setInt(3, element.getQuantity());
             statement.setDouble(4, element.getAmount());
@@ -148,12 +148,17 @@ public class ItemSaleCrud implements DBCrud<ItemSale> {
     @Override
     public ItemSale createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Item item = null;
+        Item item = new Item(resultSet.getString(3));
         int quantity = resultSet.getInt(4);
         Double amount = resultSet.getDouble(5);
         String obs = resultSet.getString(6);
         LOG.log(Level.FINE, "Creating item sale %d", id);
         ItemSale result = new ItemSale(id, item, quantity, amount, obs);
         return result;
+    }
+
+    @Override
+    public ItemSale save(ItemSale element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

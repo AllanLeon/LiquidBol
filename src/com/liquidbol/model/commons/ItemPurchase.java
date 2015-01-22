@@ -6,11 +6,17 @@
 
 package com.liquidbol.model.commons;
 
+import com.liquidbol.db.persistence.ItemCrud;
+import com.liquidbol.db.persistence.PersistenceException;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Class that represents a purchase of a single item.
  * @author Allan Leon
  */
-public class ItemPurchase {
+public class ItemPurchase implements Serializable {
     
     private int id;
     private Item item;
@@ -98,6 +104,16 @@ public class ItemPurchase {
      */
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+    
+    public void refresh() {
+        try {
+            item = new ItemCrud().refresh(item);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(ItemSale.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ItemSale.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.commons.Inventory;
 import com.liquidbol.model.commons.Item;
+import com.liquidbol.model.commons.Store;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,14 +28,13 @@ public class InventoryCrud implements DBCrud<Inventory> {
 
     private Connection connection;
 
-    @Override
-    public Inventory save(Inventory element) throws PersistenceException, ClassNotFoundException {
+    public Inventory save(Inventory element, Store parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO inventorys(item_id, store_id, quantity) VALUES(?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, element.getItem().getId());
-            statement.setInt(2, 0);
+            statement.setInt(2, parent.getId());
             statement.setInt(3, element.getQuantity());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -142,10 +142,15 @@ public class InventoryCrud implements DBCrud<Inventory> {
     @Override
     public Inventory createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Item item = null;
+        Item item = new Item(resultSet.getString(2));
         int quantity = resultSet.getInt(4);
         LOG.log(Level.FINE, "Creating inventory %d", id);
         Inventory result = new Inventory(id, item, quantity);
         return result;
+    }
+
+    @Override
+    public Inventory save(Inventory element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -7,6 +7,7 @@
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.commons.Discount;
+import com.liquidbol.model.commons.Item;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,14 +27,13 @@ public class ItemDiscountCrud implements DBCrud<Discount> {
 
     private Connection connection;
     
-    @Override
-    public Discount save(Discount discount) throws PersistenceException, ClassNotFoundException {
+    public Discount save(Discount discount, Item parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_discounts(item_id, min_quantity, "
                     + "percentage) VALUES(?, ?, ?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setString(1, "");
+            statement.setString(1, parent.getId());
             statement.setInt(2, discount.getMinQuantity());
             statement.setDouble(3, discount.getPercentage());
             int rowsAffected = statement.executeUpdate();
@@ -149,5 +149,10 @@ public class ItemDiscountCrud implements DBCrud<Discount> {
         LOG.log(Level.FINE, "Creating item discount %d", id);
         Discount result = new Discount(id, minQuantity, percentage);
         return result;
+    }
+
+    @Override
+    public Discount save(Discount element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

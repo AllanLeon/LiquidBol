@@ -6,6 +6,7 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ import java.util.Objects;
  * Class that represents a debt's payment.
  * @author Allan Leon
  */
-public class DebtPayment {
+public class DebtPayment implements Serializable {
     
     private int id;
     private Date payDate;

@@ -6,40 +6,66 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
+
 /**
  * Class that represents a service.
  * @author Allan Leon
  */
-public class Service extends Product {
+public class Service extends Product implements Serializable {
     
-    private String description;
+    private Double capacity;
+    private String unit;
+
+    /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public Service(String id) {
+        super(id);
+    }
 
     /**
      * Constructor method.
+     * @param id
      * @param description
      * @param capacity
      * @param unit
-     * @param id
      * @param type
      * @param cost
      * @param price 
      */
-    public Service(String id, Double capacity, String unit, String description, String type, Double cost, Double price) {
-        super(id, capacity, unit, type, cost, price);
-        this.description = description;
+    public Service(String id, String description, Double capacity, String unit, String type, Double cost, Double price) {
+        super(id, description, type, cost, price);
+        this.capacity = capacity;
+        this.unit = unit;
     }
 
     /**
-     * @return the description
+     * @return the capacity
      */
-    public String getDescription() {
-        return description;
+    public Double getCapacity() {
+        return capacity;
     }
 
     /**
-     * @param description the description to set
+     * @return the unit
      */
-    public void setDescription(String description) {
-        this.description = description;
+    public String getUnit() {
+        return unit;
+    }
+
+    /**
+     * @param capacity the capacity to set
+     */
+    public void setCapacity(Double capacity) {
+        this.capacity = capacity;
+    }
+
+    /**
+     * @param unit the unit to set
+     */
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

@@ -6,17 +6,17 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Class that represents a product.
  * @author Allan Leon
  */
-public class Product {
+public class Product implements Serializable {
     
     private String id;
-    private Double capacity;
-    private String unit;
+    private String description;
     private String type;
     private Double cost;
     private Double price;
@@ -24,21 +24,31 @@ public class Product {
     private Double profit;
 
     /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public Product(String id) {
+        this.id = id;
+    }
+
+    /**
      * Constructor method.
      * @param id
-     * @param capacity
-     * @param unit
+     * @param description
      * @param type
      * @param cost
-     * @param price 
+     * @param price
+     * @param dif
+     * @param profit 
      */
-    public Product(String id, Double capacity, String unit, String type, Double cost, Double price) {
+    public Product(String id, String description, String type, Double cost, Double price) {
         this.id = id;
-        this.capacity = capacity;
-        this.unit = unit;
+        this.description = description;
         this.type = type;
         this.cost = cost;
         this.price = price;
+        this.dif = price - cost;
+        this.profit = 100 * dif / cost;
     }
 
     /**
@@ -49,17 +59,10 @@ public class Product {
     }
 
     /**
-     * @return the capacity
+     * @return the description
      */
-    public Double getCapacity() {
-        return capacity;
-    }
-
-    /**
-     * @return the unit
-     */
-    public String getUnit() {
-        return unit;
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -105,17 +108,10 @@ public class Product {
     }
 
     /**
-     * @param capacity the capacity to set
+     * @param description the description to set
      */
-    public void setCapacity(Double capacity) {
-        this.capacity = capacity;
-    }
-
-    /**
-     * @param unit the unit to set
-     */
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -156,7 +152,7 @@ public class Product {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 31 * hash + Objects.hashCode(this.id);
         return hash;
     }
 

@@ -6,13 +6,14 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Class that represents a discount.
  * @author Allan Leon
  */
-public class Discount {
+public class Discount implements Serializable {
     
     private int id;
     private int minQuantity;

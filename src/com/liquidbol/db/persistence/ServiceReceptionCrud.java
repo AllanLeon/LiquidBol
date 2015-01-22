@@ -8,6 +8,7 @@ package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.commons.RechargeableItem;
 import com.liquidbol.model.commons.Service;
+import com.liquidbol.model.commons.ServiceBill;
 import com.liquidbol.model.commons.ServiceReception;
 import java.sql.Connection;
 import java.sql.Date;
@@ -30,15 +31,14 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
 
     private Connection connection;
 
-    @Override
-    public ServiceReception save(ServiceReception element) throws PersistenceException, ClassNotFoundException {
+    public ServiceReception save(ServiceReception element, ServiceBill parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO service_receptions(servicebill_id, "
                     + "service_id, rechargeableitem_id, reception_date, "
                     + "deliver_time, total_amount, obs) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
-            statement.setInt(1, 0);
+            statement.setInt(1, parent.getId());
             statement.setString(2, element.getService().getId());
             statement.setString(3, element.getItem().getId());
             statement.setDate(4, element.getReceptionDate());
@@ -155,8 +155,8 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
     @Override
     public ServiceReception createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Service service = null;
-        RechargeableItem item = null;
+        Service service = new Service(resultSet.getString(3));
+        RechargeableItem item = new RechargeableItem(resultSet.getString(4));
         Date receptionDate = resultSet.getDate(5);
         Timestamp deliverTime = resultSet.getTimestamp(6);
         Double amount = resultSet.getDouble(7);
@@ -164,5 +164,10 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
         LOG.log(Level.FINE, "Creating service reception %d", id);
         ServiceReception result = new ServiceReception(id, service, item, receptionDate, deliverTime, amount, obs);
         return result;
+    }
+
+    @Override
+    public ServiceReception save(ServiceReception element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

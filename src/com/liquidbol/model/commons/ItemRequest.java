@@ -6,11 +6,17 @@
 
 package com.liquidbol.model.commons;
 
+import com.liquidbol.db.persistence.ItemCrud;
+import com.liquidbol.db.persistence.PersistenceException;
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Class that represents an item request.
  * @author Allan Leon
  */
-public class ItemRequest {
+public class ItemRequest implements Serializable {
     
     private int id;
     private Item item;
@@ -98,6 +104,16 @@ public class ItemRequest {
      */
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+    
+    public void refresh() {
+        try {
+            item = new ItemCrud().refresh(item);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(ItemSale.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ItemSale.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

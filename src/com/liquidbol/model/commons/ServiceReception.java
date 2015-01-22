@@ -6,14 +6,20 @@
 
 package com.liquidbol.model.commons;
 
+import com.liquidbol.db.persistence.PersistenceException;
+import com.liquidbol.db.persistence.RechargeableItemCrud;
+import com.liquidbol.db.persistence.ServiceCrud;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class that represents a service reception.
  * @author Allan Leon
  */
-public class ServiceReception {
+public class ServiceReception implements Serializable {
     
     private int id;
     private Service service;
@@ -139,6 +145,17 @@ public class ServiceReception {
      */
     public void setObs(String obs) {
         this.obs = obs;
+    }
+    
+    public void refresh() {
+        try {
+            service = new ServiceCrud().refresh(service);
+            item = new RechargeableItemCrud().refresh(item);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(ServiceReception.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ServiceReception.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override

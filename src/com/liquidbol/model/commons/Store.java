@@ -6,6 +6,7 @@
 
 package com.liquidbol.model.commons;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.sql.Date;
 import java.util.HashSet;
@@ -15,7 +16,7 @@ import java.util.Set;
  * Class that represents a store.
  * @author Allan Leon
  */
-public class Store {
+public class Store implements Serializable {
     
     private int id;
     private String name;
@@ -24,6 +25,14 @@ public class Store {
     private Collection<Expense> expenses;
     private Collection<Inventory> inventorys;
     private Collection<Employee> employees;
+
+    /**
+     * Simple constructor method.
+     * @param id 
+     */
+    public Store(int id) {
+        this.id = id;
+    }
 
     /**
      * Constructor method.

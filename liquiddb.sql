@@ -56,9 +56,8 @@ CREATE TABLE debt_payments (
 
 CREATE TABLE items (
     item_id VARCHAR(10) NOT NULL PRIMARY KEY,
-    item_capacity REAL NOT NULL,
-    item_unit VARCHAR(7) NOT NULL,
-    item_name VARCHAR(100) NOT NULL,
+    item_measure VARCHAR(15),
+    item_description VARCHAR(100) NOT NULL,
     item_brand VARCHAR(20),
     item_industry VARCHAR(20),
     item_type VARCHAR(50) NOT NULL,
