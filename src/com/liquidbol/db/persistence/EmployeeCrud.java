@@ -7,6 +7,7 @@
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.Employee;
+import com.liquidbol.model.Store;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -27,24 +28,25 @@ public class EmployeeCrud implements DBCrud<Employee> {
 
     private Connection connection;
 
-    @Override
-    public Employee save(Employee element) throws PersistenceException, ClassNotFoundException {
+    public Employee save(Employee element, Store parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO employees(employee_id, employee_name, "
+            String insert = "INSERT INTO employees(employee_id, store_id, employee_name, "
                     + "employee_lastname, employee_address, employee_phone, "
                     + "employee_phone2, employee_email, employee_regdate, "
-                    + "employee_password) VALUES(?,?,?,?,?,?,?,?)";
+                    + "employee_password, employee_type) VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, element.getId());
-            statement.setString(2, element.getName());
-            statement.setString(3, element.getLastname());
-            statement.setString(4, element.getAddress());
-            statement.setInt(5, element.getPhone());
-            statement.setInt(6, element.getPhone2());
-            statement.setString(7, element.getEmail());
-            statement.setDate(8, element.getRegDate());
-            statement.setString(9, element.getPassword());
+            statement.setInt(2, parent.getId());
+            statement.setString(3, element.getName());
+            statement.setString(4, element.getLastname());
+            statement.setString(5, element.getAddress());
+            statement.setInt(6, element.getPhone());
+            statement.setInt(7, element.getPhone2());
+            statement.setString(8, element.getEmail());
+            statement.setDate(9, element.getRegDate());
+            statement.setString(10, element.getPassword());
+            statement.setString(11, element.getType());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("employee was not saved");
@@ -97,7 +99,7 @@ public class EmployeeCrud implements DBCrud<Employee> {
     public Employee merge(Employee element) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE employees SET employee_address=?, employee_phone=?, "
-                    + "employee_phone2=?, employee_email=?, employee_password=? "
+                    + "employee_phone2=?, employee_email=?, employee_password=?, employee_type "
                     + "WHERE employee_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
@@ -106,7 +108,8 @@ public class EmployeeCrud implements DBCrud<Employee> {
             statement.setInt(3, element.getPhone2());
             statement.setString(4, element.getEmail());
             statement.setString(5, element.getPassword());
-            statement.setInt(5, element.getId());
+            statement.setString(6, element.getType());
+            statement.setInt(7, element.getId());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("employee was not updated");
@@ -157,16 +160,22 @@ public class EmployeeCrud implements DBCrud<Employee> {
     @Override
     public Employee createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        String name = resultSet.getString(2);
-        String lastname = resultSet.getString(3);
-        String address = resultSet.getString(4);
-        int phone = resultSet.getInt(5);
-        int phone2 = resultSet.getInt(6);
-        String email = resultSet.getString(7);
-        Date regDate = resultSet.getDate(8);
-        String password = resultSet.getString(9);
+        String name = resultSet.getString(3);
+        String lastname = resultSet.getString(4);
+        String address = resultSet.getString(5);
+        int phone = resultSet.getInt(6);
+        int phone2 = resultSet.getInt(7);
+        String email = resultSet.getString(8);
+        Date regDate = resultSet.getDate(9);
+        String password = resultSet.getString(10);
+        String type = resultSet.getString(11);
         LOG.log(Level.FINE, "Creating employee %d", id);
-        Employee result = new Employee(id, name, lastname, address, phone, phone2, email, regDate, password);
+        Employee result = new Employee(id, name, lastname, address, phone, phone2, email, regDate, password, type);
         return result;
+    }
+
+    @Override
+    public Employee save(Employee element) throws PersistenceException, ClassNotFoundException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

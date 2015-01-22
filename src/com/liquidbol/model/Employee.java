@@ -16,6 +16,7 @@ import java.sql.Date;
 public class Employee extends Person implements Serializable {
 
     private String password;
+    private String type;
 
     /**
      * Simple constructor method.
@@ -27,6 +28,8 @@ public class Employee extends Person implements Serializable {
 
     /**
      * Constructor method.
+     * @param password
+     * @param type
      * @param id
      * @param name
      * @param lastname
@@ -34,12 +37,12 @@ public class Employee extends Person implements Serializable {
      * @param phone
      * @param phone2
      * @param email
-     * @param regDate
-     * @param password 
+     * @param regDate 
      */
-    public Employee(int id, String name, String lastname, String address, int phone, int phone2, String email, Date regDate, String password) {
+    public Employee(int id, String name, String lastname, String address, int phone, int phone2, String email, Date regDate, String password, String type) {
         super(id, name, lastname, address, phone, phone2, email, regDate);
         this.password = password;
+        this.type = type;
     }
 
     /**
@@ -50,9 +53,23 @@ public class Employee extends Person implements Serializable {
     }
 
     /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
      * @param password the password to set
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
     }
 }

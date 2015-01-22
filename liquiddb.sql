@@ -137,6 +137,7 @@ CREATE TABLE inventorys (
 
 CREATE TABLE employees (
     employee_id INTEGER NOT NULL PRIMARY KEY,
+    store_id INTEGER NOT NULL,
     employee_name VARCHAR(20) NOT NULL,
     employee_lastname VARCHAR(30) NOT NULL,
     employee_address VARCHAR(100),
@@ -144,16 +145,9 @@ CREATE TABLE employees (
     employee_phone2 INTEGER,
     employee_email VARCHAR(50),
     employee_regdate DATE NOT NULL,
-    employee_password VARCHAR(20) NOT NULL
-);
-
-CREATE TABLE employees_stores (
-    employee_store_id INTEGER NOT NULL PRIMARY KEY 
-                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    employee_id INTEGER NOT NULL,
-    store_id INTEGER NOT NULL,
-    CONSTRAINT es_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id),
-    CONSTRAINT es_store_id_ref FOREIGN KEY (store_id) REFERENCES stores(store_id)
+    employee_password VARCHAR(20) NOT NULL,
+    employee_type VARCHAR(20) NOT NULL,
+    CONSTRAINT employees_store_id_ref FOREIGN KEY (store_id) REFERENCES stores(store_id)
 );
 
 CREATE TABLE clients (
