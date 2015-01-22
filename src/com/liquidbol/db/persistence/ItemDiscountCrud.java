@@ -83,6 +83,31 @@ public class ItemDiscountCrud implements DBCrud<Discount> {
             }
         }
     }
+    
+    public Collection<Discount> findByItemId(String itemId) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM item_discounts WHERE item_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, itemId);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<Discount> result = new HashSet<>();
+            while (resultSet.next()) {
+                Discount element = createElementFromResultSet(resultSet);
+                result.add(element);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read item discount", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public Discount merge(Discount discount) throws PersistenceException, ClassNotFoundException {
