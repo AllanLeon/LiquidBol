@@ -52,10 +52,10 @@ public class CompanyServices {
         this.supplierCrudManager = new SupplierCrud();
         this.storeCrudManager = new StoreCrud();
         this.company = company;
-        initialize();
+        loadCompanyInfo();
     }
     
-    private void initialize() {
+    private void loadCompanyInfo() {
         try {
             loadOffers();
             loadItems();
