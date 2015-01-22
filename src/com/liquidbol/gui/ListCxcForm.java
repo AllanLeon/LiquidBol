@@ -62,7 +62,6 @@ public class ListCxcForm extends JFrame {
         title = new JLabel("CUENTAS X COBRAR");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         addBtn = new JButton("+");
-
         searchCB = new JComboBox();
         searchBox = new JTextField();
         try {

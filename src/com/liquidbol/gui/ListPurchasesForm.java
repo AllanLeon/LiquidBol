@@ -1,8 +1,10 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.addons.DateLabelFormatter;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -19,11 +21,14 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 /**
  * @author Franco
  */
-public class ListEmployeesForm extends JFrame {
+public class ListPurchasesForm extends JFrame {
 
     private JPanel contentPane;
     private JLabel title;
@@ -31,18 +36,18 @@ public class ListEmployeesForm extends JFrame {
     private JComboBox searchCB;
     private JTextField searchBox;
     private JButton searchBtn;
-    private JTable employeesTable;
+    private JTable purchasesTable;
 
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ListEmployeesForm().setVisible(true);
+                new ListPurchasesForm().setVisible(true);
             }
         });
     }
 
-    public ListEmployeesForm() {
+    public ListPurchasesForm() {
         setStyle();
         initComponents();
     }
@@ -59,7 +64,7 @@ public class ListEmployeesForm extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        title = new JLabel("EMPLEADOS");
+        title = new JLabel("COMPRAS");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         addBtn = new JButton("+");
 
@@ -68,39 +73,39 @@ public class ListEmployeesForm extends JFrame {
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
-            Logger.getLogger(ListEmployeesForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListPurchasesForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        String[] columnNames = {"C.I.",
-            "Nombre",
-            "Telf/Celular 1"
+        String[] columnNames = {"Cod",
+            "Monto Total",
+            "Fecha"
         };
         Object[][] tempData = {
-            {"5382191", "Jesus Ledezma", "74823991"},
-            {"4809321", "Lupe Cardenas", "71109254"}
+            {"00002", "3820.50", "15/01/2015"},
+            {"00001", "21150.00", "21/12/2014"}
         };
-        employeesTable = new JTable(tempData, columnNames);
-        employeesTable.setFont(new Font("Arial", Font.PLAIN, 20));
-        employeesTable.setRowHeight(25);
-        employeesTable.getColumnModel().getColumn(0).setPreferredWidth(70);
-        employeesTable.getColumnModel().getColumn(1).setPreferredWidth(130);
-        employeesTable.getColumnModel().getColumn(2).setPreferredWidth(70);
-        employeesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        JScrollPane employeesTableSP = new JScrollPane(employeesTable);
+        purchasesTable = new JTable(tempData, columnNames);
+        purchasesTable.setFont(new Font("Arial", Font.PLAIN, 20));
+        purchasesTable.setRowHeight(25);
+        purchasesTable.getColumnModel().getColumn(0).setPreferredWidth(60);
+        purchasesTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+        purchasesTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+        purchasesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        JScrollPane purchasesTableSP = new JScrollPane(purchasesTable);
 
-        title.setBounds(120, 30, 300, 30);
-        addBtn.setBounds(340, 80, 100, 30);
-        searchCB.setBounds(80, 120, 130, 30);
+        title.setBounds(140, 30, 400, 30);
+        addBtn.setBounds(360, 80, 100, 30);
+        searchCB.setBounds(80, 120, 120, 30);
         searchBox.setBounds(210, 120, 150, 30);
         searchBtn.setBounds(350, 120, 50, 30);
-        employeesTableSP.setBounds(30, 170, 450, 200);
+        purchasesTableSP.setBounds(30, 170, 430, 200);
 
         contentPane.add(title);
         contentPane.add(addBtn);
         contentPane.add(searchCB);
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
-        contentPane.add(employeesTableSP);
+        contentPane.add(purchasesTableSP);
     }
 
     public static void setStyle() {
@@ -113,8 +118,7 @@ public class ListEmployeesForm extends JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
