@@ -31,13 +31,11 @@
 
 package com.liquidbol.model;
 
-import java.rmi.RemoteException;
-
 /**
  * Represents a problem on a model operation.
  * @author Allan Leon
  */
-public class OperationFailedException extends RemoteException {
+public class OperationFailedException extends Exception {
 
     /**
      * Creates a new instance of OperationFailedException without detail message.
