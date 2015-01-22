@@ -179,7 +179,7 @@ public class ClientCrud implements DBCrud<Client> {
         Date regDate = resultSet.getDate(12);
         boolean route = resultSet.getBoolean(13);
         LOG.log(Level.FINE, "Creating client %d", id);
-        Client result = new Client(id, name, lastname, address, phone, phone2, email, regDate, nit, companyName, frequency, billName, route);
+        Client result = new Client(id, name, lastname, nit, billName, address, phone, phone2, email, regDate, companyName, frequency, route);
         return result;
     }
 }

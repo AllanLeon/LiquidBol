@@ -45,7 +45,7 @@ public class Client extends Person implements Serializable {
      * @param email
      * @param regDate 
      */
-    public Client(int id, String name, String lastname, String address, int phone, int phone2, String email, Date regDate, int nit, String companyName, int frequency, String billName, boolean route) {
+    public Client(int id, String name, String lastname, int nit, String billName, String address, int phone, int phone2, String email, Date regDate, String companyName, int frequency, boolean route) {
         super(id, name, lastname, address, phone, phone2, email, regDate);
         this.nit = nit;
         this.companyName = companyName;
