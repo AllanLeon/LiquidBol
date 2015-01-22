@@ -142,4 +142,13 @@ public class Company implements Serializable {
     public void addSupplier(Supplier supplier) {
         suppliers.add(supplier);
     }
+    
+    public Item findItemById(String id) throws OperationFailedException {
+        for (Item item : items) {
+            if (item.getId().equals(id)) {
+                return item;
+            }
+        }
+        throw new OperationFailedException(String.format("Item: %s not found", id));
+    }
 }

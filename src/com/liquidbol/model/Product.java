@@ -38,8 +38,6 @@ public class Product implements Serializable {
      * @param type
      * @param cost
      * @param price
-     * @param dif
-     * @param profit 
      */
     public Product(String id, String description, String type, Double cost, Double price) {
         this.id = id;
