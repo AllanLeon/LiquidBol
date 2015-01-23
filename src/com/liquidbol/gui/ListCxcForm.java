@@ -1,7 +1,8 @@
 package com.liquidbol.gui;
 
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,19 +33,12 @@ public class ListCxcForm extends JFrame {
     private JTextField searchBox;
     private JButton searchBtn;
     private JTable clientsTable;
-
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ListCxcForm().setVisible(true);
-            }
-        });
-    }
+    private JButton backBtn;
 
     public ListCxcForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -61,7 +55,16 @@ public class ListCxcForm extends JFrame {
 
         title = new JLabel("CUENTAS X COBRAR");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+        
         addBtn = new JButton("+");
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CxcForm cf = new CxcForm(1);
+                dispose();
+            }
+        });
+        
         searchCB = new JComboBox();
         searchBox = new JTextField();
         try {
@@ -90,13 +93,22 @@ public class ListCxcForm extends JFrame {
         clientsTable.getColumnModel().getColumn(4).setPreferredWidth(90);
         clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane cxcsTableSP = new JScrollPane(clientsTable);
-
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenuForm mm = new MainMenuForm();
+                dispose();
+            }
+        });
+        
         title.setBounds(100, 30, 500, 30);
         addBtn.setBounds(470, 80, 100, 30);
         searchCB.setBounds(50, 120, 150, 30);
         searchBox.setBounds(210, 120, 250, 30);
         searchBtn.setBounds(450, 120, 50, 30);
         cxcsTableSP.setBounds(30, 170, 530, 200);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);
@@ -104,6 +116,7 @@ public class ListCxcForm extends JFrame {
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
         contentPane.add(cxcsTableSP);
+        contentPane.add(backBtn);
     }
 
     public static void setStyle() {

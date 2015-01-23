@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +25,7 @@ import javax.swing.border.EmptyBorder;
 /**
  * @author Franco
  */
-public class ListClientsForm extends JFrame {
+public class ListItemsForm extends JFrame {
 
     private JPanel contentPane;
     private JLabel title;
@@ -32,10 +33,10 @@ public class ListClientsForm extends JFrame {
     private JComboBox searchCB;
     private JTextField searchBox;
     private JButton searchBtn;
-    private JTable clientsTable;
+    private JTable itemsTable;
     private JButton backBtn;
-
-    public ListClientsForm() {
+    
+    public ListItemsForm() {
         setStyle();
         initComponents();
         setVisible(true);
@@ -43,7 +44,7 @@ public class ListClientsForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(800, 450);
+        setSize(900, 450);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -53,14 +54,14 @@ public class ListClientsForm extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        title = new JLabel("CLIENTES");
+        title = new JLabel("ITEMS");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         
         addBtn = new JButton("+");
         addBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ClientForm cf = new ClientForm(1);
+                ItemForm itf = new ItemForm(1);
                 dispose();
             }
         });
@@ -70,33 +71,37 @@ public class ListClientsForm extends JFrame {
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
-            Logger.getLogger(ListClientsForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListItemsForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         String[] columnNames = {"Cod",
-            "Nombre",
-            "NIT",
-            "Factura",
-            "Taller/Emp.",
-            "Ruta",
-            "Frec."
+            "Unidad",
+            "Descripcion",
+            "Marca",
+            "Industria",
+            "Tipo",
+            "Subtipo",
+            "Costo",
+            "Precio"
         };
-        Object[][] tempData = {
-            {"001", "Gabino Quispia", "5923804019", "-", "Taller Coso", "SI", "A"},
-            {"002", "Efrain Choque", "4182093", "CHOQUE", "Taller Coso #2", "SI", "B"}
+        Object[][] tempData = {            
+            {"00561", "Pza", "Dado de 27mm Hexagonal", "Inafor", "Argentina", "Auxiliares", "Dados", "20.00", "38.00"},
+            {"00562", "Pza", "Dado de 16mm Hexagonal", "Inafor", "Argentina", "Auxiliares", "Dados", "20.00", "35.00"}
         };
-        clientsTable = new JTable(tempData, columnNames);
-        clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientsTable.setRowHeight(25);
-        clientsTable.getColumnModel().getColumn(0).setPreferredWidth(30);
-        clientsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
-        clientsTable.getColumnModel().getColumn(2).setPreferredWidth(100);
-        clientsTable.getColumnModel().getColumn(3).setPreferredWidth(70);
-        clientsTable.getColumnModel().getColumn(4).setPreferredWidth(150);
-        clientsTable.getColumnModel().getColumn(5).setPreferredWidth(20);
-        clientsTable.getColumnModel().getColumn(6).setPreferredWidth(20);
-        clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        JScrollPane clientsTableSP = new JScrollPane(clientsTable);
+        itemsTable = new JTable(tempData, columnNames);
+        itemsTable.setFont(new Font("Arial", Font.PLAIN, 16));
+        itemsTable.setRowHeight(25);
+        itemsTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+        itemsTable.getColumnModel().getColumn(1).setPreferredWidth(30);
+        itemsTable.getColumnModel().getColumn(2).setPreferredWidth(250);
+        itemsTable.getColumnModel().getColumn(3).setPreferredWidth(70);
+        itemsTable.getColumnModel().getColumn(4).setPreferredWidth(80);
+        itemsTable.getColumnModel().getColumn(5).setPreferredWidth(80);
+        itemsTable.getColumnModel().getColumn(6).setPreferredWidth(50);
+        itemsTable.getColumnModel().getColumn(7).setPreferredWidth(50);
+        itemsTable.getColumnModel().getColumn(8).setPreferredWidth(50);
+        itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        JScrollPane itemsTableSP = new JScrollPane(itemsTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override
@@ -105,13 +110,13 @@ public class ListClientsForm extends JFrame {
                 dispose();
             }
         });
-        
-        title.setBounds(300, 30, 300, 30);
-        addBtn.setBounds(630, 80, 100, 30);
-        searchCB.setBounds(90, 120, 150, 30);
-        searchBox.setBounds(250, 120, 300, 30);
-        searchBtn.setBounds(540, 120, 50, 30);
-        clientsTableSP.setBounds(30, 170, 730, 200);
+
+        title.setBounds(350, 30, 500, 30);
+        addBtn.setBounds(570, 80, 100, 30);
+        searchCB.setBounds(150, 120, 150, 30);
+        searchBox.setBounds(310, 120, 250, 30);
+        searchBtn.setBounds(550, 120, 50, 30);
+        itemsTableSP.setBounds(30, 170, 830, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
@@ -119,7 +124,7 @@ public class ListClientsForm extends JFrame {
         contentPane.add(searchCB);
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
-        contentPane.add(clientsTableSP);
+        contentPane.add(itemsTableSP);
         contentPane.add(backBtn);
     }
 

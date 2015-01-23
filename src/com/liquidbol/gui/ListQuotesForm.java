@@ -24,7 +24,7 @@ import javax.swing.border.EmptyBorder;
 /**
  * @author Franco
  */
-public class ListClientsForm extends JFrame {
+public class ListQuotesForm extends JFrame {
 
     private JPanel contentPane;
     private JLabel title;
@@ -32,10 +32,10 @@ public class ListClientsForm extends JFrame {
     private JComboBox searchCB;
     private JTextField searchBox;
     private JButton searchBtn;
-    private JTable clientsTable;
+    private JTable quotesTable;
     private JButton backBtn;
-
-    public ListClientsForm() {
+    
+    public ListQuotesForm() {
         setStyle();
         initComponents();
         setVisible(true);
@@ -43,7 +43,7 @@ public class ListClientsForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(800, 450);
+        setSize(900, 450);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -53,14 +53,14 @@ public class ListClientsForm extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        title = new JLabel("CLIENTES");
+        title = new JLabel("COTIZACIONES");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         
         addBtn = new JButton("+");
         addBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ClientForm cf = new ClientForm(1);
+                QuoteForm qf = new QuoteForm();
                 dispose();
             }
         });
@@ -70,33 +70,31 @@ public class ListClientsForm extends JFrame {
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
-            Logger.getLogger(ListClientsForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListQuotesForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         String[] columnNames = {"Cod",
-            "Nombre",
-            "NIT",
-            "Factura",
-            "Taller/Emp.",
-            "Ruta",
-            "Frec."
+            "Tienda",
+            "Fecha Cotizacion",
+            "Fecha Limite",
+            "Monto",
+            "Observaciones"
         };
-        Object[][] tempData = {
-            {"001", "Gabino Quispia", "5923804019", "-", "Taller Coso", "SI", "A"},
-            {"002", "Efrain Choque", "4182093", "CHOQUE", "Taller Coso #2", "SI", "B"}
+        Object[][] tempData = {            
+            {"COT-001", "Central", "23/01/2015", "30/01/2015", "20.00", "Requiere Id Cotizante!!!"},
+            {"COT-002", "S.I.", "10/01/2015", "17/01/2015", "20.00", "Requiere Id Cotizante!!!"}
         };
-        clientsTable = new JTable(tempData, columnNames);
-        clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientsTable.setRowHeight(25);
-        clientsTable.getColumnModel().getColumn(0).setPreferredWidth(30);
-        clientsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
-        clientsTable.getColumnModel().getColumn(2).setPreferredWidth(100);
-        clientsTable.getColumnModel().getColumn(3).setPreferredWidth(70);
-        clientsTable.getColumnModel().getColumn(4).setPreferredWidth(150);
-        clientsTable.getColumnModel().getColumn(5).setPreferredWidth(20);
-        clientsTable.getColumnModel().getColumn(6).setPreferredWidth(20);
-        clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        JScrollPane clientsTableSP = new JScrollPane(clientsTable);
+        quotesTable = new JTable(tempData, columnNames);
+        quotesTable.setFont(new Font("Arial", Font.PLAIN, 16));
+        quotesTable.setRowHeight(25);
+        quotesTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+        quotesTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        quotesTable.getColumnModel().getColumn(2).setPreferredWidth(80);
+        quotesTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+        quotesTable.getColumnModel().getColumn(4).setPreferredWidth(50);
+        quotesTable.getColumnModel().getColumn(5).setPreferredWidth(150);
+        quotesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        JScrollPane quotesTableSP = new JScrollPane(quotesTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override
@@ -105,13 +103,13 @@ public class ListClientsForm extends JFrame {
                 dispose();
             }
         });
-        
-        title.setBounds(300, 30, 300, 30);
-        addBtn.setBounds(630, 80, 100, 30);
-        searchCB.setBounds(90, 120, 150, 30);
-        searchBox.setBounds(250, 120, 300, 30);
-        searchBtn.setBounds(540, 120, 50, 30);
-        clientsTableSP.setBounds(30, 170, 730, 200);
+
+        title.setBounds(350, 30, 500, 30);
+        addBtn.setBounds(570, 80, 100, 30);
+        searchCB.setBounds(150, 120, 150, 30);
+        searchBox.setBounds(310, 120, 250, 30);
+        searchBtn.setBounds(550, 120, 50, 30);
+        quotesTableSP.setBounds(30, 170, 830, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
@@ -119,7 +117,7 @@ public class ListClientsForm extends JFrame {
         contentPane.add(searchCB);
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
-        contentPane.add(clientsTableSP);
+        contentPane.add(quotesTableSP);
         contentPane.add(backBtn);
     }
 

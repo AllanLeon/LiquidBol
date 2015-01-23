@@ -1,10 +1,9 @@
 package com.liquidbol.gui;
 
-import com.liquidbol.addons.DateLabelFormatter;
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -21,9 +20,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 
 /**
  * @author Franco
@@ -37,19 +33,12 @@ public class ListPurchasesForm extends JFrame {
     private JTextField searchBox;
     private JButton searchBtn;
     private JTable purchasesTable;
-
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ListPurchasesForm().setVisible(true);
-            }
-        });
-    }
+    private JButton backBtn;
 
     public ListPurchasesForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -66,7 +55,15 @@ public class ListPurchasesForm extends JFrame {
 
         title = new JLabel("COMPRAS");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+        
         addBtn = new JButton("+");
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PurchaseForm pf = new PurchaseForm(1);
+                dispose();
+            }
+        });
 
         searchCB = new JComboBox();
         searchBox = new JTextField();
@@ -92,13 +89,22 @@ public class ListPurchasesForm extends JFrame {
         purchasesTable.getColumnModel().getColumn(2).setPreferredWidth(120);
         purchasesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane purchasesTableSP = new JScrollPane(purchasesTable);
-
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenuForm mm = new MainMenuForm();
+                dispose();
+            }
+        });
+        
         title.setBounds(140, 30, 400, 30);
         addBtn.setBounds(360, 80, 100, 30);
         searchCB.setBounds(80, 120, 120, 30);
         searchBox.setBounds(210, 120, 150, 30);
         searchBtn.setBounds(350, 120, 50, 30);
         purchasesTableSP.setBounds(30, 170, 430, 200);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);
@@ -106,6 +112,7 @@ public class ListPurchasesForm extends JFrame {
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
         contentPane.add(purchasesTableSP);
+        contentPane.add(backBtn);
     }
 
     public static void setStyle() {

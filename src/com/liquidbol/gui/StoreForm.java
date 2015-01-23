@@ -1,8 +1,9 @@
 package com.liquidbol.gui;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -30,34 +31,30 @@ public class StoreForm extends JFrame {
     private JLabel phoneLbl;
     private Component storePhone;
     private JButton submitBtn;
-
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new StoreForm(0).setVisible(true);
-            }
-        });
-    }
+    private JButton backBtn;
 
     public StoreForm(int state) {
         switch (state) {
             case 1: //Add new store
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             case 2: //show store data
                 setStyle();
                 initComponents();
                 convertToReadOnly();
+                setVisible(true);
                 break;
             case 3: //edit store data
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             default:
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
         }
     }
@@ -86,7 +83,15 @@ public class StoreForm extends JFrame {
         phoneLbl = new JLabel("Telefono");
         storePhone = new JTextField();
         submitBtn = new JButton("Add");
-
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenuForm mm = new MainMenuForm();
+                dispose();
+            }
+        });
+        
         title.setBounds(100, 30, 400, 30);
         idShower.setBounds(350, 90, 150, 30);
         nameLbl.setBounds(80, 140, 70, 30);
@@ -96,6 +101,7 @@ public class StoreForm extends JFrame {
         phoneLbl.setBounds(80, 240, 50, 30);
         storePhone.setBounds(140, 240, 120, 30);
         submitBtn.setBounds(370, 250, 100, 30);
+        backBtn.setBounds(50, 250, 70, 30);
 
         contentPane.add(title);
         contentPane.add(idShower);
@@ -106,6 +112,7 @@ public class StoreForm extends JFrame {
         contentPane.add(phoneLbl);
         contentPane.add(storePhone);
         contentPane.add(submitBtn);
+        contentPane.add(backBtn);
     }
 
     private void setStyle() {

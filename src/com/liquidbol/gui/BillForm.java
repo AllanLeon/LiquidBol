@@ -3,6 +3,8 @@ package com.liquidbol.gui;
 import com.liquidbol.addons.DateLabelFormatter;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +28,7 @@ import org.jdatepicker.impl.UtilDateModel;
  */
 public class BillForm extends JFrame {
 
-    private JButton jButton1;
+    private JButton submitBtn;
     private JDatePickerImpl datePicker;
     private JLabel title;
     private JLabel idShower;
@@ -41,19 +43,12 @@ public class BillForm extends JFrame {
     private JLabel totalLbl;
     private JTextField totalAmount;
     private JPanel contentPane;
-
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new BillForm().setVisible(true);
-            }
-        });
-    }
+    private JButton backBtn;
     
     public BillForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -122,23 +117,31 @@ public class BillForm extends JFrame {
         sonLbl = new JLabel("Son:");
         declarate = new JTextField();
         bsLbl = new JLabel("Bolivianos");
-        jButton1 = new JButton();
-        jButton1.setText("PRINT");
+        submitBtn = new JButton("PRINT");
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InventoryForm invf = new InventoryForm();
+                dispose();
+            }
+        });
 
-        title.setBounds(270, 30, 200, 30);
-        datePicker.setBounds(300, 80, 150, 30);
-        idShower.setBounds(500, 80, 160, 30);
-        nameLbl.setBounds(40, 120, 140, 30);
-        clientName.setBounds(100, 120, 350, 30);
-        nitLbl.setBounds(460, 120, 60, 30);
-        clientNit.setBounds(510, 120, 150, 30);
-        tablesp.setBounds(30, 160, 640, 200);
-        sonLbl.setBounds(40, 390, 50, 30);
-        declarate.setBounds(70, 390, 350, 30);
-        totalLbl.setBounds(540, 360, 50, 30);
-        totalAmount.setBounds(570, 360, 100, 30);
-        bsLbl.setBounds(425, 390, 70, 30);
-        jButton1.setBounds(580, 420, 80, 30);
+        title.setBounds(270, 20, 200, 30);
+        datePicker.setBounds(300, 70, 150, 30);
+        idShower.setBounds(500, 70, 160, 30);
+        nameLbl.setBounds(40, 110, 140, 30);
+        clientName.setBounds(100, 110, 350, 30);
+        nitLbl.setBounds(460, 110, 60, 30);
+        clientNit.setBounds(510, 110, 150, 30);
+        tablesp.setBounds(30, 150, 640, 200);
+        sonLbl.setBounds(40, 380, 50, 30);
+        declarate.setBounds(70, 380, 350, 30);
+        totalLbl.setBounds(540, 350, 50, 30);
+        totalAmount.setBounds(570, 350, 100, 30);
+        bsLbl.setBounds(425, 380, 70, 30);
+        submitBtn.setBounds(580, 430, 80, 30);
+        backBtn.setBounds(50, 430, 80, 30);
 
         contentPane.add(title);
         contentPane.add(datePicker);
@@ -153,7 +156,8 @@ public class BillForm extends JFrame {
         contentPane.add(totalLbl);
         contentPane.add(totalAmount);
         contentPane.add(bsLbl);
-        contentPane.add(jButton1);
+        contentPane.add(submitBtn);
+        contentPane.add(backBtn);
     }
 
     public static void setStyle() {

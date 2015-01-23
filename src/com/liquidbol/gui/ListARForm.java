@@ -1,7 +1,8 @@
 package com.liquidbol.gui;
 
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,20 +32,13 @@ public class ListARForm extends JFrame {
     private JComboBox searchCB;
     private JTextField searchBox;
     private JButton searchBtn;
-    private JTable clientsTable;
-
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ListARForm().setVisible(true);
-            }
-        });
-    }
+    private JTable arsTable;
+    private JButton backBtn;
 
     public ListARForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -61,6 +55,7 @@ public class ListARForm extends JFrame {
 
         title = new JLabel("ARTICULOS RECARGABLES");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
+        
         addBtn = new JButton("+");
 
         searchCB = new JComboBox();
@@ -81,16 +76,24 @@ public class ListARForm extends JFrame {
             {"00001", "Gabino Quispia", "Extintor de Polvo Quimico 3 Lb.", "30/06/2015", "-"},
             {"00002", "Efrain Choque", "Tubo de Oxigeno industrial 6 Mts3", "01/07/2015", "-"}
         };
-        clientsTable = new JTable(tempData, columnNames);
-        clientsTable.setFont(new Font("Arial", Font.PLAIN, 16));
-        clientsTable.setRowHeight(25);
-        clientsTable.getColumnModel().getColumn(0).setPreferredWidth(40);
-        clientsTable.getColumnModel().getColumn(1).setPreferredWidth(160);
-        clientsTable.getColumnModel().getColumn(2).setPreferredWidth(250);
-        clientsTable.getColumnModel().getColumn(3).setPreferredWidth(70);
-        clientsTable.getColumnModel().getColumn(4).setPreferredWidth(90);
-        clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        JScrollPane arsTableSP = new JScrollPane(clientsTable);
+        arsTable = new JTable(tempData, columnNames);
+        arsTable.setFont(new Font("Arial", Font.PLAIN, 16));
+        arsTable.setRowHeight(25);
+        arsTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+        arsTable.getColumnModel().getColumn(1).setPreferredWidth(160);
+        arsTable.getColumnModel().getColumn(2).setPreferredWidth(250);
+        arsTable.getColumnModel().getColumn(3).setPreferredWidth(70);
+        arsTable.getColumnModel().getColumn(4).setPreferredWidth(90);
+        arsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        JScrollPane arsTableSP = new JScrollPane(arsTable);
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenuForm mm = new MainMenuForm();
+                dispose();
+            }
+        });
 
         title.setBounds(100, 30, 500, 30);
         addBtn.setBounds(470, 80, 100, 30);
@@ -98,13 +101,15 @@ public class ListARForm extends JFrame {
         searchBox.setBounds(210, 120, 250, 30);
         searchBtn.setBounds(450, 120, 50, 30);
         arsTableSP.setBounds(30, 170, 730, 200);
-
+        backBtn.setBounds(50, 380, 70, 30);
+        
         contentPane.add(title);
         contentPane.add(addBtn);
         contentPane.add(searchCB);
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
         contentPane.add(arsTableSP);
+        contentPane.add(backBtn);
     }
 
     public static void setStyle() {

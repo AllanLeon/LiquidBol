@@ -2,6 +2,8 @@ package com.liquidbol.gui;
 
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -25,7 +27,7 @@ import javax.swing.border.EmptyBorder;
 public class LoginForm extends JFrame {
 
     private JPanel contentPane;
-    private JButton jButton1;
+    private JButton submitBtn;
     private JLabel jLabel1;
     private JTextField jTextField1;
 
@@ -41,6 +43,7 @@ public class LoginForm extends JFrame {
     public LoginForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -57,11 +60,18 @@ public class LoginForm extends JFrame {
 
         jLabel1 = new JLabel();
         jTextField1 = new JTextField();
-        jButton1 = new JButton();
-        jButton1.setText("OK");
+        submitBtn = new JButton();
+        submitBtn.setText("OK");
+        submitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenuForm mm = new MainMenuForm();
+                dispose();
+            }
+        });
 
         jTextField1.setBounds(90, 160, 200, 30);
-        jButton1.setBounds(300, 160, 50, 30);
+        submitBtn.setBounds(300, 160, 50, 30);
         jLabel1.setBounds(0, 0, 400, 250);
 
         try {
@@ -74,7 +84,7 @@ public class LoginForm extends JFrame {
 
         jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
         contentPane.add(jTextField1);
-        contentPane.add(jButton1);
+        contentPane.add(submitBtn);
         contentPane.add(jLabel1);
     }
 

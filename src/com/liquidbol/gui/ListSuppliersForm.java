@@ -1,7 +1,8 @@
 package com.liquidbol.gui;
 
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,19 +33,12 @@ public class ListSuppliersForm extends JFrame {
     private JTextField searchBox;
     private JButton searchBtn;
     private JTable clientsTable;
-
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ListSuppliersForm().setVisible(true);
-            }
-        });
-    }
+    private JButton backBtn;
 
     public ListSuppliersForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -61,7 +55,15 @@ public class ListSuppliersForm extends JFrame {
 
         title = new JLabel("PROVEEDORES");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+        
         addBtn = new JButton("+");
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SupplierForm sf = new SupplierForm(1);
+                dispose();
+            }
+        });
 
         searchCB = new JComboBox();
         searchBox = new JTextField();
@@ -87,6 +89,14 @@ public class ListSuppliersForm extends JFrame {
         clientsTable.getColumnModel().getColumn(2).setPreferredWidth(100);
         clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane clientsTableSP = new JScrollPane(clientsTable);
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenuForm mm = new MainMenuForm();
+                dispose();
+            }
+        });
 
         title.setBounds(100, 30, 350, 30);
         addBtn.setBounds(350, 80, 100, 30);
@@ -94,6 +104,7 @@ public class ListSuppliersForm extends JFrame {
         searchBox.setBounds(170, 120, 200, 30);
         searchBtn.setBounds(360, 120, 50, 30);
         clientsTableSP.setBounds(30, 170, 430, 200);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);
@@ -101,6 +112,7 @@ public class ListSuppliersForm extends JFrame {
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
         contentPane.add(clientsTableSP);
+        contentPane.add(backBtn);
     }
 
     public static void setStyle() {

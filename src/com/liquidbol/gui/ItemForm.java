@@ -1,9 +1,10 @@
 package com.liquidbol.gui;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -15,7 +16,6 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -56,34 +56,30 @@ public class ItemForm extends JFrame {
     private JLabel itemPhoto;
     private JButton submitBtn;
     private MouseListener ml;
-
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ItemForm(0).setVisible(true);
-            }
-        });
-    }
+    private JButton backBtn;
 
     public ItemForm(int state) {
         switch (state) {
             case 1: //Add new item
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             case 2: //show item data
                 setStyle();
                 initComponents();
                 convertToReadOnly();
+                setVisible(true);
                 break;
             case 3: //edit item data
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             default:
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
         }
     }
@@ -130,7 +126,15 @@ public class ItemForm extends JFrame {
         }
 
         submitBtn = new JButton("Add");
-
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListItemsForm lif = new ListItemsForm();
+                dispose();
+            }
+        });
+        
         title.setBounds(100, 30, 400, 30);
         idShower.setBounds(350, 80, 150, 30);
         measureLbl.setBounds(60, 120, 70, 30);
@@ -151,6 +155,7 @@ public class ItemForm extends JFrame {
         itemPrice.setBounds(330, 340, 100, 30);
         itemPhoto.setBounds(80, 300, 150, 150);
         submitBtn.setBounds(350, 400, 100, 30);
+        backBtn.setBounds(50, 400, 100, 30);
 
         contentPane.add(title);
         contentPane.add(idShower);
@@ -172,6 +177,7 @@ public class ItemForm extends JFrame {
         contentPane.add(itemPrice);
         contentPane.add(itemPhoto);
         contentPane.add(submitBtn);
+        contentPane.add(backBtn);
         onMouseHover(itemPhoto);
     }
 

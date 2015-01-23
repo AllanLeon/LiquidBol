@@ -1,8 +1,9 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
-import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +30,7 @@ import org.jdatepicker.impl.UtilDateModel;
  */
 public class DRNoteForm extends JFrame {
 
-    private JButton jButton1;
+    private JButton submitBtn;
     private JRadioButton jRadioButton1;
     private JRadioButton jRadioButton2;
     private JDatePickerImpl datePicker;
@@ -45,19 +46,12 @@ public class DRNoteForm extends JFrame {
     private JLabel totalLbl;
     private JTextField totalAmount;
     private JPanel contentPane;
-
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new DRNoteForm().setVisible(true);
-            }
-        });
-    }
+    private JButton backBtn;
 
     public DRNoteForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -128,8 +122,16 @@ public class DRNoteForm extends JFrame {
 
         jCheckBox1 = new JCheckBox("x Cancelar");
         jCheckBox2 = new JCheckBox("x Facturar");
-        jButton1 = new JButton();
-        jButton1.setText("OK");
+        submitBtn = new JButton();
+        submitBtn.setText("OK");
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InventoryForm invf = new InventoryForm();
+                dispose();
+            }
+        });
 
         title.setBounds(300, 50, 150, 30);
         datePicker.setBounds(300, 120, 150, 30);
@@ -145,7 +147,8 @@ public class DRNoteForm extends JFrame {
         totalAmount.setBounds(570, 360, 100, 30);
         jCheckBox1.setBounds(250, 370, 100, 30);
         jCheckBox2.setBounds(350, 370, 100, 30);
-        jButton1.setBounds(350, 420, 50, 30);
+        submitBtn.setBounds(350, 420, 50, 30);
+        backBtn.setBounds(50, 420, 50, 30);
 
         getContentPane().add(title);
         getContentPane().add(datePicker);
@@ -161,7 +164,8 @@ public class DRNoteForm extends JFrame {
         getContentPane().add(totalAmount);
         getContentPane().add(jCheckBox1);
         getContentPane().add(jCheckBox2);
-        getContentPane().add(jButton1);
+        getContentPane().add(submitBtn);
+        getContentPane().add(backBtn);
     }
 
     private void setStyle() {
