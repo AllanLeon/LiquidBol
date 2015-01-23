@@ -6,12 +6,15 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -24,8 +27,9 @@ import javax.swing.border.EmptyBorder;
  * @author Franco
  */
 public class InventoryForm extends JFrame {
-
-    private JPanel contentPane;
+   
+    private JPanel parentPane;
+    private JPanel inventoryPane;
     private JLabel title;
     private JLabel branchLbl;
     private JComboBox branchNameCB;
@@ -37,6 +41,10 @@ public class InventoryForm extends JFrame {
     private JTable itemsTable;
     private JLabel serviceLbl;
     private JTable serviceTable;
+    private JPanel cartPane;
+    private JTable wholeTable;
+    private JButton toNoteBtn;
+    private JButton toBillBtn;
 
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
@@ -54,18 +62,23 @@ public class InventoryForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(700, 550);
+        setSize(1100, 550);
         setResizable(false);
         setLocationRelativeTo(null);
-
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
+
+        parentPane = new JPanel();
+        parentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(parentPane);
+        parentPane.setLayout(null);
 
         title = new JLabel("INVENTARIO");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+
+        inventoryPane = new JPanel();
+        inventoryPane.setBorder(BorderFactory.createTitledBorder("Inventario"));
+        inventoryPane.setLayout(null);
+
         branchLbl = new JLabel("Sucursal");
         branchNameCB = new JComboBox();
         addBtn = new JButton("+");
@@ -80,7 +93,7 @@ public class InventoryForm extends JFrame {
 
         itemsLbl = new JLabel("Articulos");
         String[] columnNames = {"Cod",
-            "CANTIDAD",
+            "CANT",
             "Unidad",
             "Descripcion",
             "Precio"
@@ -90,12 +103,12 @@ public class InventoryForm extends JFrame {
             {"00119", 29.75, "Kg.", "Electrodo 6013 1/8", 18.00}
         };
         itemsTable = new JTable(tempData, columnNames);
-        itemsTable.setFont(new Font("Arial", Font.PLAIN, 20));
+        itemsTable.setFont(new Font("Arial", Font.BOLD, 16));
         itemsTable.setRowHeight(25);
         itemsTable.getColumnModel().getColumn(0).setPreferredWidth(40);
-        itemsTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+        itemsTable.getColumnModel().getColumn(1).setPreferredWidth(30);
         itemsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
-        itemsTable.getColumnModel().getColumn(3).setPreferredWidth(300);
+        itemsTable.getColumnModel().getColumn(3).setPreferredWidth(240);
         itemsTable.getColumnModel().getColumn(4).setPreferredWidth(40);
         itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane itemsTableSP = new JScrollPane(itemsTable);
@@ -110,7 +123,7 @@ public class InventoryForm extends JFrame {
             {"00119", "Electrodo 6013 1/8", 18.00}
         };
         serviceTable = new JTable(tempData2, columnNames2);
-        serviceTable.setFont(new Font("Arial", Font.PLAIN, 20));
+        serviceTable.setFont(new Font("Arial", Font.BOLD, 16));
         serviceTable.setRowHeight(25);
         serviceTable.getColumnModel().getColumn(0).setPreferredWidth(60);
         serviceTable.getColumnModel().getColumn(1).setPreferredWidth(380);
@@ -118,29 +131,67 @@ public class InventoryForm extends JFrame {
         serviceTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane serviceTableSP = new JScrollPane(serviceTable);
 
-        title.setBounds(250, 30, 300, 30);
-        branchLbl.setBounds(40, 80, 80, 30);
-        branchNameCB.setBounds(100, 80, 150, 30);
-        addBtn.setBounds(550, 80, 100, 30);
-        searchCB.setBounds(40, 120, 150, 30);
-        searchBox.setBounds(200, 120, 300, 30);
-        searchBtn.setBounds(490, 120, 50, 30);
-        itemsLbl.setBounds(30, 150, 50, 30);
-        itemsTableSP.setBounds(30, 170, 630, 170);
-        serviceLbl.setBounds(30, 350, 50, 30);
-        serviceTableSP.setBounds(30, 370, 630, 130);
+        cartPane = new JPanel();
+        cartPane.setBorder(BorderFactory.createTitledBorder("Carrito"));
+        cartPane.setLayout(null);
 
-        contentPane.add(title);
-        contentPane.add(branchLbl);
-        contentPane.add(branchNameCB);
-        contentPane.add(addBtn);
-        contentPane.add(searchCB);
-        contentPane.add(searchBox);
-        contentPane.add(searchBtn);
-        contentPane.add(itemsLbl);
-        contentPane.add(itemsTableSP);
-        contentPane.add(serviceLbl);
-        contentPane.add(serviceTableSP);
+        String[] columnNames3 = {"Cod",
+            "CANT",
+            "Unidad",
+            "Descripcion",
+            "Precio"
+        };
+        Object[][] tempData3 = {
+            {"00126", 1, "Kg.", "Electrodo 7018 1/8", 18.00},
+            {"00119", 2, "Kg.", "Electrodo 6013 1/8", 36.00}
+        };
+        wholeTable = new JTable(tempData3, columnNames3);
+        wholeTable.setFont(new Font("Arial", Font.BOLD, 16));
+        wholeTable.setRowHeight(25);
+        wholeTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+        wholeTable.getColumnModel().getColumn(1).setPreferredWidth(30);
+        wholeTable.getColumnModel().getColumn(2).setPreferredWidth(30);
+        wholeTable.getColumnModel().getColumn(3).setPreferredWidth(240);
+        wholeTable.getColumnModel().getColumn(4).setPreferredWidth(40);
+        wholeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        JScrollPane wholeTableSP = new JScrollPane(wholeTable);
+        
+        toNoteBtn = new JButton("A nota de venta");
+        toBillBtn = new JButton("A facturar");
+        
+        inventoryPane.setBounds(0, 50, 550, 470);
+        cartPane.setBounds(550, 50, 540, 370);
+        title.setBounds(440, 20, 300, 30);
+        branchLbl.setBounds(20, 40, 80, 30);
+        branchNameCB.setBounds(80, 40, 150, 30);
+        addBtn.setBounds(430, 40, 100, 30);
+        searchCB.setBounds(20, 80, 150, 30);
+        searchBox.setBounds(180, 80, 300, 30);
+        searchBtn.setBounds(470, 80, 50, 30);
+        itemsLbl.setBounds(10, 110, 50, 30);
+        itemsTableSP.setBounds(10, 130, 530, 170);
+        serviceLbl.setBounds(10, 310, 50, 30);
+        serviceTableSP.setBounds(10, 330, 530, 130);
+        wholeTableSP.setBounds(10, 70, 520, 200);
+        toNoteBtn.setBounds(70, 280, 200, 50);
+        toBillBtn.setBounds(290, 280, 200, 50);
+
+        add(title);
+        parentPane.add(inventoryPane);
+        parentPane.add(cartPane);
+        inventoryPane.add(branchLbl);
+        inventoryPane.add(branchNameCB);
+        inventoryPane.add(addBtn);
+        inventoryPane.add(searchCB);
+        inventoryPane.add(searchBox);
+        inventoryPane.add(searchBtn);
+        inventoryPane.add(itemsLbl);
+        inventoryPane.add(itemsTableSP);
+        inventoryPane.add(serviceLbl);
+        inventoryPane.add(serviceTableSP);
+        cartPane.add(wholeTableSP);
+        cartPane.add(toNoteBtn);
+        cartPane.add(toBillBtn);
     }
 
     public static void setStyle() {
