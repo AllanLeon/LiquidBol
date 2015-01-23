@@ -2,7 +2,6 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -59,33 +58,28 @@ public class ClientEmployee extends JFrame {
     private JButton submitBtn;
     private MouseListener ml;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ClientEmployee(2).setVisible(true);
-            }
-        });
-    }
-
     public ClientEmployee(int state) {
         switch (state) {
             case 1: //Add new employee
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             case 2: //show employee data
                 setStyle();
                 initComponents();
                 convertToReadOnly();
+                setVisible(true);
                 break;
             case 3: //edit employee data
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             default:
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
         }
     }

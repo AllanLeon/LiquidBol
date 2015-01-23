@@ -2,7 +2,6 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.Properties;
@@ -44,29 +43,23 @@ public class PurchaseForm extends JFrame {
     private JLabel totalLbl;
     private Component totalAmount;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new PurchaseForm(0).setVisible(true);
-            }
-        });
-    }
-
     public PurchaseForm(int state) {
         switch (state) {
             case 1: //Add/edit new purchase
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             case 2: //show purchase data
                 setStyle();
                 initComponents();
                 convertToReadOnly();
+                setVisible(true);
                 break;
             default:
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
         }
     }

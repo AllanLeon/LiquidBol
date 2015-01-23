@@ -1,6 +1,5 @@
 package com.liquidbol.gui;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -39,18 +38,10 @@ public class MainMenuForm extends JFrame {
     private JButton branchBtn;
     private JButton buyBtn;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new MainMenuForm().setVisible(true);
-            }
-        });
-    }
-
     public MainMenuForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {

@@ -1,7 +1,6 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -52,18 +51,10 @@ public class ExtingForm extends JFrame {
     private JLabel hourLbl;
     private JLabel amountLbl;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ExtingForm().setVisible(true);
-            }
-        });
-    }
-
     public ExtingForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {

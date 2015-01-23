@@ -2,7 +2,6 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.MultiLineCellRenderer;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.Properties;
@@ -46,19 +45,11 @@ public class QuoteForm extends JFrame {
     private JLabel offerValLbl;
     private JTextField offerVal;
     
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new QuoteForm().setVisible(true);
-            }
-        });
-    }
-
     public QuoteForm() {
         this.df = new DecimalFormat("##.00");
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {

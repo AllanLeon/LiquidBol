@@ -1,7 +1,6 @@
 package com.liquidbol.gui;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -15,7 +14,6 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -57,33 +55,28 @@ public class ItemForm extends JFrame {
     private JButton submitBtn;
     private MouseListener ml;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ItemForm(0).setVisible(true);
-            }
-        });
-    }
-
     public ItemForm(int state) {
         switch (state) {
             case 1: //Add new item
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             case 2: //show item data
                 setStyle();
                 initComponents();
                 convertToReadOnly();
+                setVisible(true);
                 break;
             case 3: //edit item data
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             default:
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
         }
     }

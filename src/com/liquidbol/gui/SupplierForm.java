@@ -1,7 +1,6 @@
 package com.liquidbol.gui;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -56,33 +55,28 @@ public class SupplierForm extends JFrame {
     private JButton submitBtn;
     private MouseListener ml;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new SupplierForm(0).setVisible(true);
-            }
-        });
-    }
-
     public SupplierForm(int state) {
         switch(state){
             case 1: //Add new supplier
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             case 2: //show supplier data
                 setStyle();
                 initComponents();
                 convertToReadOnly();
+                setVisible(true);
                 break;
             case 3: //edit supplier data
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             default:
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
         }
     }

@@ -1,20 +1,17 @@
 package com.liquidbol.gui;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -46,18 +43,10 @@ public class InventoryForm extends JFrame {
     private JButton toNoteBtn;
     private JButton toBillBtn;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new InventoryForm().setVisible(true);
-            }
-        });
-    }
-
     public InventoryForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {

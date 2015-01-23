@@ -1,7 +1,6 @@
 package com.liquidbol.gui;
 
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,33 +30,28 @@ public class StoreForm extends JFrame {
     private Component storePhone;
     private JButton submitBtn;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new StoreForm(0).setVisible(true);
-            }
-        });
-    }
-
     public StoreForm(int state) {
         switch (state) {
             case 1: //Add new store
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             case 2: //show store data
                 setStyle();
                 initComponents();
                 convertToReadOnly();
+                setVisible(true);
                 break;
             case 3: //edit store data
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             default:
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
         }
     }

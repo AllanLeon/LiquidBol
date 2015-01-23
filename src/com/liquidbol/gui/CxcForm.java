@@ -2,7 +2,6 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -42,29 +41,23 @@ public class CxcForm extends JFrame {
     private JLabel debtLbl;
     private Component clientDebt;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new CxcForm(0).setVisible(true);
-            }
-        });
-    }
-
     public CxcForm(int state) {
         switch (state) {
             case 1: //Add/edit new cxc
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
             case 2: //show cxc data
                 setStyle();
                 initComponents();
                 convertToReadOnly();
+                setVisible(true);
                 break;
             default:
                 setStyle();
                 initComponents();
+                setVisible(true);
                 break;
         }
     }

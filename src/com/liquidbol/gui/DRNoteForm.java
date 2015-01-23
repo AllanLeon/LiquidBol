@@ -1,7 +1,6 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -46,18 +45,10 @@ public class DRNoteForm extends JFrame {
     private JTextField totalAmount;
     private JPanel contentPane;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new DRNoteForm().setVisible(true);
-            }
-        });
-    }
-
     public DRNoteForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {

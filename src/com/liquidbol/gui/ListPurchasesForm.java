@@ -1,10 +1,7 @@
 package com.liquidbol.gui;
 
-import com.liquidbol.addons.DateLabelFormatter;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -21,9 +18,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
 
 /**
  * @author Franco
@@ -38,18 +32,10 @@ public class ListPurchasesForm extends JFrame {
     private JButton searchBtn;
     private JTable purchasesTable;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ListPurchasesForm().setVisible(true);
-            }
-        });
-    }
-
     public ListPurchasesForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {

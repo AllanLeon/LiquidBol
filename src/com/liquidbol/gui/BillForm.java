@@ -1,7 +1,6 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -41,19 +40,11 @@ public class BillForm extends JFrame {
     private JLabel totalLbl;
     private JTextField totalAmount;
     private JPanel contentPane;
-
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new BillForm().setVisible(true);
-            }
-        });
-    }
     
     public BillForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {

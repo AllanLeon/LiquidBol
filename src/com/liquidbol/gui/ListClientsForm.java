@@ -1,6 +1,5 @@
 package com.liquidbol.gui;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -33,18 +32,10 @@ public class ListClientsForm extends JFrame {
     private JButton searchBtn;
     private JTable clientsTable;
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new ListClientsForm().setVisible(true);
-            }
-        });
-    }
-
     public ListClientsForm() {
         setStyle();
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {
