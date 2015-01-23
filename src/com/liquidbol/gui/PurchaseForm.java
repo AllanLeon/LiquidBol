@@ -2,7 +2,10 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import java.awt.Component;
+import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -42,7 +45,9 @@ public class PurchaseForm extends JFrame {
     private JTable contentTable;
     private JLabel totalLbl;
     private Component totalAmount;
-
+    private JButton submitBtn;
+    private JButton backBtn;
+    
     public PurchaseForm(int state) {
         switch (state) {
             case 1: //Add/edit new purchase
@@ -133,6 +138,15 @@ public class PurchaseForm extends JFrame {
         }
         totalAmount = new JTextField(String.valueOf(total));
         totalAmount.setFont(new Font("Arial", Font.PLAIN, 20));
+        submitBtn = new JButton("Add");
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListPurchasesForm lpf = new ListPurchasesForm();
+                dispose();
+            }
+        });
 
         title.setBounds(130, 30, 350, 30);
         datePicker.setBounds(170, 80, 150, 30);
@@ -145,6 +159,8 @@ public class PurchaseForm extends JFrame {
         tablesp.setBounds(30, 170, 570, 180);
         totalLbl.setBounds(450, 360, 30, 30);
         totalAmount.setBounds(480, 360, 90, 30);
+        submitBtn.setBounds(450, 410, 70, 30);
+        backBtn.setBounds(50, 410, 70, 30);
 
         contentPane.add(title);
         contentPane.add(datePicker);
@@ -157,6 +173,8 @@ public class PurchaseForm extends JFrame {
         contentPane.add(tablesp);
         contentPane.add(totalLbl);
         contentPane.add(totalAmount);
+        contentPane.add(submitBtn);
+        contentPane.add(backBtn);
     }
 
     private void setStyle() {

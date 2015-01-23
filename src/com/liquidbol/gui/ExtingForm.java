@@ -2,6 +2,8 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +28,7 @@ import org.jdatepicker.impl.UtilDateModel;
 public class ExtingForm extends JFrame {
 
     private JPanel contentPane;
-    private JButton jButton1;
+    private JButton submitBtn;
     private JDatePickerImpl datePicker;
     private JLabel title;
     private JLabel idShower;
@@ -50,6 +52,7 @@ public class ExtingForm extends JFrame {
     private JTextField hourField;
     private JLabel hourLbl;
     private JLabel amountLbl;
+    private JButton backBtn;
 
     public ExtingForm() {
         setStyle();
@@ -123,8 +126,16 @@ public class ExtingForm extends JFrame {
         dateField = new JDatePickerImpl(datePanel, new DateLabelFormatter());
         hourLbl = new JLabel("Hora");
         hourField = new JTextField();
-        jButton1 = new JButton();
-        jButton1.setText("OK");
+        submitBtn = new JButton();
+        submitBtn.setText("OK");
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenuForm mm = new MainMenuForm();
+                dispose();
+            }
+        });
 
         title.setBounds(120, 20, 500, 30);
         datePicker.setBounds(300, 90, 150, 30);
@@ -149,7 +160,8 @@ public class ExtingForm extends JFrame {
         ACAmount.setBounds(500, 370, 70, 30);
         balanceLbl.setBounds(570, 350, 50, 30);
         balanceAmount.setBounds(570, 370, 70, 30);
-        jButton1.setBounds(350, 430, 50, 30);
+        submitBtn.setBounds(350, 430, 50, 30);
+        backBtn.setBounds(50, 430, 50, 30);
 
         contentPane.add(title);
         contentPane.add(datePicker);
@@ -174,7 +186,8 @@ public class ExtingForm extends JFrame {
         contentPane.add(ACAmount);
         contentPane.add(balanceLbl);
         contentPane.add(balanceAmount);
-        contentPane.add(jButton1);
+        contentPane.add(submitBtn);
+        contentPane.add(backBtn);
     }
 
     private void setStyle() {

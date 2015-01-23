@@ -3,6 +3,8 @@ package com.liquidbol.gui;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -57,6 +59,7 @@ public class ClientForm extends JFrame {
     private JLabel companyPhoto;
     private JButton submitBtn;
     private MouseListener ml;
+    private JButton backBtn;
 
     public ClientForm(int state) {
         switch(state){
@@ -129,6 +132,14 @@ public class ClientForm extends JFrame {
         }
 
         submitBtn = new JButton("Add");
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                InventoryForm invf = new InventoryForm();
+                dispose();
+            }
+        });
 
         title.setBounds(120, 30, 350, 30);
         idShower.setBounds(350, 80, 150, 30);
@@ -152,6 +163,7 @@ public class ClientForm extends JFrame {
         clientPhoto.setBounds(75, 330, 100, 100);
         companyPhoto.setBounds(200, 330, 150, 100);
         submitBtn.setBounds(400, 380, 70, 30);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(idShower);
@@ -175,6 +187,7 @@ public class ClientForm extends JFrame {
         contentPane.add(clientPhoto);
         contentPane.add(companyPhoto);
         contentPane.add(submitBtn);
+        contentPane.add(backBtn);
         onMouseHover(clientPhoto);
         onMouseHover(companyPhoto);
     }

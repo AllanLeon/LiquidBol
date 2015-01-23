@@ -1,6 +1,8 @@
 package com.liquidbol.gui;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,7 @@ public class ListPurchasesForm extends JFrame {
     private JTextField searchBox;
     private JButton searchBtn;
     private JTable purchasesTable;
+    private JButton backBtn;
 
     public ListPurchasesForm() {
         setStyle();
@@ -78,13 +81,22 @@ public class ListPurchasesForm extends JFrame {
         purchasesTable.getColumnModel().getColumn(2).setPreferredWidth(120);
         purchasesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane purchasesTableSP = new JScrollPane(purchasesTable);
-
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenuForm mm = new MainMenuForm();
+                dispose();
+            }
+        });
+        
         title.setBounds(140, 30, 400, 30);
         addBtn.setBounds(360, 80, 100, 30);
         searchCB.setBounds(80, 120, 120, 30);
         searchBox.setBounds(210, 120, 150, 30);
         searchBtn.setBounds(350, 120, 50, 30);
         purchasesTableSP.setBounds(30, 170, 430, 200);
+        backBtn.setBounds(50, 400, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);
@@ -92,6 +104,7 @@ public class ListPurchasesForm extends JFrame {
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
         contentPane.add(purchasesTableSP);
+        contentPane.add(backBtn);
     }
 
     public static void setStyle() {

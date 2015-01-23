@@ -2,6 +2,7 @@ package com.liquidbol.gui;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.logging.Level;
@@ -37,6 +38,7 @@ public class MainMenuForm extends JFrame {
     private JButton provBtn;
     private JButton branchBtn;
     private JButton buyBtn;
+    private JButton empBtn;
 
     public MainMenuForm() {
         setStyle();
@@ -60,19 +62,79 @@ public class MainMenuForm extends JFrame {
         title.setFont(new Font("Arial", Font.PLAIN, 40));
 
         sellBtn = new JButton("Ventas");
+        
         recpBtn = new JButton("Recepciones");
+        
         quoteBtn = new JButton("Cotizaciones");
+        quoteBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                QuoteForm qf = new QuoteForm();
+                dispose();
+            }
+        });
+        
         //sellBtn = new JButton("Registros");
         repoBtn = new JButton("Reportes");
-        invBtn = new JButton("Inventario");
-        clientBtn = new JButton("Clientes");
-        cxcBtn = new JButton("CXC");
-        arBtn = new JButton("Articulos Recargables");
-        provBtn = new JButton("Proveedores");
-        branchBtn = new JButton("Sucursales");
-        buyBtn = new JButton("Compras");
-
         addDDL(repoBtn);
+        
+        invBtn = new JButton("Inventario");
+        
+        clientBtn = new JButton("Clientes");
+        clientBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListClientsForm lcf = new ListClientsForm();
+                dispose();
+            }
+        });
+        
+        cxcBtn = new JButton("CXC");
+        cxcBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListCxcForm lcf = new ListCxcForm();
+                dispose();
+            }
+        });
+        
+        arBtn = new JButton("Articulos Recargables");
+        arBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListARForm laf = new ListARForm();
+                dispose();
+            }
+        });
+        
+        provBtn = new JButton("Proveedores");
+        provBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListSuppliersForm lsf = new ListSuppliersForm();
+                dispose();
+            }
+        });
+        
+        branchBtn = new JButton("Sucursales");
+
+        empBtn = new JButton("Empleados");
+        empBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListEmployeesForm lef = new ListEmployeesForm();
+                dispose();
+            }
+        });
+
+        buyBtn = new JButton("Compras");
+        buyBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListPurchasesForm lpf = new ListPurchasesForm();
+                dispose();
+            }
+        });
 
         title.setBounds(420, 30, 200, 100);
         sellBtn.setBounds(60, 40, 110, 50);
@@ -85,6 +147,7 @@ public class MainMenuForm extends JFrame {
         arBtn.setBounds(260, 220, 150, 50);
         provBtn.setBounds(60, 280, 110, 50);
         branchBtn.setBounds(60, 340, 110, 50);
+        empBtn.setBounds(160, 340, 110, 50);
         buyBtn.setBounds(60, 400, 110, 50);
 
         contentPane.add(title);
@@ -98,6 +161,7 @@ public class MainMenuForm extends JFrame {
         contentPane.add(cxcBtn);
         contentPane.add(arBtn);
         contentPane.add(provBtn);
+        contentPane.add(empBtn);
         contentPane.add(branchBtn);
         contentPane.add(buyBtn);
     }

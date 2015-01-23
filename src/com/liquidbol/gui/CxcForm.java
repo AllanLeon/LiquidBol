@@ -3,9 +3,12 @@ package com.liquidbol.gui;
 import com.liquidbol.addons.DateLabelFormatter;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,6 +43,7 @@ public class CxcForm extends JFrame {
     private Component maxAmount;
     private JLabel debtLbl;
     private Component clientDebt;
+    private JButton backBtn;
 
     public CxcForm(int state) {
         switch (state) {
@@ -113,7 +117,15 @@ public class CxcForm extends JFrame {
         contentTable.getColumnModel().getColumn(2).setPreferredWidth(90);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane tablesp = new JScrollPane(contentTable);
-
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListCxcForm lcf = new ListCxcForm();
+                dispose();
+            }
+        });
+        
         title.setBounds(140, 30, 350, 30);
         idLbl.setBounds(80, 80, 70, 30);
         idBox.setBounds(120, 80, 100, 30);
@@ -126,7 +138,8 @@ public class CxcForm extends JFrame {
         amountLbl.setBounds(40, 390, 70, 30);
         maxAmount.setBounds(110, 390, 80, 30);
         debtLbl.setBounds(320, 360, 70, 30);
-        clientDebt.setBounds(360, 360, 70, 30);
+        clientDebt.setBounds(360, 360, 70, 30);       
+        backBtn.setBounds(400, 50, 70, 30);
         
         contentPane.add(title);
         contentPane.add(idLbl);
@@ -141,6 +154,7 @@ public class CxcForm extends JFrame {
         contentPane.add(maxAmount);
         contentPane.add(debtLbl);
         contentPane.add(clientDebt);
+        contentPane.add(backBtn);
     }
 
     private void setStyle() {

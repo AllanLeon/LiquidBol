@@ -1,6 +1,8 @@
 package com.liquidbol.gui;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,7 @@ public class ListEmployeesForm extends JFrame {
     private JTextField searchBox;
     private JButton searchBtn;
     private JTable employeesTable;
+    private JButton backBtn;
 
     public ListEmployeesForm() {
         setStyle();
@@ -78,6 +81,14 @@ public class ListEmployeesForm extends JFrame {
         employeesTable.getColumnModel().getColumn(2).setPreferredWidth(70);
         employeesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane employeesTableSP = new JScrollPane(employeesTable);
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenuForm mm = new MainMenuForm();
+                dispose();
+            }
+        });        
 
         title.setBounds(120, 30, 300, 30);
         addBtn.setBounds(340, 80, 100, 30);
@@ -85,6 +96,7 @@ public class ListEmployeesForm extends JFrame {
         searchBox.setBounds(210, 120, 150, 30);
         searchBtn.setBounds(350, 120, 50, 30);
         employeesTableSP.setBounds(30, 170, 450, 200);
+        backBtn.setBounds(50, 400, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);
@@ -92,6 +104,7 @@ public class ListEmployeesForm extends JFrame {
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
         contentPane.add(employeesTableSP);
+        contentPane.add(backBtn);
     }
 
     public static void setStyle() {

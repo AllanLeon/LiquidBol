@@ -4,6 +4,8 @@ import com.liquidbol.addons.DateLabelFormatter;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -35,7 +37,7 @@ import org.jdatepicker.impl.UtilDateModel;
 /**
  * @author Franco
  */
-public class ClientEmployee extends JFrame {
+public class EmployeeForm extends JFrame {
 
     private JPanel contentPane;
     private JLabel title;
@@ -57,8 +59,9 @@ public class ClientEmployee extends JFrame {
     private JLabel clientPhoto;
     private JButton submitBtn;
     private MouseListener ml;
-
-    public ClientEmployee(int state) {
+    private JButton backBtn;
+    
+    public EmployeeForm(int state) {
         switch (state) {
             case 1: //Add new employee
                 setStyle();
@@ -125,10 +128,18 @@ public class ClientEmployee extends JFrame {
             clientPhoto = new JLabel(new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/weld.jpg"))));
             clientPhoto.setHorizontalAlignment(SwingConstants.CENTER);
         } catch (IOException ex) {
-            Logger.getLogger(ClientEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EmployeeForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         submitBtn = new JButton("Add");
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListEmployeesForm lef = new ListEmployeesForm();
+                dispose();
+            }
+        });
 
         title.setBounds(100, 30, 400, 30);
         datePicker.setBounds(160, 80, 140, 30);
@@ -148,6 +159,7 @@ public class ClientEmployee extends JFrame {
         clientEmail.setBounds(100, 290, 250, 30);
         clientPhoto.setBounds(175, 330, 100, 100);
         submitBtn.setBounds(400, 380, 70, 30);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(datePicker);
@@ -167,6 +179,7 @@ public class ClientEmployee extends JFrame {
         contentPane.add(clientEmail);
         contentPane.add(clientPhoto);
         contentPane.add(submitBtn);
+        contentPane.add(backBtn);
         onMouseHover(clientPhoto);
     }
 

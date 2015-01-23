@@ -1,6 +1,8 @@
 package com.liquidbol.gui;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +44,7 @@ public class InventoryForm extends JFrame {
     private JTable wholeTable;
     private JButton toNoteBtn;
     private JButton toBillBtn;
+    private JButton backBtn;
 
     public InventoryForm() {
         setStyle();
@@ -51,7 +54,7 @@ public class InventoryForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(1100, 550);
+        setSize(1100, 600);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -60,6 +63,14 @@ public class InventoryForm extends JFrame {
         parentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(parentPane);
         parentPane.setLayout(null);
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenuForm mm = new MainMenuForm();
+                dispose();
+            }
+        });
 
         title = new JLabel("INVENTARIO");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
@@ -148,9 +159,9 @@ public class InventoryForm extends JFrame {
         toNoteBtn = new JButton("A nota de venta");
         toBillBtn = new JButton("A facturar");
         
+        title.setBounds(440, 20, 300, 30);
         inventoryPane.setBounds(0, 50, 550, 470);
         cartPane.setBounds(550, 50, 540, 370);
-        title.setBounds(440, 20, 300, 30);
         branchLbl.setBounds(20, 40, 80, 30);
         branchNameCB.setBounds(80, 40, 150, 30);
         addBtn.setBounds(430, 40, 100, 30);
@@ -164,8 +175,10 @@ public class InventoryForm extends JFrame {
         wholeTableSP.setBounds(10, 70, 520, 200);
         toNoteBtn.setBounds(70, 280, 200, 50);
         toBillBtn.setBounds(290, 280, 200, 50);
+        backBtn.setBounds(50, 560, 70, 30);
 
         add(title);
+        add(backBtn);
         parentPane.add(inventoryPane);
         parentPane.add(cartPane);
         inventoryPane.add(branchLbl);

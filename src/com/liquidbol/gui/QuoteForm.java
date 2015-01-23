@@ -3,6 +3,8 @@ package com.liquidbol.gui;
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.MultiLineCellRenderer;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -29,7 +31,7 @@ import org.jdatepicker.impl.UtilDateModel;
 public class QuoteForm extends JFrame {
 
     private JPanel contentPane;
-    private JButton jButton1;
+    private JButton submitBtn;
     private JDatePickerImpl datePicker;
     private JLabel title;
     private JLabel idShower;
@@ -44,6 +46,7 @@ public class QuoteForm extends JFrame {
     private JTextArea obsArea;
     private JLabel offerValLbl;
     private JTextField offerVal;
+    private JButton backBtn;
     
     public QuoteForm() {
         this.df = new DecimalFormat("##.00");
@@ -133,7 +136,15 @@ public class QuoteForm extends JFrame {
             "* Consultar disponibilidad de stock."
         );
         JScrollPane sp = new JScrollPane(obsArea); 
-        jButton1 = new JButton("OK");
+        submitBtn = new JButton("OK");
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListQuotesForm lqf = new ListQuotesForm();
+                dispose();
+            }
+        });
 
         title.setBounds(280, 20, 500, 30);
         datePicker.setBounds(300, 70, 150, 30);
@@ -148,7 +159,9 @@ public class QuoteForm extends JFrame {
         offerValLbl.setBounds(40, 360, 200, 30);
         offerVal.setBounds(150, 360, 30, 30);
         sp.setBounds(40, 390, 470, 70);
-        jButton1.setBounds(580, 410, 70, 30);
+        submitBtn.setBounds(580, 410, 70, 30);
+        backBtn.setBounds(50, 410, 70, 30);
+        
         contentPane.add(title);
         contentPane.add(datePicker);
         contentPane.add(idShower);
@@ -162,7 +175,8 @@ public class QuoteForm extends JFrame {
         contentPane.add(offerValLbl);
         contentPane.add(offerVal);
         contentPane.add(sp);
-        contentPane.add(jButton1);
+        contentPane.add(submitBtn);
+        contentPane.add(backBtn);
     }
 
     private void setStyle() {

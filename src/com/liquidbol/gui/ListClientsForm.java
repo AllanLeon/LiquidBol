@@ -1,6 +1,8 @@
 package com.liquidbol.gui;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +33,7 @@ public class ListClientsForm extends JFrame {
     private JTextField searchBox;
     private JButton searchBtn;
     private JTable clientsTable;
+    private JButton backBtn;
 
     public ListClientsForm() {
         setStyle();
@@ -86,13 +89,22 @@ public class ListClientsForm extends JFrame {
         clientsTable.getColumnModel().getColumn(6).setPreferredWidth(20);
         clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane clientsTableSP = new JScrollPane(clientsTable);
-
+        backBtn = new JButton("Back");
+        backBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenuForm mm = new MainMenuForm();
+                dispose();
+            }
+        });
+        
         title.setBounds(300, 30, 300, 30);
         addBtn.setBounds(630, 80, 100, 30);
         searchCB.setBounds(90, 120, 150, 30);
         searchBox.setBounds(250, 120, 300, 30);
         searchBtn.setBounds(540, 120, 50, 30);
         clientsTableSP.setBounds(30, 170, 730, 200);
+        searchBtn.setBounds(50, 400, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);
@@ -100,6 +112,7 @@ public class ListClientsForm extends JFrame {
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
         contentPane.add(clientsTableSP);
+        contentPane.add(backBtn);
     }
 
     public static void setStyle() {
