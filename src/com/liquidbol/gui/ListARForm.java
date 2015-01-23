@@ -55,6 +55,7 @@ public class ListARForm extends JFrame {
 
         title = new JLabel("ARTICULOS RECARGABLES");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
+        
         addBtn = new JButton("+");
 
         searchCB = new JComboBox();
@@ -100,7 +101,7 @@ public class ListARForm extends JFrame {
         searchBox.setBounds(210, 120, 250, 30);
         searchBtn.setBounds(450, 120, 50, 30);
         arsTableSP.setBounds(30, 170, 730, 200);
-        backBtn.setBounds(50, 400, 70, 30);
+        backBtn.setBounds(50, 380, 70, 30);
         
         contentPane.add(title);
         contentPane.add(addBtn);

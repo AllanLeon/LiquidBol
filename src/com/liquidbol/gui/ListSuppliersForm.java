@@ -55,7 +55,15 @@ public class ListSuppliersForm extends JFrame {
 
         title = new JLabel("PROVEEDORES");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+        
         addBtn = new JButton("+");
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SupplierForm sf = new SupplierForm(1);
+                dispose();
+            }
+        });
 
         searchCB = new JComboBox();
         searchBox = new JTextField();
@@ -96,7 +104,7 @@ public class ListSuppliersForm extends JFrame {
         searchBox.setBounds(170, 120, 200, 30);
         searchBtn.setBounds(360, 120, 50, 30);
         clientsTableSP.setBounds(30, 170, 430, 200);
-        backBtn.setBounds(50, 400, 70, 30);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);

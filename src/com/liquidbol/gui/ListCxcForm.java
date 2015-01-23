@@ -55,7 +55,16 @@ public class ListCxcForm extends JFrame {
 
         title = new JLabel("CUENTAS X COBRAR");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+        
         addBtn = new JButton("+");
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CxcForm cf = new CxcForm(1);
+                dispose();
+            }
+        });
+        
         searchCB = new JComboBox();
         searchBox = new JTextField();
         try {
@@ -99,7 +108,7 @@ public class ListCxcForm extends JFrame {
         searchBox.setBounds(210, 120, 250, 30);
         searchBtn.setBounds(450, 120, 50, 30);
         cxcsTableSP.setBounds(30, 170, 530, 200);
-        backBtn.setBounds(50, 400, 70, 30);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);

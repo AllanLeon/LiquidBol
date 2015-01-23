@@ -55,7 +55,15 @@ public class ListClientsForm extends JFrame {
 
         title = new JLabel("CLIENTES");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+        
         addBtn = new JButton("+");
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ClientForm cf = new ClientForm(1);
+                dispose();
+            }
+        });
 
         searchCB = new JComboBox();
         searchBox = new JTextField();
@@ -104,7 +112,7 @@ public class ListClientsForm extends JFrame {
         searchBox.setBounds(250, 120, 300, 30);
         searchBtn.setBounds(540, 120, 50, 30);
         clientsTableSP.setBounds(30, 170, 730, 200);
-        searchBtn.setBounds(50, 400, 70, 30);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);

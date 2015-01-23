@@ -136,7 +136,7 @@ public class ClientForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                InventoryForm invf = new InventoryForm();
+                ListClientsForm lcf = new ListClientsForm();
                 dispose();
             }
         });

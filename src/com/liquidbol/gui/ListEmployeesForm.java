@@ -55,7 +55,15 @@ public class ListEmployeesForm extends JFrame {
 
         title = new JLabel("EMPLEADOS");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+        
         addBtn = new JButton("+");
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EmployeeForm ef = new EmployeeForm(1);
+                dispose();
+            }
+        });
 
         searchCB = new JComboBox();
         searchBox = new JTextField();
@@ -96,7 +104,7 @@ public class ListEmployeesForm extends JFrame {
         searchBox.setBounds(210, 120, 150, 30);
         searchBtn.setBounds(350, 120, 50, 30);
         employeesTableSP.setBounds(30, 170, 450, 200);
-        backBtn.setBounds(50, 400, 70, 30);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);

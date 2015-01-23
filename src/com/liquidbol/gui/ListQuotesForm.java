@@ -55,7 +55,15 @@ public class ListQuotesForm extends JFrame {
 
         title = new JLabel("COTIZACIONES");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+        
         addBtn = new JButton("+");
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                QuoteForm qf = new QuoteForm();
+                dispose();
+            }
+        });
 
         searchCB = new JComboBox();
         searchBox = new JTextField();
@@ -102,7 +110,7 @@ public class ListQuotesForm extends JFrame {
         searchBox.setBounds(310, 120, 250, 30);
         searchBtn.setBounds(550, 120, 50, 30);
         quotesTableSP.setBounds(30, 170, 830, 200);
-        backBtn.setBounds(50, 400, 70, 30);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);

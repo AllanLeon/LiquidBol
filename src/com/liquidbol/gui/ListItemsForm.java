@@ -56,7 +56,15 @@ public class ListItemsForm extends JFrame {
 
         title = new JLabel("ITEMS");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+        
         addBtn = new JButton("+");
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ItemForm itf = new ItemForm(1);
+                dispose();
+            }
+        });
 
         searchCB = new JComboBox();
         searchBox = new JTextField();
@@ -109,7 +117,7 @@ public class ListItemsForm extends JFrame {
         searchBox.setBounds(310, 120, 250, 30);
         searchBtn.setBounds(550, 120, 50, 30);
         itemsTableSP.setBounds(30, 170, 830, 200);
-        backBtn.setBounds(50, 400, 70, 30);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);

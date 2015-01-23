@@ -175,7 +175,7 @@ public class InventoryForm extends JFrame {
         wholeTableSP.setBounds(10, 70, 520, 200);
         toNoteBtn.setBounds(70, 280, 200, 50);
         toBillBtn.setBounds(290, 280, 200, 50);
-        backBtn.setBounds(50, 560, 70, 30);
+        backBtn.setBounds(50, 530, 70, 30);
 
         add(title);
         add(backBtn);

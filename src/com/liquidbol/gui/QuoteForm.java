@@ -57,8 +57,9 @@ public class QuoteForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(700, 500);
+        setSize(700, 550);
         setResizable(false);
+        setLocationRelativeTo(null);
                
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	contentPane = new JPanel();
@@ -160,7 +161,7 @@ public class QuoteForm extends JFrame {
         offerVal.setBounds(150, 360, 30, 30);
         sp.setBounds(40, 390, 470, 70);
         submitBtn.setBounds(580, 410, 70, 30);
-        backBtn.setBounds(50, 410, 70, 30);
+        backBtn.setBounds(50, 470, 70, 30);
         
         contentPane.add(title);
         contentPane.add(datePicker);

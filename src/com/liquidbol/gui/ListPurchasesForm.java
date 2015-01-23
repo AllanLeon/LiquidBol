@@ -55,7 +55,15 @@ public class ListPurchasesForm extends JFrame {
 
         title = new JLabel("COMPRAS");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+        
         addBtn = new JButton("+");
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PurchaseForm pf = new PurchaseForm(1);
+                dispose();
+            }
+        });
 
         searchCB = new JComboBox();
         searchBox = new JTextField();
@@ -96,7 +104,7 @@ public class ListPurchasesForm extends JFrame {
         searchBox.setBounds(210, 120, 150, 30);
         searchBtn.setBounds(350, 120, 50, 30);
         purchasesTableSP.setBounds(30, 170, 430, 200);
-        backBtn.setBounds(50, 400, 70, 30);
+        backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
         contentPane.add(addBtn);

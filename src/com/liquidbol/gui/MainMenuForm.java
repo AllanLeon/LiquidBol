@@ -69,7 +69,7 @@ public class MainMenuForm extends JFrame {
         quoteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                QuoteForm qf = new QuoteForm();
+                ListQuotesForm lqf = new ListQuotesForm();
                 dispose();
             }
         });
@@ -79,6 +79,13 @@ public class MainMenuForm extends JFrame {
         addDDL(repoBtn);
         
         invBtn = new JButton("Inventario");
+        invBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListItemsForm lif = new ListItemsForm();
+                dispose();
+            }
+        });
         
         clientBtn = new JButton("Clientes");
         clientBtn.addActionListener(new ActionListener() {
