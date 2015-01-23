@@ -39,13 +39,13 @@ public class PurchaseCrud implements DBCrud<Purchase> {
             statement.setDate(3, element.getDate());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new PersistenceException("tableex was not saved");
+                throw new PersistenceException("purchase was not saved");
             }
-            LOG.info(String.format("tableex: %d successfuly saved", element.getId()));
+            LOG.info(String.format("purchase: %d successfuly saved", element.getId()));
             return element;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException(String.format("Failed to save tableex: %d", element.getId()), ex);
+            throw new PersistenceException(String.format("Failed to save purchase: %d", element.getId()), ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -71,11 +71,36 @@ public class PurchaseCrud implements DBCrud<Purchase> {
             if (resultSet.next()) {
                 return createElementFromResultSet(resultSet);
             } else {
-                throw new PersistenceException(String.format("Couldn't find tableex with code %d", id));
+                throw new PersistenceException(String.format("Couldn't find purchase with code %d", id));
             }
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read tableex", ex);
+            throw new PersistenceException("Failed to read purchase", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public Collection<Purchase> findBySupplierId(int id) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM purchases WHERE supplier_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<Purchase> result = new HashSet<>();
+            while (resultSet.next()) {
+                Purchase element = createElementFromResultSet(resultSet);
+                result.add(element);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read purchases", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -97,12 +122,12 @@ public class PurchaseCrud implements DBCrud<Purchase> {
             statement.setInt(3, element.getId());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new PersistenceException("tableex was not updated");
+                throw new PersistenceException("purchase was not updated");
             }
             return element;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException(String.format("Failed to update tableex: %d", element.getId()), ex);
+            throw new PersistenceException(String.format("Failed to update purchase: %d", element.getId()), ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -127,7 +152,7 @@ public class PurchaseCrud implements DBCrud<Purchase> {
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read the tableexs", ex);
+            throw new PersistenceException("Failed to read the purchases", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -147,7 +172,7 @@ public class PurchaseCrud implements DBCrud<Purchase> {
         int id = resultSet.getInt(1);
         Double ammount = resultSet.getDouble(3);
         Date date = resultSet.getDate(4);
-        LOG.log(Level.FINE, "Creating tableex %d", id);
+        LOG.log(Level.FINE, "Creating purchase %d", id);
         Purchase result = new Purchase(id, ammount, date);
         return result;
     }

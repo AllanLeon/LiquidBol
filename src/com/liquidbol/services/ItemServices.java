@@ -13,7 +13,7 @@ import com.liquidbol.model.Item;
 import java.util.logging.Logger;
 
 /**
- * Contains all the operation an item can execute.
+ * Contains all the operations an item can execute.
  * @author Allan Leon
  */
 public class ItemServices {
@@ -42,7 +42,7 @@ public class ItemServices {
         return element;
     }
     
-    public void loadDiscountsFromItem(Item parent) throws PersistenceException, ClassNotFoundException {
+    public void loadItemDiscounts(Item parent) throws PersistenceException, ClassNotFoundException {
         parent.setDiscounts(discountCrudManager.findByItemId(parent.getId()));
     }
 }
