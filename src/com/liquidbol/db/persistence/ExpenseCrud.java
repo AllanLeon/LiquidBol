@@ -86,6 +86,31 @@ public class ExpenseCrud implements DBCrud<Expense> {
             }
         }
     }
+    
+    public Collection<Expense> findByStoreId(int storeId) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM expenses WHERE store_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, storeId);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<Expense> result = new HashSet<>();
+            while (resultSet.next()) {
+                Expense element = createElementFromResultSet(resultSet);
+                result.add(element);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read expense", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public Expense merge(Expense element) throws PersistenceException, ClassNotFoundException {

@@ -94,6 +94,31 @@ public class EmployeeCrud implements DBCrud<Employee> {
             }
         }
     }
+    
+    public Collection<Employee> findByStoreId(int storeId) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM employees WHERE store_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, storeId);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<Employee> result = new HashSet<>();
+            while (resultSet.next()) {
+                Employee element = createElementFromResultSet(resultSet);
+                result.add(element);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read employee", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public Employee merge(Employee element) throws PersistenceException, ClassNotFoundException {
