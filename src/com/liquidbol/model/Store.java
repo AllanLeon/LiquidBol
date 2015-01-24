@@ -107,6 +107,27 @@ public class Store implements Serializable {
         this.phone = phone;
     }
     
+    /**
+     * @param expenses the expenses to set
+     */
+    public void setExpenses(Collection<Expense> expenses) {
+        this.expenses = expenses;
+    }
+
+    /**
+     * @param inventorys the inventorys to set
+     */
+    public void setInventorys(Collection<Inventory> inventorys) {
+        this.inventorys = inventorys;
+    }
+
+    /**
+     * @param employees the employees to set
+     */
+    public void setEmployees(Collection<Employee> employees) {
+        this.employees = employees;
+    }
+    
     public int getNumberOfExpenses() {
         return expenses.size();
     }

@@ -209,4 +209,39 @@ public class Client extends Person implements Serializable {
     public void addServiceBill(ServiceBill serviceBill) {
         serviceBills.add(serviceBill);
     }
+
+    /**
+     * @param receivableAccounts the receivableAccounts to set
+     */
+    public void setReceivableAccounts(Collection<CXC> receivableAccounts) {
+        this.receivableAccounts = receivableAccounts;
+    }
+
+    /**
+     * @param rechargeableItems the rechargeableItems to set
+     */
+    public void setRechargeableItems(Collection<RechargeableItem> rechargeableItems) {
+        this.rechargeableItems = rechargeableItems;
+    }
+
+    /**
+     * @param itemEstimates the itemEstimates to set
+     */
+    public void setItemEstimates(Collection<ItemEstimate> itemEstimates) {
+        this.itemEstimates = itemEstimates;
+    }
+
+    /**
+     * @param itemBills the itemBills to set
+     */
+    public void setItemBills(Collection<ItemBill> itemBills) {
+        this.itemBills = itemBills;
+    }
+
+    /**
+     * @param serviceBills the serviceBills to set
+     */
+    public void setServiceBills(Collection<ServiceBill> serviceBills) {
+        this.serviceBills = serviceBills;
+    }
 }

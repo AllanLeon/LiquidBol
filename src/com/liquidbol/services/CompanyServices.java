@@ -25,7 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Contains all the operation the Company can execute.
+ * Contains all the operations the Company can execute.
  * @author Allan Leon
  */
 public class CompanyServices {

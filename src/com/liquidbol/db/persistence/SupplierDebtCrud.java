@@ -85,6 +85,31 @@ public class SupplierDebtCrud implements DBCrud<Debt>{
             }
         }
     }
+    
+    public Collection<Debt> findBySupplierId(int id) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM supplier_debts WHERE supplier_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<Debt> result = new HashSet<>();
+            while (resultSet.next()) {
+                Debt debt = createElementFromResultSet(resultSet);
+                result.add(debt);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read supplier debts", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public Debt merge(Debt debt) throws PersistenceException, ClassNotFoundException {

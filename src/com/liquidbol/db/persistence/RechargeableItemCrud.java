@@ -85,6 +85,31 @@ public class RechargeableItemCrud implements DBCrud<RechargeableItem> {
             }
         }
     }
+    
+    public Collection<RechargeableItem> findByClientId(int clientId) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM rechargeable_items WHERE client_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, clientId);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<RechargeableItem> result = new HashSet<>();
+            while (resultSet.next()) {
+                RechargeableItem element = createElementFromResultSet(resultSet);
+                result.add(element);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read rechargeable item", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public RechargeableItem find(int id) throws PersistenceException, ClassNotFoundException {

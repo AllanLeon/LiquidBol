@@ -30,6 +30,8 @@ public class DatabaseCreator {
             @Override
             public void run() {
                 DatabaseCreator dbCreator = new DatabaseCreator();
+                dbCreator.dropDatabase();
+                dbCreator.createDatabase();
             }
         });
     }
@@ -280,6 +282,7 @@ public class DatabaseCreator {
 "    employee_id INTEGER NOT NULL,\n" +
 "    bill_date DATE NOT NULL,\n" +
 "    total_amount REAL NOT NULL,\n" +
+"    is_billed BOOLEAN NOT NULL,\n" +
 "    obs VARCHAR(100),\n" +
 "    CONSTRAINT servicebills_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id),\n" +
 "    CONSTRAINT servicebills_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)\n" +
@@ -317,6 +320,7 @@ public class DatabaseCreator {
 "    employee_id INTEGER NOT NULL,\n" +
 "    bill_date DATE NOT NULL,\n" +
 "    total_amount REAL NOT NULL,\n" +
+"    is_billed BOOLEAN NOT NULL,\n" +
 "    is_route BOOLEAN,\n" +
 "    obs VARCHAR(100),\n" +
 "    CONSTRAINT itembills_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id),\n" +

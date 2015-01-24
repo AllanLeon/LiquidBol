@@ -76,6 +76,16 @@ public class Inventory implements Serializable {
         this.quantity = quantity;
     }
     
+    public int increaseQuantityBy(int number) {
+        quantity += number;
+        return quantity;
+    }
+    
+    public int reduceQuantityBy(int number) {
+        quantity -= number;
+        return quantity;
+    }
+    
     public void refresh() {
         try {
             item = new ItemCrud().refresh(item);
