@@ -127,19 +127,19 @@ public class CxcForm extends JFrame {
         });
         
         title.setBounds(140, 30, 350, 30);
-        idLbl.setBounds(80, 80, 70, 30);
-        idBox.setBounds(120, 80, 100, 30);
-        nameLbl.setBounds(40, 120, 70, 30);
-        clientName.setBounds(100, 120, 250, 30);
-        cxccLbl.setBounds(40, 150, 50, 30);
-        tablesp.setBounds(40, 170, 400, 180);
-        dateLbl.setBounds(40, 360, 70, 30);
-        datePicker.setBounds(110, 360, 120, 30);
-        amountLbl.setBounds(40, 390, 70, 30);
-        maxAmount.setBounds(110, 390, 80, 30);
-        debtLbl.setBounds(320, 360, 70, 30);
-        clientDebt.setBounds(360, 360, 70, 30);       
-        backBtn.setBounds(400, 50, 70, 30);
+        idLbl.setBounds(40, 90, 70, 30);
+        idBox.setBounds(60, 90, 100, 30);
+        nameLbl.setBounds(180, 90, 70, 30);
+        clientName.setBounds(230, 90, 180, 30);
+        cxccLbl.setBounds(40, 120, 50, 30);
+        tablesp.setBounds(40, 140, 400, 180);
+        dateLbl.setBounds(40, 330, 70, 30);
+        datePicker.setBounds(110, 330, 120, 30);
+        amountLbl.setBounds(40, 360, 70, 30);
+        maxAmount.setBounds(110, 360, 80, 30);
+        debtLbl.setBounds(320, 330, 70, 30);
+        clientDebt.setBounds(360, 330, 70, 30);       
+        backBtn.setBounds(40, 400, 70, 30);
         
         contentPane.add(title);
         contentPane.add(idLbl);
