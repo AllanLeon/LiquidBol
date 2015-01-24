@@ -33,13 +33,14 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO service_bills(client_id, employee_id, "
-                    + "bill_date, total_amount, obs) VALUES(?,?,?,?,?)";
+                    + "bill_date, total_amount, is_billed, obs) VALUES(?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, parent.getId());
             statement.setInt(2, element.getEmployee().getId());
             statement.setDate(3, element.getDate());
             statement.setDouble(4, element.getTotalAmount());
-            statement.setString(5, element.getObs());
+            statement.setBoolean(5, element.isBilled());
+            statement.setString(6, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("service bill was not saved");
@@ -92,13 +93,14 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
     public ServiceBill merge(ServiceBill element) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE service_bills SET bill_date=?, total_amount=?, "
-                    + "obs=? WHERE servicebill_id=?";
+                    + "is_billed=?, obs=? WHERE servicebill_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, element.getDate());
             statement.setDouble(2, element.getTotalAmount());
-            statement.setString(3, element.getObs());
-            statement.setInt(4, element.getId());
+            statement.setBoolean(3, element.isBilled());
+            statement.setString(4, element.getObs());
+            statement.setInt(5, element.getId());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("service bill was not updated");
@@ -152,9 +154,10 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
         Employee employee = new Employee(resultSet.getInt(3));
         Date date = resultSet.getDate(4);
         Double totalAmount = resultSet.getDouble(5);
-        String obs = resultSet.getString(6);
+        boolean billed = resultSet.getBoolean(6);
+        String obs = resultSet.getString(7);
         LOG.log(Level.FINE, "Creating service bill %d", id);
-        ServiceBill result = new ServiceBill(id, employee, date, totalAmount, obs);
+        ServiceBill result = new ServiceBill(id, employee, date, totalAmount, billed, obs);
         return result;
     }
 

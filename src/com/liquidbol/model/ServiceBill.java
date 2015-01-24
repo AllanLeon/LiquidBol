@@ -24,10 +24,11 @@ public class ServiceBill extends Bill implements Serializable {
      * @param id
      * @param employee
      * @param date
+     * @param billed
      * @param obs 
      */
-    public ServiceBill(int id, Employee employee, Date date, String obs) {
-        super(id, employee, date, obs);
+    public ServiceBill(int id, Employee employee, Date date, boolean billed, String obs) {
+        super(id, employee, date, billed, obs);
         this.serviceReceptions = new HashSet<>();
     }
 
@@ -37,10 +38,12 @@ public class ServiceBill extends Bill implements Serializable {
      * @param employee
      * @param date
      * @param totalAmount
+     * @param billed
      * @param obs 
      */
-    public ServiceBill(int id, Employee employee, Date date, Double totalAmount, String obs) {
-        super(id, employee, date, totalAmount, obs);
+    public ServiceBill(int id, Employee employee, Date date, Double totalAmount, boolean billed, String obs) {
+        super(id, employee, date, totalAmount, billed, obs);
+        this.serviceReceptions = new HashSet<>();
     }
     
     public int getNumberOfServiceReceptions() {

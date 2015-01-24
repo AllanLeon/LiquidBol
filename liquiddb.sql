@@ -218,6 +218,7 @@ CREATE TABLE service_bills (
     employee_id INTEGER NOT NULL,
     bill_date DATE NOT NULL,
     total_amount REAL NOT NULL,
+    is_billed BOOLEAN NOT NULL,
     obs VARCHAR(100),
     CONSTRAINT servicebills_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id),
     CONSTRAINT servicebills_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)
@@ -268,6 +269,7 @@ CREATE TABLE item_bills (
     employee_id INTEGER NOT NULL,
     bill_date DATE NOT NULL,
     total_amount REAL NOT NULL,
+    is_billed BOOLEAN NOT NULL,
     is_route BOOLEAN,
     obs VARCHAR(100),
     CONSTRAINT itembills_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id),

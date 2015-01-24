@@ -34,15 +34,16 @@ public class ItemBillCrud implements DBCrud<ItemBill> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_bills(client_id, store_id, employee_id, "
-                    + "bill_date, total_amount, is_route, obs) VALUES(?,?,?,?,?,?,?)";
+                    + "bill_date, total_amount, is_billed, is_route, obs) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, parent.getId());
             statement.setInt(2, element.getStore().getId());
             statement.setInt(3, element.getEmployee().getId());
             statement.setDate(4, element.getDate());
             statement.setDouble(5, element.getTotalAmount());
-            statement.setBoolean(6, element.isRoute());
-            statement.setString(7, element.getObs());
+            statement.setBoolean(6, element.isBilled());
+            statement.setBoolean(7, element.isRoute());
+            statement.setString(8, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("item bill was not saved");
@@ -95,14 +96,15 @@ public class ItemBillCrud implements DBCrud<ItemBill> {
     public ItemBill merge(ItemBill element) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE item_bills SET bill_date=?, total_amount=?, "
-                    + "is_route=?, obs=? WHERE itembill_id=?";
+                    + "is_billed=?, is_route=?, obs=? WHERE itembill_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, element.getDate());
             statement.setDouble(2, element.getTotalAmount());
-            statement.setBoolean(3, element.isRoute());
-            statement.setString(4, element.getObs());
-            statement.setInt(5, element.getId());
+            statement.setBoolean(3, element.isBilled());
+            statement.setBoolean(4, element.isRoute());
+            statement.setString(5, element.getObs());
+            statement.setInt(6, element.getId());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("item bill was not updated");
@@ -157,10 +159,11 @@ public class ItemBillCrud implements DBCrud<ItemBill> {
         Employee employee = new Employee(resultSet.getInt(4));
         Date date = resultSet.getDate(5);
         Double totalAmount = resultSet.getDouble(6);
-        boolean route = resultSet.getBoolean(7);
-        String obs = resultSet.getString(8);
+        boolean billed = resultSet.getBoolean(7);
+        boolean route = resultSet.getBoolean(8);
+        String obs = resultSet.getString(9);
         LOG.log(Level.FINE, "Creating item bill %d", id);
-        ItemBill result = new ItemBill(id, employee, date, totalAmount, obs, store, route);
+        ItemBill result = new ItemBill(id, employee, store, date, totalAmount, billed, route, obs);
         return result;
     }
 
