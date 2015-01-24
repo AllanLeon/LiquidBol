@@ -88,6 +88,31 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
             }
         }
     }
+    
+    public Collection<ServiceBill> findByClientId(int id) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM service_bills WHERE servicebill_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<ServiceBill> result = new HashSet<>();
+            while (resultSet.next()) {
+                ServiceBill element = createElementFromResultSet(resultSet);
+                result.add(element);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read service bill", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public ServiceBill merge(ServiceBill element) throws PersistenceException, ClassNotFoundException {

@@ -91,6 +91,31 @@ public class ItemBillCrud implements DBCrud<ItemBill> {
             }
         }
     }
+    
+    public Collection<ItemBill> findByClientId(int id) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM item_bills WHERE itembill_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<ItemBill> result = new HashSet<>();
+            while (resultSet.next()) {
+                ItemBill element = createElementFromResultSet(resultSet);
+                result.add(element);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read item bill", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public ItemBill merge(ItemBill element) throws PersistenceException, ClassNotFoundException {
