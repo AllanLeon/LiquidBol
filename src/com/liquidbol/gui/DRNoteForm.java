@@ -128,7 +128,7 @@ public class DRNoteForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                InventoryForm invf = new InventoryForm();
+                ShopCartForm invf = new ShopCartForm();
                 dispose();
             }
         });
@@ -148,7 +148,7 @@ public class DRNoteForm extends JFrame {
         jCheckBox1.setBounds(250, 370, 100, 30);
         jCheckBox2.setBounds(350, 370, 100, 30);
         submitBtn.setBounds(350, 420, 50, 30);
-        backBtn.setBounds(50, 420, 50, 30);
+        backBtn.setBounds(50, 420, 80, 30);
 
         getContentPane().add(title);
         getContentPane().add(datePicker);

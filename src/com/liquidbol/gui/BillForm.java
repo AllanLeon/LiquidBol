@@ -1,7 +1,7 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
-import java.awt.EventQueue;
+import com.liquidbol.addons.NumberToWords;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -116,13 +116,14 @@ public class BillForm extends JFrame {
         totalAmount.setText(String.valueOf(total));
         sonLbl = new JLabel("Son:");
         declarate = new JTextField();
+        declarate.setText(NumberToWords.convert((int) total));
         bsLbl = new JLabel("Bolivianos");
         submitBtn = new JButton("PRINT");
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                InventoryForm invf = new InventoryForm();
+                ShopCartForm invf = new ShopCartForm();
                 dispose();
             }
         });

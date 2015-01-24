@@ -27,10 +27,11 @@ public class MainMenuForm extends JFrame {
 
     private JPanel contentPane;
     private JLabel title;
-    private JButton sellBtn;
+    private JButton cartBtn;
     private JButton recpBtn;
     private JButton quoteBtn;
     private JButton repoBtn;
+    private JButton sellListBtn;
     private JButton invBtn;
     private JButton clientBtn;
     private JButton cxcBtn;
@@ -48,7 +49,7 @@ public class MainMenuForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(700, 500);
+        setSize(700, 400);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -61,9 +62,18 @@ public class MainMenuForm extends JFrame {
         title = new JLabel("LIQUID");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
 
-        sellBtn = new JButton("Ventas");
+        cartBtn = new JButton("Carrito");
+        cartBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ShopCartForm scf = new ShopCartForm();
+                dispose();
+            }
+        });
         
         recpBtn = new JButton("Recepciones");
+        addRecepDDL(recpBtn);
+
         
         quoteBtn = new JButton("Cotizaciones");
         quoteBtn.addActionListener(new ActionListener() {
@@ -76,13 +86,34 @@ public class MainMenuForm extends JFrame {
         
         //sellBtn = new JButton("Registros");
         repoBtn = new JButton("Reportes");
-        addDDL(repoBtn);
+        addRepoDDL(repoBtn);
+        
+        sellListBtn = new JButton("Libro de ventas");
+        addSellListDDL(sellListBtn);
         
         invBtn = new JButton("Inventario");
         invBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ListItemsForm lif = new ListItemsForm();
+                dispose();
+            }
+        });
+        
+        buyBtn = new JButton("Compras");
+        buyBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListPurchasesForm lpf = new ListPurchasesForm();
+                dispose();
+            }
+        });
+        
+        provBtn = new JButton("Proveedores");
+        provBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListSuppliersForm lsf = new ListSuppliersForm();
                 dispose();
             }
         });
@@ -114,15 +145,6 @@ public class MainMenuForm extends JFrame {
             }
         });
         
-        provBtn = new JButton("Proveedores");
-        provBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ListSuppliersForm lsf = new ListSuppliersForm();
-                dispose();
-            }
-        });
-        
         branchBtn = new JButton("Sucursales");
 
         empBtn = new JButton("Empleados");
@@ -133,44 +155,37 @@ public class MainMenuForm extends JFrame {
                 dispose();
             }
         });
-
-        buyBtn = new JButton("Compras");
-        buyBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ListPurchasesForm lpf = new ListPurchasesForm();
-                dispose();
-            }
-        });
-
+        
         title.setBounds(420, 30, 200, 100);
-        sellBtn.setBounds(60, 40, 110, 50);
+        cartBtn.setBounds(60, 40, 110, 50);
         recpBtn.setBounds(160, 40, 110, 50);
         quoteBtn.setBounds(260, 40, 110, 50);
         repoBtn.setBounds(60, 100, 110, 50);
+        sellListBtn.setBounds(160, 100, 110, 50);
         invBtn.setBounds(60, 160, 110, 50);
+        buyBtn.setBounds(160, 160, 110, 50);
+        provBtn.setBounds(260, 160, 110, 50);
         clientBtn.setBounds(60, 220, 110, 50);
         cxcBtn.setBounds(160, 220, 110, 50);
         arBtn.setBounds(260, 220, 150, 50);
-        provBtn.setBounds(60, 280, 110, 50);
-        branchBtn.setBounds(60, 340, 110, 50);
-        empBtn.setBounds(160, 340, 110, 50);
-        buyBtn.setBounds(60, 400, 110, 50);
+        branchBtn.setBounds(60, 280, 110, 50);
+        empBtn.setBounds(160, 280, 110, 50);
 
         contentPane.add(title);
-        contentPane.add(sellBtn);
+        contentPane.add(cartBtn);
         contentPane.add(recpBtn);
         contentPane.add(quoteBtn);
         //contentPane.add(sellBtn);
         contentPane.add(repoBtn);
+        contentPane.add(sellListBtn);
         contentPane.add(invBtn);
+        contentPane.add(buyBtn);
+        contentPane.add(provBtn);
         contentPane.add(clientBtn);
         contentPane.add(cxcBtn);
         contentPane.add(arBtn);
-        contentPane.add(provBtn);
-        contentPane.add(empBtn);
         contentPane.add(branchBtn);
-        contentPane.add(buyBtn);
+        contentPane.add(empBtn);
     }
 
     public static void setStyle() {
@@ -186,23 +201,8 @@ public class MainMenuForm extends JFrame {
         }
     }
 
-    private void addDDL(JButton btn) {
+    private void addRepoDDL(JButton btn) {
         JPopupMenu menu = new JPopupMenu();
-        menu.add(new JMenuItem(new AbstractAction("Diarios") {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Option 1 selected");
-            }
-        }));
-        menu.add(new JMenuItem(new AbstractAction("Mensuales") {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Option 2 selected");
-            }
-        }));
-        menu.add(new JMenuItem(new AbstractAction("Anuales") {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Option 3 selected");
-            }
-        }));
         menu.add(new JMenuItem(new AbstractAction("Por cliente") {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Option 4 selected");
@@ -221,6 +221,58 @@ public class MainMenuForm extends JFrame {
         menu.add(new JMenuItem(new AbstractAction("Por gastos") {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Option 7 selected");
+            }
+        }));
+
+        btn.setBounds(260, 400, 110, 50);
+        btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                menu.show(e.getComponent(), e.getX(), e.getY());
+            }
+        });
+    }
+
+    private void addRecepDDL(JButton btn) {
+        JPopupMenu menu = new JPopupMenu();
+        menu.add(new JMenuItem(new AbstractAction("Extintores") {
+            public void actionPerformed(ActionEvent e) {
+                ExtingForm ef = new ExtingForm();
+            }
+        }));
+        menu.add(new JMenuItem(new AbstractAction("Cilindros") {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Create cylinders reception form!");
+            }
+        }));
+
+        btn.setBounds(260, 400, 110, 50);
+        btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                menu.show(e.getComponent(), e.getX(), e.getY());
+            }
+        });
+    }
+    
+    private void addSellListDDL(JButton btn) {
+        JPopupMenu menu = new JPopupMenu();
+        menu.add(new JMenuItem(new AbstractAction("Diario") {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Create diary selling list form!");
+            }
+        }));
+        menu.add(new JMenuItem(new AbstractAction("Resumido/Semanal") {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Create sellings-per-day form!");
+            }
+        }));
+        menu.add(new JMenuItem(new AbstractAction("Mensual") {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Option 2 selected");
+            }
+        }));
+        menu.add(new JMenuItem(new AbstractAction("Anual") {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Option 3 selected");
             }
         }));
 

@@ -2,6 +2,7 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.MultiLineCellRenderer;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,20 +33,20 @@ public class QuoteForm extends JFrame {
 
     private JPanel contentPane;
     private JButton submitBtn;
-    private JDatePickerImpl datePicker;
+    private Component datePicker;
     private JLabel title;
     private JLabel idShower;
     private JLabel nameLbl;
-    private JTextField clientName;
+    private Component clientName;
     private JTable contentTable;
     private JLabel totalLbl;
-    private JTextField totalAmount;
+    private Component totalAmount;
     private JLabel compLbl;
-    private JTextField clientComp;
+    private Component clientComp;
     private final DecimalFormat df;
-    private JTextArea obsArea;
+    private Component obsArea;
     private JLabel offerValLbl;
-    private JTextField offerVal;
+    private Component offerVal;
     private JButton backBtn;
     
     public QuoteForm() {
@@ -122,15 +123,12 @@ public class QuoteForm extends JFrame {
         calculateEachArticlePrice(1, 4, 5);
 
         totalLbl = new JLabel("Total");
-        totalAmount = new JTextField();
-        totalAmount.setText(String.valueOf(calculateTotal()));
+        totalAmount = new JTextField(String.valueOf(calculateTotal()));
         totalAmount.setFont(new Font("Arial", Font.PLAIN, 16));
         
         offerValLbl = new JLabel("Validez de la oferta:            días");
         offerVal = new JTextField();
-        obsArea = new JTextArea();
-        obsArea.setText(
-            "* Los precios incluyen Impuestos de Ley.\n" +
+        obsArea = new JTextArea("* Los precios incluyen Impuestos de Ley.\n" +
             "* Los precios incluyen descuentos por volumen.\n" +
             "* Pago al contado.\n" +
             "* Entrega del producto 24 hrs después de su orden de compra.\n" +
@@ -211,5 +209,44 @@ public class QuoteForm extends JFrame {
         double rounded = (double) Math.round(total * 10) / 10;
         String result = df.format(rounded).replaceAll(",",".");
         return result;
+    }
+    
+    private void convertToReadOnly() {        
+        contentPane.remove(clientName);
+        contentPane.remove(datePicker);
+        contentPane.remove(totalAmount);
+        contentPane.remove(clientComp);
+        contentPane.remove(offerVal);
+        contentPane.remove(submitBtn);
+
+        title.setText("VER COTIZACION"); //CHANGE!!!!
+        clientName = new JLabel();
+        datePicker = new JLabel();
+        totalAmount = new JLabel();
+        clientComp = new JLabel();
+        obsArea.setEnabled(false);
+        offerVal = new JLabel();
+        contentTable.setEnabled(false);
+        
+        clientName.setFont(new Font("Arial", Font.PLAIN, 20));
+        datePicker.setFont(new Font("Arial", Font.PLAIN, 20));
+        totalAmount.setFont(new Font("Arial", Font.PLAIN, 20));
+        clientComp.setFont(new Font("Arial", Font.PLAIN, 20));
+        obsArea.setFont(new Font("Arial", Font.PLAIN, 20));
+        offerVal.setFont(new Font("Arial", Font.PLAIN, 20));
+        
+        datePicker.setBounds(300, 70, 150, 30);
+        clientName.setBounds(100, 110, 350, 30);
+        clientComp.setBounds(100, 140, 350, 30);
+        totalAmount.setBounds(570, 360, 100, 30);
+        obsArea.setBounds(40, 390, 470, 70);
+        offerVal.setBounds(150, 360, 30, 30);
+        
+        contentPane.add(clientName);
+        contentPane.add(datePicker);
+        contentPane.add(totalAmount);
+        contentPane.add(clientComp);
+        contentPane.add(obsArea);
+        contentPane.add(offerVal);
     }
 }

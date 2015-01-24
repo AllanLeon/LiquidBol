@@ -25,7 +25,7 @@ import javax.swing.border.EmptyBorder;
 /**
  * @author Franco
  */
-public class InventoryForm extends JFrame {
+public class ShopCartForm extends JFrame {
    
     private JPanel parentPane;
     private JPanel inventoryPane;
@@ -46,7 +46,7 @@ public class InventoryForm extends JFrame {
     private JButton toBillBtn;
     private JButton backBtn;
 
-    public InventoryForm() {
+    public ShopCartForm() {
         setStyle();
         initComponents();
         setVisible(true);
@@ -81,14 +81,14 @@ public class InventoryForm extends JFrame {
 
         branchLbl = new JLabel("Sucursal");
         branchNameCB = new JComboBox();
-        addBtn = new JButton("+");
+        addBtn = new JButton("------->");
 
         searchCB = new JComboBox();
         searchBox = new JTextField();
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
-            Logger.getLogger(InventoryForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ShopCartForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         itemsLbl = new JLabel("Articulos");
@@ -157,7 +157,21 @@ public class InventoryForm extends JFrame {
         JScrollPane wholeTableSP = new JScrollPane(wholeTable);
         
         toNoteBtn = new JButton("A nota de venta");
+        toNoteBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DRNoteForm drnf = new DRNoteForm();
+                dispose();
+            }
+        });
         toBillBtn = new JButton("A facturar");
+        toBillBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BillForm bf = new BillForm();
+                dispose();
+            }
+        });
         
         title.setBounds(440, 20, 300, 30);
         inventoryPane.setBounds(0, 50, 550, 470);
