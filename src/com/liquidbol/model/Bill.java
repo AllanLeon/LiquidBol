@@ -25,6 +25,7 @@ public class Bill implements Serializable {
     private Employee employee;
     private Date date;
     private Double totalAmount;
+    private boolean billed;
     private String obs;
     private Collection<BillPayment> payments;
 
@@ -33,13 +34,15 @@ public class Bill implements Serializable {
      * @param id
      * @param employee
      * @param date
+     * @param billed
      * @param obs 
      */
-    public Bill(int id, Employee employee, Date date, String obs) {
+    public Bill(int id, Employee employee, Date date, boolean billed, String obs) {
         this.id = id;
         this.employee = employee;
         this.date = date;
         this.totalAmount = 0.0;
+        this.billed = billed;
         this.obs = obs;
         this.payments = new HashSet<>();
     }
@@ -52,12 +55,14 @@ public class Bill implements Serializable {
      * @param totalAmount
      * @param obs 
      */
-    public Bill(int id, Employee employee, Date date, Double totalAmount, String obs) {
+    public Bill(int id, Employee employee, Date date, Double totalAmount, boolean billed, String obs) {
         this.id = id;
         this.employee = employee;
         this.date = date;
         this.totalAmount = totalAmount;
+        this.billed = billed;
         this.obs = obs;
+        this.payments = new HashSet<>();
     }
 
     /**
@@ -141,6 +146,16 @@ public class Bill implements Serializable {
     public void setObs(String obs) {
         this.obs = obs;
     }
+    
+    public void refresh() {
+        try {
+            employee = new EmployeeCrud().refresh(employee);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     @Override
     public int hashCode() {
@@ -163,14 +178,25 @@ public class Bill implements Serializable {
         }
         return true;
     }
-    
-    public void refresh() {
-        try {
-            employee = new EmployeeCrud().refresh(employee);
-        } catch (PersistenceException ex) {
-            Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+    /**
+     * @return the billed
+     */
+    public boolean isBilled() {
+        return billed;
+    }
+
+    /**
+     * @param billed the billed to set
+     */
+    public void setBilled(boolean billed) {
+        this.billed = billed;
+    }
+
+    /**
+     * @param payments the payments to set
+     */
+    public void setPayments(Collection<BillPayment> payments) {
+        this.payments = payments;
     }
 }

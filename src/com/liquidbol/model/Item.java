@@ -118,4 +118,11 @@ public class Item extends Product implements Serializable {
     public void addDiscount(Discount discount) {
         discounts.add(discount);
     }
+
+    /**
+     * @param discounts the discounts to set
+     */
+    public void setDiscounts(Collection<Discount> discounts) {
+        this.discounts = discounts;
+    }
 }

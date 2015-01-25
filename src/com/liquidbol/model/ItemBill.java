@@ -31,11 +31,12 @@ public class ItemBill extends Bill implements Serializable {
      * @param employee
      * @param date
      * @param obs
+     * @param billed
      * @param store
      * @param route 
      */
-    public ItemBill(int id, Employee employee, Date date, String obs, Store store, boolean route) {
-        super(id, employee, date, obs);
+    public ItemBill(int id, Employee employee, Store store, Date date, boolean billed, boolean route, String obs) {
+        super(id, employee, date, billed, obs);
         this.store = store;
         this.route = route;
         this.itemSales = new HashSet<>();
@@ -48,13 +49,15 @@ public class ItemBill extends Bill implements Serializable {
      * @param id
      * @param employee
      * @param date
+     * @param billed
      * @param totalAmount
      * @param obs 
      */
-    public ItemBill(int id, Employee employee, Date date, Double totalAmount, String obs, Store store, boolean route) {
-        super(id, employee, date, totalAmount, obs);
+    public ItemBill(int id, Employee employee, Store store, Date date, Double totalAmount, boolean billed, boolean route, String obs) {
+        super(id, employee, date, totalAmount, billed, obs);
         this.store = store;
         this.route = route;
+        this.itemSales = new HashSet<>();
     }
 
     /**

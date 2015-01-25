@@ -130,4 +130,18 @@ public class Supplier extends Person implements Serializable {
     public void addPurchase(Purchase purchase) {
        purchases.add(purchase);
     }
+
+    /**
+     * @param debts the debts to set
+     */
+    public void setDebts(Collection<Debt> debts) {
+        this.debts = debts;
+    }
+
+    /**
+     * @param purchases the purchases to set
+     */
+    public void setPurchases(Collection<Purchase> purchases) {
+        this.purchases = purchases;
+    }
 }
