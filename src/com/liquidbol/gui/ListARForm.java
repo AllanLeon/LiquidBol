@@ -67,23 +67,25 @@ public class ListARForm extends JFrame {
         }
 
         String[] columnNames = {"Cod",
+            "Cod Ext.",
             "Cliente",
             "Descripcion",
             "Fecha Garantia",
             "Obs"
         };
         Object[][] tempData = {
-            {"00001", "Gabino Quispia", "Extintor de Polvo Quimico 3 Lb.", "30/06/2015", "-"},
-            {"00002", "Efrain Choque", "Tubo de Oxigeno industrial 6 Mts3", "01/07/2015", "-"}
+            {"00001", "012453", "Gabino Quispia", "Extintor de Polvo Quimico 3 Lb.", "30/06/15", "-"},
+            {"00002", "E-1227", "Efrain Choque", "Tubo de Oxigeno industrial 6 Mts3", "01/07/15", "-"}
         };
         arsTable = new JTable(tempData, columnNames);
         arsTable.setFont(new Font("Arial", Font.PLAIN, 16));
         arsTable.setRowHeight(25);
-        arsTable.getColumnModel().getColumn(0).setPreferredWidth(40);
-        arsTable.getColumnModel().getColumn(1).setPreferredWidth(160);
-        arsTable.getColumnModel().getColumn(2).setPreferredWidth(250);
-        arsTable.getColumnModel().getColumn(3).setPreferredWidth(70);
-        arsTable.getColumnModel().getColumn(4).setPreferredWidth(90);
+        arsTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+        arsTable.getColumnModel().getColumn(1).setPreferredWidth(60);
+        arsTable.getColumnModel().getColumn(2).setPreferredWidth(150);
+        arsTable.getColumnModel().getColumn(3).setPreferredWidth(250);
+        arsTable.getColumnModel().getColumn(4).setPreferredWidth(80);
+        arsTable.getColumnModel().getColumn(5).setPreferredWidth(90);
         arsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane arsTableSP = new JScrollPane(arsTable);
         backBtn = new JButton("Back");

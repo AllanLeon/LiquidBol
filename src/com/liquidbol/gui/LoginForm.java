@@ -28,7 +28,7 @@ public class LoginForm extends JFrame {
 
     private JPanel contentPane;
     private JButton submitBtn;
-    private JLabel jLabel1;
+    private JLabel bgLabel;
     private JTextField jTextField1;
 
     public static void main(String args[]) {
@@ -58,7 +58,17 @@ public class LoginForm extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        jLabel1 = new JLabel();
+        bgLabel = new JLabel();
+        bgLabel.setBounds(0, 0, 400, 250);
+        try {
+            BufferedImage img = ImageIO.read(this.getClass().getResource("/com/liquidbol/images/logo2.jpg"));
+            Image dimg = img.getScaledInstance(bgLabel.getWidth(), bgLabel.getHeight(), Image.SCALE_SMOOTH);
+            bgLabel.setIcon(new ImageIcon(dimg));
+        } catch (IOException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        bgLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        
         jTextField1 = new JTextField();
         submitBtn = new JButton();
         submitBtn.setText("OK");
@@ -69,23 +79,13 @@ public class LoginForm extends JFrame {
                 dispose();
             }
         });
-
+        
         jTextField1.setBounds(90, 160, 200, 30);
         submitBtn.setBounds(300, 160, 50, 30);
-        jLabel1.setBounds(0, 0, 400, 250);
-
-        try {
-            BufferedImage img = ImageIO.read(this.getClass().getResource("/com/liquidbol/images/logo2.jpg"));
-            Image dimg = img.getScaledInstance(jLabel1.getWidth(), jLabel1.getHeight(), Image.SCALE_SMOOTH);
-            jLabel1.setIcon(new ImageIcon(dimg));
-        } catch (IOException ex) {
-            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+        
         contentPane.add(jTextField1);
         contentPane.add(submitBtn);
-        contentPane.add(jLabel1);
+        contentPane.add(bgLabel);
     }
 
     private void setStyle() {

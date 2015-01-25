@@ -161,7 +161,7 @@ public class ExtingForm extends JFrame {
         balanceLbl.setBounds(570, 350, 50, 30);
         balanceAmount.setBounds(570, 370, 70, 30);
         submitBtn.setBounds(350, 430, 50, 30);
-        backBtn.setBounds(50, 430, 50, 30);
+        backBtn.setBounds(50, 430, 70, 30);
 
         contentPane.add(title);
         contentPane.add(datePicker);

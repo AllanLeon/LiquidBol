@@ -1,13 +1,18 @@
 package com.liquidbol.gui;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,6 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
@@ -40,6 +46,7 @@ public class MainMenuForm extends JFrame {
     private JButton branchBtn;
     private JButton buyBtn;
     private JButton empBtn;
+    private JLabel bgLabel;
 
     public MainMenuForm() {
         setStyle();
@@ -58,6 +65,17 @@ public class MainMenuForm extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
+        
+        bgLabel = new JLabel();
+        bgLabel.setBounds(0, 0, getWidth(), getHeight());
+        try {
+            BufferedImage img = ImageIO.read(this.getClass().getResource("/com/liquidbol/images/MenuWallp.png"));
+            Image dimg = img.getScaledInstance(bgLabel.getWidth(), bgLabel.getHeight(), Image.SCALE_SMOOTH);
+            bgLabel.setIcon(new ImageIcon(dimg));
+        } catch (IOException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        bgLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         title = new JLabel("LIQUID");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
@@ -76,12 +94,9 @@ public class MainMenuForm extends JFrame {
 
         
         quoteBtn = new JButton("Cotizaciones");
-        quoteBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ListQuotesForm lqf = new ListQuotesForm();
-                dispose();
-            }
+        quoteBtn.addActionListener((ActionEvent e) -> {
+            ListQuotesForm lqf = new ListQuotesForm();
+            dispose();
         });
         
         //sellBtn = new JButton("Registros");
@@ -186,6 +201,7 @@ public class MainMenuForm extends JFrame {
         contentPane.add(arBtn);
         contentPane.add(branchBtn);
         contentPane.add(empBtn);
+        contentPane.add(bgLabel);
     }
 
     public static void setStyle() {
