@@ -91,7 +91,7 @@ public class CompanyServices {
             throw new IllegalArgumentException("Invalid client name");
         } else {
             Client client = new Client(id, name, lastname, nit, billName, address,
-                    phone, phone2, email, null, companyName, phone2, route);
+                    phone, phone2, email, new Date(new java.util.Date().getTime()), companyName, phone2, route);
             return client;
         }
     }

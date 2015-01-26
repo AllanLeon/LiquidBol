@@ -92,6 +92,31 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
             }
         }
     }
+    
+    public Collection<ServiceReception> findByServiceBillId(int serviceBillId) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM service_receptions WHERE servicebill_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, serviceBillId);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<ServiceReception> result = new HashSet<>();
+            while (resultSet.next()) {
+                ServiceReception element = createElementFromResultSet(resultSet);
+                result.add(element);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read service reception", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public ServiceReception merge(ServiceReception element) throws PersistenceException, ClassNotFoundException {

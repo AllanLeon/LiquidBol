@@ -111,6 +111,13 @@ public class CXC implements Serializable {
         this.state = state;
     }
     
+    /**
+     * @param collectedReceivableAccounts the collectedReceivableAccounts to set
+     */
+    public void setCollectedReceivableAccounts(Collection<CXCC> collectedReceivableAccounts) {
+        this.collectedReceivableAccounts = collectedReceivableAccounts;
+    }
+    
     public int getNumberOfCollectedReceivableAccounts() {
         return collectedReceivableAccounts.size();
     }

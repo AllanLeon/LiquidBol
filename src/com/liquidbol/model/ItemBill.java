@@ -88,6 +88,13 @@ public class ItemBill extends Bill implements Serializable {
         this.route = route;
     }
     
+    /**
+     * @param itemSales the itemSales to set
+     */
+    public void setItemSales(Collection<ItemSale> itemSales) {
+        this.itemSales = itemSales;
+    }
+    
     public int getNumberOfItemSales() {
         return itemSales.size();
     }

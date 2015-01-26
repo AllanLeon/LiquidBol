@@ -100,6 +100,13 @@ public class Purchase implements Serializable {
         this.date = date;
     }
     
+    /**
+     * @param itemPurchases the itemPurchases to set
+     */
+    public void setItemPurchases(Collection<ItemPurchase> itemPurchases) {
+        this.itemPurchases = itemPurchases;
+    }
+    
     public void addItemPurchase(ItemPurchase itemPurchase) {
         itemPurchases.add(itemPurchase);
     }

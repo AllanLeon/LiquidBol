@@ -85,6 +85,31 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
             }
         }
     }
+    
+    public Collection<ItemPurchase> findByPurchaseId(int purchaseId) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM item_purchases WHERE purchase_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, purchaseId);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<ItemPurchase> result = new HashSet<>();
+            while (resultSet.next()) {
+                ItemPurchase purchase = createElementFromResultSet(resultSet);
+                result.add(purchase);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read item purchase", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public ItemPurchase merge(ItemPurchase purchase) throws PersistenceException, ClassNotFoundException {

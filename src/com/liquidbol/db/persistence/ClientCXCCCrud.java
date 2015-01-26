@@ -85,6 +85,31 @@ public class ClientCXCCCrud implements DBCrud<CXCC> {
             }
         }
     }
+    
+    public Collection<CXCC> findByCXCId(int cxcId) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM clients_cxcc WHERE clientscxc_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, cxcId);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<CXCC> result = new HashSet<>();
+            while (resultSet.next()) {
+                CXCC element = createElementFromResultSet(resultSet);
+                result.add(element);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read client collected receivable account", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public CXCC merge(CXCC element) throws PersistenceException, ClassNotFoundException {
