@@ -1,5 +1,7 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.db.persistence.PersistenceException;
+import com.liquidbol.model.Supplier;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
@@ -57,6 +59,7 @@ public class SupplierForm extends JFrame {
     private JButton submitBtn;
     private MouseListener ml;
     private JButton backBtn;
+    private Object[] readItData;
 
     public SupplierForm(int state) {
         switch(state){
@@ -129,6 +132,12 @@ public class SupplierForm extends JFrame {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                readIt();
+                try {
+                    saveIt(readItData);
+                } catch (PersistenceException | ClassNotFoundException ex) {
+                    Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 JOptionPane.showMessageDialog(null, "Supplier added! \n Respect+");
                 LoginForm.mm.setVisible(true);
                 dispose();
@@ -187,6 +196,28 @@ public class SupplierForm extends JFrame {
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
         onMouseHover(clientPhoto);
+    }
+    
+    private void readIt() {
+        String name = ((JTextField) supplierName).getText();
+        String lname = ((JTextField) supplierLName).getText();
+        int phone = Integer.parseInt(((JTextField) supplierPhone).getText());
+        int phone2 = Integer.parseInt(((JTextField) supplierPhone2).getText());
+        String company = ((JTextField) supplierCompany).getText();
+        String address = ((JTextField) supplierAddress).getText();
+        String mail = ((JTextField) supplierEmail).getText();
+        String city = ((JTextField) supplierCity).getText();
+        if(1 == 0) {
+            JOptionPane.showMessageDialog(this,"MISSING!","Missing some important data input!", JOptionPane.WARNING_MESSAGE);
+        } else {
+            readItData = new Object[] {name, lname, phone, phone2,company, address, mail, city};
+        }
+    }
+
+    private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
+        Supplier temp = LoginForm.comp.createSupplier(231,(String)data[0],(String)data[1],(int)data[2],
+                (int)data[3],(String)data[4],(String)data[5],(String)data[6],(String)data[7]);
+        LoginForm.comp.saveSupplier(temp);
     }
 
     private void setStyle() {
