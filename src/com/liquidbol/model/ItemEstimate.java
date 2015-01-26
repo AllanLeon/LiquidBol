@@ -132,6 +132,13 @@ public class ItemEstimate implements Serializable {
         this.obs = obs;
     }
     
+    /**
+     * @param requests the requests to set
+     */
+    public void setRequests(Collection<ItemRequest> requests) {
+        this.requests = requests;
+    }
+    
     public int getNumberOfRequests() {
         return requests.size();
     }

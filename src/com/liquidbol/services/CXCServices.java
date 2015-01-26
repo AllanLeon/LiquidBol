@@ -33,7 +33,7 @@ public class CXCServices {
     }
     
     public CXCC addCXCCToCXC(CXCC element, CXC parent) throws PersistenceException, ClassNotFoundException {
-        cxccCrudManager.save(element);
+        cxccCrudManager.save(element, parent);
         element = cxccCrudManager.refresh(element);
         parent.addCollectedReceivableAccount(element);
         return element;

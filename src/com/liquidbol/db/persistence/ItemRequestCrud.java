@@ -85,6 +85,31 @@ public class ItemRequestCrud implements DBCrud<ItemRequest> {
             }
         }
     }
+    
+    public Collection<ItemRequest> findByItemEstimateId(int itemEstimateId) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM item_requests WHERE itemestimate_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, itemEstimateId);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<ItemRequest> result = new HashSet<>();
+            while (resultSet.next()) {
+                ItemRequest element = createElementFromResultSet(resultSet);
+                result.add(element);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read item request", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public ItemRequest merge(ItemRequest element) throws PersistenceException, ClassNotFoundException {
