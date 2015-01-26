@@ -116,6 +116,7 @@ public class PurchaseForm extends JFrame {
             {"00119", 50, "Kg.", "Electrodo 6013 1/8", 19.5, 0}
         };
         contentTable = new JTable(tempData, columnNames);
+        contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 20));
         contentTable.setRowHeight(25);
         contentTable.getColumnModel().getColumn(0).setPreferredWidth(50);

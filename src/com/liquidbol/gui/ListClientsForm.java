@@ -86,6 +86,7 @@ public class ListClientsForm extends JFrame {
             {"002", "Efrain Choque", "4182093", "CHOQUE", "Taller Coso #2", "SI", "B"}
         };
         clientsTable = new JTable(tempData, columnNames);
+        clientsTable.getTableHeader().setReorderingAllowed(false);
         clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
         clientsTable.setRowHeight(25);
         clientsTable.getColumnModel().getColumn(0).setPreferredWidth(30);

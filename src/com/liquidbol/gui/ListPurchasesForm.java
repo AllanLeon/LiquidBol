@@ -82,6 +82,7 @@ public class ListPurchasesForm extends JFrame {
             {"00001", "21150.00", "21/12/2014"}
         };
         purchasesTable = new JTable(tempData, columnNames);
+        purchasesTable.getTableHeader().setReorderingAllowed(false);
         purchasesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         purchasesTable.setRowHeight(25);
         purchasesTable.getColumnModel().getColumn(0).setPreferredWidth(60);

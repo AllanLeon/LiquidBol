@@ -21,12 +21,15 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * @author Franco
  */
 public class ShopCartForm extends JFrame {
-   
+
     private JPanel parentPane;
     private JPanel inventoryPane;
     private JLabel title;
@@ -102,7 +105,13 @@ public class ShopCartForm extends JFrame {
             {"00126", 19.5, "Kg.", "Electrodo 7018 1/8", 18.00},
             {"00119", 29.75, "Kg.", "Electrodo 6013 1/8", 18.00}
         };
-        itemsTable = new JTable(tempData, columnNames);
+        itemsTable = new JTable(tempData, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        itemsTable.getTableHeader().setReorderingAllowed(false);
         itemsTable.setFont(new Font("Arial", Font.BOLD, 16));
         itemsTable.setRowHeight(25);
         itemsTable.getColumnModel().getColumn(0).setPreferredWidth(40);
@@ -122,7 +131,13 @@ public class ShopCartForm extends JFrame {
             {"00126", "Electrodo 7018 1/8", 18.00},
             {"00119", "Electrodo 6013 1/8", 18.00}
         };
-        serviceTable = new JTable(tempData2, columnNames2);
+        serviceTable = new JTable(tempData2, columnNames2) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        serviceTable.getTableHeader().setReorderingAllowed(false);
         serviceTable.setFont(new Font("Arial", Font.BOLD, 16));
         serviceTable.setRowHeight(25);
         serviceTable.getColumnModel().getColumn(0).setPreferredWidth(60);
@@ -145,7 +160,13 @@ public class ShopCartForm extends JFrame {
             {"00126", 1, "Kg.", "Electrodo 7018 1/8", 18.00},
             {"00119", 2, "Kg.", "Electrodo 6013 1/8", 36.00}
         };
-        wholeTable = new JTable(tempData3, columnNames3);
+        wholeTable = new JTable(tempData3, columnNames3) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        wholeTable.getTableHeader().setReorderingAllowed(false);
         wholeTable.setFont(new Font("Arial", Font.BOLD, 16));
         wholeTable.setRowHeight(25);
         wholeTable.getColumnModel().getColumn(0).setPreferredWidth(40);
@@ -155,7 +176,7 @@ public class ShopCartForm extends JFrame {
         wholeTable.getColumnModel().getColumn(4).setPreferredWidth(40);
         wholeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane wholeTableSP = new JScrollPane(wholeTable);
-        
+
         toNoteBtn = new JButton("A nota de venta");
         toNoteBtn.addActionListener(new ActionListener() {
             @Override
@@ -172,7 +193,7 @@ public class ShopCartForm extends JFrame {
                 setVisible(false);
             }
         });
-        
+
         title.setBounds(440, 20, 300, 30);
         inventoryPane.setBounds(0, 50, 550, 470);
         cartPane.setBounds(550, 50, 540, 370);

@@ -82,6 +82,7 @@ public class ListEmployeesForm extends JFrame {
             {"4809321", "Lupe Cardenas", "71109254"}
         };
         employeesTable = new JTable(tempData, columnNames);
+        employeesTable.getTableHeader().setReorderingAllowed(false);
         employeesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         employeesTable.setRowHeight(25);
         employeesTable.getColumnModel().getColumn(0).setPreferredWidth(70);
