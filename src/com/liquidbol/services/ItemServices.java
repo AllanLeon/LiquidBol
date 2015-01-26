@@ -36,7 +36,7 @@ public class ItemServices {
     }
     
     public Discount addDiscountToItem(Discount element, Item parent) throws PersistenceException, ClassNotFoundException {
-        discountCrudManager.save(element);
+        discountCrudManager.save(element, parent);
         element = discountCrudManager.refresh(element);
         parent.addDiscount(element);
         return element;
