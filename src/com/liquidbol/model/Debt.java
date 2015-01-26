@@ -97,6 +97,13 @@ public class Debt implements Serializable {
     }
     
     /**
+     * @param payments the payments to set
+     */
+    public void setPayments(Collection<DebtPayment> payments) {
+        this.payments = payments;
+    }
+    
+    /**
      * @return the number of payments
      */
     public int getNumberOfPayments() {
