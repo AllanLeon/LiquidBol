@@ -126,6 +126,14 @@ public class ItemForm extends JFrame {
         }
 
         submitBtn = new JButton("Add");
+        submitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Item added! \n Respect+");
+                LoginForm.mm.setVisible(true);
+                dispose();
+            }
+        });
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override

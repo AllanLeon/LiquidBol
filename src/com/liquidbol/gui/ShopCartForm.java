@@ -67,7 +67,7 @@ public class ShopCartForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainMenuForm mm = new MainMenuForm();
+                LoginForm.mm.setVisible(true);
                 dispose();
             }
         });
@@ -160,8 +160,8 @@ public class ShopCartForm extends JFrame {
         toNoteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DRNoteForm drnf = new DRNoteForm();
-                dispose();
+                NoteForm nf = new NoteForm();
+                setVisible(false);
             }
         });
         toBillBtn = new JButton("A facturar");
@@ -169,7 +169,7 @@ public class ShopCartForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 BillForm bf = new BillForm();
-                dispose();
+                setVisible(false);
             }
         });
         

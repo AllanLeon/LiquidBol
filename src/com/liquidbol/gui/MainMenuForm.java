@@ -47,6 +47,7 @@ public class MainMenuForm extends JFrame {
     private JButton buyBtn;
     private JButton empBtn;
     private JLabel bgLabel;
+    protected static ShopCartForm scf;
 
     public MainMenuForm() {
         setStyle();
@@ -84,19 +85,21 @@ public class MainMenuForm extends JFrame {
         cartBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ShopCartForm scf = new ShopCartForm();
+                scf = new ShopCartForm();
                 dispose();
             }
         });
         
         recpBtn = new JButton("Recepciones");
         addRecepDDL(recpBtn);
-
         
         quoteBtn = new JButton("Cotizaciones");
-        quoteBtn.addActionListener((ActionEvent e) -> {
-            ListQuotesForm lqf = new ListQuotesForm();
-            dispose();
+        quoteBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListQuotesForm lqf = new ListQuotesForm();
+                dispose();
+            }
         });
         
         //sellBtn = new JButton("Registros");
@@ -161,6 +164,13 @@ public class MainMenuForm extends JFrame {
         });
         
         branchBtn = new JButton("Sucursales");
+        branchBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListStoreForm sf = new ListStoreForm();
+                dispose();
+            }
+        });
 
         empBtn = new JButton("Empleados");
         empBtn.addActionListener(new ActionListener() {
@@ -217,6 +227,28 @@ public class MainMenuForm extends JFrame {
         }
     }
 
+    private void addRecepDDL(JButton btn) {
+        JPopupMenu menu = new JPopupMenu();
+        menu.add(new JMenuItem(new AbstractAction("Extintores") {
+            public void actionPerformed(ActionEvent e) {
+                ExtingForm ef = new ExtingForm();
+                dispose();
+            }
+        }));
+        menu.add(new JMenuItem(new AbstractAction("Cilindros") {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Create cylinders reception form!");
+            }
+        }));
+
+        btn.setBounds(260, 400, 110, 50);
+        btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                menu.show(e.getComponent(), e.getX(), e.getY());
+            }
+        });
+    }
+    
     private void addRepoDDL(JButton btn) {
         JPopupMenu menu = new JPopupMenu();
         menu.add(new JMenuItem(new AbstractAction("Por cliente") {
@@ -237,27 +269,6 @@ public class MainMenuForm extends JFrame {
         menu.add(new JMenuItem(new AbstractAction("Por gastos") {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Option 7 selected");
-            }
-        }));
-
-        btn.setBounds(260, 400, 110, 50);
-        btn.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                menu.show(e.getComponent(), e.getX(), e.getY());
-            }
-        });
-    }
-
-    private void addRecepDDL(JButton btn) {
-        JPopupMenu menu = new JPopupMenu();
-        menu.add(new JMenuItem(new AbstractAction("Extintores") {
-            public void actionPerformed(ActionEvent e) {
-                ExtingForm ef = new ExtingForm();
-            }
-        }));
-        menu.add(new JMenuItem(new AbstractAction("Cilindros") {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Create cylinders reception form!");
             }
         }));
 
@@ -298,5 +309,5 @@ public class MainMenuForm extends JFrame {
                 menu.show(e.getComponent(), e.getX(), e.getY());
             }
         });
-    }
+    }    
 }

@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -119,11 +120,19 @@ public class BillForm extends JFrame {
         declarate.setText(NumberToWords.convert((int) total));
         bsLbl = new JLabel("Bolivianos");
         submitBtn = new JButton("PRINT");
+        submitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "You just printed a Bill! \n Respect+");
+                LoginForm.LF.setVisible(true);
+                dispose();
+            }
+        });
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ShopCartForm invf = new ShopCartForm();
+                MainMenuForm.scf.setVisible(true);
                 dispose();
             }
         });

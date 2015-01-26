@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -28,7 +29,7 @@ import org.jdatepicker.impl.UtilDateModel;
 /**
  * @author Franco
  */
-public class DRNoteForm extends JFrame {
+public class NoteForm extends JFrame {
 
     private JButton submitBtn;
     private JRadioButton jRadioButton1;
@@ -48,7 +49,7 @@ public class DRNoteForm extends JFrame {
     private JPanel contentPane;
     private JButton backBtn;
 
-    public DRNoteForm() {
+    public NoteForm() {
         setStyle();
         initComponents();
         setVisible(true);
@@ -122,13 +123,20 @@ public class DRNoteForm extends JFrame {
 
         jCheckBox1 = new JCheckBox("x Cancelar");
         jCheckBox2 = new JCheckBox("x Facturar");
-        submitBtn = new JButton();
-        submitBtn.setText("OK");
+        submitBtn = new JButton("OK");
+        submitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Note printed! \n Respect+");
+                LoginForm.LF.setVisible(true);
+                dispose();
+            }
+        });
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ShopCartForm invf = new ShopCartForm();
+                MainMenuForm.scf.setVisible(true);
                 dispose();
             }
         });

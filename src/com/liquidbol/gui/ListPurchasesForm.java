@@ -93,10 +93,10 @@ public class ListPurchasesForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainMenuForm mm = new MainMenuForm();
+                LoginForm.mm.setVisible(true);
                 dispose();
             }
-        });
+        });  
         
         title.setBounds(140, 30, 400, 30);
         addBtn.setBounds(360, 80, 100, 30);

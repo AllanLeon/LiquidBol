@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -44,6 +45,7 @@ public class CxcForm extends JFrame {
     private JLabel debtLbl;
     private Component clientDebt;
     private JButton backBtn;
+    private JButton submitBtn;
 
     public CxcForm(int state) {
         switch (state) {
@@ -98,7 +100,6 @@ public class CxcForm extends JFrame {
         debtLbl = new JLabel("Saldo");
         clientDebt = new JTextField();
 
-
         cxccLbl = new JLabel("CxCC");
         String[] columnNames = {"ID",
             "Monto pagado",
@@ -117,6 +118,15 @@ public class CxcForm extends JFrame {
         contentTable.getColumnModel().getColumn(2).setPreferredWidth(90);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane tablesp = new JScrollPane(contentTable);
+        submitBtn = new JButton("OK");
+        submitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Debt added! \n Respect+");
+                LoginForm.mm.setVisible(true);
+                dispose();
+            }
+        });
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override
@@ -140,6 +150,7 @@ public class CxcForm extends JFrame {
         debtLbl.setBounds(320, 330, 70, 30);
         clientDebt.setBounds(360, 330, 70, 30);       
         backBtn.setBounds(40, 400, 70, 30);
+        submitBtn.setBounds(400, 400, 70, 30);
         
         contentPane.add(title);
         contentPane.add(idLbl);
@@ -155,6 +166,7 @@ public class CxcForm extends JFrame {
         contentPane.add(debtLbl);
         contentPane.add(clientDebt);
         contentPane.add(backBtn);
+        contentPane.add(submitBtn);
     }
 
     private void setStyle() {

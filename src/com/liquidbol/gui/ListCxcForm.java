@@ -97,10 +97,10 @@ public class ListCxcForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainMenuForm mm = new MainMenuForm();
+                LoginForm.mm.setVisible(true);
                 dispose();
             }
-        });
+        });  
         
         title.setBounds(100, 30, 500, 30);
         addBtn.setBounds(470, 80, 100, 30);
