@@ -87,6 +87,31 @@ public class ItemPaymentCrud implements DBCrud<BillPayment> {
             }
         }
     }
+    
+    public Collection<BillPayment> findByItemBillId(int itemBillId) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM item_payments WHERE itembill_id = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, itemBillId);
+            ResultSet resultSet = statement.executeQuery();
+            Collection<BillPayment> result = new HashSet<>();
+            while (resultSet.next()) {
+                BillPayment element = createElementFromResultSet(resultSet);
+                result.add(element);
+            }
+            return result;
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read item payment", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     @Override
     public BillPayment merge(BillPayment element) throws PersistenceException, ClassNotFoundException {

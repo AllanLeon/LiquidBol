@@ -57,4 +57,11 @@ public class ServiceBill extends Bill implements Serializable {
     public void addServiceReception(ServiceReception serviceReception) {
         serviceReceptions.add(serviceReception);
     }
+
+    /**
+     * @param serviceReceptions the serviceReceptions to set
+     */
+    public void setServiceReceptions(Collection<ServiceReception> serviceReceptions) {
+        this.serviceReceptions = serviceReceptions;
+    }
 }

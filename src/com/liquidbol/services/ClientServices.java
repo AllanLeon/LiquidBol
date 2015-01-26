@@ -82,7 +82,7 @@ public class ClientServices {
     }
     
     public CXC addCXCToClient(CXC element, Client parent) throws PersistenceException, ClassNotFoundException {
-        cxcCrudManager.save(element);
+        cxcCrudManager.save(element, parent);
         element = cxcCrudManager.refresh(element);
         parent.addReceivableAccount(element);
         return element;
@@ -90,7 +90,7 @@ public class ClientServices {
     
     public RechargeableItem addRechargeableItemToClient(RechargeableItem element, Client parent)
             throws PersistenceException, ClassNotFoundException {
-        rechargeableItemCrudManager.save(element);
+        rechargeableItemCrudManager.save(element, parent);
         element = rechargeableItemCrudManager.refresh(element);
         parent.addRechargeableItem(element);
         return element;
@@ -98,7 +98,7 @@ public class ClientServices {
     
     public ItemEstimate addItemEstimateToClient(ItemEstimate element, Client parent)
             throws PersistenceException, ClassNotFoundException {
-        itemEstimateCrudManager.save(element);
+        itemEstimateCrudManager.save(element, parent);
         element = itemEstimateCrudManager.refresh(element);
         parent.addItemEstimate(element);
         return element;
@@ -106,7 +106,7 @@ public class ClientServices {
     
     public ItemBill addItemBillToClient(ItemBill element, Client parent)
             throws PersistenceException, ClassNotFoundException {
-        itemBillCrudManager.save(element);
+        itemBillCrudManager.save(element, parent);
         element = itemBillCrudManager.refresh(element);
         parent.addItemBill(element);
         return element;
@@ -114,7 +114,7 @@ public class ClientServices {
     
     public ServiceBill addServiceBillToClient(ServiceBill element, Client parent)
             throws PersistenceException, ClassNotFoundException {
-        serviceBillCrudManager.save(element);
+        serviceBillCrudManager.save(element, parent);
         element = serviceBillCrudManager.refresh(element);
         parent.addServiceBill(element);
         return element;
