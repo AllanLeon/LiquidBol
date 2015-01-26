@@ -1,5 +1,7 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.db.persistence.PersistenceException;
+import com.liquidbol.model.Client;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
@@ -40,6 +42,8 @@ public class ClientForm extends JFrame {
     private JLabel idShower;
     private JLabel nitLbl;
     private Component nitBox;
+    private JLabel nickLbl;
+    private Component nickBox;
     private JLabel nameLbl;
     private Component clientName;
     private JLabel lnameLbl;
@@ -60,6 +64,7 @@ public class ClientForm extends JFrame {
     private JButton submitBtn;
     private MouseListener ml;
     private JButton backBtn;
+    private Object[] readItData;
 
     public ClientForm(int state) {
         switch(state){
@@ -89,7 +94,7 @@ public class ClientForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(550, 500);
+        setSize(550, 540);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -106,6 +111,8 @@ public class ClientForm extends JFrame {
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
         nitLbl = new JLabel("NIT/CI");
         nitBox = new JTextField();
+        nickLbl = new JLabel("FACTURA");
+        nickBox = new JTextField();
         nameLbl = new JLabel("Nombre(s)");
         clientName = new JTextField();
         lnameLbl = new JLabel("Apellido(s)");
@@ -135,6 +142,12 @@ public class ClientForm extends JFrame {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                readIt();
+                try {
+                    saveIt(readItData);
+                } catch (PersistenceException | ClassNotFoundException ex) {
+                    Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 JOptionPane.showMessageDialog(null, "Client added! \n Respect+");
                 LoginForm.mm.setVisible(true);
                 dispose();
@@ -150,33 +163,37 @@ public class ClientForm extends JFrame {
         });
 
         title.setBounds(120, 30, 350, 30);
-        idShower.setBounds(350, 80, 150, 30);
-        nitLbl.setBounds(80, 80, 70, 30);
-        nitBox.setBounds(120, 80, 100, 30);
-        nameLbl.setBounds(40, 120, 70, 30);
-        clientName.setBounds(100, 120, 160, 30);
-        lnameLbl.setBounds(290, 120, 70, 30);
-        clientLName.setBounds(350, 120, 160, 30);
-        companyLbl.setBounds(40, 160, 100, 30);
-        clientCompany.setBounds(130, 160, 300, 30);
-        routeCB.setBounds(470, 210, 100, 30);
-        addressLbl.setBounds(40, 210, 70, 30);
-        clientAddress.setBounds(100, 210, 350, 30);
-        phoneLbl.setBounds(50, 250, 70, 30);
-        clientPhone.setBounds(100, 250, 150, 30);
-        phoneLbl2.setBounds(270, 250, 70, 30);
-        clientPhone2.setBounds(330, 250, 150, 30);
-        emailLbl.setBounds(50, 290, 70, 30);
-        clientEmail.setBounds(100, 290, 250, 30);
-        clientPhoto.setBounds(75, 330, 100, 100);
-        companyPhoto.setBounds(200, 330, 150, 100);
-        submitBtn.setBounds(400, 380, 70, 30);
-        backBtn.setBounds(50, 380, 70, 30);
+        idShower.setBounds(380, 70, 150, 30);
+        nitLbl.setBounds(80, 110, 70, 30);
+        nitBox.setBounds(120, 110, 100, 30);
+        nickLbl.setBounds(250, 110, 70, 30);
+        nickBox.setBounds(310, 110, 100, 30);
+        nameLbl.setBounds(40, 150, 70, 30);
+        clientName.setBounds(100, 150, 160, 30);
+        lnameLbl.setBounds(290, 150, 70, 30);
+        clientLName.setBounds(350, 150, 160, 30);
+        companyLbl.setBounds(40, 200, 100, 30);
+        clientCompany.setBounds(130, 200, 300, 30);
+        routeCB.setBounds(470, 240, 100, 30);
+        addressLbl.setBounds(40, 240, 70, 30);
+        clientAddress.setBounds(100, 240, 350, 30);
+        phoneLbl.setBounds(50, 280, 70, 30);
+        clientPhone.setBounds(100, 280, 150, 30);
+        phoneLbl2.setBounds(270, 280, 70, 30);
+        clientPhone2.setBounds(330, 280, 150, 30);
+        emailLbl.setBounds(50, 320, 70, 30);
+        clientEmail.setBounds(100, 320, 250, 30);
+        clientPhoto.setBounds(140, 360, 100, 100);
+        companyPhoto.setBounds(260, 360, 150, 100);
+        submitBtn.setBounds(440, 420, 70, 30);
+        backBtn.setBounds(50, 420, 70, 30);
 
         contentPane.add(title);
         contentPane.add(idShower);
         contentPane.add(nitLbl);
         contentPane.add(nitBox);
+        contentPane.add(nickLbl);
+        contentPane.add(nickBox);
         contentPane.add(nameLbl);
         contentPane.add(clientName);
         contentPane.add(lnameLbl);
@@ -200,6 +217,30 @@ public class ClientForm extends JFrame {
         onMouseHover(companyPhoto);
     }
 
+    private void readIt() {
+        String fname = ((JTextField) clientName).getText();
+        String lname = ((JTextField) clientLName).getText();
+        int nit = Integer.parseInt(((JTextField) nitBox).getText());
+        String nick = ((JTextField) nickBox).getText();
+        String adrs = ((JTextField) clientAddress).getText();
+        int telf1 = Integer.parseInt(((JTextField) clientPhone).getText());
+        int telf2 = Integer.parseInt(((JTextField) clientPhone2).getText());
+        String mail = ((JTextField) clientEmail).getText();
+        String emp = ((JTextField) clientCompany).getText();
+        boolean route = routeCB.isSelected();
+        if(1 == 0) {
+            JOptionPane.showMessageDialog(this,"WARNING.","Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            readItData = new Object[] {fname, lname, nit, nick, adrs, telf1, telf2, mail, emp, route};
+        }
+    }
+
+    private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
+        Client temp = LoginForm.comp.createClient(0,(String)data[0],(String)data[1],(int)data[2],(String)data[3], (String)data[4],
+                (int)data[5],(int)data[6],(String)data[7],(String)data[8],(boolean)data[9]);
+        LoginForm.comp.saveClient(temp);
+    }
+    
     private void setStyle() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -256,7 +297,7 @@ public class ClientForm extends JFrame {
         };
         lbl.addMouseListener(ml);
     }
-
+    
     private void convertToReadOnly() {
         Icon temp = clientPhoto.getIcon();
         Icon temp2 = companyPhoto.getIcon();
