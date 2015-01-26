@@ -1,6 +1,5 @@
 package com.liquidbol.gui;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -106,10 +105,10 @@ public class ListItemsForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainMenuForm mm = new MainMenuForm();
+                LoginForm.mm.setVisible(true);
                 dispose();
             }
-        });
+        });  
 
         title.setBounds(350, 30, 500, 30);
         addBtn.setBounds(570, 80, 100, 30);

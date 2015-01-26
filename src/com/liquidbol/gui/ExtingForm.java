@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -126,13 +127,20 @@ public class ExtingForm extends JFrame {
         dateField = new JDatePickerImpl(datePanel, new DateLabelFormatter());
         hourLbl = new JLabel("Hora");
         hourField = new JTextField();
-        submitBtn = new JButton();
-        submitBtn.setText("OK");
+        submitBtn = new JButton("OK");
+        submitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Article recieved! \n Respect+");
+                LoginForm.LF.setVisible(true);
+                dispose();
+            }
+        });
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainMenuForm mm = new MainMenuForm();
+                LoginForm.mm.setVisible(true);
                 dispose();
             }
         });

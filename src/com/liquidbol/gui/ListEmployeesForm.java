@@ -93,10 +93,10 @@ public class ListEmployeesForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainMenuForm mm = new MainMenuForm();
+                LoginForm.mm.setVisible(true);
                 dispose();
             }
-        });        
+        });  
 
         title.setBounds(120, 30, 300, 30);
         addBtn.setBounds(340, 80, 100, 30);

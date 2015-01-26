@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -101,10 +102,10 @@ public class ListClientsForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainMenuForm mm = new MainMenuForm();
+                LoginForm.mm.setVisible(true);
                 dispose();
             }
-        });
+        });  
         
         title.setBounds(300, 30, 300, 30);
         addBtn.setBounds(630, 80, 100, 30);

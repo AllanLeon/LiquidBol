@@ -30,12 +30,15 @@ public class LoginForm extends JFrame {
     private JButton submitBtn;
     private JLabel bgLabel;
     private JTextField jTextField1;
+    protected static MainMenuForm mm;
+    protected static LoginForm LF;
 
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new LoginForm().setVisible(true);
+                LF = new LoginForm();
+                LF.setVisible(true);
             }
         });
     }
@@ -75,8 +78,8 @@ public class LoginForm extends JFrame {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainMenuForm mm = new MainMenuForm();
-                dispose();
+                mm = new MainMenuForm();
+                setVisible(false);
             }
         });
         

@@ -92,19 +92,19 @@ public class ListARForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainMenuForm mm = new MainMenuForm();
+                LoginForm.mm.setVisible(true);
                 dispose();
             }
         });
 
-        title.setBounds(100, 30, 500, 30);
-        addBtn.setBounds(470, 80, 100, 30);
-        searchCB.setBounds(50, 120, 150, 30);
-        searchBox.setBounds(210, 120, 250, 30);
-        searchBtn.setBounds(450, 120, 50, 30);
+        title.setBounds(140, 30, 500, 30);
+        addBtn.setBounds(510, 80, 100, 30);
+        searchCB.setBounds(90, 120, 150, 30);
+        searchBox.setBounds(250, 120, 250, 30);
+        searchBtn.setBounds(500, 120, 50, 30);
         arsTableSP.setBounds(30, 170, 730, 200);
         backBtn.setBounds(50, 380, 70, 30);
-        
+
         contentPane.add(title);
         contentPane.add(addBtn);
         contentPane.add(searchCB);

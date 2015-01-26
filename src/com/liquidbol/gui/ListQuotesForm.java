@@ -99,10 +99,10 @@ public class ListQuotesForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainMenuForm mm = new MainMenuForm();
+                LoginForm.mm.setVisible(true);
                 dispose();
             }
-        });
+        });  
 
         title.setBounds(350, 30, 500, 30);
         addBtn.setBounds(570, 80, 100, 30);
