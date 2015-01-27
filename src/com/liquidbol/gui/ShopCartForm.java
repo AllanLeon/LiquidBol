@@ -1,9 +1,16 @@
 package com.liquidbol.gui;
 
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -13,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,9 +29,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  * @author Franco
@@ -105,12 +111,12 @@ public class ShopCartForm extends JFrame {
             {"00126", 19.5, "Kg.", "Electrodo 7018 1/8", 18.00},
             {"00119", 29.75, "Kg.", "Electrodo 6013 1/8", 18.00}
         };
-        itemsTable = new JTable(tempData, columnNames) {
+        itemsTable = new JTable(new DefaultTableModel(tempData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-        };
+        });
         itemsTable.getTableHeader().setReorderingAllowed(false);
         itemsTable.setFont(new Font("Arial", Font.BOLD, 16));
         itemsTable.setRowHeight(25);
@@ -131,12 +137,12 @@ public class ShopCartForm extends JFrame {
             {"00126", "Electrodo 7018 1/8", 18.00},
             {"00119", "Electrodo 6013 1/8", 18.00}
         };
-        serviceTable = new JTable(tempData2, columnNames2) {
+        serviceTable = new JTable(new DefaultTableModel(tempData2, columnNames2) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
-        };
+        });
         serviceTable.getTableHeader().setReorderingAllowed(false);
         serviceTable.setFont(new Font("Arial", Font.BOLD, 16));
         serviceTable.setRowHeight(25);
@@ -160,12 +166,15 @@ public class ShopCartForm extends JFrame {
             {"00126", 1, "Kg.", "Electrodo 7018 1/8", 18.00},
             {"00119", 2, "Kg.", "Electrodo 6013 1/8", 36.00}
         };
-        wholeTable = new JTable(tempData3, columnNames3) {
+        wholeTable = new JTable(new DefaultTableModel(tempData3, columnNames3) {
             @Override
             public boolean isCellEditable(int row, int column) {
+                if (column == 1) {
+                    return true;
+                }
                 return false;
             }
-        };
+        });
         wholeTable.getTableHeader().setReorderingAllowed(false);
         wholeTable.setFont(new Font("Arial", Font.BOLD, 16));
         wholeTable.setRowHeight(25);
@@ -229,6 +238,9 @@ public class ShopCartForm extends JFrame {
         cartPane.add(wholeTableSP);
         cartPane.add(toNoteBtn);
         cartPane.add(toBillBtn);
+
+        addDoubleClickList(itemsTable, wholeTable, false);
+        addDoubleClickList(serviceTable, wholeTable, true);
     }
 
     public static void setStyle() {
@@ -244,5 +256,40 @@ public class ShopCartForm extends JFrame {
             Logger.getLogger(JFrame.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void addDoubleClickList(JTable aTable, JTable bTable, boolean isService) {
+        aTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                JTable table = (JTable) me.getSource();
+                int colCount = aTable.getColumnCount();
+                Point p = me.getPoint();
+                int row = table.rowAtPoint(p);
+                if (me.getClickCount() == 2) {
+                    DefaultTableModel model = (DefaultTableModel) bTable.getModel();
+                    Object[] rowdata = {};
+                    Object[] obj = new Object[]{};
+                    ArrayList<Object> newObj = new ArrayList<Object>(Arrays.asList(obj));
+                    if (!isService) {
+                        for (int i = 0; i < colCount; i++) {
+                            if (i == 1) {
+                                newObj.add("");
+                            } else {
+                                newObj.add(table.getValueAt(row, i));
+                            }
+                        }
+                        model.addRow(newObj.toArray());
+                    } else {
+                        newObj.add(table.getValueAt(row, 0));
+                        newObj.add("");
+                        newObj.add("");
+                        newObj.add(table.getValueAt(row, 1));
+                        newObj.add(table.getValueAt(row, 2));
+                        model.addRow(newObj.toArray());
+                    }
+                }
+            }
+        });
     }
 }
