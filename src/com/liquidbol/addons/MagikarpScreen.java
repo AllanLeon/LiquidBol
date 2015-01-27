@@ -13,7 +13,6 @@ import com.liquidbol.services.PurchaseServices;
 import com.liquidbol.services.ServiceBillServices;
 import com.liquidbol.services.StoreServices;
 import com.liquidbol.services.SupplierServices;
-import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.SplashScreen;
 
@@ -21,10 +20,12 @@ import java.awt.SplashScreen;
  *
  * @author Franco
  */
-public final class MagikarpScreen extends JFrame {
+public final class MagikarpScreen {
 
     private final SplashScreen splash;
-    public final String[] loadingText = {"a", "b", "c", "d", "e", "f"};
+    public final String[] loadingText = {"Limpiando manómetros", "Esperando a que llegue el jefe",
+                            "Recargando recargas recargables", "Alistando cascos para el trabajo",
+                            "Clasificando electrodos", "Alistando pan con Pepsi"};
     private Company liquid;
     public static CXCServices cxcServ;
     public static ClientServices clientServ;
@@ -43,7 +44,7 @@ public final class MagikarpScreen extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new MagikarpScreen().setVisible(true);
+                MagikarpScreen magikarpScreen = new MagikarpScreen();
             }
         });
     }
@@ -70,20 +71,15 @@ public final class MagikarpScreen extends JFrame {
             Graphics2D g = splash.createGraphics();
             for (int i = 1; i < loadingText.length; i++) {
                 g.setColor(new Color(4, 52, 101));//backgroundcolor
-                g.fillRect(203, 328, 280, 12);//toCoverLastText
+                g.fillRect(230, 364, 280, 12);//toCoverLastText
                 g.setColor(Color.white);//textColor
-                g.drawString("Loading " + loadingText[i - 1] + "...", 203, 338);
+                g.drawString(loadingText[i - 1] + "...", 230, 374);
                 g.setColor(Color.green); //progressBarcolor
-                g.fillRect(204, 308, (i * 307 / loadingText.length), 12); //progressBar
-                float dash1[] = {2.0f}; //segmentedLine
-                BasicStroke dashed = new BasicStroke(9.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash1, 0.0f);
-                g.setStroke(dashed);
-                g.setColor(Color.GREEN);
+                g.fillRect(231, 345, (i * 407 / loadingText.length), 12); //progressBar
                 g.setColor(new Color(4, 52, 101));
-                g.drawLine(205, 314, 510, 314);
                 splash.update();
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                 }
             }
