@@ -82,6 +82,7 @@ CREATE TABLE item_purchases (
                 GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     item_id VARCHAR(10) NOT NULL,
     purchase_id INTEGER NOT NULL,
+    unit_cost REAL NOT NULL,
     quantity INTEGER NOT NULL,
     total_amount REAL NOT NULL,
     CONSTRAINT itempurchases_item_id_ref FOREIGN KEY (item_id) REFERENCES items(item_id),

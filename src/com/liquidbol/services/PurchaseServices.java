@@ -27,8 +27,8 @@ public class PurchaseServices {
         this.itemPurchaseCrudManager = new ItemPurchaseCrud();
     }
     
-    public ItemPurchase createItemPurchase(int id, Item item, int quantity) {
-        ItemPurchase itemPurchase = new ItemPurchase(id, item, quantity);
+    public ItemPurchase createItemPurchase(int id, Item item, Double unitCost, int quantity) {
+        ItemPurchase itemPurchase = new ItemPurchase(id, item, unitCost, quantity);
         return itemPurchase;
     }
     
