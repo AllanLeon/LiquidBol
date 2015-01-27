@@ -233,6 +233,7 @@ CREATE TABLE service_receptions (
     rechargeableitem_id VARCHAR(10) NOT NULL,
     reception_date DATE NOT NULL,
     deliver_time TIMESTAMP NOT NULL,
+    quantity REAL NOT NULL,
     total_amount REAL NOT NULL,
     obs VARCHAR(100),
     CONSTRAINT servicereceptions_service_id_ref FOREIGN KEY (service_id) REFERENCES services(service_id),

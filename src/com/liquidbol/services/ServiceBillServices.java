@@ -42,9 +42,9 @@ public class ServiceBillServices {
     }
      
     public ServiceReception createServiceReception(int id, Service service,
-            RechargeableItem item, Timestamp deliverTime, String obs) {
+            RechargeableItem item, Timestamp deliverTime, Double quantity, String obs) {
         ServiceReception serviceReception = new ServiceReception(id, service, item,
-                new Date(new java.util.Date().getTime()), deliverTime, service.getPrice(), obs);
+                new Date(new java.util.Date().getTime()), deliverTime, quantity, obs);
         return serviceReception;
     }
     

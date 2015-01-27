@@ -26,6 +26,7 @@ public class ServiceReception implements Serializable {
     private RechargeableItem item;
     private Date receptionDate;
     private Timestamp deliverTime;
+    private Double quantity;
     private Double totalAmount;
     private String obs;
 
@@ -36,15 +37,38 @@ public class ServiceReception implements Serializable {
      * @param item
      * @param receptionDate
      * @param deliverTime
-     * @param totalAmount
+     * @param quantity
      * @param obs 
      */
-    public ServiceReception(int id, Service service, RechargeableItem item, Date receptionDate, Timestamp deliverTime, Double totalAmount, String obs) {
+    public ServiceReception(int id, Service service, RechargeableItem item, Date receptionDate, Timestamp deliverTime, Double quantity, String obs) {
         this.id = id;
         this.service = service;
         this.item = item;
         this.receptionDate = receptionDate;
         this.deliverTime = deliverTime;
+        this.quantity = quantity;
+        this.totalAmount = quantity * service.getPrice() / service.getCapacity();
+        this.obs = obs;
+    }
+    
+    /**
+     * Constructor method.
+     * @param id
+     * @param service
+     * @param item
+     * @param receptionDate
+     * @param deliverTime
+     * @param quantity
+     * @param totalAmount
+     * @param obs 
+     */
+    public ServiceReception(int id, Service service, RechargeableItem item, Date receptionDate, Timestamp deliverTime, Double quantity, Double totalAmount, String obs) {
+        this.id = id;
+        this.service = service;
+        this.item = item;
+        this.receptionDate = receptionDate;
+        this.deliverTime = deliverTime;
+        this.quantity = quantity;
         this.totalAmount = totalAmount;
         this.obs = obs;
     }
@@ -96,6 +120,20 @@ public class ServiceReception implements Serializable {
      */
     public String getObs() {
         return obs;
+    }
+    
+    /**
+     * @return the quantity
+     */
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * @param quantity the quantity to set
+     */
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
     /**
