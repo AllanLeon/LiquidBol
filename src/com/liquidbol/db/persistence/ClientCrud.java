@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -36,7 +37,7 @@ public class ClientCrud implements DBCrud<Client> {
                     + "client_phone2, client_email, client_companyname, "
                     + "client_frequency, client_regdate, client_isroute) "
                     + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, element.getName());
             statement.setString(2, element.getLastname());
             statement.setInt(3, element.getNit());
@@ -52,6 +53,11 @@ public class ClientCrud implements DBCrud<Client> {
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("client was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                element.setId(id);
             }
             LOG.info(String.format("client: %d successfuly saved", element.getId()));
             return element;

@@ -212,8 +212,7 @@ public class CompanyServices {
      * @throws ClassNotFoundException 
      */
     public Client saveClient(Client client) throws PersistenceException, ClassNotFoundException {
-        clientCrudManager.save(client);
-        client = clientCrudManager.refresh(client);
+        client = clientCrudManager.save(client);
         company.addClient(client);
         return client;
     }
