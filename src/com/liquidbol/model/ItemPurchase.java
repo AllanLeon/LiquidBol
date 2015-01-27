@@ -20,6 +20,7 @@ public class ItemPurchase implements Serializable {
     
     private int id;
     private Item item;
+    private Double unitCost;
     private int quantity;
     private Double amount;
 
@@ -27,25 +28,31 @@ public class ItemPurchase implements Serializable {
      * Constructor method.
      * @param id
      * @param item
+     * @param unitCost
      * @param quantity
      */
-    public ItemPurchase(int id, Item item, int quantity) {
+    public ItemPurchase(int id, Item item, Double unitCost, int quantity) {
         this.id = id;
+        item.setCost(unitCost);
         this.item = item;
+        this.unitCost = unitCost;
         this.quantity = quantity;
-        this.amount = item.getCost() * quantity;
+        this.amount = unitCost * quantity;
     }
 
     /**
      * Constructor method with amount.
      * @param id
      * @param item
+     * @param unitCost
      * @param quantity
      * @param amount 
      */
-    public ItemPurchase(int id, Item item, int quantity, Double amount) {
+    public ItemPurchase(int id, Item item, Double unitCost, int quantity, Double amount) {
         this.id = id;
+        item.setCost(unitCost);
         this.item = item;
+        this.unitCost = unitCost;
         this.quantity = quantity;
         this.amount = amount;
     }
@@ -76,6 +83,20 @@ public class ItemPurchase implements Serializable {
      */
     public Double getAmount() {
         return amount;
+    }
+    
+    /**
+     * @return the unitCost
+     */
+    public Double getUnitCost() {
+        return unitCost;
+    }
+
+    /**
+     * @param unitCost the unitCost to set
+     */
+    public void setUnitCost(Double unitCost) {
+        this.unitCost = unitCost;
     }
 
     /**

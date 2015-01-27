@@ -42,24 +42,22 @@ public class ServiceBillServices {
     }
      
     public ServiceReception createServiceReception(int id, Service service,
-            RechargeableItem item, Timestamp deliverTime, String obs) {
+            RechargeableItem item, Timestamp deliverTime, Double quantity, String obs) {
         ServiceReception serviceReception = new ServiceReception(id, service, item,
-                new Date(new java.util.Date().getTime()), deliverTime, service.getPrice(), obs);
+                new Date(new java.util.Date().getTime()), deliverTime, quantity, obs);
         return serviceReception;
     }
     
     public BillPayment addPaymentToServiceBill(BillPayment element, ServiceBill parent)
             throws PersistenceException, ClassNotFoundException {
-        servicePaymentCrudManager.save(element, parent);
-        element = servicePaymentCrudManager.refresh(element);
+        element = servicePaymentCrudManager.save(element, parent);
         parent.addPayment(element);
         return element;
     }
     
     public ServiceReception addServiceReceptionToServiceBill(ServiceReception element, ServiceBill parent)
             throws PersistenceException, ClassNotFoundException {
-        serviceReceptionCrudManager.save(element, parent);
-        element = serviceReceptionCrudManager.refresh(element);
+        element = serviceReceptionCrudManager.save(element, parent);
         parent.addServiceReception(element);
         return element;
     }

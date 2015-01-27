@@ -42,15 +42,13 @@ public class SupplierServices {
     }
     
     public Debt addDebtToSupplier(Debt element, Supplier parent) throws PersistenceException, ClassNotFoundException {
-        debtCrudManager.save(element, parent);
-        element = debtCrudManager.refresh(element);
+        element = debtCrudManager.save(element, parent);
         parent.addDebt(element);
         return element;
     }
     
     public Purchase addPurchaseToSupplier(Purchase element, Supplier parent) throws PersistenceException, ClassNotFoundException {
-        purchaseCrudManager.save(element, parent);
-        element = purchaseCrudManager.refresh(element);
+        element = purchaseCrudManager.save(element, parent);
         parent.addPurchase(element);
         return element;
     }

@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -33,7 +34,7 @@ public class ItemRequestCrud implements DBCrud<ItemRequest> {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_requests(itemestimate_id, item_id, "
                     + "quantity, total_amount) VALUES(?,?,?,?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, parent.getId());
             statement.setString(2, element.getItem().getId());
             statement.setInt(3, element.getQuantity());
@@ -41,6 +42,11 @@ public class ItemRequestCrud implements DBCrud<ItemRequest> {
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("item request was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                element.setId(id);
             }
             LOG.info(String.format("item request: %d successfuly saved", element.getId()));
             return element;

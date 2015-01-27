@@ -114,5 +114,9 @@ public class ConnectionManager {
      */
     private static class ConnectionManagerHolder {
         private static final ConnectionManager INSTANCE = new ConnectionManager();
+        
+        static {
+            System.setProperty("derby.language.sequence.preallocator", "1");
+        }
     }
 }

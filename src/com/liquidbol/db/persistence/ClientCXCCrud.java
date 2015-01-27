@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -35,7 +36,7 @@ public class ClientCXCCrud implements DBCrud<CXC> {
             String insert = "INSERT INTO clients_cxc(client_id, clientscxc_debt, "
                     + "clientscxc_creditamount, clientscxc_creditdate, "
                     + "clientscxc_state) VALUES(?,?,?,?,?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, parent.getId());
             statement.setDouble(2, element.getDebt());
             statement.setDouble(3, element.getCreditMaxAmount());
@@ -44,6 +45,11 @@ public class ClientCXCCrud implements DBCrud<CXC> {
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("client receivable account was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                element.setId(id);
             }
             LOG.info(String.format("client receivable account: %d successfuly saved", element.getId()));
             return element;

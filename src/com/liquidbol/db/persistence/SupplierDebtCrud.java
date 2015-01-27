@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -33,7 +34,7 @@ public class SupplierDebtCrud implements DBCrud<Debt>{
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO supplier_debts(supplier_id,"
                     + "amount, limit_date, max_amount) VALUES(?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, parent.getId());
             statement.setDouble(2, debt.getAmount());
             statement.setDate(3, debt.getLimitDate());
@@ -41,6 +42,11 @@ public class SupplierDebtCrud implements DBCrud<Debt>{
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("Supplier debt was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                debt.setId(id);
             }
             LOG.info(String.format("Supplier debt: %d successfuly saved", debt.getId()));
             return debt;
