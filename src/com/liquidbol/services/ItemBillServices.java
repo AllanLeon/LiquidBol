@@ -45,15 +45,13 @@ public class ItemBillServices {
     }
     
     public BillPayment addPaymentToItemBill(BillPayment element, ItemBill parent) throws PersistenceException, ClassNotFoundException {
-        itemPaymentCrudManager.save(element, parent);
-        element = itemPaymentCrudManager.refresh(element);
+        element = itemPaymentCrudManager.save(element, parent);
         parent.addPayment(element);
         return element;
     }
     
     public ItemSale addItemSaleToItemBill(ItemSale element, ItemBill parent) throws PersistenceException, ClassNotFoundException {
-        itemSaleCrudManager.save(element, parent);
-        element = itemSaleCrudManager.refresh(element);
+        element = itemSaleCrudManager.save(element, parent);
         parent.addItemSale(element);
         return element;
     }

@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -33,7 +34,7 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_purchases(item_id, purchase_id, "
                     + "unit_cost, quantity, total_amount) VALUES(?, ?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, purchase.getItem().getId());
             statement.setInt(2, parent.getId());
             statement.setDouble(3, purchase.getUnitCost());
@@ -42,6 +43,11 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("Item purchase was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                purchase.setId(id);
             }
             LOG.info(String.format("Item purchase: %d successfuly saved", purchase.getId()));
             return purchase;

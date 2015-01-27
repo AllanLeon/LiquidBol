@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -32,13 +33,18 @@ public class ItemDiscountCrud implements DBCrud<Discount> {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_discounts(item_id, min_quantity, "
                     + "percentage) VALUES(?, ?, ?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, parent.getId());
             statement.setInt(2, discount.getMinQuantity());
             statement.setDouble(3, discount.getPercentage());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("Item discount was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                discount.setId(id);
             }
             LOG.info(String.format("Item discount: %d successfuly saved", discount.getId()));
             return discount;

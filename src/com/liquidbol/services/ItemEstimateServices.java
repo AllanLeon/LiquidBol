@@ -34,8 +34,7 @@ public class ItemEstimateServices {
     
     public ItemRequest addItemRequestToItemEstimate(ItemRequest element, ItemEstimate parent)
             throws PersistenceException, ClassNotFoundException {
-        itemRequestCrudManager.save(element, parent);
-        element = itemRequestCrudManager.refresh(element);
+        element = itemRequestCrudManager.save(element, parent);
         parent.addRequest(element);
         return element;
     }

@@ -225,8 +225,7 @@ public class CompanyServices {
      * @throws ClassNotFoundException
      */
     public Item saveItem(Item item) throws PersistenceException, ClassNotFoundException {
-        itemCrudManager.save(item);
-        item = itemCrudManager.refresh(item);
+        item = itemCrudManager.save(item);
         company.addItem(item);
         return item;
     }
@@ -239,8 +238,7 @@ public class CompanyServices {
      * @throws ClassNotFoundException 
      */
     public Service saveService(Service service) throws PersistenceException, ClassNotFoundException {
-        serviceCrudManager.save(service);
-        service = serviceCrudManager.refresh(service);
+        service = serviceCrudManager.save(service);
         company.addService(service);
         return service;
     }
@@ -253,8 +251,7 @@ public class CompanyServices {
      * @throws ClassNotFoundException 
      */
     public Offer saveOffer(Offer offer) throws PersistenceException, ClassNotFoundException {
-        offerCrudManager.save(offer);
-        offer = offerCrudManager.refresh(offer);
+        offer = offerCrudManager.save(offer);
         company.addOffer(offer);
         return offer;
     }
@@ -267,8 +264,7 @@ public class CompanyServices {
      * @throws ClassNotFoundException 
      */
     public Supplier saveSupplier(Supplier supplier) throws PersistenceException, ClassNotFoundException {
-        supplierCrudManager.save(supplier);
-        supplier = supplierCrudManager.refresh(supplier);
+        supplier = supplierCrudManager.save(supplier);
         company.addSupplier(supplier);
         return supplier;
     }
@@ -281,8 +277,7 @@ public class CompanyServices {
      * @throws ClassNotFoundException 
      */
     public Store saveStore(Store store) throws PersistenceException, ClassNotFoundException {
-        storeCrudManager.save(store);
-        store = storeCrudManager.refresh(store);
+        store = storeCrudManager.save(store);
         company.addStore(store);
         return store;
     }

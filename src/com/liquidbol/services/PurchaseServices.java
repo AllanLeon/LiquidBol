@@ -33,8 +33,7 @@ public class PurchaseServices {
     }
     
     public ItemPurchase addItemPurchaseToPurchase(ItemPurchase element, Purchase parent) throws PersistenceException, ClassNotFoundException {
-        itemPurchaseCrudManager.save(element, parent);
-        element = itemPurchaseCrudManager.refresh(element);
+        element = itemPurchaseCrudManager.save(element, parent);
         parent.addItemPurchase(element);
         return element;
     }

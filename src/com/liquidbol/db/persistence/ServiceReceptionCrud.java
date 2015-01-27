@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
@@ -37,7 +38,7 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
             String insert = "INSERT INTO service_receptions(servicebill_id, "
                     + "service_id, rechargeableitem_id, reception_date, "
                     + "deliver_time, quantity, total_amount, obs) VALUES(?,?,?,?,?,?,?,?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, parent.getId());
             statement.setString(2, element.getService().getId());
             statement.setString(3, element.getItem().getId());
@@ -49,6 +50,11 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("service reception was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                element.setId(id);
             }
             LOG.info(String.format("service reception: %d successfuly saved", element.getId()));
             return element;

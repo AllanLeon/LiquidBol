@@ -50,16 +50,14 @@ public class ServiceBillServices {
     
     public BillPayment addPaymentToServiceBill(BillPayment element, ServiceBill parent)
             throws PersistenceException, ClassNotFoundException {
-        servicePaymentCrudManager.save(element, parent);
-        element = servicePaymentCrudManager.refresh(element);
+        element = servicePaymentCrudManager.save(element, parent);
         parent.addPayment(element);
         return element;
     }
     
     public ServiceReception addServiceReceptionToServiceBill(ServiceReception element, ServiceBill parent)
             throws PersistenceException, ClassNotFoundException {
-        serviceReceptionCrudManager.save(element, parent);
-        element = serviceReceptionCrudManager.refresh(element);
+        element = serviceReceptionCrudManager.save(element, parent);
         parent.addServiceReception(element);
         return element;
     }

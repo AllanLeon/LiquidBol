@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -32,13 +33,18 @@ public class InventoryCrud implements DBCrud<Inventory> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO inventorys(item_id, store_id, quantity) VALUES(?,?,?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, element.getItem().getId());
             statement.setInt(2, parent.getId());
             statement.setInt(3, element.getQuantity());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("inventory was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                element.setId(id);
             }
             LOG.info(String.format("inventory: %d successfuly saved", element.getId()));
             return element;
