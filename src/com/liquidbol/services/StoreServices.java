@@ -59,22 +59,19 @@ public class StoreServices {
     }
     
     public Expense addExpenseToStore(Expense element, Store parent) throws PersistenceException, ClassNotFoundException {
-        expenseCrudManager.save(element, parent);
-        element = expenseCrudManager.refresh(element);
+        element = expenseCrudManager.save(element, parent);
         parent.addExpense(element);
         return element;
     }
     
     public Inventory addInventoryToStore(Inventory element, Store parent) throws PersistenceException, ClassNotFoundException {
-        inventoryCrudManager.save(element, parent);
-        element = inventoryCrudManager.refresh(element);
+        element = inventoryCrudManager.save(element, parent);
         parent.addInventory(element);
         return element;
     }
     
     public Employee addEmployeeToStore(Employee element, Store parent) throws PersistenceException, ClassNotFoundException {
-        employeeCrudManager.save(element, parent);
-        element = employeeCrudManager.refresh(element);
+        element = employeeCrudManager.save(element, parent);
         parent.addEmployee(element);
         return element;
     }

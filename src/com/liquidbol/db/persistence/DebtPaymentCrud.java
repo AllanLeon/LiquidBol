@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -33,13 +34,18 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO debt_payments(debt_id, pay_date, amount) "
                     + "VALUES(?, ?, ?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, payment.getId());
             statement.setDate(2, payment.getPayDate());
             statement.setDouble(3, payment.getAmount());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("Debt payment was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                payment.setId(id);
             }
             LOG.info(String.format("Debt payment: %d successfuly saved", payment.getId()));
             return payment;

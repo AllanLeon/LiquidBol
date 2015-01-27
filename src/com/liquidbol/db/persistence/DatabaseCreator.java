@@ -158,6 +158,7 @@ public class DatabaseCreator {
 "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n" +
 "    item_id VARCHAR(10) NOT NULL,\n" +
 "    purchase_id INTEGER NOT NULL,\n" +
+"    unit_cost REAL NOT NULL,\n" +
 "    quantity INTEGER NOT NULL,\n" +
 "    total_amount REAL NOT NULL,\n" +
 "    CONSTRAINT itempurchases_item_id_ref FOREIGN KEY (item_id) REFERENCES items(item_id),\n" +
@@ -295,6 +296,7 @@ public class DatabaseCreator {
 "    rechargeableitem_id VARCHAR(10) NOT NULL,\n" +
 "    reception_date DATE NOT NULL,\n" +
 "    deliver_time TIMESTAMP NOT NULL,\n" +
+"    quantity REAL NOT NULL,\n" +
 "    total_amount REAL NOT NULL,\n" +
 "    obs VARCHAR(100),\n" +
 "    CONSTRAINT servicereceptions_service_id_ref FOREIGN KEY (service_id) REFERENCES services(service_id),\n" +

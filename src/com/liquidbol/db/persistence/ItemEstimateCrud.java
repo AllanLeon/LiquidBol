@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -34,7 +35,7 @@ public class ItemEstimateCrud implements DBCrud<ItemEstimate> {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_estimates(client_id, store_id, "
                     + "request_date, limit_date, total_amount, obs) VALUES(?,?,?,?,?,?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, parent.getId());
             statement.setInt(2, element.getStore().getId());
             statement.setDate(3, element.getRequestDate());
@@ -44,6 +45,11 @@ public class ItemEstimateCrud implements DBCrud<ItemEstimate> {
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("item estimate was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                element.setId(id);
             }
             LOG.info(String.format("item estimate: %d successfuly saved", element.getId()));
             return element;

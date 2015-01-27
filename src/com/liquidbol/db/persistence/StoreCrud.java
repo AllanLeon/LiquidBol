@@ -11,12 +11,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javafx.scene.input.KeyCode.T;
-import static jdk.nashorn.internal.runtime.Debug.id;
 
 /**
  * Class responsible of all persistence operations related to stores.
@@ -34,13 +33,18 @@ public class StoreCrud implements DBCrud<Store> {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO stores(store_name, store_address, "
                     + "store_phone) VALUES(?, ?, ?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, element.getName());
             statement.setString(2, element.getAddress());
             statement.setInt(3, element.getPhone());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("store was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                element.setId(id);
             }
             LOG.info(String.format("store: %d successfuly saved", element.getId()));
             return element;

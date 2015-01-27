@@ -15,6 +15,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
@@ -36,18 +37,24 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO service_receptions(servicebill_id, "
                     + "service_id, rechargeableitem_id, reception_date, "
-                    + "deliver_time, total_amount, obs) VALUES(?,?,?,?,?,?,?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+                    + "deliver_time, quantity, total_amount, obs) VALUES(?,?,?,?,?,?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, parent.getId());
             statement.setString(2, element.getService().getId());
             statement.setString(3, element.getItem().getId());
             statement.setDate(4, element.getReceptionDate());
             statement.setTimestamp(5, element.getDeliverTime());
-            statement.setDouble(6, element.getTotalAmount());
-            statement.setString(7, element.getObs());
+            statement.setDouble(6, element.getQuantity());
+            statement.setDouble(7, element.getTotalAmount());
+            statement.setString(8, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("service reception was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                element.setId(id);
             }
             LOG.info(String.format("service reception: %d successfuly saved", element.getId()));
             return element;
@@ -122,14 +129,15 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
     public ServiceReception merge(ServiceReception element) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE service_receptions SET reception_date=?, "
-                    + "deliver_time=?, total_amount=?, obs=? WHERE servicereception_id=?";
+                    + "deliver_time=?, quantity=?, total_amount=?, obs=? WHERE servicereception_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, element.getReceptionDate());
             statement.setTimestamp(2, element.getDeliverTime());
-            statement.setDouble(3, element.getTotalAmount());
-            statement.setString(4, element.getObs());
-            statement.setInt(1, element.getId());
+            statement.setDouble(3, element.getQuantity());
+            statement.setDouble(4, element.getTotalAmount());
+            statement.setString(5, element.getObs());
+            statement.setInt(6, element.getId());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("service reception was not updated");
@@ -184,10 +192,11 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
         RechargeableItem item = new RechargeableItem(resultSet.getString(4));
         Date receptionDate = resultSet.getDate(5);
         Timestamp deliverTime = resultSet.getTimestamp(6);
-        Double amount = resultSet.getDouble(7);
-        String obs = resultSet.getString(8);
+        Double quantity = resultSet.getDouble(7);
+        Double amount = resultSet.getDouble(8);
+        String obs = resultSet.getString(9);
         LOG.log(Level.FINE, "Creating service reception %d", id);
-        ServiceReception result = new ServiceReception(id, service, item, receptionDate, deliverTime, amount, obs);
+        ServiceReception result = new ServiceReception(id, service, item, receptionDate, deliverTime, quantity, amount, obs);
         return result;
     }
 

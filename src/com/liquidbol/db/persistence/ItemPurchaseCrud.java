@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -31,16 +32,22 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
     public ItemPurchase save(ItemPurchase purchase, Purchase parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO item_purchases(item_id, purchase_id, quantity, "
-                    + "total_amount) VALUES(?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareCall(insert);
+            String insert = "INSERT INTO item_purchases(item_id, purchase_id, "
+                    + "unit_cost, quantity, total_amount) VALUES(?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, purchase.getItem().getId());
             statement.setInt(2, parent.getId());
-            statement.setInt(3, purchase.getQuantity());
-            statement.setDouble(4, purchase.getAmount());
+            statement.setDouble(3, purchase.getUnitCost());
+            statement.setInt(4, purchase.getQuantity());
+            statement.setDouble(5, purchase.getAmount());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
                 throw new PersistenceException("Item purchase was not saved");
+            }
+            ResultSet rs = statement.getGeneratedKeys();
+            if (rs.next()) {
+                int id = rs.getInt(1);
+                purchase.setId(id);
             }
             LOG.info(String.format("Item purchase: %d successfuly saved", purchase.getId()));
             return purchase;
@@ -114,13 +121,14 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
     @Override
     public ItemPurchase merge(ItemPurchase purchase) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE item_purchases SET quantity=?, total_amount=? "
+            String query = "UPDATE item_purchases SET unit_cost=?, quantity=?, total_amount=? "
                     + "WHERE item_purchase_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
-            statement.setInt(1, purchase.getQuantity());
-            statement.setDouble(2, purchase.getAmount());
-            statement.setInt(3, purchase.getId());
+            statement.setDouble(1, purchase.getUnitCost());
+            statement.setInt(2, purchase.getQuantity());
+            statement.setDouble(3, purchase.getAmount());
+            statement.setInt(4, purchase.getId());
             return purchase;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
@@ -168,10 +176,11 @@ public class ItemPurchaseCrud implements DBCrud<ItemPurchase> {
     public ItemPurchase createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
         Item item = new Item(resultSet.getString(2));
-        int quantity = resultSet.getInt(4);
-        Double amount = resultSet.getDouble(5);
+        Double unitCost = resultSet.getDouble(4);
+        int quantity = resultSet.getInt(5);
+        Double amount = resultSet.getDouble(6);
         LOG.log(Level.FINE, "Creating purchase %d", id);
-        ItemPurchase result = new ItemPurchase(id, item, quantity, amount);
+        ItemPurchase result = new ItemPurchase(id, item, unitCost, quantity, amount);
         return result;
     }
 

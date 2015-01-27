@@ -82,40 +82,35 @@ public class ClientServices {
     }
     
     public CXC addCXCToClient(CXC element, Client parent) throws PersistenceException, ClassNotFoundException {
-        cxcCrudManager.save(element, parent);
-        element = cxcCrudManager.refresh(element);
+        element = cxcCrudManager.save(element, parent);
         parent.addReceivableAccount(element);
         return element;
     }
     
     public RechargeableItem addRechargeableItemToClient(RechargeableItem element, Client parent)
             throws PersistenceException, ClassNotFoundException {
-        rechargeableItemCrudManager.save(element, parent);
-        element = rechargeableItemCrudManager.refresh(element);
+        element = rechargeableItemCrudManager.save(element, parent);
         parent.addRechargeableItem(element);
         return element;
     }
     
     public ItemEstimate addItemEstimateToClient(ItemEstimate element, Client parent)
             throws PersistenceException, ClassNotFoundException {
-        itemEstimateCrudManager.save(element, parent);
-        element = itemEstimateCrudManager.refresh(element);
+        element = itemEstimateCrudManager.save(element, parent);
         parent.addItemEstimate(element);
         return element;
     }
     
     public ItemBill addItemBillToClient(ItemBill element, Client parent)
             throws PersistenceException, ClassNotFoundException {
-        itemBillCrudManager.save(element, parent);
-        element = itemBillCrudManager.refresh(element);
+        element = itemBillCrudManager.save(element, parent);
         parent.addItemBill(element);
         return element;
     }
     
     public ServiceBill addServiceBillToClient(ServiceBill element, Client parent)
             throws PersistenceException, ClassNotFoundException {
-        serviceBillCrudManager.save(element, parent);
-        element = serviceBillCrudManager.refresh(element);
+        element = serviceBillCrudManager.save(element, parent);
         parent.addServiceBill(element);
         return element;
     }

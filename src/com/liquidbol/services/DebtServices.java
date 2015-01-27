@@ -34,8 +34,7 @@ public class DebtServices {
     
     public DebtPayment addPaymentToDebt(DebtPayment element, Debt parent)
             throws PersistenceException, ClassNotFoundException {
-        debtPaymentCrudManager.save(element, parent);
-        element = debtPaymentCrudManager.refresh(element);
+        element = debtPaymentCrudManager.save(element, parent);
         parent.addPayment(element);
         return element;
     }
