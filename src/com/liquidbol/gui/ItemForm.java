@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Item;
 import java.awt.Component;
@@ -215,9 +216,9 @@ public class ItemForm extends JFrame {
     }
 
     private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
-        Item temp = LoginForm.comp.createItem("00523",(String)data[0],(String)data[1],(String)data[2],(String)data[3],
+        Item temp = MagikarpScreen.compServ.createItem("00523",(String)data[0],(String)data[1],(String)data[2],(String)data[3],
                 (String)data[4],(String)data[5],(double)data[6],(double)data[7]);
-        LoginForm.comp.saveItem(temp);
+        MagikarpScreen.compServ.saveItem(temp);
     }
 
     private void setStyle() {

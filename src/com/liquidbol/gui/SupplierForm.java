@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Supplier;
 import java.awt.Component;
@@ -215,9 +216,9 @@ public class SupplierForm extends JFrame {
     }
 
     private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
-        Supplier temp = LoginForm.comp.createSupplier(231,(String)data[0],(String)data[1],(int)data[2],
+        Supplier temp = MagikarpScreen.compServ.createSupplier(231,(String)data[0],(String)data[1],(int)data[2],
                 (int)data[3],(String)data[4],(String)data[5],(String)data[6],(String)data[7]);
-        LoginForm.comp.saveSupplier(temp);
+        MagikarpScreen.compServ.saveSupplier(temp);
     }
 
     private void setStyle() {

@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Client;
 import java.awt.Component;
@@ -236,9 +237,9 @@ public class ClientForm extends JFrame {
     }
 
     private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
-        Client temp = LoginForm.comp.createClient(0,(String)data[0],(String)data[1],(int)data[2],(String)data[3],
+        Client temp = MagikarpScreen.compServ.createClient(0,(String)data[0],(String)data[1],(int)data[2],(String)data[3],
                     (String)data[4],(int)data[5],(int)data[6],(String)data[7],(String)data[8],(boolean)data[9]);
-        LoginForm.comp.saveClient(temp);
+        MagikarpScreen.compServ.saveClient(temp);
     }
     
     private void setStyle() {

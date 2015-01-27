@@ -166,10 +166,11 @@ public class SupplierCrud implements DBCrud<Supplier> {
         int phone2 = resultSet.getInt(5);
         String company = resultSet.getString(6);
         String address = resultSet.getString(7);
-        String city = resultSet.getString(8);
-        Date regDate = resultSet.getDate(9);
+        String email = resultSet.getString(8);
+        String city = resultSet.getString(9);
+        Date regDate = resultSet.getDate(10);
         LOG.log(Level.FINE, "Creating supplier %d", id);
-        Supplier result = new Supplier(id, name, lastname, phone, phone2, company, address, name, city, regDate);
+        Supplier result = new Supplier(id, name, lastname, phone, phone2, company, address, email, city, regDate);
         return result;
     }
 }
