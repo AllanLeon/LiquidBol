@@ -1,6 +1,5 @@
 package com.liquidbol.gui;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,11 +8,9 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
@@ -63,6 +60,7 @@ public class ListStoreForm extends JFrame {
             {"00002", "S.I.", "C. Pagador entre Herrera y 1ro de noviembre", "52 32190"}
         };
         storeTable = new JTable(tempData, columnNames);
+        storeTable.getTableHeader().setReorderingAllowed(false);
         storeTable.setFont(new Font("Arial", Font.PLAIN, 16));
         storeTable.setRowHeight(25);
         storeTable.getColumnModel().getColumn(0).setPreferredWidth(50);

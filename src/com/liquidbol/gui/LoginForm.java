@@ -1,5 +1,7 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.model.Company;
+import com.liquidbol.services.CompanyServices;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -32,6 +34,8 @@ public class LoginForm extends JFrame {
     private JTextField jTextField1;
     protected static MainMenuForm mm;
     protected static LoginForm LF;
+    private Company liquid;
+    protected static CompanyServices comp;
 
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
@@ -47,6 +51,8 @@ public class LoginForm extends JFrame {
         setStyle();
         initComponents();
         setVisible(true);
+        liquid = new Company();
+        comp = new CompanyServices(liquid);
     }
 
     private void initComponents() {

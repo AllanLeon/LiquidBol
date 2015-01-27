@@ -103,6 +103,7 @@ public class ExtingForm extends JFrame {
             {1, "57885", "Extintor chino c/Pico", "PQ", "3 Lb", "En periodo de garantia"}
         };
         contentTable = new JTable(tempData, columnNames);
+        contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 16));
         contentTable.setRowHeight(25);
         contentTable.getColumnModel().getColumn(0).setPreferredWidth(20);

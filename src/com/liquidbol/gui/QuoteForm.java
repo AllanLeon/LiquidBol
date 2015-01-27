@@ -109,6 +109,7 @@ public class QuoteForm extends JFrame {
             {"S-00549", 6, "Pza.", "Linea de vida 3570-0241 c/Amortig c/Gancho 2 3/4, estiramiento de 4 a 6''", 582.00, 0}
         };
         contentTable = new JTable(tempData, columnNames);
+        contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 16));
         contentTable.setRowHeight(25);
         contentTable.getColumnModel().getColumn(0).setPreferredWidth(40);

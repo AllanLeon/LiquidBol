@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -87,6 +86,7 @@ public class ListClientsForm extends JFrame {
             {"002", "Efrain Choque", "4182093", "CHOQUE", "Taller Coso #2", "SI", "B"}
         };
         clientsTable = new JTable(tempData, columnNames);
+        clientsTable.getTableHeader().setReorderingAllowed(false);
         clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
         clientsTable.setRowHeight(25);
         clientsTable.getColumnModel().getColumn(0).setPreferredWidth(30);

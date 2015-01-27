@@ -111,6 +111,7 @@ public class CxcForm extends JFrame {
             {002, 100.00, "05/01/2015"}
         };
         contentTable = new JTable(tempData, columnNames);
+        contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 16));
         contentTable.setRowHeight(25);
         contentTable.getColumnModel().getColumn(0).setPreferredWidth(40);

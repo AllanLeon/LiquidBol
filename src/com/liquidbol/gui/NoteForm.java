@@ -101,6 +101,7 @@ public class NoteForm extends JFrame {
             {"00119", 20, "Kg.", "Electrodo 6013 1/8", 22.8, 456}
         };
         contentTable = new JTable(tempData, columnNames);
+        contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 20));
         contentTable.setRowHeight(25);
         contentTable.getColumnModel().getColumn(0).setPreferredWidth(60);

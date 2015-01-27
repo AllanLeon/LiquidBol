@@ -1,5 +1,7 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.db.persistence.PersistenceException;
+import com.liquidbol.model.Item;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
@@ -57,6 +59,7 @@ public class ItemForm extends JFrame {
     private JButton submitBtn;
     private MouseListener ml;
     private JButton backBtn;
+    private Object[] readItData;
 
     public ItemForm(int state) {
         switch (state) {
@@ -126,9 +129,15 @@ public class ItemForm extends JFrame {
         }
 
         submitBtn = new JButton("Add");
-        submitBtn.addActionListener(new ActionListener() {
+         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                readIt();
+                try {
+                    saveIt(readItData);
+                } catch (PersistenceException | ClassNotFoundException ex) {
+                    Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 JOptionPane.showMessageDialog(null, "Item added! \n Respect+");
                 LoginForm.mm.setVisible(true);
                 dispose();
@@ -187,6 +196,28 @@ public class ItemForm extends JFrame {
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
         onMouseHover(itemPhoto);
+    }
+
+    private void readIt() {
+        String meas = ((JTextField) measureBox).getText();
+        String desc = ((JTextField) itemDesc).getText();
+        String brand = ((JTextField) itemBrand).getText();
+        String made = ((JTextField) itemMade).getText();
+        String type = ((JTextField) itemType).getText();
+        String subtype = ((JTextField) itemSubtype).getText();
+        double cost = Double.parseDouble(((JTextField) itemCost).getText());
+        double price = Double.parseDouble(((JTextField) itemPrice).getText());
+        if(1 == 0) {
+            JOptionPane.showMessageDialog(this,"MISSING!","Missing some important data input!", JOptionPane.WARNING_MESSAGE);
+        } else {
+            readItData = new Object[] {meas, desc, brand, made, type, subtype, cost, price};
+        }
+    }
+
+    private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
+        Item temp = LoginForm.comp.createItem("00523",(String)data[0],(String)data[1],(String)data[2],(String)data[3],
+                (String)data[4],(String)data[5],(double)data[6],(double)data[7]);
+        LoginForm.comp.saveItem(temp);
     }
 
     private void setStyle() {
