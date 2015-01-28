@@ -134,4 +134,45 @@ public class ClientServices {
     public void loadClientServiceBills(Client parent) throws PersistenceException, ClassNotFoundException {
         parent.setServiceBills(serviceBillCrudManager.findByClientId(parent.getId()));
     }
+    
+    public CXC mergeCXC(int id, Double debt, Double creditMaxAmount, Date creditLimitDate, String state)
+            throws PersistenceException, ClassNotFoundException {
+        CXC oldCXC = cxcCrudManager.find(id);
+        CXC newCXC = new CXC(id, debt, creditMaxAmount, creditLimitDate, state);
+        oldCXC = cxcCrudManager.merge(newCXC);
+        return oldCXC;
+    }
+    
+    public RechargeableItem mergeRechargeableItem(String id, String obs)
+            throws PersistenceException, ClassNotFoundException {
+        RechargeableItem oldItem = rechargeableItemCrudManager.find(id);
+        RechargeableItem newItem = new RechargeableItem(id, oldItem.getDescription(),
+                oldItem.getCapacity(), oldItem.getUnit(), oldItem.getType(), oldItem.getWarrantyLimitDate(), obs);
+        oldItem = rechargeableItemCrudManager.merge(newItem);
+        return oldItem;
+    }
+    
+    public ItemEstimate mergeItemEstimate(int id, Double amount, String obs)
+            throws PersistenceException, ClassNotFoundException {
+        ItemEstimate oldEstimate = itemEstimateCrudManager.find(id);
+        ItemEstimate newEstimate = new ItemEstimate(id, oldEstimate.getStore(), oldEstimate.getRequestDate(), oldEstimate.getLimitDate(), amount, obs);
+        oldEstimate = itemEstimateCrudManager.merge(newEstimate);
+        return oldEstimate;
+    }
+    
+    public ItemBill mergeItemBill(int id, Double amount, boolean billed, String obs)
+            throws PersistenceException, ClassNotFoundException {
+        ItemBill oldBill = itemBillCrudManager.find(id);
+        ItemBill newBill = new ItemBill(id, oldBill.getEmployee(), oldBill.getStore(), oldBill.getDate(), amount, billed, oldBill.isRoute(), obs);
+        oldBill = itemBillCrudManager.merge(newBill);
+        return oldBill;
+    }
+    
+    public ServiceBill mergeServiceBill(int id, Double amount, boolean billed, String obs)
+            throws PersistenceException, ClassNotFoundException {
+        ServiceBill oldBill = serviceBillCrudManager.find(id);
+        ServiceBill newBill = new ServiceBill(id, oldBill.getEmployee(), oldBill.getDate(), amount, billed, obs);
+        oldBill = serviceBillCrudManager.merge(newBill);
+        return oldBill;
+    }
 }
