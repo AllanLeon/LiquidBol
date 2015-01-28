@@ -71,11 +71,11 @@ public final class MagikarpScreen {
             Graphics2D g = splash.createGraphics();
             for (int i = 1; i < loadingText.length; i++) {
                 g.setColor(new Color(4, 52, 101));//backgroundcolor
-                g.fillRect(230, 364, 280, 12);//toCoverLastText
+                g.fillRect(236, 365, 280, 12);//toCoverLastText
                 g.setColor(Color.white);//textColor
-                g.drawString(loadingText[i - 1] + "...", 230, 374);
+                g.drawString(loadingText[i - 1] + "...", 236, 375);
                 g.setColor(Color.green); //progressBarcolor
-                g.fillRect(231, 345, (i * 407 / loadingText.length), 12); //progressBar
+                g.fillRect(231, 346, (i * 407 / loadingText.length), 12); //progressBar
                 g.setColor(new Color(4, 52, 101));
                 splash.update();
                 try {

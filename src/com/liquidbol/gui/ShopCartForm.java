@@ -102,7 +102,7 @@ public class ShopCartForm extends JFrame {
 
         itemsLbl = new JLabel("Articulos");
         String[] columnNames = {"Cod",
-            "CANT",
+            "STOCK",
             "Unidad",
             "Descripcion",
             "Precio"
