@@ -69,4 +69,18 @@ public class ServiceBillServices {
     public void loadServiceBillServiceReceptions(ServiceBill parent) throws PersistenceException, ClassNotFoundException {
         parent.setServiceReceptions(serviceReceptionCrudManager.findByServiceBillId(parent.getId()));
     }
+    
+    public BillPayment mergeServicePayment(int id, String obs) throws PersistenceException, ClassNotFoundException {
+        BillPayment oldPayment = servicePaymentCrudManager.find(id);
+        BillPayment newPayment = new BillPayment(id, oldPayment.getEmployee(), oldPayment.getPayDate(), oldPayment.getAmountPaid(), obs);
+        oldPayment = servicePaymentCrudManager.merge(newPayment);
+        return oldPayment;
+    }
+    
+    public ServiceReception mergeServiceSale(int id, Timestamp deliverTime, String obs) throws PersistenceException, ClassNotFoundException {
+        ServiceReception oldReception = serviceReceptionCrudManager.find(id);
+        ServiceReception newReception = new ServiceReception(id, oldReception.getService(), oldReception.getItem(), oldReception.getReceptionDate(), deliverTime, oldReception.getQuantity(), oldReception.getTotalAmount(), obs);
+        oldReception = serviceReceptionCrudManager.merge(newReception);
+        return oldReception;
+    }
 }

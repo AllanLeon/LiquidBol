@@ -60,4 +60,11 @@ public class SupplierServices {
     public void loadSupplierPurchases(Supplier parent) throws PersistenceException, ClassNotFoundException {
         parent.setPurchases(purchaseCrudManager.findBySupplierId(parent.getId()));
     }
+    
+    public Debt mergeDebt(int id, Double amount) throws PersistenceException, ClassNotFoundException {
+        Debt oldDebt = debtCrudManager.find(id);
+        Debt newDebt = new Debt(id, amount, oldDebt.getMaxAmount(), oldDebt.getLimitDate());
+        oldDebt = debtCrudManager.merge(newDebt);
+        return oldDebt;
+    }
 }

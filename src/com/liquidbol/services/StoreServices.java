@@ -87,4 +87,26 @@ public class StoreServices {
     public void loadStoreEmployees(Store parent) throws PersistenceException, ClassNotFoundException {
         parent.setEmployees(employeeCrudManager.findByStoreId(parent.getId()));
     }
+    
+    public Expense mergeExpense(int id, String description, String obs) throws PersistenceException, ClassNotFoundException {
+        Expense oldExpense = expenseCrudManager.find(id);
+        Expense newExpense = new Expense(id, oldExpense.getPayDate(), description, oldExpense.getAmount(), obs);
+        oldExpense = expenseCrudManager.merge(newExpense);
+        return oldExpense;
+    }
+    
+    public Inventory mergeInventory(int id, int quantity) throws PersistenceException, ClassNotFoundException {
+        Inventory oldInventory = inventoryCrudManager.find(id);
+        Inventory newInventory = new Inventory(id, oldInventory.getItem(), quantity);
+        oldInventory = inventoryCrudManager.merge(newInventory);
+        return oldInventory;
+    }
+    
+    public Employee mergeEmployee(int id, int phone, int phone2, String address,
+            String email, String password, String type) throws PersistenceException, ClassNotFoundException {
+        Employee oldEmployee = employeeCrudManager.find(id);
+        Employee newEmployee = new Employee(id, oldEmployee.getName(), oldEmployee.getLastname(), address, phone, phone2, email, oldEmployee.getRegDate(), password, type);
+        oldEmployee = employeeCrudManager.merge(newEmployee);
+        return oldEmployee;
+    }
 }

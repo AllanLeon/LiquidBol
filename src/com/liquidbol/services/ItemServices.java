@@ -44,4 +44,12 @@ public class ItemServices {
     public void loadItemDiscounts(Item parent) throws PersistenceException, ClassNotFoundException {
         parent.setDiscounts(discountCrudManager.findByItemId(parent.getId()));
     }
+    
+    public Discount mergeItemDiscount(int id, int minQuantity, Double percentage)
+            throws PersistenceException, ClassNotFoundException {
+        Discount oldDiscount = discountCrudManager.find(id);
+        Discount newDiscount = new Discount(id, minQuantity, percentage);
+        oldDiscount = discountCrudManager.merge(newDiscount);
+        return oldDiscount;
+    }
 }

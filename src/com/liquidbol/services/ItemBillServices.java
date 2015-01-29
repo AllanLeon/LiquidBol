@@ -63,4 +63,18 @@ public class ItemBillServices {
     public void loadItemBillItemSales(ItemBill parent) throws PersistenceException, ClassNotFoundException {
         parent.setItemSales(itemSaleCrudManager.findByItemBillId(parent.getId()));
     }
+    
+    public BillPayment mergeItemPayment(int id, String obs) throws PersistenceException, ClassNotFoundException {
+        BillPayment oldPayment = itemPaymentCrudManager.find(id);
+        BillPayment newPayment = new BillPayment(id, oldPayment.getEmployee(), oldPayment.getPayDate(), oldPayment.getAmountPaid(), obs);
+        oldPayment = itemPaymentCrudManager.merge(newPayment);
+        return oldPayment;
+    }
+    
+    public ItemSale mergeItemSale(int id, String obs) throws PersistenceException, ClassNotFoundException {
+        ItemSale oldSale = itemSaleCrudManager.find(id);
+        ItemSale newSale = new ItemSale(id, oldSale.getItem(), oldSale.getQuantity(), oldSale.getAmount(), obs);
+        oldSale = itemSaleCrudManager.merge(newSale);
+        return oldSale;
+    }
 }
