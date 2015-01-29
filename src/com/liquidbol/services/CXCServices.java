@@ -11,6 +11,7 @@ import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.CXC;
 import com.liquidbol.model.CXCC;
 import java.sql.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -40,5 +41,14 @@ public class CXCServices {
     
     public void loadCXCPayments(CXC parent) throws PersistenceException, ClassNotFoundException {
         parent.setCollectedReceivableAccounts(cxccCrudManager.findByCXCId(parent.getId()));
+    }
+    
+    public void loadAllCXCInfo(CXC parent) {
+        try {
+            loadCXCPayments(parent);
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -13,6 +13,7 @@ import com.liquidbol.model.Debt;
 import com.liquidbol.model.Purchase;
 import com.liquidbol.model.Supplier;
 import java.sql.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -59,5 +60,22 @@ public class SupplierServices {
     
     public void loadSupplierPurchases(Supplier parent) throws PersistenceException, ClassNotFoundException {
         parent.setPurchases(purchaseCrudManager.findBySupplierId(parent.getId()));
+    }
+    
+    public void loadAllSupplierInfo(Supplier parent) {
+        try {
+            loadSupplierDebts(parent);
+            loadSupplierPurchases(parent);
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public Debt mergeDebt(int id, Double amount) throws PersistenceException, ClassNotFoundException {
+        Debt oldDebt = debtCrudManager.find(id);
+        Debt newDebt = new Debt(id, amount, oldDebt.getMaxAmount(), oldDebt.getLimitDate());
+        oldDebt = debtCrudManager.merge(newDebt);
+        return oldDebt;
     }
 }

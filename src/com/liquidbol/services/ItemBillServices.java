@@ -15,6 +15,7 @@ import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemBill;
 import com.liquidbol.model.ItemSale;
 import java.sql.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -62,5 +63,29 @@ public class ItemBillServices {
     
     public void loadItemBillItemSales(ItemBill parent) throws PersistenceException, ClassNotFoundException {
         parent.setItemSales(itemSaleCrudManager.findByItemBillId(parent.getId()));
+    }
+    
+    public void loadAllItemBillInfo(ItemBill parent) {
+        try {
+            loadItemBillItemSales(parent);
+            loadItemBillPayments(parent);
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public BillPayment mergeItemPayment(int id, String obs) throws PersistenceException, ClassNotFoundException {
+        BillPayment oldPayment = itemPaymentCrudManager.find(id);
+        BillPayment newPayment = new BillPayment(id, oldPayment.getEmployee(), oldPayment.getPayDate(), oldPayment.getAmountPaid(), obs);
+        oldPayment = itemPaymentCrudManager.merge(newPayment);
+        return oldPayment;
+    }
+    
+    public ItemSale mergeItemSale(int id, String obs) throws PersistenceException, ClassNotFoundException {
+        ItemSale oldSale = itemSaleCrudManager.find(id);
+        ItemSale newSale = new ItemSale(id, oldSale.getItem(), oldSale.getQuantity(), oldSale.getAmount(), obs);
+        oldSale = itemSaleCrudManager.merge(newSale);
+        return oldSale;
     }
 }

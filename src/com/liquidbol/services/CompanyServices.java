@@ -52,21 +52,6 @@ public class CompanyServices {
         this.supplierCrudManager = new SupplierCrud();
         this.storeCrudManager = new StoreCrud();
         this.company = company;
-        loadCompanyInfo();
-    }
-    
-    private void loadCompanyInfo() {
-        try {
-            loadOffers();
-            loadItems();
-            loadServices();
-            loadStores();
-            loadClients();
-            loadSuppliers();
-        } catch (PersistenceException | ClassNotFoundException ex) {
-            LOG.info("Couldn't load company info");
-            LOG.log(Level.SEVERE, null, ex);
-        }
     }
     
     /**
@@ -334,5 +319,68 @@ public class CompanyServices {
      */
     public void loadStores() throws PersistenceException, ClassNotFoundException {
         company.setStores(storeCrudManager.getAll());
+    }
+    
+    public void loadAllCompanyInfo() {
+        try {
+            loadOffers();
+            loadItems();
+            loadServices();
+            loadStores();
+            loadClients();
+            loadSuppliers();
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public Client mergeClient(int id, int nit, String billName, int phone, int phone2,
+            String address, String email, String companyName, int frequency, boolean route)
+            throws PersistenceException, ClassNotFoundException {
+        Client oldClient = clientCrudManager.find(id);
+        Client newClient = new Client(id, oldClient.getName(), oldClient.getLastname(), nit, billName, address, phone, phone2, email, oldClient.getRegDate(), companyName, frequency, route);
+        oldClient = clientCrudManager.merge(newClient);
+        return oldClient;
+    }
+    
+    public Item mergeItem(String id, String brand, String industry, Double cost, Double price)
+            throws PersistenceException, ClassNotFoundException {
+        Item oldItem = itemCrudManager.find(id);
+        Item newItem = new Item(id, oldItem.getMeasure(), oldItem.getDescription(), brand, industry, oldItem.getType(), oldItem.getSubtype(), cost, price);
+        oldItem = itemCrudManager.merge(newItem);
+        return oldItem;
+    }
+    
+    public Service mergeService(String id, Double cost, Double price) throws PersistenceException, ClassNotFoundException {
+        Service oldService = serviceCrudManager.find(id);
+        Service newService = new Service(id, oldService.getDescription(), oldService.getCapacity(), oldService.getUnit(), oldService.getType(), cost, price);
+        oldService = serviceCrudManager.merge(newService);
+        return oldService;
+    }
+    
+    public Offer mergeOffer(int id, Double percentage, Date startDate, Date endDate)
+            throws PersistenceException, ClassNotFoundException {
+        Offer oldOffer = offerCrudManager.find(id);
+        Offer newOffer = new Offer(id, oldOffer.getType(), percentage, startDate, endDate);
+        oldOffer = offerCrudManager.merge(newOffer);
+        return oldOffer;
+    }
+    
+    public Supplier mergeClient(int id, int phone, int phone2, String company,
+            String address, String email, String city)
+            throws PersistenceException, ClassNotFoundException {
+        Supplier oldSupplier = supplierCrudManager.find(id);
+        Supplier newSupplier = new Supplier(id, oldSupplier.getName(), oldSupplier.getLastname(), phone, phone2, company, address, email, city, oldSupplier.getRegDate());
+        oldSupplier = supplierCrudManager.merge(newSupplier);
+        return oldSupplier;
+    }
+    
+    public Store mergeStore(int id, String name, String address, int phone)
+            throws PersistenceException, ClassNotFoundException {
+        Store oldStore = storeCrudManager.find(id);
+        Store newStore = new Store(id, name, address, phone);
+        oldStore = storeCrudManager.merge(newStore);
+        return oldStore;
     }
 }

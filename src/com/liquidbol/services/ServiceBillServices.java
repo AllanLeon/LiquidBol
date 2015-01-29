@@ -17,6 +17,7 @@ import com.liquidbol.model.ServiceBill;
 import com.liquidbol.model.ServiceReception;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -68,5 +69,30 @@ public class ServiceBillServices {
     
     public void loadServiceBillServiceReceptions(ServiceBill parent) throws PersistenceException, ClassNotFoundException {
         parent.setServiceReceptions(serviceReceptionCrudManager.findByServiceBillId(parent.getId()));
+    }
+    
+    
+    public void loadAllServiceBillInfo(ServiceBill parent) {
+        try {
+            loadServiceBillPayments(parent);
+            loadServiceBillServiceReceptions(parent);
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public BillPayment mergeServicePayment(int id, String obs) throws PersistenceException, ClassNotFoundException {
+        BillPayment oldPayment = servicePaymentCrudManager.find(id);
+        BillPayment newPayment = new BillPayment(id, oldPayment.getEmployee(), oldPayment.getPayDate(), oldPayment.getAmountPaid(), obs);
+        oldPayment = servicePaymentCrudManager.merge(newPayment);
+        return oldPayment;
+    }
+    
+    public ServiceReception mergeServiceSale(int id, Timestamp deliverTime, String obs) throws PersistenceException, ClassNotFoundException {
+        ServiceReception oldReception = serviceReceptionCrudManager.find(id);
+        ServiceReception newReception = new ServiceReception(id, oldReception.getService(), oldReception.getItem(), oldReception.getReceptionDate(), deliverTime, oldReception.getQuantity(), oldReception.getTotalAmount(), obs);
+        oldReception = serviceReceptionCrudManager.merge(newReception);
+        return oldReception;
     }
 }

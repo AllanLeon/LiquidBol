@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.db.persistence;
+package com.liquidbol.db;
 
+import com.liquidbol.db.persistence.ConnectionManager;
 import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.DriverManager;
