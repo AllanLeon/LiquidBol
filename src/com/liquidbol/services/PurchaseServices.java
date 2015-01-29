@@ -11,6 +11,7 @@ import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemPurchase;
 import com.liquidbol.model.Purchase;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -40,5 +41,14 @@ public class PurchaseServices {
     
     public void loadPurchaseItemPurchases(Purchase parent) throws PersistenceException, ClassNotFoundException {
         parent.setItemPurchases(itemPurchaseCrudManager.findByPurchaseId(parent.getId()));
+    }
+    
+    public void loadAllPurchaseInfo(Purchase parent) {
+        try {
+            loadPurchaseItemPurchases(parent);
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
     }
 }

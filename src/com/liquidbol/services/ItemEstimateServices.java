@@ -11,6 +11,7 @@ import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemEstimate;
 import com.liquidbol.model.ItemRequest;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -41,5 +42,14 @@ public class ItemEstimateServices {
     
     public void loadItemEstimateRequests(ItemEstimate parent) throws PersistenceException, ClassNotFoundException {
         parent.setRequests(itemRequestCrudManager.findByItemEstimateId(parent.getId()));
+    }
+    
+    public void loadAllItemEstimateInfo(ItemEstimate parent) {
+        try {
+            loadItemEstimateRequests(parent);
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -10,6 +10,7 @@ import com.liquidbol.db.persistence.ItemDiscountCrud;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Discount;
 import com.liquidbol.model.Item;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -43,6 +44,15 @@ public class ItemServices {
     
     public void loadItemDiscounts(Item parent) throws PersistenceException, ClassNotFoundException {
         parent.setDiscounts(discountCrudManager.findByItemId(parent.getId()));
+    }
+    
+    public void loadAllItemInfo(Item parent) {
+        try {
+            loadItemDiscounts(parent);
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
     }
     
     public Discount mergeItemDiscount(int id, int minQuantity, Double percentage)

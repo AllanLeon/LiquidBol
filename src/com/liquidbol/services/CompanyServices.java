@@ -52,21 +52,6 @@ public class CompanyServices {
         this.supplierCrudManager = new SupplierCrud();
         this.storeCrudManager = new StoreCrud();
         this.company = company;
-        loadCompanyInfo();
-    }
-    
-    private void loadCompanyInfo() {
-        try {
-            loadOffers();
-            loadItems();
-            loadServices();
-            loadStores();
-            loadClients();
-            loadSuppliers();
-        } catch (PersistenceException | ClassNotFoundException ex) {
-            LOG.info("Couldn't load company info");
-            LOG.log(Level.SEVERE, null, ex);
-        }
     }
     
     /**
@@ -334,6 +319,20 @@ public class CompanyServices {
      */
     public void loadStores() throws PersistenceException, ClassNotFoundException {
         company.setStores(storeCrudManager.getAll());
+    }
+    
+    public void loadAllCompanyInfo() {
+        try {
+            loadOffers();
+            loadItems();
+            loadServices();
+            loadStores();
+            loadClients();
+            loadSuppliers();
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
     }
     
     public Client mergeClient(int id, int nit, String billName, int phone, int phone2,

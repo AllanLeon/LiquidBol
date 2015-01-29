@@ -22,6 +22,7 @@ import com.liquidbol.model.ServiceBill;
 import com.liquidbol.model.Store;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -133,6 +134,19 @@ public class ClientServices {
     
     public void loadClientServiceBills(Client parent) throws PersistenceException, ClassNotFoundException {
         parent.setServiceBills(serviceBillCrudManager.findByClientId(parent.getId()));
+    }
+    
+    public void loadAllClientInfo(Client parent) {
+        try {
+            loadClientCXCs(parent);
+            loadClientItemBills(parent);
+            loadClientItemEstimates(parent);
+            loadClientRechargeableItems(parent);
+            loadClientServiceBills(parent);
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
     }
     
     public CXC mergeCXC(int id, Double debt, Double creditMaxAmount, Date creditLimitDate, String state)

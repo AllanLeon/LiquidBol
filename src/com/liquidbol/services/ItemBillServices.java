@@ -15,6 +15,7 @@ import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemBill;
 import com.liquidbol.model.ItemSale;
 import java.sql.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -62,6 +63,16 @@ public class ItemBillServices {
     
     public void loadItemBillItemSales(ItemBill parent) throws PersistenceException, ClassNotFoundException {
         parent.setItemSales(itemSaleCrudManager.findByItemBillId(parent.getId()));
+    }
+    
+    public void loadAllItemBillInfo(ItemBill parent) {
+        try {
+            loadItemBillItemSales(parent);
+            loadItemBillPayments(parent);
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
     }
     
     public BillPayment mergeItemPayment(int id, String obs) throws PersistenceException, ClassNotFoundException {

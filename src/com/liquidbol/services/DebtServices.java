@@ -11,6 +11,7 @@ import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Debt;
 import com.liquidbol.model.DebtPayment;
 import java.sql.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -41,5 +42,14 @@ public class DebtServices {
     
     public void loadDebtPayments(Debt parent) throws PersistenceException, ClassNotFoundException {
         parent.setPayments(debtPaymentCrudManager.findByDebtId(parent.getId()));
+    }
+    
+    public void loadAllDebtInfo(Debt parent) {
+        try {
+            loadDebtPayments(parent);
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            LOG.info("Couldn't load company info");
+            LOG.log(Level.SEVERE, null, ex);
+        }
     }
 }
