@@ -52,12 +52,12 @@ public class DatabaseLoader {
     private final ServiceBillServices serviceBillServices;
     private final StoreServices storeServices;
     private final SupplierServices supplierServices;
-    private final Company company;
+    //private final Company Company;
     
-    public DatabaseLoader(Company company) {
+    public DatabaseLoader(/*Company Company*/) {
         cxcServices = new CXCServices();
         clientServices = new ClientServices();
-        companyServices = new CompanyServices(company);
+        companyServices = new CompanyServices(/*Company*/);
         debtServices = new DebtServices();
         itemBillServices = new ItemBillServices();
         itemEstimateServices = new ItemEstimateServices();
@@ -66,21 +66,21 @@ public class DatabaseLoader {
         serviceBillServices = new ServiceBillServices();
         storeServices = new StoreServices();
         supplierServices = new SupplierServices();
-        this.company = company;
+        //this.Company = Company;
     }
     
     public void loadCompanyInfo() {
         companyServices.loadAllCompanyInfo();
-        for (Client client : company.getAllClients()) {
+        for (Client client : Company.getAllClients()) {
             loadClientInfo(client);
         }
-        for (Item item : company.getAllItems()) {
+        for (Item item : Company.getAllItems()) {
             loadItemInfo(item);
         }
-        for (Store store : company.getAllStores()) {
+        for (Store store : Company.getAllStores()) {
             loadStoreInfo(store);
         }
-        for (Supplier supplier : company.getAllSuppliers()) {
+        for (Supplier supplier : Company.getAllSuppliers()) {
             loadSupplierInfo(supplier);
         }
     }

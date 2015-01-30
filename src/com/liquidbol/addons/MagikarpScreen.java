@@ -1,5 +1,6 @@
 package com.liquidbol.addons;
 
+import com.liquidbol.db.DatabaseLoader;
 import com.liquidbol.gui.LoginForm;
 import com.liquidbol.model.Company;
 import com.liquidbol.services.CXCServices;
@@ -26,7 +27,7 @@ public final class MagikarpScreen {
     public final String[] loadingText = {"Limpiando manómetros", "Esperando a que llegue el jefe",
                             "Recargando recargas recargables", "Alistando cascos para el trabajo",
                             "Clasificando electrodos", "Alistando pan con Pepsi"};
-    private Company liquid;
+    //private Company liquid;
     public static CXCServices cxcServ;
     public static ClientServices clientServ;
     public static CompanyServices compServ;
@@ -52,10 +53,11 @@ public final class MagikarpScreen {
     public MagikarpScreen() {
         splash = SplashScreen.getSplashScreen();
         animate();
-        liquid = new Company();
+        //liquid = new Company();
+        new DatabaseLoader().loadCompanyInfo();
         cxcServ = new CXCServices();
         clientServ = new ClientServices();
-        compServ = new CompanyServices(liquid);
+        compServ = new CompanyServices(/*liquid*/);
         debtServ = new DebtServices();
         itemBillServ = new ItemBillServices();
         itemEstServ = new ItemEstimateServices();
