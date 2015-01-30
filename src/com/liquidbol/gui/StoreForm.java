@@ -47,7 +47,7 @@ public class StoreForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(550, 540);
+        setSize(550, 340);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -61,7 +61,7 @@ public class StoreForm extends JFrame {
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         idShower = new JLabel("Nº 000001");
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
-        nameLbl = new JLabel("Nombre(s)");
+        nameLbl = new JLabel("Nombre");
         storeName = new JTextField();
         addressLbl = new JLabel("Dirección");
         storeAddress = new JTextField();
@@ -94,20 +94,19 @@ public class StoreForm extends JFrame {
 
         title.setBounds(120, 30, 350, 30);
         idShower.setBounds(380, 70, 150, 30);
-        nameLbl.setBounds(40, 150, 70, 30);
-        storeName.setBounds(100, 150, 160, 30);
-        addressLbl.setBounds(40, 240, 70, 30);
-        storeAddress.setBounds(100, 240, 350, 30);
-        phoneLbl.setBounds(50, 280, 70, 30);
-        storePhone.setBounds(100, 280, 150, 30);
-        submitBtn.setBounds(440, 420, 70, 30);
-        backBtn.setBounds(50, 420, 70, 30);
+        nameLbl.setBounds(40, 110, 70, 30);
+        storeName.setBounds(100, 110, 160, 30);
+        addressLbl.setBounds(40, 150, 70, 30);
+        storeAddress.setBounds(100, 150, 350, 30);
+        phoneLbl.setBounds(50, 190, 70, 30);
+        storePhone.setBounds(100, 190, 150, 30);
+        submitBtn.setBounds(440, 240, 70, 30);
+        backBtn.setBounds(50, 240, 70, 30);
 
         contentPane.add(title);
         contentPane.add(idShower);
         contentPane.add(nameLbl);
         contentPane.add(storeName);
-        contentPane.add(routeCB);
         contentPane.add(addressLbl);
         contentPane.add(storeAddress);
         contentPane.add(phoneLbl);

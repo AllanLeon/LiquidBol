@@ -4,6 +4,7 @@ import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Company;
 import com.liquidbol.model.Employee;
+import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.model.Store;
 import java.awt.Component;
 import java.awt.Font;
@@ -112,7 +113,8 @@ public class EmployeeForm extends JFrame {
         passLbl = new JLabel("Contraseña");
         employeePass = new JTextField();
         typeLbl = new JLabel("Tipo");
-        employeeType = new JComboBox();
+        Object[] CBdata = new Object[] {"Rookie", "Midway", "Pro"};
+        employeeType = new JComboBox(CBdata);
         nameLbl = new JLabel("Nombre(s)");
         employeeName = new JTextField();
         lnameLbl = new JLabel("Apellido(s)");
@@ -225,8 +227,13 @@ public class EmployeeForm extends JFrame {
     private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
         Employee temp = MagikarpScreen.storeServ.createEmployee((int)data[0],(String)data[1],(String)data[2],(String)data[3],
                     (int)data[4],(int)data[5],(String)data[6],(String)data[7],(String)data[8]);
-        Store temp1 = MagikarpScreen.compServ.
-        MagikarpScreen.storeServ.addEmployeeToStore(temp);
+        Store temp1;
+        try {
+            temp1 = Company.findStoreById(1);
+            MagikarpScreen.storeServ.addEmployeeToStore(temp, temp1);
+        } catch (OperationFailedException ex) {
+            Logger.getLogger(EmployeeForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void setStyle() {
