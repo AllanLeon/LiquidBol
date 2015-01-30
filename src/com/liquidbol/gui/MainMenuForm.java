@@ -167,7 +167,7 @@ public class MainMenuForm extends JFrame {
         branchBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListStoreForm sf = new ListStoreForm();
+                ListStoresForm sf = new ListStoresForm();
                 dispose();
             }
         });

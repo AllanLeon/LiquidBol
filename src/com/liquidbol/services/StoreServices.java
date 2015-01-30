@@ -54,7 +54,8 @@ public class StoreServices {
         } else if (lastname.equals("")) {
             throw new IllegalArgumentException("Invalid employee lastname");
         } else {
-            Employee employee = new Employee(id, name, lastname, address, phone, phone2, email, null, password, type);
+            Employee employee = new Employee(id, name, lastname, address, phone, phone2,
+                    email, new Date(new java.util.Date().getTime()), password, type);
             return employee;
         }
     }

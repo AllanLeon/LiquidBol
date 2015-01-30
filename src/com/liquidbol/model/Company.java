@@ -151,4 +151,13 @@ public class Company implements Serializable {
         }
         throw new OperationFailedException(String.format("Item: %s not found", id));
     }
+    
+    public Store findStoreById(int id) throws OperationFailedException {
+        for (Store store : stores) {
+            if (store.getId() == id) {
+                return store;
+            }
+        }
+        throw new OperationFailedException(String.format("Store: %s not found", id));
+    }
 }

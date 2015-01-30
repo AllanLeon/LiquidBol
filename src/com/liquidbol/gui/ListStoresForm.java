@@ -19,7 +19,7 @@ import javax.swing.border.EmptyBorder;
 /**
  * @author Franco
  */
-public class ListStoreForm extends JFrame {
+public class ListStoresForm extends JFrame {
 
     private JPanel contentPane;
     private JLabel title;
@@ -27,7 +27,7 @@ public class ListStoreForm extends JFrame {
     private JButton backBtn;
     private JButton addBtn;
 
-    public ListStoreForm() {
+    public ListStoresForm() {
         setStyle();
         initComponents();
         setVisible(true);
@@ -46,10 +46,16 @@ public class ListStoreForm extends JFrame {
         contentPane.setLayout(null);
         
         title = new JLabel();
-        title.setText("NUEVA TIENDA");
+        title.setText("TIENDAS");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         addBtn = new JButton("+");
-        
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                StoreForm sf = new StoreForm(1);
+                dispose();
+            }
+        });        
         String[] columnNames = {"Id",
             "Nombre",
             "Dirección",
