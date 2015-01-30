@@ -16,134 +16,134 @@ import java.util.HashSet;
  */
 public class Company implements Serializable {
     
-    private Collection<Client> clients;
-    private Collection<Item> items;
-    private Collection<Service> services;
-    private Collection<Offer> offers;
-    private Collection<Store> stores;
-    private Collection<Supplier> suppliers;
+    private static Collection<Client> clients;
+    private static Collection<Item> items;
+    private static Collection<Service> services;
+    private static Collection<Offer> offers;
+    private static Collection<Store> stores;
+    private static Collection<Supplier> suppliers;
 
     /**
      * Constructor method.
      */
-    public Company() {
-        this.clients = new HashSet<>();
-        this.items = new HashSet<>();
-        this.services = new HashSet<>();
-        this.offers = new HashSet<>();
-        this.stores = new HashSet<>();
-        this.suppliers = new HashSet<>();
+    static {
+        clients = new HashSet<>();
+        items = new HashSet<>();
+        services = new HashSet<>();
+        offers = new HashSet<>();
+        stores = new HashSet<>();
+        suppliers = new HashSet<>();
     }
 
     /**
      * @return the clients
      */
-    public Collection<Client> getAllClients() {
+    public static Collection<Client> getAllClients() {
         return clients;
     }
 
     /**
      * @return the items
      */
-    public Collection<Item> getAllItems() {
+    public static Collection<Item> getAllItems() {
         return items;
     }
 
     /**
      * @return the services
      */
-    public Collection<Service> getAllServices() {
+    public static Collection<Service> getAllServices() {
         return services;
     }
 
     /**
      * @return the offers
      */
-    public Collection<Offer> getAllOffers() {
+    public static Collection<Offer> getAllOffers() {
         return offers;
     }
 
     /**
      * @return the stores
      */
-    public Collection<Store> getAllStores() {
+    public static Collection<Store> getAllStores() {
         return stores;
     }
 
     /**
      * @return the suppliers
      */
-    public Collection<Supplier> getAllSuppliers() {
+    public static Collection<Supplier> getAllSuppliers() {
         return suppliers;
     }
 
     /**
      * @param clients the clients to set
      */
-    public void setClients(Collection<Client> clients) {
-        this.clients = clients;
+    public static void setClients(Collection<Client> clients) {
+        Company.clients = clients;
     }
 
     /**
      * @param items the items to set
      */
-    public void setItems(Collection<Item> items) {
-        this.items = items;
+    public static void setItems(Collection<Item> items) {
+        Company.items = items;
     }
 
     /**
      * @param services the services to set
      */
-    public void setServices(Collection<Service> services) {
-        this.services = services;
+    public static void setServices(Collection<Service> services) {
+        Company.services = services;
     }
 
     /**
      * @param offers the offers to set
      */
-    public void setOffers(Collection<Offer> offers) {
-        this.offers = offers;
+    public static void setOffers(Collection<Offer> offers) {
+        Company.offers = offers;
     }
 
     /**
      * @param stores the stores to set
      */
-    public void setStores(Collection<Store> stores) {
-        this.stores = stores;
+    public static void setStores(Collection<Store> stores) {
+        Company.stores = stores;
     }
 
     /**
      * @param suppliers the suppliers to set
      */
-    public void setSuppliers(Collection<Supplier> suppliers) {
-        this.suppliers = suppliers;
+    public static void setSuppliers(Collection<Supplier> suppliers) {
+        Company.suppliers = suppliers;
     }
     
-    public void addClient(Client client) {
+    public static void addClient(Client client) {
         clients.add(client);
     }
     
-    public void addItem(Item item) {
+    public static void addItem(Item item) {
         items.add(item);
     }
     
-    public void addService(Service service) {
+    public static void addService(Service service) {
         services.add(service);
     }
     
-    public void addOffer(Offer offer) {
+    public static void addOffer(Offer offer) {
         offers.add(offer);
     }
     
-    public void addStore(Store store) {
+    public static void addStore(Store store) {
         stores.add(store);
     }
     
-    public void addSupplier(Supplier supplier) {
+    public static void addSupplier(Supplier supplier) {
         suppliers.add(supplier);
     }
     
-    public Item findItemById(String id) throws OperationFailedException {
+    public static Item findItemById(String id) throws OperationFailedException {
         for (Item item : items) {
             if (item.getId().equals(id)) {
                 return item;

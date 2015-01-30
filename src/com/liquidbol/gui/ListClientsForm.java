@@ -1,9 +1,15 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.db.DatabaseLoader;
+import com.liquidbol.gui.model.ClientTableModel;
+import com.liquidbol.model.Client;
+import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -73,7 +79,7 @@ public class ListClientsForm extends JFrame {
             Logger.getLogger(ListClientsForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        String[] columnNames = {"Cod",
+        /*String[] columnNames = {"Cod",
             "Nombre",
             "NIT",
             "Factura",
@@ -87,7 +93,7 @@ public class ListClientsForm extends JFrame {
         };
         clientsTable = new JTable(tempData, columnNames);
         clientsTable.getTableHeader().setReorderingAllowed(false);
-        clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
+        
         clientsTable.setRowHeight(25);
         clientsTable.getColumnModel().getColumn(0).setPreferredWidth(30);
         clientsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
@@ -95,7 +101,11 @@ public class ListClientsForm extends JFrame {
         clientsTable.getColumnModel().getColumn(3).setPreferredWidth(70);
         clientsTable.getColumnModel().getColumn(4).setPreferredWidth(150);
         clientsTable.getColumnModel().getColumn(5).setPreferredWidth(20);
-        clientsTable.getColumnModel().getColumn(6).setPreferredWidth(20);
+        clientsTable.getColumnModel().getColumn(6).setPreferredWidth(20);*/
+        
+        List<Client> clients = new ArrayList<>(Company.getAllClients());
+        clientsTable = new JTable(new ClientTableModel(clients));
+        //clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
         clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane clientsTableSP = new JScrollPane(clientsTable);
         backBtn = new JButton("Back");
@@ -105,7 +115,7 @@ public class ListClientsForm extends JFrame {
                 LoginForm.mm.setVisible(true);
                 dispose();
             }
-        });  
+        });
         
         title.setBounds(300, 30, 300, 30);
         addBtn.setBounds(630, 80, 100, 30);
