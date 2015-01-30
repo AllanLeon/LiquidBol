@@ -2,7 +2,6 @@ package com.liquidbol.addons;
 
 import com.liquidbol.db.DatabaseLoader;
 import com.liquidbol.gui.LoginForm;
-import com.liquidbol.model.Company;
 import com.liquidbol.services.CXCServices;
 import com.liquidbol.services.ClientServices;
 import com.liquidbol.services.CompanyServices;
