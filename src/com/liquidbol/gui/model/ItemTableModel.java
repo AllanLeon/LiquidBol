@@ -6,32 +6,32 @@
 
 package com.liquidbol.gui.model;
 
-import com.liquidbol.model.Client;
+import com.liquidbol.model.Item;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Represents a table of clients.
+ * Represents a table of items.
  * @author Allan Leon
  */
-public class ClientTableModel extends AbstractTableModel {
+public class ItemTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "NIT",
-        "Factura", "Taller/Emp.", "Ruta", "Frec."};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Unidad", "Descripcion",
+        "Marca", "Industria", "Tipo", "Subtipo", "Costo", "Precio"};
     
-    private final List<Client> clients;
+    private final List<Item> items;
 
-    public ClientTableModel(List<Client> clients) {
-        this.clients = clients;
+    public ItemTableModel(List<Item> item) {
+        this.items = item;
     }
     
     @Override
     public Class getColumnClass(int columnIndex) {
         switch (columnIndex) {
-            case 0:  case 1: case 3: case 7:
+            case 0:
                 return Integer.class;
-            case 6:
-                return Boolean.class;
+            case 8: case 9:
+                return Double.class;
             default :
                 return String.class;
         }
@@ -40,24 +40,28 @@ public class ClientTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int column) {
         
-        Client client = clients.get(row);
+        Item item = items.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return client.getId();
+                return item.getId();
             case 2:
-                return String.format("%s %s", client.getName(), client.getLastname());
+                return item.getMeasure();
             case 3:
-                return client.getNit();
+                return item.getDescription();
             case 4:
-                return client.getBillName();
+                return item.getBrand();
             case 5:
-                return client.getCompanyName();
+                return item.getIndustry();
             case 6:
-                return client.isRoute();
+                return item.getType();
             case 7:
-                return client.getFrequency();
+                return item.getSubtype();
+            case 8:
+                return item.getCost();
+            case 9:
+                return item.getPrice();
             default:
                 return null;
                 
@@ -76,6 +80,6 @@ public class ClientTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return clients.size();
+        return items.size();
     }
 }

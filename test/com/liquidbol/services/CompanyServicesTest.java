@@ -26,7 +26,7 @@ public class CompanyServicesTest {
     @Before
     public void setUp() {
         company = new Company();
-        companyServices = new CompanyServices(company);
+        //companyServices = new CompanyServices(company);
     }
 
     /**
