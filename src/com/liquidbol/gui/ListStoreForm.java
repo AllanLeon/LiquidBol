@@ -1,8 +1,13 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.gui.model.StoreTableModel;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.Store;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -50,7 +55,7 @@ public class ListStoreForm extends JFrame {
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         addBtn = new JButton("+");
         
-        String[] columnNames = {"Id",
+        /*String[] columnNames = {"Id",
             "Nombre",
             "Dirección",
             "Telefono"
@@ -67,7 +72,9 @@ public class ListStoreForm extends JFrame {
         storeTable.getColumnModel().getColumn(1).setPreferredWidth(60);
         storeTable.getColumnModel().getColumn(2).setPreferredWidth(250);
         storeTable.getColumnModel().getColumn(3).setPreferredWidth(80);
-        storeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        storeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
+        List<Store> stores = new ArrayList<>(Company.getAllStores());
+        storeTable = new JTable(new StoreTableModel(stores));
         JScrollPane storeTableSP = new JScrollPane(storeTable);
         
         backBtn = new JButton("Back");

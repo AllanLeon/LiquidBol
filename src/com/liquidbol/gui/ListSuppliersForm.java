@@ -1,9 +1,14 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.gui.model.SupplierTableModel;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.Supplier;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -32,7 +37,7 @@ public class ListSuppliersForm extends JFrame {
     private JComboBox searchCB;
     private JTextField searchBox;
     private JButton searchBtn;
-    private JTable clientsTable;
+    private JTable suppliersTable;
     private JButton backBtn;
 
     public ListSuppliersForm() {
@@ -73,7 +78,7 @@ public class ListSuppliersForm extends JFrame {
             Logger.getLogger(ListSuppliersForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        String[] columnNames = {"Id",
+        /*String[] columnNames = {"Id",
             "Nombre",
             "Compañia"
         };
@@ -81,15 +86,17 @@ public class ListSuppliersForm extends JFrame {
             {"PR-001", "Remberto Flores", "Esa empresa"},
             {"PR-002", "Jose Jose", "La otra"}
         };
-        clientsTable = new JTable(tempData, columnNames);
-        clientsTable.getTableHeader().setReorderingAllowed(false);
-        clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientsTable.setRowHeight(25);
-        clientsTable.getColumnModel().getColumn(0).setPreferredWidth(50);
-        clientsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
-        clientsTable.getColumnModel().getColumn(2).setPreferredWidth(100);
-        clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        JScrollPane clientsTableSP = new JScrollPane(clientsTable);
+        suppliersTable = new JTable(tempData, columnNames);
+        suppliersTable.getTableHeader().setReorderingAllowed(false);
+        suppliersTable.setFont(new Font("Arial", Font.PLAIN, 20));
+        suppliersTable.setRowHeight(25);
+        suppliersTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+        suppliersTable.getColumnModel().getColumn(1).setPreferredWidth(150);
+        suppliersTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+        suppliersTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
+        List<Supplier> suppliers = new ArrayList<>(Company.getAllSuppliers());
+        suppliersTable = new JTable(new SupplierTableModel(suppliers));
+        JScrollPane clientsTableSP = new JScrollPane(suppliersTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override

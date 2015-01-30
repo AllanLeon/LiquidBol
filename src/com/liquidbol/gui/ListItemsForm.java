@@ -1,9 +1,14 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.gui.model.ItemTableModel;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.Item;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -73,7 +78,7 @@ public class ListItemsForm extends JFrame {
             Logger.getLogger(ListItemsForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        String[] columnNames = {"Cod",
+        /*String[] columnNames = {"Cod",
             "Unidad",
             "Descripcion",
             "Marca",
@@ -100,7 +105,9 @@ public class ListItemsForm extends JFrame {
         itemsTable.getColumnModel().getColumn(6).setPreferredWidth(50);
         itemsTable.getColumnModel().getColumn(7).setPreferredWidth(50);
         itemsTable.getColumnModel().getColumn(8).setPreferredWidth(50);
-        itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
+        List<Item> items = new ArrayList<>(Company.getAllItems());
+        itemsTable = new JTable(new ItemTableModel(items));
         JScrollPane itemsTableSP = new JScrollPane(itemsTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
