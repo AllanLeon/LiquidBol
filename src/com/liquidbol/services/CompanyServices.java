@@ -38,20 +38,20 @@ public class CompanyServices {
     private final OfferCrud offerCrudManager;
     private final SupplierCrud supplierCrudManager;
     private final StoreCrud storeCrudManager;
-    private final Company company;
+    //private final Company Company;
     
     /**
      * Constructor method.
-     * @param company
+     * @param Company
      */
-    public CompanyServices(Company company) {
+    public CompanyServices(/*Company Company*/) {
         this.clientCrudManager = new ClientCrud();
         this.itemCrudManager = new ItemCrud();
         this.serviceCrudManager = new ServiceCrud();
         this.offerCrudManager = new OfferCrud();
         this.supplierCrudManager = new SupplierCrud();
         this.storeCrudManager = new StoreCrud();
-        this.company = company;
+        //this.Company = Company;
     }
     
     /**
@@ -65,18 +65,18 @@ public class CompanyServices {
      * @param phone
      * @param phone2
      * @param email
-     * @param companyName
+     * @param CompanyName
      * @param route
      * @return the created client
      */
     public Client createClient(int id, String name, String lastname, int nit,
             String billName, String address, int phone, int phone2, String email,
-            String companyName, boolean route) {
+            String CompanyName, boolean route) {
         if (name.equals("")) {
             throw new IllegalArgumentException("Invalid client name");
         } else {
             Client client = new Client(id, name, lastname, nit, billName, address,
-                    phone, phone2, email, new Date(new java.util.Date().getTime()), companyName, phone2, route);
+                    phone, phone2, email, new Date(new java.util.Date().getTime()), CompanyName, phone2, route);
             return client;
         }
     }
@@ -155,19 +155,19 @@ public class CompanyServices {
      * @param lastname
      * @param phone
      * @param phone2
-     * @param company
+     * @param Company
      * @param address
      * @param email
      * @param city
      * @return the created supplier
      */
     public Supplier createSupplier(int id, String name, String lastname, int phone,
-            int phone2, String company, String address, String email, String city) {
+            int phone2, String Company, String address, String email, String city) {
         if (name.equals("")) {
             throw new IllegalArgumentException("Invalid supplier name");
         } else {
             Supplier supplier = new Supplier(id, name, lastname, phone, phone2,
-                    company, address, email, city, new Date(new java.util.Date().getTime()));
+                    Company, address, email, city, new Date(new java.util.Date().getTime()));
             return supplier;
         }
     }
@@ -190,7 +190,7 @@ public class CompanyServices {
     }
     
     /**
-     * Saves and adds a client to the company.
+     * Saves and adds a client to the Company.
      * @param client
      * @return
      * @throws PersistenceException
@@ -198,12 +198,12 @@ public class CompanyServices {
      */
     public Client saveClient(Client client) throws PersistenceException, ClassNotFoundException {
         client = clientCrudManager.save(client);
-        company.addClient(client);
+        Company.addClient(client);
         return client;
     }
     
     /**
-     * Saves and adds an item to the company.
+     * Saves and adds an item to the Company.
      * @param item to be saved
      * @return the saved item
      * @throws PersistenceException
@@ -211,12 +211,12 @@ public class CompanyServices {
      */
     public Item saveItem(Item item) throws PersistenceException, ClassNotFoundException {
         item = itemCrudManager.save(item);
-        company.addItem(item);
+        Company.addItem(item);
         return item;
     }
     
     /**
-     * Saves and adds a service to the company.
+     * Saves and adds a service to the Company.
      * @param service
      * @return
      * @throws PersistenceException
@@ -224,12 +224,12 @@ public class CompanyServices {
      */
     public Service saveService(Service service) throws PersistenceException, ClassNotFoundException {
         service = serviceCrudManager.save(service);
-        company.addService(service);
+        Company.addService(service);
         return service;
     }
     
     /**
-     * Saves and adds an offer to the company.
+     * Saves and adds an offer to the Company.
      * @param offer
      * @return
      * @throws PersistenceException
@@ -237,12 +237,12 @@ public class CompanyServices {
      */
     public Offer saveOffer(Offer offer) throws PersistenceException, ClassNotFoundException {
         offer = offerCrudManager.save(offer);
-        company.addOffer(offer);
+        Company.addOffer(offer);
         return offer;
     }
     
     /**
-     * Saves and adds a supplier to the company.
+     * Saves and adds a supplier to the Company.
      * @param supplier
      * @return
      * @throws PersistenceException
@@ -250,12 +250,12 @@ public class CompanyServices {
      */
     public Supplier saveSupplier(Supplier supplier) throws PersistenceException, ClassNotFoundException {
         supplier = supplierCrudManager.save(supplier);
-        company.addSupplier(supplier);
+        Company.addSupplier(supplier);
         return supplier;
     }
     
     /**
-     * Saves and adds a store to the company.
+     * Saves and adds a store to the Company.
      * @param store
      * @return
      * @throws PersistenceException
@@ -263,62 +263,63 @@ public class CompanyServices {
      */
     public Store saveStore(Store store) throws PersistenceException, ClassNotFoundException {
         store = storeCrudManager.save(store);
-        company.addStore(store);
+        Company.addStore(store);
         return store;
     }
     
     /**
-     * Loads and adds the persisted clients to the company.
+     * Loads and adds the persisted clients to the Company.
      * @throws PersistenceException
      * @throws ClassNotFoundException 
      */
     public void loadClients() throws PersistenceException, ClassNotFoundException {
-        company.setClients(clientCrudManager.getAll());
+        Company.setClients(clientCrudManager.getAll());
+        LOG.info(String.format("%d clients loaded", Company.getAllClients().size()));
     }
     
     /**
-     * Loads and adds the persisted items to the company.
+     * Loads and adds the persisted items to the Company.
      * @throws PersistenceException
      * @throws ClassNotFoundException 
      */
     public void loadItems() throws PersistenceException, ClassNotFoundException {
-        company.setItems(itemCrudManager.getAll());
+        Company.setItems(itemCrudManager.getAll());
     }
     
     /**
-     * Loads and adds the persisted services to the company.
+     * Loads and adds the persisted services to the Company.
      * @throws PersistenceException
      * @throws ClassNotFoundException 
      */
     public void loadServices() throws PersistenceException, ClassNotFoundException {
-        company.setServices(serviceCrudManager.getAll());
+        Company.setServices(serviceCrudManager.getAll());
     }
     
     /**
-     * Loads and adds the persisted offers to the company.
+     * Loads and adds the persisted offers to the Company.
      * @throws PersistenceException
      * @throws ClassNotFoundException 
      */
     public void loadOffers() throws PersistenceException, ClassNotFoundException {
-        company.setOffers(offerCrudManager.getAll());
+        Company.setOffers(offerCrudManager.getAll());
     }
     
     /**
-     * Loads and adds the persisted suppliers to the company.
+     * Loads and adds the persisted suppliers to the Company.
      * @throws PersistenceException
      * @throws ClassNotFoundException 
      */
     public void loadSuppliers() throws PersistenceException, ClassNotFoundException {
-        company.setSuppliers(supplierCrudManager.getAll());
+        Company.setSuppliers(supplierCrudManager.getAll());
     }
     
     /**
-     * Loads and adds the persisted stores to the company.
+     * Loads and adds the persisted stores to the Company.
      * @throws PersistenceException
      * @throws ClassNotFoundException 
      */
     public void loadStores() throws PersistenceException, ClassNotFoundException {
-        company.setStores(storeCrudManager.getAll());
+        Company.setStores(storeCrudManager.getAll());
     }
     
     public void loadAllCompanyInfo() {
@@ -330,16 +331,16 @@ public class CompanyServices {
             loadClients();
             loadSuppliers();
         } catch (PersistenceException | ClassNotFoundException ex) {
-            LOG.info("Couldn't load company info");
+            LOG.info("Couldn't load Company info");
             LOG.log(Level.SEVERE, null, ex);
         }
     }
     
     public Client mergeClient(int id, int nit, String billName, int phone, int phone2,
-            String address, String email, String companyName, int frequency, boolean route)
+            String address, String email, String CompanyName, int frequency, boolean route)
             throws PersistenceException, ClassNotFoundException {
         Client oldClient = clientCrudManager.find(id);
-        Client newClient = new Client(id, oldClient.getName(), oldClient.getLastname(), nit, billName, address, phone, phone2, email, oldClient.getRegDate(), companyName, frequency, route);
+        Client newClient = new Client(id, oldClient.getName(), oldClient.getLastname(), nit, billName, address, phone, phone2, email, oldClient.getRegDate(), CompanyName, frequency, route);
         oldClient = clientCrudManager.merge(newClient);
         return oldClient;
     }
@@ -367,11 +368,11 @@ public class CompanyServices {
         return oldOffer;
     }
     
-    public Supplier mergeClient(int id, int phone, int phone2, String company,
+    public Supplier mergeClient(int id, int phone, int phone2, String Company,
             String address, String email, String city)
             throws PersistenceException, ClassNotFoundException {
         Supplier oldSupplier = supplierCrudManager.find(id);
-        Supplier newSupplier = new Supplier(id, oldSupplier.getName(), oldSupplier.getLastname(), phone, phone2, company, address, email, city, oldSupplier.getRegDate());
+        Supplier newSupplier = new Supplier(id, oldSupplier.getName(), oldSupplier.getLastname(), phone, phone2, Company, address, email, city, oldSupplier.getRegDate());
         oldSupplier = supplierCrudManager.merge(newSupplier);
         return oldSupplier;
     }
