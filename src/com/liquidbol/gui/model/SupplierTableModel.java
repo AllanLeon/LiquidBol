@@ -6,32 +6,29 @@
 
 package com.liquidbol.gui.model;
 
-import com.liquidbol.model.Client;
+import com.liquidbol.model.Supplier;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Represents a table of clients.
+ * Represents a table of suppliers.
  * @author Allan Leon
  */
-public class ClientTableModel extends AbstractTableModel {
+public class SupplierTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "NIT",
-        "Factura", "Taller/Emp.", "Ruta", "Frec."};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Compañia"};
     
-    private final List<Client> clients;
+    private final List<Supplier> suppliers;
 
-    public ClientTableModel(List<Client> clients) {
-        this.clients = clients;
+    public SupplierTableModel(List<Supplier> suppliers) {
+        this.suppliers = suppliers;
     }
     
     @Override
     public Class getColumnClass(int columnIndex) {
         switch (columnIndex) {
-            case 0:  case 1: case 3: case 7:
+            case 0:  case 1:
                 return Integer.class;
-            case 6:
-                return Boolean.class;
             default :
                 return String.class;
         }
@@ -40,24 +37,16 @@ public class ClientTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int column) {
         
-        Client client = clients.get(row);
+        Supplier supplier = suppliers.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return client.getId();
+                return supplier.getId();
             case 2:
-                return String.format("%s %s", client.getName(), client.getLastname());
+                return String.format("%s %s", supplier.getName(), supplier.getLastname());
             case 3:
-                return client.getNit();
-            case 4:
-                return client.getBillName();
-            case 5:
-                return client.getCompanyName();
-            case 6:
-                return client.isRoute();
-            case 7:
-                return client.getFrequency();
+                return supplier.getCompany();
             default:
                 return null;
                 
@@ -76,6 +65,7 @@ public class ClientTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return clients.size();
+        return suppliers.size();
     }
+    
 }
