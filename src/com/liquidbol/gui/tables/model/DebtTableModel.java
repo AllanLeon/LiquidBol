@@ -6,35 +6,35 @@
 
 package com.liquidbol.gui.tables.model;
 
-import com.liquidbol.model.CXC;
-import com.liquidbol.model.Client;
+import com.liquidbol.model.Debt;
+import com.liquidbol.model.Supplier;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Represents a table of CXCs.
+ * Represents a table of debts.
  * @author Allan Leon
  */
-public class CXCTableModel extends AbstractTableModel {
+public class DebtTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Saldo", "Credito", "Fecha Limite"};
     
-    private final List<Client> clients;
-    private final List<CXC> receivableAccounts;
+    private final List<Supplier> suppliers;
+    private final List<Debt> debts;
 
-    public CXCTableModel(List<Client> clients) {
-        this.clients = new ArrayList<>();
-        receivableAccounts = new ArrayList<>();
-        initializeValidCXCLists(clients);
+    public DebtTableModel(List<Supplier> suppliers) {
+        this.suppliers = new ArrayList<>();
+        debts = new ArrayList<>();
+        initializeValidDebtLists(suppliers);
     }
     
-    private void initializeValidCXCLists(List<Client> clients) {
-        for (Client client : clients) {
-            for (CXC cxc : client.getValidReceivableAccounts()) {
-                this.clients.add(client);
-                receivableAccounts.add(cxc);
+    private void initializeValidDebtLists(List<Supplier> suppliers) {
+        for (Supplier supplier : suppliers) {
+            for (Debt debt : supplier.getValidDebts()) {
+                this.suppliers.add(supplier);
+                debts.add(debt);
             }
         }
     }
@@ -56,21 +56,21 @@ public class CXCTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int column) {
         
-        Client client = clients.get(row);
-        CXC cxc = receivableAccounts.get(row);
+        Supplier supplier = suppliers.get(row);
+        Debt debt = debts.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return cxc.getId();
+                return debt.getId();
             case 2:
-                return String.format("%s %s", client.getName(), client.getLastname());
+                return String.format("%s %s", supplier.getName(), supplier.getLastname());
             case 3:
-                return cxc.getDebt();
+                return debt.getAmount();
             case 4:
-                return cxc.getCreditMaxAmount();
+                return debt.getMaxAmount();
             case 5:
-                return cxc.getCreditLimitDate();
+                return debt.getLimitDate();
             default:
                 return null;
                 
@@ -89,6 +89,6 @@ public class CXCTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return receivableAccounts.size();
+        return debts.size();
     }
 }

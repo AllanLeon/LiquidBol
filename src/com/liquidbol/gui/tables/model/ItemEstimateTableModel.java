@@ -35,7 +35,7 @@ public class ItemEstimateTableModel extends AbstractTableModel {
     private void initializeLists(List<Client> clients) {
         for (Client client : clients) {
             for (ItemEstimate estimate : client.getAllItemEstimates()) {
-                clients.add(client);
+                this.clients.add(client);
                 itemEstimates.add(estimate);
             }
         }
@@ -95,6 +95,6 @@ public class ItemEstimateTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return clients.size();
+        return itemEstimates.size();
     }
 }
