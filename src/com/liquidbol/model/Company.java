@@ -160,4 +160,20 @@ public class Company implements Serializable {
         }
         throw new OperationFailedException(String.format("Store: %s not found", id));
     }
+    
+    public static Collection<Employee> getAllEmployees() {
+        Collection<Employee> result = new HashSet<>();
+        for (Store store : stores) {
+            result.addAll(store.getAllEmployees());
+        }
+        return result;
+    }
+    
+    public static Collection<Purchase> getAllPurchases() {
+        Collection<Purchase> result = new HashSet<>();
+        for (Supplier supplier : suppliers) {
+            result.addAll(supplier.getAllPurchases());
+        }
+        return result;
+    }
 }

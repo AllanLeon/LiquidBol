@@ -1,9 +1,14 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.gui.tables.model.EmployeeTableModel;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.Employee;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -73,7 +78,7 @@ public class ListEmployeesForm extends JFrame {
             Logger.getLogger(ListEmployeesForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        String[] columnNames = {"C.I.",
+        /*String[] columnNames = {"C.I.",
             "Nombre",
             "Telf/Celular 1"
         };
@@ -88,7 +93,9 @@ public class ListEmployeesForm extends JFrame {
         employeesTable.getColumnModel().getColumn(0).setPreferredWidth(70);
         employeesTable.getColumnModel().getColumn(1).setPreferredWidth(130);
         employeesTable.getColumnModel().getColumn(2).setPreferredWidth(70);
-        employeesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        employeesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
+        List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
+        employeesTable = new JTable(new EmployeeTableModel(employees));
         JScrollPane employeesTableSP = new JScrollPane(employeesTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {

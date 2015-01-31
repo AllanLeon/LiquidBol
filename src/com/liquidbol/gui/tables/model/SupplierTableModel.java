@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.gui.model;
+package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Supplier;
 import java.util.List;
