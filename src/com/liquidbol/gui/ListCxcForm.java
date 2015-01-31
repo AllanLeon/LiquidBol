@@ -1,9 +1,14 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.gui.model.CXCTableModel;
+import com.liquidbol.model.Client;
+import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -73,7 +78,7 @@ public class ListCxcForm extends JFrame {
             Logger.getLogger(ListCxcForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        String[] columnNames = {"Cod",
+        /*String[] columnNames = {"Cod",
             "Nombre",
             "Saldo",
             "Credito Limite",
@@ -92,7 +97,9 @@ public class ListCxcForm extends JFrame {
         clientsTable.getColumnModel().getColumn(2).setPreferredWidth(40);
         clientsTable.getColumnModel().getColumn(3).setPreferredWidth(30);
         clientsTable.getColumnModel().getColumn(4).setPreferredWidth(90);
-        clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
+        List<Client> clients = new ArrayList<>(Company.getAllClients());
+        clientsTable = new JTable(new CXCTableModel(clients));
         JScrollPane cxcsTableSP = new JScrollPane(clientsTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {

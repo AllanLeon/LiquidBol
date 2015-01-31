@@ -1,6 +1,5 @@
 package com.liquidbol.gui;
 
-import com.liquidbol.db.DatabaseLoader;
 import com.liquidbol.gui.model.ClientTableModel;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
@@ -92,8 +91,15 @@ public class ListClientsForm extends JFrame {
             {"002", "Efrain Choque", "4182093", "CHOQUE", "Taller Coso #2", "SI", "B"}
         };
         clientsTable = new JTable(tempData, columnNames);
-        clientsTable.getTableHeader().setReorderingAllowed(false);
         
+        
+        */
+        
+        List<Client> clients = new ArrayList<>(Company.getAllClients());
+        clientsTable = new JTable(new ClientTableModel(clients));
+        clientsTable.getTableHeader().setReorderingAllowed(false);
+        /*clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
         clientsTable.setRowHeight(25);
         clientsTable.getColumnModel().getColumn(0).setPreferredWidth(30);
         clientsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
@@ -102,11 +108,6 @@ public class ListClientsForm extends JFrame {
         clientsTable.getColumnModel().getColumn(4).setPreferredWidth(150);
         clientsTable.getColumnModel().getColumn(5).setPreferredWidth(20);
         clientsTable.getColumnModel().getColumn(6).setPreferredWidth(20);*/
-        
-        List<Client> clients = new ArrayList<>(Company.getAllClients());
-        clientsTable = new JTable(new ClientTableModel(clients));
-        //clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane clientsTableSP = new JScrollPane(clientsTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {

@@ -20,13 +20,13 @@ import static org.junit.Assert.*;
  */
 public class CompanyServicesTest {
     
-    private Company company;
+    //private Company Company;
     private CompanyServices companyServices;
     
     @Before
     public void setUp() {
-        company = new Company();
-        companyServices = new CompanyServices(company);
+        //Company = new Company();
+        companyServices = new CompanyServices(/*Company*/);
     }
 
     /**
@@ -56,7 +56,7 @@ public class CompanyServicesTest {
         Item item = createTestItem();
         companyServices.saveItem(item);
         Item expResult = item;
-        Item result = company.findItemById(item.getId());
+        Item result = Company.findItemById(item.getId());
         assertEquals(expResult, result);
     }
     
@@ -79,7 +79,7 @@ public class CompanyServicesTest {
     public void testLoadItems() throws Exception {
         companyServices.loadItems();
         int expResult = 1;
-        int result = company.getAllItems().size();
+        int result = Company.getAllItems().size();
         assertEquals(expResult, result);
     }
     
@@ -107,10 +107,10 @@ public class CompanyServicesTest {
         int phone2 = 789;
         String email = "chilli@con.carne";
         Date regDate = new Date(new java.util.Date().getTime());
-        String companyName = "Djoghurt";
+        String CompanyName = "Djoghurt";
         int frequency = 0;
         boolean route = true;
-        Client client = new Client(id, name, lastname, nit, billName, address, phone, phone2, email, regDate, companyName, frequency, route);
+        Client client = new Client(id, name, lastname, nit, billName, address, phone, phone2, email, regDate, CompanyName, frequency, route);
         return client;
     }
 }

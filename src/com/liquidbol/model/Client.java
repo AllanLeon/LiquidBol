@@ -141,7 +141,7 @@ public class Client extends Person implements Serializable {
         Set<CXC> result = new HashSet<>();
         Date today = new Date(new java.util.Date().getTime());
         for (CXC cxc : receivableAccounts) {
-            if (cxc.getCreditLimitDate().compareTo(today) < 0 && cxc.getDebt() > 0) {
+            if (/*cxc.getCreditLimitDate().compareTo(today) < 0 && */cxc.getDebt() > 0) {
                 result.add(cxc);
             }
         }
