@@ -34,7 +34,7 @@ public class RechargeableItemTableModel extends AbstractTableModel {
     private void initializeLists(List<Client> clients) {
         for (Client client : clients) {
             for (RechargeableItem rechargeableItem : client.getAllRechargeableItems()) {
-                clients.add(client);
+                this.clients.add(client);
                 rechargeableItems.add(rechargeableItem);
             }
         }
@@ -88,6 +88,6 @@ public class RechargeableItemTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return clients.size();
+        return rechargeableItems.size();
     }
 }
