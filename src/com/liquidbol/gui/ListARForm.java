@@ -1,6 +1,6 @@
 package com.liquidbol.gui;
 
-import com.liquidbol.gui.model.RechargeableItemTableModel;
+import com.liquidbol.gui.tables.model.RechargeableItemTableModel;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
 import java.awt.Font;

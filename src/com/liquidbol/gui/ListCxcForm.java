@@ -1,6 +1,6 @@
 package com.liquidbol.gui;
 
-import com.liquidbol.gui.model.CXCTableModel;
+import com.liquidbol.gui.tables.model.CXCTableModel;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
 import java.awt.Font;

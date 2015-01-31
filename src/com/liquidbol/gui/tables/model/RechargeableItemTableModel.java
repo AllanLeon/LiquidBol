@@ -4,37 +4,38 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.gui.model;
+package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.CXC;
 import com.liquidbol.model.Client;
+import com.liquidbol.model.RechargeableItem;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Represents a table of CXCs.
+ * Represents a table of rechargeable items.
  * @author Allan Leon
  */
-public class CXCTableModel extends AbstractTableModel {
+public class RechargeableItemTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Saldo", "Credito", "Fecha Limite"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cliente", "Descripcion", "Fecha garantia", "Observaciones"};
     
     private final List<Client> clients;
-    private final List<CXC> receivableAccounts;
+    private final List<RechargeableItem> rechargeableItems;
 
-    public CXCTableModel(List<Client> clients) {
+    public RechargeableItemTableModel(List<Client> clients) {
         this.clients = new ArrayList<>();
-        receivableAccounts = new ArrayList<>();
-        initializeValidCXCLists(clients);
+        rechargeableItems = new ArrayList<>();
+        initializeLists(clients);
     }
     
-    private void initializeValidCXCLists(List<Client> clients) {
+    private void initializeLists(List<Client> clients) {
         for (Client client : clients) {
-            for (CXC cxc : client.getValidReceivableAccounts()) {
+            for (RechargeableItem rechargeableItem : client.getAllRechargeableItems()) {
                 clients.add(client);
-                receivableAccounts.add(cxc);
+                rechargeableItems.add(rechargeableItem);
             }
         }
     }
@@ -42,11 +43,9 @@ public class CXCTableModel extends AbstractTableModel {
     @Override
     public Class getColumnClass(int columnIndex) {
         switch (columnIndex) {
-            case 0:  case 1:
+            case 0:
                 return Integer.class;
-            case 3: case 4:
-                return Double.class;
-            case 5:
+            case 4:
                 return Date.class;
             default :
                 return String.class;
@@ -57,20 +56,20 @@ public class CXCTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int column) {
         
         Client client = clients.get(row);
-        CXC cxc = receivableAccounts.get(row);
+        RechargeableItem rechargeableItem = rechargeableItems.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return cxc.getId();
+                return rechargeableItem.getId();
             case 2:
                 return String.format("%s %s", client.getName(), client.getLastname());
             case 3:
-                return cxc.getDebt();
+                return rechargeableItem.getDescription();
             case 4:
-                return cxc.getCreditMaxAmount();
+                return rechargeableItem.getWarrantyLimitDate();
             case 5:
-                return cxc.getCreditLimitDate();
+                return rechargeableItem.getObs();
             default:
                 return null;
                 

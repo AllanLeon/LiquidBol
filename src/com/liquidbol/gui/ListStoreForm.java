@@ -1,6 +1,6 @@
 package com.liquidbol.gui;
 
-import com.liquidbol.gui.model.StoreTableModel;
+import com.liquidbol.gui.tables.model.StoreTableModel;
 import com.liquidbol.model.Company;
 import com.liquidbol.model.Store;
 import java.awt.Font;

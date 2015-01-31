@@ -4,30 +4,30 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.gui.model;
+package com.liquidbol.gui.tables.model;
 
-import com.liquidbol.model.Employee;
+import com.liquidbol.model.Supplier;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Represents a table of employees.
+ * Represents a table of suppliers.
  * @author Allan Leon
  */
-public class EmployeeTableModel extends AbstractTableModel {
+public class SupplierTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod./C.I.", "Nombre", "Telefono"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Compañia"};
     
-    private final List<Employee> employees;
+    private final List<Supplier> suppliers;
 
-    public EmployeeTableModel(List<Employee> employees) {
-        this.employees = employees;
+    public SupplierTableModel(List<Supplier> suppliers) {
+        this.suppliers = suppliers;
     }
     
     @Override
     public Class getColumnClass(int columnIndex) {
         switch (columnIndex) {
-            case 0:  case 1: case 3:
+            case 0:  case 1:
                 return Integer.class;
             default :
                 return String.class;
@@ -36,16 +36,17 @@ public class EmployeeTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        Employee employee = employees.get(row);
+        
+        Supplier supplier = suppliers.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return employee.getId();
+                return supplier.getId();
             case 2:
-                return String.format("%s %s", employee.getName(), employee.getLastname());
+                return String.format("%s %s", supplier.getName(), supplier.getLastname());
             case 3:
-                return employee.getPhone();
+                return supplier.getCompany();
             default:
                 return null;
                 
@@ -64,6 +65,7 @@ public class EmployeeTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return employees.size();
+        return suppliers.size();
     }
+    
 }

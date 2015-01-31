@@ -4,30 +4,30 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.gui.model;
+package com.liquidbol.gui.tables.model;
 
-import com.liquidbol.model.Store;
+import com.liquidbol.model.Employee;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Represents a table of stores.
+ * Represents a table of employees.
  * @author Allan Leon
  */
-public class StoreTableModel extends AbstractTableModel {
+public class EmployeeTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Direccion", "Telefono"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod./C.I.", "Nombre", "Telefono"};
     
-    private final List<Store> stores;
+    private final List<Employee> employees;
 
-    public StoreTableModel(List<Store> stores) {
-        this.stores = stores;
+    public EmployeeTableModel(List<Employee> employees) {
+        this.employees = employees;
     }
     
     @Override
     public Class getColumnClass(int columnIndex) {
         switch (columnIndex) {
-            case 0:  case 1: case 4:
+            case 0:  case 1: case 3:
                 return Integer.class;
             default :
                 return String.class;
@@ -36,19 +36,16 @@ public class StoreTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
-        Store store = stores.get(row);
+        Employee employee = employees.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return store.getId();
+                return employee.getId();
             case 2:
-                return store.getName();
+                return String.format("%s %s", employee.getName(), employee.getLastname());
             case 3:
-                return store.getAddress();
-            case 4:
-                return store.getPhone();
+                return employee.getPhone();
             default:
                 return null;
                 
@@ -67,7 +64,6 @@ public class StoreTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return stores.size();
+        return employees.size();
     }
-    
 }

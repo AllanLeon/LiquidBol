@@ -4,44 +4,30 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.gui.model;
+package com.liquidbol.gui.tables.model;
 
-import com.liquidbol.model.Inventory;
 import com.liquidbol.model.Store;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Represents a table of inventory.
+ * Represents a table of stores.
  * @author Allan Leon
  */
-public class InventoryTableModel extends AbstractTableModel {
+public class StoreTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cantidad", "Articulo", "Tienda"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Direccion", "Telefono"};
     
     private final List<Store> stores;
-    private final List<Inventory> inventorys;
 
-    public InventoryTableModel(List<Store> stores) {
-        this.stores = new ArrayList<>();
-        inventorys = new ArrayList<>();
-        initializeLists(stores);
-    }
-    
-    private void initializeLists(List<Store> stores) {
-        for (Store store : stores) {
-            for (Inventory inventory : store.getAllInventorys()) {
-                this.stores.add(store);
-                inventorys.add(inventory);
-            }
-        }
+    public StoreTableModel(List<Store> stores) {
+        this.stores = stores;
     }
     
     @Override
     public Class getColumnClass(int columnIndex) {
         switch (columnIndex) {
-            case 0:  case 1:
+            case 0:  case 1: case 4:
                 return Integer.class;
             default :
                 return String.class;
@@ -50,17 +36,19 @@ public class InventoryTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
+        
         Store store = stores.get(row);
-        Inventory inventory = inventorys.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return inventory.getQuantity();
+                return store.getId();
             case 2:
-                return inventory.getItem().getDescription();
-            case 3:
                 return store.getName();
+            case 3:
+                return store.getAddress();
+            case 4:
+                return store.getPhone();
             default:
                 return null;
                 
@@ -79,6 +67,7 @@ public class InventoryTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return inventorys.size();
+        return stores.size();
     }
+    
 }

@@ -4,34 +4,50 @@
  * and open the template in the editor.
  */
 
-package com.liquidbol.gui.model;
+package com.liquidbol.gui.tables.model;
 
+import com.liquidbol.model.CXC;
 import com.liquidbol.model.Client;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Represents a table of clients.
+ * Represents a table of CXCs.
  * @author Allan Leon
  */
-public class ClientTableModel extends AbstractTableModel {
+public class CXCTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "NIT",
-        "Factura", "Taller/Emp.", "Ruta", "Frec."};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Saldo", "Credito", "Fecha Limite"};
     
     private final List<Client> clients;
+    private final List<CXC> receivableAccounts;
 
-    public ClientTableModel(List<Client> clients) {
-        this.clients = clients;
+    public CXCTableModel(List<Client> clients) {
+        this.clients = new ArrayList<>();
+        receivableAccounts = new ArrayList<>();
+        initializeValidCXCLists(clients);
+    }
+    
+    private void initializeValidCXCLists(List<Client> clients) {
+        for (Client client : clients) {
+            for (CXC cxc : client.getValidReceivableAccounts()) {
+                clients.add(client);
+                receivableAccounts.add(cxc);
+            }
+        }
     }
     
     @Override
     public Class getColumnClass(int columnIndex) {
         switch (columnIndex) {
-            case 0:  case 1: case 3: case 7:
+            case 0:  case 1:
                 return Integer.class;
-            case 6:
-                return Boolean.class;
+            case 3: case 4:
+                return Double.class;
+            case 5:
+                return Date.class;
             default :
                 return String.class;
         }
@@ -41,23 +57,20 @@ public class ClientTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int column) {
         
         Client client = clients.get(row);
+        CXC cxc = receivableAccounts.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return client.getId();
+                return cxc.getId();
             case 2:
                 return String.format("%s %s", client.getName(), client.getLastname());
             case 3:
-                return client.getNit();
+                return cxc.getDebt();
             case 4:
-                return client.getBillName();
+                return cxc.getCreditMaxAmount();
             case 5:
-                return client.getCompanyName();
-            case 6:
-                return client.isRoute();
-            case 7:
-                return client.getFrequency();
+                return cxc.getCreditLimitDate();
             default:
                 return null;
                 
