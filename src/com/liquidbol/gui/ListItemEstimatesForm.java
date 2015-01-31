@@ -1,9 +1,14 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.gui.model.ItemEstimateTableModel;
+import com.liquidbol.model.Client;
+import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -24,7 +29,7 @@ import javax.swing.border.EmptyBorder;
 /**
  * @author Franco
  */
-public class ListQuotesForm extends JFrame {
+public class ListItemEstimatesForm extends JFrame {
 
     private JPanel contentPane;
     private JLabel title;
@@ -35,7 +40,7 @@ public class ListQuotesForm extends JFrame {
     private JTable quotesTable;
     private JButton backBtn;
     
-    public ListQuotesForm() {
+    public ListItemEstimatesForm() {
         setStyle();
         initComponents();
         setVisible(true);
@@ -60,7 +65,7 @@ public class ListQuotesForm extends JFrame {
         addBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                QuoteForm qf = new QuoteForm();
+                ItemEstimateForm qf = new ItemEstimateForm();
                 dispose();
             }
         });
@@ -70,10 +75,10 @@ public class ListQuotesForm extends JFrame {
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
-            Logger.getLogger(ListQuotesForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListItemEstimatesForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        String[] columnNames = {"Cod",
+        /*String[] columnNames = {"Cod",
             "Tienda",
             "Fecha Cotizacion",
             "Fecha Limite",
@@ -94,7 +99,9 @@ public class ListQuotesForm extends JFrame {
         quotesTable.getColumnModel().getColumn(3).setPreferredWidth(80);
         quotesTable.getColumnModel().getColumn(4).setPreferredWidth(50);
         quotesTable.getColumnModel().getColumn(5).setPreferredWidth(150);
-        quotesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        quotesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
+        List<Client> clients = new ArrayList<>(Company.getAllClients());
+        quotesTable = new JTable(new ItemEstimateTableModel(clients));
         JScrollPane quotesTableSP = new JScrollPane(quotesTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {

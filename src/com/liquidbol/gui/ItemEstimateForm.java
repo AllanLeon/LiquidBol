@@ -30,7 +30,7 @@ import org.jdatepicker.impl.UtilDateModel;
 /**
  * @author Franco
  */
-public class QuoteForm extends JFrame {
+public class ItemEstimateForm extends JFrame {
 
     private JPanel contentPane;
     private JButton submitBtn;
@@ -50,7 +50,7 @@ public class QuoteForm extends JFrame {
     private Component offerVal;
     private JButton backBtn;
     
-    public QuoteForm() {
+    public ItemEstimateForm() {
         this.df = new DecimalFormat("##.00");
         setStyle();
         initComponents();
@@ -150,7 +150,7 @@ public class QuoteForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListQuotesForm lqf = new ListQuotesForm();
+                ListItemEstimatesForm lqf = new ListItemEstimatesForm();
                 dispose();
             }
         });

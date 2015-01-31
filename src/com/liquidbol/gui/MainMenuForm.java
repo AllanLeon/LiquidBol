@@ -97,7 +97,7 @@ public class MainMenuForm extends JFrame {
         quoteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListQuotesForm lqf = new ListQuotesForm();
+                ListItemEstimatesForm lqf = new ListItemEstimatesForm();
                 dispose();
             }
         });
