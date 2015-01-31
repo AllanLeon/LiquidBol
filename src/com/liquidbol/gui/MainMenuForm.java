@@ -237,7 +237,8 @@ public class MainMenuForm extends JFrame {
         }));
         menu.add(new JMenuItem(new AbstractAction("Cilindros") {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Create cylinders reception form!");
+                CylinderForm cf = new CylinderForm();
+                dispose();
             }
         }));
 
