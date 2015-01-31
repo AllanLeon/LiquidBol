@@ -167,7 +167,7 @@ public class MainMenuForm extends JFrame {
         branchBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListStoreForm sf = new ListStoreForm();
+                ListStoresForm sf = new ListStoresForm();
                 dispose();
             }
         });
@@ -237,7 +237,8 @@ public class MainMenuForm extends JFrame {
         }));
         menu.add(new JMenuItem(new AbstractAction("Cilindros") {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Create cylinders reception form!");
+                CylinderForm cf = new CylinderForm();
+                dispose();
             }
         }));
 

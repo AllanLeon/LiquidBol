@@ -26,7 +26,7 @@ import org.jdatepicker.impl.UtilDateModel;
 /**
  * @author Franco
  */
-public class ExtingForm extends JFrame {
+public class CylinderForm extends JFrame {
 
     private JPanel contentPane;
     private JButton submitBtn;
@@ -55,7 +55,7 @@ public class ExtingForm extends JFrame {
     private JLabel amountLbl;
     private JButton backBtn;
 
-    public ExtingForm() {
+    public CylinderForm() {
         setStyle();
         initComponents();
         setVisible(true);
@@ -63,7 +63,7 @@ public class ExtingForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(700, 500);
+        setSize(800, 500);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -80,8 +80,8 @@ public class ExtingForm extends JFrame {
         p.put("text.year", "Year");
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-        title = new JLabel("NOTA DE RECEPCIÓN DE EXTINTORES");
-        title.setFont(new Font("Arial", Font.PLAIN, 26));
+        title = new JLabel("NOTA DE RECARGA DE CILINDROS");
+        title.setFont(new Font("Arial", Font.PLAIN, 34));
         idShower = new JLabel("Nº 000001");
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
         nameLbl = new JLabel("Señor(es)");
@@ -92,17 +92,17 @@ public class ExtingForm extends JFrame {
         clientComp = new JTextField();
 
         String[] columnNames = {"Cant.",
-            "No. Extintor",
-            "Descripcion/Marca",
-            "Tipo",
+            "No. Cilindro",
+            "Descripcion/Tapa",
+            "Gas/(Uso)",
             "Capacidad",
-            "Obs",
+            "Obs (Cap. Carga)",
             "Tipo Servicio"
         };
 
         Object[][] tempData = {
-            {1, "57885", "Extintor chino c/Pico", "PQ", "3 Lb", "En periodo de garantia", "Recarga"},
-            {2, "4712", "Extintor Ferton c/Manguera", "CO2", "5Kg.", "Primera vez", "Recarga"}
+            {1, "326019", "Cilindro con tapa", "O2 Ind.", "6 mt3", "Nuevo (2000 PSI)", "Recarga"},
+            {2, "850471", "Cilindro con tapa", "O2 Med.", "1Mt3", "Cancelado (1000 PSI)", "Recarga"}
         };
         contentTable = new JTable(tempData, columnNames);
         contentTable.getTableHeader().setReorderingAllowed(false);
@@ -110,10 +110,10 @@ public class ExtingForm extends JFrame {
         contentTable.setRowHeight(25);
         contentTable.getColumnModel().getColumn(0).setPreferredWidth(20);
         contentTable.getColumnModel().getColumn(1).setPreferredWidth(60);
-        contentTable.getColumnModel().getColumn(2).setPreferredWidth(200);
-        contentTable.getColumnModel().getColumn(3).setPreferredWidth(20);
-        contentTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-        contentTable.getColumnModel().getColumn(5).setPreferredWidth(170);
+        contentTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+        contentTable.getColumnModel().getColumn(3).setPreferredWidth(60);
+        contentTable.getColumnModel().getColumn(4).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(5).setPreferredWidth(160);
         contentTable.getColumnModel().getColumn(6).setPreferredWidth(60);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane tablesp = new JScrollPane(contentTable);
@@ -129,13 +129,13 @@ public class ExtingForm extends JFrame {
         balanceAmount = new JTextField();
         dateLbl = new JLabel("Fecha de entrega");
         dateField = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-        hourLbl = new JLabel("Hora");
+        hourLbl = new JLabel("Hora de entrega");
         hourField = new JTextField();
         submitBtn = new JButton("OK");
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Extinguisher recieved! \n Respect+");
+                JOptionPane.showMessageDialog(null, "Cylinder recieved! \n Respect+");
                 LoginForm.LF.setVisible(true);
                 dispose();
             }
@@ -149,31 +149,31 @@ public class ExtingForm extends JFrame {
             }
         });
 
-        title.setBounds(120, 20, 500, 30);
-        datePicker.setBounds(300, 90, 150, 30);
-        idShower.setBounds(500, 90, 150, 30);
-        nameLbl.setBounds(40, 130, 150, 30);
-        clientName.setBounds(100, 130, 350, 30);
-        compLbl.setBounds(40, 160, 150, 30);
-        clientComp.setBounds(100, 160, 350, 30);
-        phoneLbl.setBounds(465, 130, 150, 30);
-        clientPhone.setBounds(510, 130, 150, 30);
-        tablesp.setBounds(30, 200, 640, 150);
+        title.setBounds(120, 30, 600, 30);
+        datePicker.setBounds(350, 90, 150, 30);
+        idShower.setBounds(550, 90, 150, 30);
+        nameLbl.setBounds(90, 130, 150, 30);
+        clientName.setBounds(150, 130, 350, 30);
+        compLbl.setBounds(90, 160, 150, 30);
+        clientComp.setBounds(150, 160, 350, 30);
+        phoneLbl.setBounds(510, 130, 150, 30);
+        clientPhone.setBounds(560, 130, 150, 30);
+        tablesp.setBounds(30, 200, 740, 150);
         quantLbl.setBounds(30, 350, 70, 30);
         quantAmount.setBounds(90, 350, 50, 30);
-        dateLbl.setBounds(150, 345, 110, 30);
-        dateField.setBounds(150, 370, 130, 30);
-        hourLbl.setBounds(150, 390, 50, 30);
-        hourField.setBounds(150, 410, 90, 30);
-        amountLbl.setBounds(320, 370, 120, 30);
-        totalLbl.setBounds(430, 350, 50, 30);
-        totalAmount.setBounds(430, 370, 70, 30);
-        ACLbl.setBounds(500, 350, 50, 30);
-        ACAmount.setBounds(500, 370, 70, 30);
-        balanceLbl.setBounds(570, 350, 50, 30);
-        balanceAmount.setBounds(570, 370, 70, 30);
-        submitBtn.setBounds(350, 430, 50, 30);
-        backBtn.setBounds(50, 430, 70, 30);
+        dateLbl.setBounds(170, 355, 110, 30);
+        dateField.setBounds(270, 355, 130, 30);
+        hourLbl.setBounds(170, 390, 110, 30);
+        hourField.setBounds(270, 390, 90, 30);
+        amountLbl.setBounds(430, 370, 120, 30);
+        totalLbl.setBounds(540, 350, 50, 30);
+        totalAmount.setBounds(540, 370, 70, 30);
+        ACLbl.setBounds(610, 350, 50, 30);
+        ACAmount.setBounds(610, 370, 70, 30);
+        balanceLbl.setBounds(680, 350, 50, 30);
+        balanceAmount.setBounds(680, 370, 70, 30);
+        submitBtn.setBounds(640, 420, 50, 30);
+        backBtn.setBounds(60, 420, 70, 30);
 
         contentPane.add(title);
         contentPane.add(datePicker);

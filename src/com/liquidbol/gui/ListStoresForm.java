@@ -24,7 +24,7 @@ import javax.swing.border.EmptyBorder;
 /**
  * @author Franco
  */
-public class ListStoreForm extends JFrame {
+public class ListStoresForm extends JFrame {
 
     private JPanel contentPane;
     private JLabel title;
@@ -32,7 +32,7 @@ public class ListStoreForm extends JFrame {
     private JButton backBtn;
     private JButton addBtn;
 
-    public ListStoreForm() {
+    public ListStoresForm() {
         setStyle();
         initComponents();
         setVisible(true);
@@ -49,34 +49,40 @@ public class ListStoreForm extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
-        
+
         title = new JLabel();
-        title.setText("NUEVA TIENDA");
+        title.setText("TIENDAS");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         addBtn = new JButton("+");
-        
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                StoreForm sf = new StoreForm(1);
+                dispose();
+            }
+        });
         /*String[] columnNames = {"Id",
-            "Nombre",
-            "Dirección",
-            "Telefono"
-        };
-        Object[][] tempData = {
-            {"00001", "Central", "C. Pagador esq. Herrera", "52 79947"},
-            {"00002", "S.I.", "C. Pagador entre Herrera y 1ro de noviembre", "52 32190"}
-        };
-        storeTable = new JTable(tempData, columnNames);
-        storeTable.getTableHeader().setReorderingAllowed(false);
-        storeTable.setFont(new Font("Arial", Font.PLAIN, 16));
-        storeTable.setRowHeight(25);
-        storeTable.getColumnModel().getColumn(0).setPreferredWidth(50);
-        storeTable.getColumnModel().getColumn(1).setPreferredWidth(60);
-        storeTable.getColumnModel().getColumn(2).setPreferredWidth(250);
-        storeTable.getColumnModel().getColumn(3).setPreferredWidth(80);
-        storeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
+         "Nombre",
+         "Dirección",
+         "Telefono"
+         };
+         Object[][] tempData = {
+         {"00001", "Central", "C. Pagador esq. Herrera", "52 79947"},
+         {"00002", "S.I.", "C. Pagador entre Herrera y 1ro de noviembre", "52 32190"}
+         };
+         storeTable = new JTable(tempData, columnNames);
+         storeTable.getTableHeader().setReorderingAllowed(false);
+         storeTable.setFont(new Font("Arial", Font.PLAIN, 16));
+         storeTable.setRowHeight(25);
+         storeTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+         storeTable.getColumnModel().getColumn(1).setPreferredWidth(60);
+         storeTable.getColumnModel().getColumn(2).setPreferredWidth(250);
+         storeTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+         storeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
         List<Store> stores = new ArrayList<>(Company.getAllStores());
         storeTable = new JTable(new StoreTableModel(stores));
         JScrollPane storeTableSP = new JScrollPane(storeTable);
-        
+
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override
@@ -85,12 +91,12 @@ public class ListStoreForm extends JFrame {
                 dispose();
             }
         });
-;
+        ;
         title.setBounds(140, 30, 500, 30);
         addBtn.setBounds(370, 80, 100, 30);
         storeTableSP.setBounds(30, 120, 470, 150);
         backBtn.setBounds(50, 280, 70, 30);
-        
+
         contentPane.add(title);
         contentPane.add(addBtn);
         contentPane.add(storeTableSP);

@@ -2,7 +2,6 @@ package com.liquidbol.addons;
 
 import com.liquidbol.db.DatabaseLoader;
 import com.liquidbol.gui.LoginForm;
-import com.liquidbol.model.Company;
 import com.liquidbol.services.CXCServices;
 import com.liquidbol.services.ClientServices;
 import com.liquidbol.services.CompanyServices;
@@ -76,9 +75,8 @@ public final class MagikarpScreen {
                 g.fillRect(236, 365, 280, 12);//toCoverLastText
                 g.setColor(Color.white);//textColor
                 g.drawString(loadingText[i - 1] + "...", 236, 375);
-                g.setColor(Color.green); //progressBarcolor
+                g.setColor(new Color(0, 105 + 30*i, 0)); //progressBarcolor
                 g.fillRect(231, 346, (i * 407 / loadingText.length), 12); //progressBar
-                g.setColor(new Color(4, 52, 101));
                 splash.update();
                 try {
                     Thread.sleep(500);

@@ -34,7 +34,7 @@ public class EmployeeCrud implements DBCrud<Employee> {
             String insert = "INSERT INTO employees(employee_id, store_id, employee_name, "
                     + "employee_lastname, employee_address, employee_phone, "
                     + "employee_phone2, employee_email, employee_regdate, "
-                    + "employee_password, employee_type) VALUES(?,?,?,?,?,?,?,?)";
+                    + "employee_password, employee_type) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setInt(1, element.getId());
             statement.setInt(2, parent.getId());
