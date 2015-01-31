@@ -1,9 +1,14 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.gui.model.RechargeableItemTableModel;
+import com.liquidbol.model.Client;
+import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -66,7 +71,7 @@ public class ListARForm extends JFrame {
             Logger.getLogger(ListARForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        String[] columnNames = {"Cod",
+        /*String[] columnNames = {"Cod",
             "Cod Ext.",
             "Cliente",
             "Descripcion",
@@ -87,7 +92,9 @@ public class ListARForm extends JFrame {
         arsTable.getColumnModel().getColumn(3).setPreferredWidth(250);
         arsTable.getColumnModel().getColumn(4).setPreferredWidth(80);
         arsTable.getColumnModel().getColumn(5).setPreferredWidth(90);
-        arsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        arsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
+        List<Client> clients = new ArrayList<>(Company.getAllClients());
+        arsTable = new JTable(new RechargeableItemTableModel(clients));
         JScrollPane arsTableSP = new JScrollPane(arsTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
