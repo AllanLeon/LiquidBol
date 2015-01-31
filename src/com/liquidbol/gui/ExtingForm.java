@@ -96,11 +96,13 @@ public class ExtingForm extends JFrame {
             "Descripcion/Marca",
             "Tipo",
             "Capacidad",
-            "Obs"
+            "Obs",
+            "Tipo Servicio"
         };
 
         Object[][] tempData = {
-            {1, "57885", "Extintor chino c/Pico", "PQ", "3 Lb", "En periodo de garantia"}
+            {1, "57885", "Extintor chino c/Pico", "PQ", "3 Lb", "En periodo de garantia", "Recarga"},
+            {2, "4712", "Extintor Ferton c/Manguera", "CO2", "5Kg.", "Primera vez", "Recarga"}
         };
         contentTable = new JTable(tempData, columnNames);
         contentTable.getTableHeader().setReorderingAllowed(false);
@@ -111,7 +113,8 @@ public class ExtingForm extends JFrame {
         contentTable.getColumnModel().getColumn(2).setPreferredWidth(200);
         contentTable.getColumnModel().getColumn(3).setPreferredWidth(20);
         contentTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-        contentTable.getColumnModel().getColumn(5).setMinWidth(170);
+        contentTable.getColumnModel().getColumn(5).setPreferredWidth(170);
+        contentTable.getColumnModel().getColumn(6).setPreferredWidth(60);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane tablesp = new JScrollPane(contentTable);
 
