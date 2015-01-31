@@ -151,4 +151,12 @@ public class Company implements Serializable {
         }
         throw new OperationFailedException(String.format("Item: %s not found", id));
     }
+    
+    public static Collection<Employee> getAllEmployees() {
+        Collection<Employee> result = new HashSet<>();
+        for (Store store : stores) {
+            result.addAll(store.getAllEmployees());
+        }
+        return result;
+    }
 }
