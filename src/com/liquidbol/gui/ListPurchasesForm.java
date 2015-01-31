@@ -1,9 +1,14 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.gui.model.PurchaseTableModel;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.Purchase;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -73,7 +78,7 @@ public class ListPurchasesForm extends JFrame {
             Logger.getLogger(ListPurchasesForm.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        String[] columnNames = {"Cod",
+        /*String[] columnNames = {"Cod",
             "Monto Total",
             "Fecha"
         };
@@ -88,7 +93,9 @@ public class ListPurchasesForm extends JFrame {
         purchasesTable.getColumnModel().getColumn(0).setPreferredWidth(60);
         purchasesTable.getColumnModel().getColumn(1).setPreferredWidth(100);
         purchasesTable.getColumnModel().getColumn(2).setPreferredWidth(120);
-        purchasesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        purchasesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
+        List<Purchase> purchases = new ArrayList<>(Company.getAllPurchases());
+        purchasesTable = new JTable(new PurchaseTableModel(purchases));
         JScrollPane purchasesTableSP = new JScrollPane(purchasesTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {

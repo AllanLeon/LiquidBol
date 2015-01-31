@@ -159,4 +159,12 @@ public class Company implements Serializable {
         }
         return result;
     }
+    
+    public static Collection<Purchase> getAllPurchases() {
+        Collection<Purchase> result = new HashSet<>();
+        for (Supplier supplier : suppliers) {
+            result.addAll(supplier.getAllPurchases());
+        }
+        return result;
+    }
 }
