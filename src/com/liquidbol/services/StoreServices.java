@@ -63,31 +63,37 @@ public class StoreServices {
     public Expense addExpenseToStore(Expense element, Store parent) throws PersistenceException, ClassNotFoundException {
         element = expenseCrudManager.save(element, parent);
         parent.addExpense(element);
+        LOG.info(String.format("Expense: %d saved", element.getId()));
         return element;
     }
     
     public Inventory addInventoryToStore(Inventory element, Store parent) throws PersistenceException, ClassNotFoundException {
         element = inventoryCrudManager.save(element, parent);
         parent.addInventory(element);
+        LOG.info(String.format("Inventory: %d saved", element.getId()));
         return element;
     }
     
     public Employee addEmployeeToStore(Employee element, Store parent) throws PersistenceException, ClassNotFoundException {
         element = employeeCrudManager.save(element, parent);
         parent.addEmployee(element);
+        LOG.info(String.format("Employee: %d saved", element.getId()));
         return element;
     }
     
     public void loadStoreExpenses(Store parent) throws PersistenceException, ClassNotFoundException {
         parent.setExpenses(expenseCrudManager.findByStoreId(parent.getId()));
+        LOG.info(String.format("%d expenses loaded", parent.getAllExpenses().size()));
     }
     
     public void loadStoreInventorys(Store parent) throws PersistenceException, ClassNotFoundException {
         parent.setInventorys(inventoryCrudManager.findByStoreId(parent.getId()));
+        LOG.info(String.format("%d inventorys loaded", parent.getAllInventorys().size()));
     }
     
     public void loadStoreEmployees(Store parent) throws PersistenceException, ClassNotFoundException {
         parent.setEmployees(employeeCrudManager.findByStoreId(parent.getId()));
+        LOG.info(String.format("%d employees loaded", parent.getAllEmployees().size()));
     }
     
     public void loadAllStoreInfo(Store parent) {
