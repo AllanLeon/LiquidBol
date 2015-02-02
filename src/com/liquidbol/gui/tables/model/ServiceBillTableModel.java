@@ -6,37 +6,36 @@
 
 package com.liquidbol.gui.tables.model;
 
-import com.liquidbol.model.CXC;
 import com.liquidbol.model.Client;
-import com.liquidbol.model.ItemEstimate;
+import com.liquidbol.model.ServiceBill;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Represents a table of estimates.
+ * Represents a table of service bills.
  * @author Allan Leon
  */
-public class ItemEstimateTableModel extends AbstractTableModel {
+public class ServiceBillTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cliente", "Tienda",
-        "Fecha Cotizacion", "Fecha Limite", "Monto", "Observaciones"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cliente",
+        "Monto Total", "Fecha", "Facturado", "Observaciones"};
     
     private final List<Client> clients;
-    private final List<ItemEstimate> itemEstimates;
+    private final List<ServiceBill> serviceBills;
 
-    public ItemEstimateTableModel(List<Client> clients) {
+    public ServiceBillTableModel(List<Client> clients) {
         this.clients = new ArrayList<>();
-        itemEstimates = new ArrayList<>();
+        serviceBills = new ArrayList<>();
         initializeLists(clients);
     }
     
     private void initializeLists(List<Client> clients) {
         for (Client client : clients) {
-            for (ItemEstimate estimate : client.getAllItemEstimates()) {
+            for (ServiceBill serviceBill : client.getAllServiceBills()) {
                 this.clients.add(client);
-                itemEstimates.add(estimate);
+                serviceBills.add(serviceBill);
             }
         }
     }
@@ -46,10 +45,12 @@ public class ItemEstimateTableModel extends AbstractTableModel {
         switch (columnIndex) {
             case 0:  case 1:
                 return Integer.class;
-            case 4: case 5:
-                return Date.class;
-            case 6:
+            case 3:
                 return Double.class;
+            case 4:
+                return Date.class;
+            case 5: 
+                return Boolean.class;
             default :
                 return String.class;
         }
@@ -59,24 +60,22 @@ public class ItemEstimateTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int column) {
         
         Client client = clients.get(row);
-        ItemEstimate estimate = itemEstimates.get(row);
+        ServiceBill serviceBill = serviceBills.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return estimate.getId();
+                return serviceBill.getId();
             case 2:
                 return String.format("%s %s", client.getName(), client.getLastname());
             case 3:
-                return estimate.getStore().getName();
+                return serviceBill.getTotalAmount();
             case 4:
-                return estimate.getRequestDate();
-            case 5:
-                return estimate.getLimitDate();
+                return serviceBill.getDate();
             case 6:
-                return estimate.getTotalAmount();
+                return serviceBill.isBilled();
             case 7:
-                return estimate.getObs();
+                return serviceBill.getObs();
             default:
                 return null;
                 
@@ -95,6 +94,6 @@ public class ItemEstimateTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return itemEstimates.size();
+        return serviceBills.size();
     }
 }
