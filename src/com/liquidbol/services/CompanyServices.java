@@ -16,7 +16,9 @@ import com.liquidbol.db.persistence.StoreCrud;
 import com.liquidbol.db.persistence.SupplierCrud;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
+import com.liquidbol.model.Employee;
 import com.liquidbol.model.Offer;
+import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.model.Service;
 import com.liquidbol.model.Store;
 import com.liquidbol.model.Supplier;
@@ -383,5 +385,17 @@ public class CompanyServices {
         Store newStore = new Store(id, name, address, phone);
         oldStore = storeCrudManager.merge(newStore);
         return oldStore;
+    }
+    
+    public Employee autenticateEmployee(int id, String password) throws OperationFailedException {
+        for (Employee employee : Company.getAllEmployees()) {
+            if (employee.getId() == id) {
+                if (employee.getPassword().equals(password)) {
+                    return employee;
+                }
+                throw new OperationFailedException("Invalid password");
+            }
+        }
+        throw new OperationFailedException("Invalid employee id");
     }
 }
