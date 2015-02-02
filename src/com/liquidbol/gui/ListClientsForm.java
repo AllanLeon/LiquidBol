@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.addons.UIStyle;
 import com.liquidbol.gui.tables.model.ClientTableModel;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
@@ -21,8 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -41,7 +40,7 @@ public class ListClientsForm extends JFrame {
     private JButton backBtn;
 
     public ListClientsForm() {
-        setStyle();
+        UIStyle sty = new UIStyle();
         initComponents();
         setVisible(true);
     }
@@ -133,20 +132,5 @@ public class ListClientsForm extends JFrame {
         contentPane.add(searchBtn);
         contentPane.add(clientsTableSP);
         contentPane.add(backBtn);
-    }
-
-    public static void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

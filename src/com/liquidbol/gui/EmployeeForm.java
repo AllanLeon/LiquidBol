@@ -1,6 +1,7 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.MagikarpScreen;
+import com.liquidbol.addons.UIStyle;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Company;
 import com.liquidbol.model.Employee;
@@ -30,8 +31,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -68,25 +67,22 @@ public class EmployeeForm extends JFrame {
     private Object[] readItData;
     
     public EmployeeForm(int state) {
+        UIStyle sty = new UIStyle();
         switch (state) {
             case 1: //Add new employee
-                setStyle();
                 initComponents();
                 setVisible(true);
                 break;
             case 2: //show employee data
-                setStyle();
                 initComponents();
                 convertToReadOnly();
                 setVisible(true);
                 break;
             case 3: //edit employee data
-                setStyle();
                 initComponents();
                 setVisible(true);
                 break;
             default:
-                setStyle();
                 initComponents();
                 setVisible(true);
                 break;
@@ -233,19 +229,6 @@ public class EmployeeForm extends JFrame {
             MagikarpScreen.storeServ.addEmployeeToStore(temp, temp1);
         } catch (OperationFailedException ex) {
             Logger.getLogger(EmployeeForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

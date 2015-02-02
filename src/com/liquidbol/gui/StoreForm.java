@@ -1,6 +1,7 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.MagikarpScreen;
+import com.liquidbol.addons.UIStyle;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Store;
 import java.awt.Font;
@@ -9,14 +10,11 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -30,7 +28,6 @@ public class StoreForm extends JFrame {
     private JLabel idShower;
     private JLabel nameLbl;
     private JTextField storeName;
-    private JCheckBox routeCB;
     private JLabel addressLbl;
     private JTextField storeAddress;
     private JLabel phoneLbl;
@@ -40,7 +37,7 @@ public class StoreForm extends JFrame {
     private Object[] readItData;
 
     public StoreForm(int state) {
-        setStyle();
+        UIStyle sty = new UIStyle();
         initComponents();
         setVisible(true);
     }
@@ -129,18 +126,5 @@ public class StoreForm extends JFrame {
     private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
         Store temp = MagikarpScreen.compServ.createStore(0, (String) data[0], (String) data[1], (int) data[2]);
         MagikarpScreen.compServ.saveStore(temp);
-    }
-
-    private void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

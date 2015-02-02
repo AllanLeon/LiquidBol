@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.addons.UIStyle;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -21,8 +22,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -50,7 +49,7 @@ public class MainMenuForm extends JFrame {
     protected static ShopCartForm scf;
 
     public MainMenuForm() {
-        setStyle();
+        UIStyle sty = new UIStyle();
         initComponents();
         setVisible(true);
     }
@@ -200,7 +199,6 @@ public class MainMenuForm extends JFrame {
         contentPane.add(cartBtn);
         contentPane.add(recpBtn);
         contentPane.add(quoteBtn);
-        //contentPane.add(sellBtn);
         contentPane.add(repoBtn);
         contentPane.add(sellListBtn);
         contentPane.add(invBtn);
@@ -212,19 +210,6 @@ public class MainMenuForm extends JFrame {
         contentPane.add(branchBtn);
         contentPane.add(empBtn);
         contentPane.add(bgLabel);
-    }
-
-    public static void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void addRecepDDL(JButton btn) {

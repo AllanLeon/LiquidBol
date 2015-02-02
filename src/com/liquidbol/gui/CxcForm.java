@@ -1,13 +1,12 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
+import com.liquidbol.addons.UIStyle;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -17,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -48,20 +45,18 @@ public class CxcForm extends JFrame {
     private JButton submitBtn;
 
     public CxcForm(int state) {
+        UIStyle sty = new UIStyle();
         switch (state) {
             case 1: //Add/edit new cxc
-                setStyle();
                 initComponents();
                 setVisible(true);
                 break;
             case 2: //show cxc data
-                setStyle();
                 initComponents();
                 convertToReadOnly();
                 setVisible(true);
                 break;
             default:
-                setStyle();
                 initComponents();
                 setVisible(true);
                 break;
@@ -168,19 +163,6 @@ public class CxcForm extends JFrame {
         contentPane.add(clientDebt);
         contentPane.add(backBtn);
         contentPane.add(submitBtn);
-    }
-
-    private void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void convertToReadOnly() {        

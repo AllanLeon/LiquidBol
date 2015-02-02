@@ -1,6 +1,7 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
+import com.liquidbol.addons.UIStyle;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -49,20 +50,18 @@ public class PurchaseForm extends JFrame {
     private JButton backBtn;
     
     public PurchaseForm(int state) {
+        UIStyle sty = new UIStyle();
         switch (state) {
             case 1: //Add/edit new purchase
-                setStyle();
                 initComponents();
                 setVisible(true);
                 break;
             case 2: //show purchase data
-                setStyle();
                 initComponents();
                 convertToReadOnly();
                 setVisible(true);
                 break;
             default:
-                setStyle();
                 initComponents();
                 setVisible(true);
                 break;
@@ -184,19 +183,6 @@ public class PurchaseForm extends JFrame {
         contentPane.add(totalAmount);
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
-    }
-
-    private void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void convertToReadOnly() {        
