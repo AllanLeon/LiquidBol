@@ -29,9 +29,9 @@ import org.jdatepicker.impl.UtilDateModel;
  */
 public class BillForm extends JFrame {
 
-    private JButton submitBtn;
-    private JDatePickerImpl datePicker;
+    private JPanel contentPane;
     private JLabel title;
+    private JDatePickerImpl datePicker;
     private JLabel idShower;
     private JLabel nameLbl;
     private JTextField clientName;
@@ -43,8 +43,8 @@ public class BillForm extends JFrame {
     private JLabel bsLbl;
     private JLabel totalLbl;
     private JTextField totalAmount;
-    private JPanel contentPane;
     private JButton backBtn;
+    private JButton submitBtn;
     
     public BillForm() {
         setStyle();

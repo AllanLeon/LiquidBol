@@ -7,10 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -20,7 +18,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,7 +26,11 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableColumnModelListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * @author Franco
@@ -41,7 +42,6 @@ public class ShopCartForm extends JFrame {
     private JLabel title;
     private JLabel branchLbl;
     private JComboBox branchNameCB;
-    private JButton addBtn;
     private JComboBox searchCB;
     private JTextField searchBox;
     private JButton searchBtn;
@@ -51,9 +51,12 @@ public class ShopCartForm extends JFrame {
     private JTable serviceTable;
     private JPanel cartPane;
     private JTable wholeTable;
+    private JLabel totalLbl;
+    private JTextField cartTotal;
     private JButton toNoteBtn;
     private JButton toBillBtn;
     private JButton backBtn;
+    private double total;
 
     public ShopCartForm() {
         setStyle();
@@ -90,7 +93,6 @@ public class ShopCartForm extends JFrame {
 
         branchLbl = new JLabel("Sucursal");
         branchNameCB = new JComboBox();
-        addBtn = new JButton("------->");
 
         searchCB = new JComboBox();
         searchBox = new JTextField();
@@ -163,8 +165,8 @@ public class ShopCartForm extends JFrame {
             "Precio"
         };
         Object[][] tempData3 = {
-            {"00126", 1, "Kg.", "Electrodo 7018 1/8", 18.00},
-            {"00119", 2, "Kg.", "Electrodo 6013 1/8", 36.00}
+            {"00126", "", "Kg.", "Electrodo 7018 1/8", 18.00, ""},
+            {"00119", "", "Kg.", "Electrodo 6013 1/8", 18.00, ""}
         };
         wholeTable = new JTable(new DefaultTableModel(tempData3, columnNames3) {
             @Override
@@ -184,7 +186,27 @@ public class ShopCartForm extends JFrame {
         wholeTable.getColumnModel().getColumn(3).setPreferredWidth(240);
         wholeTable.getColumnModel().getColumn(4).setPreferredWidth(40);
         wholeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        wholeTable.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                try {
+                    total = 0;
+                    TableModel wholeTM = wholeTable.getModel();
+                    for (int i = 0, rows = wholeTM.getRowCount(); i < rows; i++) {
+                        double quant = Double.parseDouble(wholeTM.getValueAt(i, 1).toString());
+                        double unitprice = Double.parseDouble(wholeTM.getValueAt(i, 4).toString());
+                        total += quant * unitprice;
+                        cartTotal.setText(String.valueOf(total));
+                    }
+                } catch (Exception ex) {
+                }
+            }
+        });
         JScrollPane wholeTableSP = new JScrollPane(wholeTable);
+
+        totalLbl = new JLabel("Total");
+        cartTotal = new JTextField();
+        cartTotal.setFont(new Font("Arial", Font.BOLD, 16));
 
         toNoteBtn = new JButton("A nota de venta");
         toNoteBtn.addActionListener(new ActionListener() {
@@ -208,7 +230,6 @@ public class ShopCartForm extends JFrame {
         cartPane.setBounds(550, 50, 540, 370);
         branchLbl.setBounds(20, 40, 80, 30);
         branchNameCB.setBounds(80, 40, 150, 30);
-        addBtn.setBounds(430, 40, 100, 30);
         searchCB.setBounds(20, 80, 150, 30);
         searchBox.setBounds(180, 80, 300, 30);
         searchBtn.setBounds(470, 80, 50, 30);
@@ -216,9 +237,11 @@ public class ShopCartForm extends JFrame {
         itemsTableSP.setBounds(10, 130, 530, 170);
         serviceLbl.setBounds(10, 310, 50, 30);
         serviceTableSP.setBounds(10, 330, 530, 130);
-        wholeTableSP.setBounds(10, 70, 520, 200);
-        toNoteBtn.setBounds(70, 280, 200, 50);
-        toBillBtn.setBounds(290, 280, 200, 50);
+        wholeTableSP.setBounds(10, 40, 520, 200);
+        totalLbl.setBounds(440, 250, 50, 30);
+        cartTotal.setBounds(470, 250, 70, 30);
+        toNoteBtn.setBounds(70, 290, 200, 50);
+        toBillBtn.setBounds(290, 290, 200, 50);
         backBtn.setBounds(50, 530, 70, 30);
 
         add(title);
@@ -227,7 +250,6 @@ public class ShopCartForm extends JFrame {
         parentPane.add(cartPane);
         inventoryPane.add(branchLbl);
         inventoryPane.add(branchNameCB);
-        inventoryPane.add(addBtn);
         inventoryPane.add(searchCB);
         inventoryPane.add(searchBox);
         inventoryPane.add(searchBtn);
@@ -236,6 +258,8 @@ public class ShopCartForm extends JFrame {
         inventoryPane.add(serviceLbl);
         inventoryPane.add(serviceTableSP);
         cartPane.add(wholeTableSP);
+        cartPane.add(totalLbl);
+        cartPane.add(cartTotal);
         cartPane.add(toNoteBtn);
         cartPane.add(toBillBtn);
 
