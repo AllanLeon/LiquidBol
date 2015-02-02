@@ -36,11 +36,13 @@ public class PurchaseServices {
     public ItemPurchase addItemPurchaseToPurchase(ItemPurchase element, Purchase parent) throws PersistenceException, ClassNotFoundException {
         element = itemPurchaseCrudManager.save(element, parent);
         parent.addItemPurchase(element);
+        LOG.info(String.format("Item purchase: %d saved", element.getId()));
         return element;
     }
     
     public void loadPurchaseItemPurchases(Purchase parent) throws PersistenceException, ClassNotFoundException {
         parent.setItemPurchases(itemPurchaseCrudManager.findByPurchaseId(parent.getId()));
+        LOG.info(String.format("%d item purchases loaded", parent.getAllItemPurchases().size()));
     }
     
     public void loadAllPurchaseInfo(Purchase parent) {

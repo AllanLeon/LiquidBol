@@ -53,6 +53,7 @@ public class ServiceBillServices {
             throws PersistenceException, ClassNotFoundException {
         element = servicePaymentCrudManager.save(element, parent);
         parent.addPayment(element);
+        LOG.info(String.format("Service payment: %d saved", element.getId()));
         return element;
     }
     
@@ -60,15 +61,18 @@ public class ServiceBillServices {
             throws PersistenceException, ClassNotFoundException {
         element = serviceReceptionCrudManager.save(element, parent);
         parent.addServiceReception(element);
+        LOG.info(String.format("Service reception: %d saved", element.getId()));
         return element;
     }
     
     public void loadServiceBillPayments(ServiceBill parent) throws PersistenceException, ClassNotFoundException {
         parent.setPayments(servicePaymentCrudManager.findByServiceBillId(parent.getId()));
+        LOG.info(String.format("%d service payments loaded", parent.getAllPayments().size()));
     }
     
     public void loadServiceBillServiceReceptions(ServiceBill parent) throws PersistenceException, ClassNotFoundException {
         parent.setServiceReceptions(serviceReceptionCrudManager.findByServiceBillId(parent.getId()));
+        LOG.info(String.format("%d service receptions loaded", parent.getAllServiceReceptions().size()));
     }
     
     

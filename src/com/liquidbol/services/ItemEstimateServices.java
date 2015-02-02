@@ -37,11 +37,13 @@ public class ItemEstimateServices {
             throws PersistenceException, ClassNotFoundException {
         element = itemRequestCrudManager.save(element, parent);
         parent.addRequest(element);
+        LOG.info(String.format("Item request: %d saved", element.getId()));
         return element;
     }
     
     public void loadItemEstimateRequests(ItemEstimate parent) throws PersistenceException, ClassNotFoundException {
         parent.setRequests(itemRequestCrudManager.findByItemEstimateId(parent.getId()));
+        LOG.info(String.format("%d item requests loaded", parent.getAllRequests().size()));
     }
     
     public void loadAllItemEstimateInfo(ItemEstimate parent) {

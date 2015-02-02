@@ -48,21 +48,25 @@ public class ItemBillServices {
     public BillPayment addPaymentToItemBill(BillPayment element, ItemBill parent) throws PersistenceException, ClassNotFoundException {
         element = itemPaymentCrudManager.save(element, parent);
         parent.addPayment(element);
+        LOG.info(String.format("Item payment: %d saved", element.getId()));
         return element;
     }
     
     public ItemSale addItemSaleToItemBill(ItemSale element, ItemBill parent) throws PersistenceException, ClassNotFoundException {
         element = itemSaleCrudManager.save(element, parent);
         parent.addItemSale(element);
+        LOG.info(String.format("Item sale: %d saved", element.getId()));
         return element;
     }
     
     public void loadItemBillPayments(ItemBill parent) throws PersistenceException, ClassNotFoundException {
         parent.setPayments(itemPaymentCrudManager.findByItemBillId(parent.getId()));
+        LOG.info(String.format("%d item payments loaded", parent.getAllPayments().size()));
     }
     
     public void loadItemBillItemSales(ItemBill parent) throws PersistenceException, ClassNotFoundException {
         parent.setItemSales(itemSaleCrudManager.findByItemBillId(parent.getId()));
+        LOG.info(String.format("%d item sales loaded", parent.getAllItemSales().size()));
     }
     
     public void loadAllItemBillInfo(ItemBill parent) {

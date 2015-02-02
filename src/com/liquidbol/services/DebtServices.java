@@ -37,11 +37,13 @@ public class DebtServices {
             throws PersistenceException, ClassNotFoundException {
         element = debtPaymentCrudManager.save(element, parent);
         parent.addPayment(element);
+        LOG.info(String.format("Debt payment: %d saved", element.getId()));
         return element;
     }
     
     public void loadDebtPayments(Debt parent) throws PersistenceException, ClassNotFoundException {
         parent.setPayments(debtPaymentCrudManager.findByDebtId(parent.getId()));
+        LOG.info(String.format("%d debt payments loaded", parent.getAllPayments().size()));
     }
     
     public void loadAllDebtInfo(Debt parent) {
