@@ -16,7 +16,9 @@ import com.liquidbol.db.persistence.StoreCrud;
 import com.liquidbol.db.persistence.SupplierCrud;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
+import com.liquidbol.model.Employee;
 import com.liquidbol.model.Offer;
+import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.model.Service;
 import com.liquidbol.model.Store;
 import com.liquidbol.model.Supplier;
@@ -199,6 +201,7 @@ public class CompanyServices {
     public Client saveClient(Client client) throws PersistenceException, ClassNotFoundException {
         client = clientCrudManager.save(client);
         Company.addClient(client);
+        LOG.info(String.format("Client: %d saved", client.getId()));
         return client;
     }
     
@@ -212,6 +215,7 @@ public class CompanyServices {
     public Item saveItem(Item item) throws PersistenceException, ClassNotFoundException {
         item = itemCrudManager.save(item);
         Company.addItem(item);
+        LOG.info(String.format("Item: %s saved", item.getId()));
         return item;
     }
     
@@ -225,6 +229,7 @@ public class CompanyServices {
     public Service saveService(Service service) throws PersistenceException, ClassNotFoundException {
         service = serviceCrudManager.save(service);
         Company.addService(service);
+        LOG.info(String.format("Service: %s saved", service.getId()));
         return service;
     }
     
@@ -238,6 +243,7 @@ public class CompanyServices {
     public Offer saveOffer(Offer offer) throws PersistenceException, ClassNotFoundException {
         offer = offerCrudManager.save(offer);
         Company.addOffer(offer);
+        LOG.info(String.format("Offer: %d saved", offer.getId()));
         return offer;
     }
     
@@ -251,6 +257,7 @@ public class CompanyServices {
     public Supplier saveSupplier(Supplier supplier) throws PersistenceException, ClassNotFoundException {
         supplier = supplierCrudManager.save(supplier);
         Company.addSupplier(supplier);
+        LOG.info(String.format("Supplier: %d saved", supplier.getId()));
         return supplier;
     }
     
@@ -264,6 +271,7 @@ public class CompanyServices {
     public Store saveStore(Store store) throws PersistenceException, ClassNotFoundException {
         store = storeCrudManager.save(store);
         Company.addStore(store);
+        LOG.info(String.format("Store: %d saved", store.getId()));
         return store;
     }
     
@@ -284,6 +292,7 @@ public class CompanyServices {
      */
     public void loadItems() throws PersistenceException, ClassNotFoundException {
         Company.setItems(itemCrudManager.getAll());
+        LOG.info(String.format("%d items loaded", Company.getAllItems().size()));
     }
     
     /**
@@ -293,6 +302,7 @@ public class CompanyServices {
      */
     public void loadServices() throws PersistenceException, ClassNotFoundException {
         Company.setServices(serviceCrudManager.getAll());
+        LOG.info(String.format("%d services loaded", Company.getAllServices().size()));
     }
     
     /**
@@ -302,6 +312,7 @@ public class CompanyServices {
      */
     public void loadOffers() throws PersistenceException, ClassNotFoundException {
         Company.setOffers(offerCrudManager.getAll());
+        LOG.info(String.format("%d offers loaded", Company.getAllOffers().size()));
     }
     
     /**
@@ -311,6 +322,7 @@ public class CompanyServices {
      */
     public void loadSuppliers() throws PersistenceException, ClassNotFoundException {
         Company.setSuppliers(supplierCrudManager.getAll());
+        LOG.info(String.format("%d suppliers loaded", Company.getAllSuppliers().size()));
     }
     
     /**
@@ -320,6 +332,7 @@ public class CompanyServices {
      */
     public void loadStores() throws PersistenceException, ClassNotFoundException {
         Company.setStores(storeCrudManager.getAll());
+        LOG.info(String.format("%d stores loaded", Company.getAllStores().size()));
     }
     
     public void loadAllCompanyInfo() {
@@ -383,5 +396,17 @@ public class CompanyServices {
         Store newStore = new Store(id, name, address, phone);
         oldStore = storeCrudManager.merge(newStore);
         return oldStore;
+    }
+    
+    public Employee autenticateEmployee(int id, String password) throws OperationFailedException {
+        for (Employee employee : Company.getAllEmployees()) {
+            if (employee.getId() == id) {
+                if (employee.getPassword().equals(password)) {
+                    return employee;
+                }
+                throw new OperationFailedException("Invalid password");
+            }
+        }
+        throw new OperationFailedException("Invalid employee id");
     }
 }

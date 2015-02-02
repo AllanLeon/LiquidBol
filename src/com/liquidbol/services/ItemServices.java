@@ -39,11 +39,13 @@ public class ItemServices {
     public Discount addDiscountToItem(Discount element, Item parent) throws PersistenceException, ClassNotFoundException {
         element = discountCrudManager.save(element, parent);
         parent.addDiscount(element);
+        LOG.info(String.format("Item discount: %d saved", element.getId()));
         return element;
     }
     
     public void loadItemDiscounts(Item parent) throws PersistenceException, ClassNotFoundException {
         parent.setDiscounts(discountCrudManager.findByItemId(parent.getId()));
+        LOG.info(String.format("%d item discounts loaded", parent.getAllDiscounts().size()));
     }
     
     public void loadAllItemInfo(Item parent) {

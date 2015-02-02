@@ -85,6 +85,7 @@ public class ClientServices {
     public CXC addCXCToClient(CXC element, Client parent) throws PersistenceException, ClassNotFoundException {
         element = cxcCrudManager.save(element, parent);
         parent.addReceivableAccount(element);
+        LOG.info(String.format("Receivable account: %d saved", element.getId()));
         return element;
     }
     
@@ -92,6 +93,7 @@ public class ClientServices {
             throws PersistenceException, ClassNotFoundException {
         element = rechargeableItemCrudManager.save(element, parent);
         parent.addRechargeableItem(element);
+        LOG.info(String.format("Rechargeable item: %d saved", element.getId()));
         return element;
     }
     
@@ -99,6 +101,7 @@ public class ClientServices {
             throws PersistenceException, ClassNotFoundException {
         element = itemEstimateCrudManager.save(element, parent);
         parent.addItemEstimate(element);
+        LOG.info(String.format("Item estimate: %d saved", element.getId()));
         return element;
     }
     
@@ -106,6 +109,7 @@ public class ClientServices {
             throws PersistenceException, ClassNotFoundException {
         element = itemBillCrudManager.save(element, parent);
         parent.addItemBill(element);
+        LOG.info(String.format("Item bill: %d saved", element.getId()));
         return element;
     }
     
@@ -113,27 +117,33 @@ public class ClientServices {
             throws PersistenceException, ClassNotFoundException {
         element = serviceBillCrudManager.save(element, parent);
         parent.addServiceBill(element);
+        LOG.info(String.format("Service bill: %d saved", element.getId()));
         return element;
     }
     
     public void loadClientCXCs(Client parent) throws PersistenceException, ClassNotFoundException {
         parent.setReceivableAccounts(cxcCrudManager.findByClientId(parent.getId()));
+        LOG.info(String.format("%d receivable accounts loaded", parent.getAllReceivableAccounts().size()));
     }
     
     public void loadClientRechargeableItems(Client parent) throws PersistenceException, ClassNotFoundException {
         parent.setRechargeableItems(rechargeableItemCrudManager.findByClientId(parent.getId()));
+        LOG.info(String.format("%d rechargeable items loaded", parent.getAllRechargeableItems().size()));
     }
     
     public void loadClientItemEstimates(Client parent) throws PersistenceException, ClassNotFoundException {
         parent.setItemEstimates(itemEstimateCrudManager.findByClientId(parent.getId()));
+        LOG.info(String.format("%d item estimates loaded", parent.getAllItemEstimates().size()));
     }
     
     public void loadClientItemBills(Client parent) throws PersistenceException, ClassNotFoundException {
         parent.setItemBills(itemBillCrudManager.findByClientId(parent.getId()));
+        LOG.info(String.format("%d item bills loaded", parent.getAllItemBills().size()));
     }
     
     public void loadClientServiceBills(Client parent) throws PersistenceException, ClassNotFoundException {
         parent.setServiceBills(serviceBillCrudManager.findByClientId(parent.getId()));
+        LOG.info(String.format("%d service bills loaded", parent.getAllServiceBills().size()));
     }
     
     public void loadAllClientInfo(Client parent) {

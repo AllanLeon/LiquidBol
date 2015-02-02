@@ -95,6 +95,31 @@ public class EmployeeCrud implements DBCrud<Employee> {
         }
     }
     
+    public Employee autenticate(int id, String password) throws PersistenceException, ClassNotFoundException {
+        try {
+            String query = "SELECT * FROM employees WHERE employee_id = ? AND employee_password = ?";
+            connection = ConnectionManager.getInstance().getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return createElementFromResultSet(resultSet);
+            } else {
+                throw new PersistenceException("Invalid employee id or password");
+            }
+        } catch (SQLException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+            throw new PersistenceException("Failed to read employee", ex);
+        } finally {
+            try {
+                ConnectionManager.getInstance().releaseConnection();
+            } catch (SQLException ex) {
+                LOG.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
     public Collection<Employee> findByStoreId(int storeId) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "SELECT * FROM employees WHERE store_id = ?";

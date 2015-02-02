@@ -36,11 +36,13 @@ public class CXCServices {
     public CXCC addCXCCToCXC(CXCC element, CXC parent) throws PersistenceException, ClassNotFoundException {
         element = cxccCrudManager.save(element, parent);
         parent.addCollectedReceivableAccount(element);
+        LOG.info(String.format("Collected receivable account: %d saved", element.getId()));
         return element;
     }
     
     public void loadCXCPayments(CXC parent) throws PersistenceException, ClassNotFoundException {
         parent.setCollectedReceivableAccounts(cxccCrudManager.findByCXCId(parent.getId()));
+        LOG.info(String.format("%d collected receivable accounts loaded", parent.getAllCollectedReceivableAccounts().size()));
     }
     
     public void loadAllCXCInfo(CXC parent) {
