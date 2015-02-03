@@ -6,9 +6,9 @@
 
 package com.liquidbol.db.persistence;
 
+import com.liquidbol.model.Bill;
 import com.liquidbol.model.RechargeableItem;
 import com.liquidbol.model.Service;
-import com.liquidbol.model.ServiceBill;
 import com.liquidbol.model.ServiceReception;
 import java.sql.Connection;
 import java.sql.Date;
@@ -32,7 +32,7 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
 
     private Connection connection;
 
-    public ServiceReception save(ServiceReception element, ServiceBill parent) throws PersistenceException, ClassNotFoundException {
+    public ServiceReception save(ServiceReception element, Bill parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO service_receptions(servicebill_id, "

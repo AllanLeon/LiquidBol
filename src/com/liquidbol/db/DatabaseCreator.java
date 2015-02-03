@@ -8,7 +8,9 @@ package com.liquidbol.db;
 import com.liquidbol.db.persistence.ConnectionManager;
 import java.awt.EventQueue;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +35,7 @@ public class DatabaseCreator {
                 DatabaseCreator dbCreator = new DatabaseCreator();
                 dbCreator.dropDatabase();
                 dbCreator.createDatabase();
+                dbCreator.createInitialInfo();
             }
         });
     }
@@ -43,29 +46,27 @@ public class DatabaseCreator {
             Connection result = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
             String query1 = "DROP TABLE item_requests";
             String query2 = "DROP TABLE item_estimates";
-            String query3 = "DROP TABLE item_payments";
-            String query4 = "DROP TABLE item_sales";
-            String query5 = "DROP TABLE item_bills";
-            String query6 = "DROP TABLE service_payments";
-            String query7 = "DROP TABLE service_receptions";
-            String query8 = "DROP TABLE service_bills";
-            String query9 = "DROP TABLE rechargeable_items";
-            String query10 = "DROP TABLE services";
-            String query11 = "DROP TABLE clients_cxcc";
-            String query12 = "DROP TABLE clients_cxc";
-            String query13 = "DROP TABLE clients";
-            String query14 = "DROP TABLE employees";
-            String query15 = "DROP TABLE inventorys";
-            String query16 = "DROP TABLE expenses";
-            String query17 = "DROP TABLE stores";
-            String query18 = "DROP TABLE offers";
-            String query19 = "DROP TABLE item_discounts";
-            String query20 = "DROP TABLE item_purchases";
-            String query21 = "DROP TABLE purchases";
-            String query22 = "DROP TABLE items";
-            String query23 = "DROP TABLE debt_payments";
-            String query24 = "DROP TABLE supplier_debts";
-            String query25 = "DROP TABLE suppliers";
+            String query3 = "DROP TABLE item_sales";
+            String query4 = "DROP TABLE service_receptions";
+            String query5 = "DROP TABLE bill_payments";
+            String query6 = "DROP TABLE bills";
+            String query7 = "DROP TABLE rechargeable_items";
+            String query8 = "DROP TABLE services";
+            String query9 = "DROP TABLE clients_cxcc";
+            String query10 = "DROP TABLE clients_cxc";
+            String query11 = "DROP TABLE clients";
+            String query12 = "DROP TABLE employees";
+            String query13 = "DROP TABLE inventorys";
+            String query14 = "DROP TABLE expenses";
+            String query15 = "DROP TABLE stores";
+            String query16 = "DROP TABLE offers";
+            String query17 = "DROP TABLE item_discounts";
+            String query18 = "DROP TABLE item_purchases";
+            String query19 = "DROP TABLE purchases";
+            String query20 = "DROP TABLE items";
+            String query21 = "DROP TABLE debt_payments";
+            String query22 = "DROP TABLE supplier_debts";
+            String query23 = "DROP TABLE suppliers";
 
             result.createStatement().execute(query1);
             result.createStatement().execute(query2);
@@ -90,8 +91,6 @@ public class DatabaseCreator {
             result.createStatement().execute(query21);
             result.createStatement().execute(query22);
             result.createStatement().execute(query23);
-            result.createStatement().execute(query24);
-            result.createStatement().execute(query25);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -223,7 +222,7 @@ public class DatabaseCreator {
                     + ")";
             String query13 = "CREATE TABLE clients (\n"
                     + "    client_id INTEGER NOT NULL PRIMARY KEY \n"
-                    + "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
+                    + "                GENERATED ALWAYS AS IDENTITY (START WITH 0, INCREMENT BY 1),\n"
                     + "    client_name VARCHAR(30) NOT  NULL,\n"
                     + "    client_lastname VARCHAR(30) NOT NULL,\n"
                     + "    client_nit INTEGER NOT NULL,\n"
@@ -277,22 +276,25 @@ public class DatabaseCreator {
                     + "    obs VARCHAR(100),\n"
                     + "    CONSTRAINT rechargeableitems_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id)\n"
                     + ")";
-            String query18 = "CREATE TABLE service_bills (\n"
-                    + "    servicebill_id INTEGER NOT NULL PRIMARY KEY \n"
-                    + "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
-                    + "    client_id INTEGER NOT NULL,\n"
-                    + "    employee_id INTEGER NOT NULL,\n"
-                    + "    bill_date DATE NOT NULL,\n"
-                    + "    total_amount REAL NOT NULL,\n"
-                    + "    is_billed BOOLEAN NOT NULL,\n"
-                    + "    obs VARCHAR(100),\n"
-                    + "    CONSTRAINT servicebills_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id),\n"
-                    + "    CONSTRAINT servicebills_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)\n"
-                    + ")";
+            String query18 = "CREATE TABLE bills (\n" +
+                    "    bill_id INTEGER NOT NULL PRIMARY KEY \n" +
+                    "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n" +
+                    "    client_id INTEGER NOT NULL,\n" +
+                    "    store_id INTEGER NOT NULL,\n" +
+                    "    employee_id INTEGER NOT NULL,\n" +
+                    "    bill_date DATE NOT NULL,\n" +
+                    "    total_amount REAL NOT NULL,\n" +
+                    "    is_billed BOOLEAN NOT NULL,\n" +
+                    "    is_route BOOLEAN,\n" +
+                    "    obs VARCHAR(100),\n" +
+                    "    CONSTRAINT bills_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id),\n" +
+                    "    CONSTRAINT bills_store_id_ref FOREIGN KEY (store_id) REFERENCES stores(store_id),\n" +
+                    "    CONSTRAINT bills_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)\n" +
+                    ")";
             String query19 = "CREATE TABLE service_receptions (\n"
                     + "    servicereception_id INTEGER NOT NULL PRIMARY KEY \n"
                     + "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
-                    + "    servicebill_id INTEGER NOT NULL,\n"
+                    + "    bill_id INTEGER NOT NULL,\n"
                     + "    service_id VARCHAR(10) NOT NULL,\n"
                     + "    rechargeableitem_id VARCHAR(10) NOT NULL,\n"
                     + "    reception_date DATE NOT NULL,\n"
@@ -302,57 +304,31 @@ public class DatabaseCreator {
                     + "    obs VARCHAR(100),\n"
                     + "    CONSTRAINT servicereceptions_service_id_ref FOREIGN KEY (service_id) REFERENCES services(service_id),\n"
                     + "    CONSTRAINT servicereceptions_rechargeableitem_id_ref FOREIGN KEY (rechargeableitem_id) REFERENCES rechargeable_items(rechargeableitem_id),\n"
-                    + "    CONSTRAINT servicereceptions_servicebill_id_ref FOREIGN KEY (servicebill_id) REFERENCES service_bills(servicebill_id)\n"
+                    + "    CONSTRAINT servicereceptions_bill_id_ref FOREIGN KEY (bill_id) REFERENCES bills(bill_id)\n"
                     + ")";
-            String query20 = "CREATE TABLE service_payments (\n"
-                    + "    servicepayment_id INTEGER NOT NULL PRIMARY KEY \n"
-                    + "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
-                    + "    servicebill_id INTEGER NOT NULL,\n"
-                    + "    employee_id INTEGER NOT NULL,\n"
-                    + "    pay_date DATE NOT NULL,\n"
-                    + "    amount_paid REAL NOT NULL,\n"
-                    + "    obs VARCHAR(100),\n"
-                    + "    CONSTRAINT servicepayments_servicebill_id_ref FOREIGN KEY (servicebill_id) REFERENCES service_bills(servicebill_id),\n"
-                    + "    CONSTRAINT servicepayments_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)\n"
-                    + ")";
-            String query21 = "CREATE TABLE item_bills (\n"
-                    + "    itembill_id INTEGER NOT NULL PRIMARY KEY \n"
-                    + "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
-                    + "    client_id INTEGER NOT NULL,\n"
-                    + "    store_id INTEGER NOT NULL,\n"
-                    + "    employee_id INTEGER NOT NULL,\n"
-                    + "    bill_date DATE NOT NULL,\n"
-                    + "    total_amount REAL NOT NULL,\n"
-                    + "    is_billed BOOLEAN NOT NULL,\n"
-                    + "    is_route BOOLEAN,\n"
-                    + "    obs VARCHAR(100),\n"
-                    + "    CONSTRAINT itembills_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id),\n"
-                    + "    CONSTRAINT itembills_store_id_ref FOREIGN KEY (store_id) REFERENCES stores(store_id),\n"
-                    + "    CONSTRAINT itembills_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)\n"
-                    + ")";
-            String query22 = "CREATE TABLE item_sales (\n"
+            String query20 = "CREATE TABLE item_sales (\n"
                     + "    itemsale_id INTEGER NOT NULL PRIMARY KEY \n"
                     + "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
-                    + "    itembill_id INTEGER NOT NULL,\n"
+                    + "    bill_id INTEGER NOT NULL,\n"
                     + "    item_id VARCHAR(10) NOT NULL,\n"
                     + "    quantity INTEGER NOT NULL,\n"
                     + "    total_amount REAL NOT NULL,\n"
                     + "    obs VARCHAR(100),\n"
                     + "    CONSTRAINT itemsales_item_id_ref FOREIGN KEY (item_id) REFERENCES items(item_id),\n"
-                    + "    CONSTRAINT itemsales_itembill_id_ref FOREIGN KEY (itembill_id) REFERENCES item_bills(itembill_id)\n"
+                    + "    CONSTRAINT itemsales_bill_id_ref FOREIGN KEY (bill_id) REFERENCES bills(bill_id)\n"
                     + ")";
-            String query23 = "CREATE TABLE item_payments (\n"
-                    + "    itempayment_id INTEGER NOT NULL PRIMARY KEY \n"
-                    + "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
-                    + "    itembill_id INTEGER NOT NULL,\n"
-                    + "    employee_id INTEGER NOT NULL,\n"
-                    + "    pay_date DATE NOT NULL,\n"
-                    + "    amount_paid REAL NOT NULL,\n"
-                    + "    obs VARCHAR(100),\n"
-                    + "    CONSTRAINT itempayments_itembill_id_ref FOREIGN KEY (itembill_id) REFERENCES item_bills(itembill_id),\n"
-                    + "    CONSTRAINT itempayments_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)\n"
-                    + ")";
-            String query24 = "CREATE TABLE item_estimates (\n"
+            String query21 = "CREATE TABLE bill_payments (\n" +
+                    "    billpayment_id INTEGER NOT NULL PRIMARY KEY \n" +
+                    "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n" +
+                    "    bill_id INTEGER NOT NULL,\n" +
+                    "    employee_id INTEGER NOT NULL,\n" +
+                    "    pay_date DATE NOT NULL,\n" +
+                    "    amount_paid REAL NOT NULL,\n" +
+                    "    obs VARCHAR(100),\n" +
+                    "    CONSTRAINT billpayments_bill_id_ref FOREIGN KEY (bill_id) REFERENCES bills(bill_id),\n" +
+                    "    CONSTRAINT billpayments_employee_id_ref FOREIGN KEY (employee_id) REFERENCES employees(employee_id)\n" +
+                    ")";
+            String query22 = "CREATE TABLE item_estimates (\n"
                     + "    itemestimate_id INTEGER NOT NULL PRIMARY KEY \n"
                     + "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
                     + "    client_id INTEGER NOT NULL,\n"
@@ -364,7 +340,7 @@ public class DatabaseCreator {
                     + "    CONSTRAINT estimate_client_id_ref FOREIGN KEY (client_id) REFERENCES clients(client_id),\n"
                     + "    CONSTRAINT estimate_store_id_ref FOREIGN KEY (store_id) REFERENCES stores(store_id)\n"
                     + ")";
-            String query25 = "CREATE TABLE item_requests (\n"
+            String query23 = "CREATE TABLE item_requests (\n"
                     + "    itemrequest_id INTEGER NOT NULL PRIMARY KEY \n"
                     + "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
                     + "    itemestimate_id INTEGER NOT NULL,\n"
@@ -398,13 +374,41 @@ public class DatabaseCreator {
             result.createStatement().execute(query21);
             result.createStatement().execute(query22);
             result.createStatement().execute(query23);
-            result.createStatement().execute(query24);
-            result.createStatement().execute(query25);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void createInitialInfo() {
+        try {
+            Class.forName(DRIVER);
+            Connection result = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            String query24 = "INSERT INTO clients(client_name, client_lastname, "
+                        + "client_nit, client_billname, client_address, client_phone, "
+                        + "client_phone2, client_email, client_companyname, "
+                        + "client_frequency, client_regdate, client_isroute) "
+                        + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement statement = result.prepareStatement(query24);
+                statement.setString(1, "");
+                statement.setString(2, "");
+                statement.setInt(3, 0);
+                statement.setString(4, "");
+                statement.setString(5, "");
+                statement.setInt(6, 0);
+                statement.setInt(7, 0);
+                statement.setString(8, "");
+                statement.setString(9, "");
+                statement.setInt(10, 0);
+                statement.setDate(11, new Date(new java.util.Date().getTime()));
+                statement.setBoolean(12, false);
+                statement.executeUpdate();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -6,6 +6,7 @@
 
 package com.liquidbol.db;
 
+import com.liquidbol.model.Bill;
 import com.liquidbol.model.BillPayment;
 import com.liquidbol.model.CXC;
 import com.liquidbol.model.Client;
@@ -13,25 +14,22 @@ import com.liquidbol.model.Company;
 import com.liquidbol.model.Debt;
 import com.liquidbol.model.Inventory;
 import com.liquidbol.model.Item;
-import com.liquidbol.model.ItemBill;
 import com.liquidbol.model.ItemEstimate;
 import com.liquidbol.model.ItemPurchase;
 import com.liquidbol.model.ItemRequest;
 import com.liquidbol.model.ItemSale;
 import com.liquidbol.model.Purchase;
-import com.liquidbol.model.ServiceBill;
 import com.liquidbol.model.ServiceReception;
 import com.liquidbol.model.Store;
 import com.liquidbol.model.Supplier;
+import com.liquidbol.services.BillServices;
 import com.liquidbol.services.CXCServices;
 import com.liquidbol.services.ClientServices;
 import com.liquidbol.services.CompanyServices;
 import com.liquidbol.services.DebtServices;
-import com.liquidbol.services.ItemBillServices;
 import com.liquidbol.services.ItemEstimateServices;
 import com.liquidbol.services.ItemServices;
 import com.liquidbol.services.PurchaseServices;
-import com.liquidbol.services.ServiceBillServices;
 import com.liquidbol.services.StoreServices;
 import com.liquidbol.services.SupplierServices;
 
@@ -41,29 +39,27 @@ import com.liquidbol.services.SupplierServices;
  */
 public class DatabaseLoader {
     
+    private final BillServices billServices;
     private final CXCServices cxcServices;
     private final ClientServices clientServices;
     private final CompanyServices companyServices;
     private final DebtServices debtServices;
-    private final ItemBillServices itemBillServices;
     private final ItemEstimateServices itemEstimateServices;
     private final ItemServices itemServices;
     private final PurchaseServices purchaseServices;
-    private final ServiceBillServices serviceBillServices;
     private final StoreServices storeServices;
     private final SupplierServices supplierServices;
     //private final Company Company;
     
     public DatabaseLoader(/*Company Company*/) {
+        billServices = new BillServices();
         cxcServices = new CXCServices();
         clientServices = new ClientServices();
         companyServices = new CompanyServices(/*Company*/);
         debtServices = new DebtServices();
-        itemBillServices = new ItemBillServices();
         itemEstimateServices = new ItemEstimateServices();
         itemServices = new ItemServices();
         purchaseServices = new PurchaseServices();
-        serviceBillServices = new ServiceBillServices();
         storeServices = new StoreServices();
         supplierServices = new SupplierServices();
         //this.Company = Company;
@@ -87,9 +83,9 @@ public class DatabaseLoader {
     
     public void loadClientInfo(Client client) {
         clientServices.loadAllClientInfo(client);
-        for (ItemBill itemBill : client.getAllItemBills()) {
-            loadItemBillInfo(itemBill);
-            itemBill.refresh();
+        for (Bill bill : client.getAllBills()) {
+            loadBillInfo(bill);
+            bill.refresh();
         }
         for (ItemEstimate itemEstimate : client.getAllItemEstimates()) {
             loadItemEstimateInfo(itemEstimate);
@@ -98,19 +94,18 @@ public class DatabaseLoader {
         for (CXC cxc : client.getAllReceivableAccounts()) {
             loadReceivableAccountInfo(cxc);
         }
-        for (ServiceBill serviceBill : client.getAllServiceBills()) {
-            loadServiceBillInfo(serviceBill);
-            serviceBill.refresh();
-        }
     }
     
-    public void loadItemBillInfo(ItemBill itemBill) {
-        itemBillServices.loadAllItemBillInfo(itemBill);
-        for (BillPayment payment : itemBill.getAllPayments()) {
+    public void loadBillInfo(Bill bill) {
+        billServices.loadAllItemBillInfo(bill);
+        for (BillPayment payment : bill.getAllPayments()) {
             payment.refresh();
         }
-        for (ItemSale itemSale : itemBill.getAllItemSales()) {
+        for (ItemSale itemSale : bill.getAllItemSales()) {
             itemSale.refresh();
+        }
+        for (ServiceReception serviceReception : bill.getAllServiceReceptions()) {
+            serviceReception.refresh();
         }
     }
     
@@ -123,16 +118,6 @@ public class DatabaseLoader {
     
     public void loadReceivableAccountInfo(CXC cxc) {
         cxcServices.loadAllCXCInfo(cxc);
-    }
-    
-    public void loadServiceBillInfo(ServiceBill serviceBill) {
-        serviceBillServices.loadAllServiceBillInfo(serviceBill);
-        for (BillPayment payment : serviceBill.getAllPayments()) {
-            payment.refresh();
-        }
-        for (ServiceReception serviceReception : serviceBill.getAllServiceReceptions()) {
-            serviceReception.refresh();
-        }
     }
     
     public void loadItemInfo(Item item) {
