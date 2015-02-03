@@ -2,14 +2,13 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.MultiLineCellRenderer;
+import com.liquidbol.addons.UIStyle;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,8 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -50,11 +47,24 @@ public class ItemEstimateForm extends JFrame {
     private Component offerVal;
     private JButton backBtn;
     
-    public ItemEstimateForm() {
+    public ItemEstimateForm(int state) {
         this.df = new DecimalFormat("##.00");
-        setStyle();
-        initComponents();
-        setVisible(true);
+        UIStyle sty = new UIStyle();
+        switch (state) {
+            case 1: //Add/edit new itemestimate
+                initComponents();
+                setVisible(true);
+                break;
+            case 2: //show itemestimate data
+                initComponents();
+                convertToReadOnly();
+                setVisible(true);
+                break;
+            default:
+                initComponents();
+                setVisible(true);
+                break;
+        }
     }
 
     private void initComponents() {
@@ -186,19 +196,6 @@ public class ItemEstimateForm extends JFrame {
         contentPane.add(sp);
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
-    }
-
-    private void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public void calculateEachArticlePrice(int qValueCol, int upValueCol, int resValueCol) {

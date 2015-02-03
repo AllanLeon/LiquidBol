@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.addons.UIStyle;
 import com.liquidbol.gui.tables.model.EmployeeTableModel;
 import com.liquidbol.model.Company;
 import com.liquidbol.model.Employee;
@@ -21,8 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -41,7 +40,7 @@ public class ListEmployeesForm extends JFrame {
     private JButton backBtn;
 
     public ListEmployeesForm() {
-        setStyle();
+        UIStyle sty = new UIStyle();
         initComponents();
         setVisible(true);
     }
@@ -121,20 +120,5 @@ public class ListEmployeesForm extends JFrame {
         contentPane.add(searchBtn);
         contentPane.add(employeesTableSP);
         contentPane.add(backBtn);
-    }
-
-    public static void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

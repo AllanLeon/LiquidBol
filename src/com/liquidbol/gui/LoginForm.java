@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.addons.UIStyle;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,8 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -33,7 +32,7 @@ public class LoginForm extends JFrame {
     protected static LoginForm LF;
 
     public LoginForm() {
-        setStyle();
+        UIStyle sty = new UIStyle();
         initComponents();
         setVisible(true);
     }
@@ -78,18 +77,5 @@ public class LoginForm extends JFrame {
         contentPane.add(jTextField1);
         contentPane.add(submitBtn);
         contentPane.add(bgLabel);
-    }
-
-    private void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

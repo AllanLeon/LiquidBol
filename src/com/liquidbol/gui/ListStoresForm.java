@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.addons.UIStyle;
 import com.liquidbol.gui.tables.model.StoreTableModel;
 import com.liquidbol.model.Company;
 import com.liquidbol.model.Store;
@@ -8,16 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -33,7 +30,7 @@ public class ListStoresForm extends JFrame {
     private JButton addBtn;
 
     public ListStoresForm() {
-        setStyle();
+        UIStyle sty = new UIStyle();
         initComponents();
         setVisible(true);
     }
@@ -101,18 +98,5 @@ public class ListStoresForm extends JFrame {
         contentPane.add(addBtn);
         contentPane.add(storeTableSP);
         contentPane.add(backBtn);
-    }
-
-    private void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

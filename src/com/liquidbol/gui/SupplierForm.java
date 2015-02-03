@@ -1,6 +1,7 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.MagikarpScreen;
+import com.liquidbol.addons.UIStyle;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Supplier;
 import java.awt.Component;
@@ -63,25 +64,22 @@ public class SupplierForm extends JFrame {
     private Object[] readItData;
 
     public SupplierForm(int state) {
+        UIStyle sty = new UIStyle();
         switch(state){
             case 1: //Add new supplier
-                setStyle();
                 initComponents();
                 setVisible(true);
                 break;
             case 2: //show supplier data
-                setStyle();
                 initComponents();
                 convertToReadOnly();
                 setVisible(true);
                 break;
             case 3: //edit supplier data
-                setStyle();
                 initComponents();
                 setVisible(true);
                 break;
             default:
-                setStyle();
                 initComponents();
                 setVisible(true);
                 break;
@@ -219,19 +217,6 @@ public class SupplierForm extends JFrame {
         Supplier temp = MagikarpScreen.compServ.createSupplier(231,(String)data[0],(String)data[1],(int)data[2],
                 (int)data[3],(String)data[4],(String)data[5],(String)data[6],(String)data[7]);
         MagikarpScreen.compServ.saveSupplier(temp);
-    }
-
-    private void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void onMouseHover(JLabel lbl) {

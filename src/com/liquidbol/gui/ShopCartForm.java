@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.addons.UIStyle;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -22,11 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -59,7 +57,7 @@ public class ShopCartForm extends JFrame {
     private double total;
 
     public ShopCartForm() {
-        setStyle();
+        UIStyle sty = new UIStyle();
         initComponents();
         setVisible(true);
     }
@@ -265,20 +263,6 @@ public class ShopCartForm extends JFrame {
 
         addDoubleClickList(itemsTable, wholeTable, false);
         addDoubleClickList(serviceTable, wholeTable, true);
-    }
-
-    public static void setStyle() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(JFrame.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void addDoubleClickList(JTable aTable, JTable bTable, boolean isService) {
