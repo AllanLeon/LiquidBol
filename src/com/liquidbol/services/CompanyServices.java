@@ -381,7 +381,7 @@ public class CompanyServices {
         return oldOffer;
     }
     
-    public Supplier mergeClient(int id, int phone, int phone2, String Company,
+    public Supplier mergeSupplier(int id, int phone, int phone2, String Company,
             String address, String email, String city)
             throws PersistenceException, ClassNotFoundException {
         Supplier oldSupplier = supplierCrudManager.find(id);
