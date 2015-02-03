@@ -6,8 +6,8 @@
 
 package com.liquidbol.db.persistence;
 
+import com.liquidbol.model.Bill;
 import com.liquidbol.model.Item;
-import com.liquidbol.model.ItemBill;
 import com.liquidbol.model.ItemSale;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,7 +29,7 @@ public class ItemSaleCrud implements DBCrud<ItemSale> {
 
     private Connection connection;
 
-    public ItemSale save(ItemSale element, ItemBill parent) throws PersistenceException, ClassNotFoundException {
+    public ItemSale save(ItemSale element, Bill parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO item_sales(itembill_id, item_id, quantity, "

@@ -2,15 +2,14 @@ package com.liquidbol.addons;
 
 import com.liquidbol.db.DatabaseLoader;
 import com.liquidbol.gui.LoginForm;
+import com.liquidbol.services.BillServices;
 import com.liquidbol.services.CXCServices;
 import com.liquidbol.services.ClientServices;
 import com.liquidbol.services.CompanyServices;
 import com.liquidbol.services.DebtServices;
-import com.liquidbol.services.ItemBillServices;
 import com.liquidbol.services.ItemEstimateServices;
 import com.liquidbol.services.ItemServices;
 import com.liquidbol.services.PurchaseServices;
-import com.liquidbol.services.ServiceBillServices;
 import com.liquidbol.services.StoreServices;
 import com.liquidbol.services.SupplierServices;
 import java.awt.*;
@@ -27,15 +26,14 @@ public final class MagikarpScreen {
                             "Recargando recargas recargables", "Alistando cascos para el trabajo",
                             "Clasificando electrodos", "Alistando pan con Pepsi"};
     //private Company liquid;
+    public static BillServices billServ;
     public static CXCServices cxcServ;
     public static ClientServices clientServ;
     public static CompanyServices compServ;
     public static DebtServices debtServ;
-    public static ItemBillServices itemBillServ;
     public static ItemEstimateServices itemEstServ;
     public static ItemServices itemServ;
     public static PurchaseServices purchServ;
-    public static ServiceBillServices servBillServ;
     public static StoreServices storeServ;
     public static SupplierServices suppServ;
     public static LoginForm LF;
@@ -54,15 +52,14 @@ public final class MagikarpScreen {
         animate();
         //liquid = new Company();
         new DatabaseLoader().loadCompanyInfo();
+        billServ = new BillServices();
         cxcServ = new CXCServices();
         clientServ = new ClientServices();
         compServ = new CompanyServices(/*liquid*/);
         debtServ = new DebtServices();
-        itemBillServ = new ItemBillServices();
         itemEstServ = new ItemEstimateServices();
         itemServ = new ItemServices();
         purchServ = new PurchaseServices();
-        servBillServ = new ServiceBillServices();
         storeServ = new StoreServices();
         suppServ = new SupplierServices();
     }

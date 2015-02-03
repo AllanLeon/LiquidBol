@@ -7,18 +7,16 @@
 package com.liquidbol.services;
 
 import com.liquidbol.db.persistence.ClientCXCCrud;
-import com.liquidbol.db.persistence.ItemBillCrud;
+import com.liquidbol.db.persistence.BillCrud;
 import com.liquidbol.db.persistence.ItemEstimateCrud;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.db.persistence.RechargeableItemCrud;
-import com.liquidbol.db.persistence.ServiceBillCrud;
+import com.liquidbol.model.Bill;
 import com.liquidbol.model.CXC;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Employee;
-import com.liquidbol.model.ItemBill;
 import com.liquidbol.model.ItemEstimate;
 import com.liquidbol.model.RechargeableItem;
-import com.liquidbol.model.ServiceBill;
 import com.liquidbol.model.Store;
 import java.sql.Date;
 import java.util.Calendar;
@@ -36,15 +34,13 @@ public class ClientServices {
     private final ClientCXCCrud cxcCrudManager;
     private final RechargeableItemCrud rechargeableItemCrudManager;
     private final ItemEstimateCrud itemEstimateCrudManager;
-    private final ItemBillCrud itemBillCrudManager;
-    private final ServiceBillCrud serviceBillCrudManager;
+    private final BillCrud billCrudManager;
     
     public ClientServices() {
         this.cxcCrudManager = new ClientCXCCrud();
         this.rechargeableItemCrudManager = new RechargeableItemCrud();
         this.itemEstimateCrudManager = new ItemEstimateCrud();
-        this.itemBillCrudManager = new ItemBillCrud();
-        this.serviceBillCrudManager = new ServiceBillCrud();
+        this.billCrudManager = new BillCrud();
     }
     
     public CXC createCXC(int id, Double debt, Double creditMaxAmount, Date creditLimitDate,
@@ -71,15 +67,10 @@ public class ClientServices {
         return itemEstimate;
     }
     
-    public ItemBill createItemBill(int id, Employee employee, Store store, Date date,
+    public Bill createBill(int id, Employee employee, Store store, Date date,
             boolean route, String obs) {
-        ItemBill itemBill = new ItemBill(id, employee, store, date, false, route, obs);
-        return itemBill;
-    }
-    
-    public ServiceBill createServiceBill(int id, Employee employee, Date date, String obs) {
-        ServiceBill serviceBill = new ServiceBill(id, employee, date, false, obs);
-        return serviceBill;
+        Bill bill = new Bill(id, store, employee, date, false, route, obs);
+        return bill;
     }
     
     public CXC addCXCToClient(CXC element, Client parent) throws PersistenceException, ClassNotFoundException {
@@ -105,19 +96,11 @@ public class ClientServices {
         return element;
     }
     
-    public ItemBill addItemBillToClient(ItemBill element, Client parent)
+    public Bill addBillToClient(Bill element, Client parent)
             throws PersistenceException, ClassNotFoundException {
-        element = itemBillCrudManager.save(element, parent);
-        parent.addItemBill(element);
+        element = billCrudManager.save(element, parent);
+        parent.addBill(element);
         LOG.info(String.format("Item bill: %d saved", element.getId()));
-        return element;
-    }
-    
-    public ServiceBill addServiceBillToClient(ServiceBill element, Client parent)
-            throws PersistenceException, ClassNotFoundException {
-        element = serviceBillCrudManager.save(element, parent);
-        parent.addServiceBill(element);
-        LOG.info(String.format("Service bill: %d saved", element.getId()));
         return element;
     }
     
@@ -137,13 +120,8 @@ public class ClientServices {
     }
     
     public void loadClientItemBills(Client parent) throws PersistenceException, ClassNotFoundException {
-        parent.setItemBills(itemBillCrudManager.findByClientId(parent.getId()));
-        LOG.info(String.format("%d item bills loaded", parent.getAllItemBills().size()));
-    }
-    
-    public void loadClientServiceBills(Client parent) throws PersistenceException, ClassNotFoundException {
-        parent.setServiceBills(serviceBillCrudManager.findByClientId(parent.getId()));
-        LOG.info(String.format("%d service bills loaded", parent.getAllServiceBills().size()));
+        parent.setBills(billCrudManager.findByClientId(parent.getId()));
+        LOG.info(String.format("%d item bills loaded", parent.getAllBills().size()));
     }
     
     public void loadAllClientInfo(Client parent) {
@@ -152,7 +130,6 @@ public class ClientServices {
             loadClientItemBills(parent);
             loadClientItemEstimates(parent);
             loadClientRechargeableItems(parent);
-            loadClientServiceBills(parent);
         } catch (PersistenceException | ClassNotFoundException ex) {
             LOG.info("Couldn't load company info");
             LOG.log(Level.SEVERE, null, ex);
@@ -184,19 +161,11 @@ public class ClientServices {
         return oldEstimate;
     }
     
-    public ItemBill mergeItemBill(int id, Double amount, boolean billed, String obs)
+    public Bill mergeBill(int id, Double amount, boolean billed, String obs)
             throws PersistenceException, ClassNotFoundException {
-        ItemBill oldBill = itemBillCrudManager.find(id);
-        ItemBill newBill = new ItemBill(id, oldBill.getEmployee(), oldBill.getStore(), oldBill.getDate(), amount, billed, oldBill.isRoute(), obs);
-        oldBill = itemBillCrudManager.merge(newBill);
-        return oldBill;
-    }
-    
-    public ServiceBill mergeServiceBill(int id, Double amount, boolean billed, String obs)
-            throws PersistenceException, ClassNotFoundException {
-        ServiceBill oldBill = serviceBillCrudManager.find(id);
-        ServiceBill newBill = new ServiceBill(id, oldBill.getEmployee(), oldBill.getDate(), amount, billed, obs);
-        oldBill = serviceBillCrudManager.merge(newBill);
+        Bill oldBill = billCrudManager.find(id);
+        Bill newBill = new Bill(id, oldBill.getStore(), oldBill.getEmployee(), oldBill.getDate(), amount, billed, oldBill.isRoute(), obs);
+        oldBill = billCrudManager.merge(newBill);
         return oldBill;
     }
 }
