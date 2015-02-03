@@ -17,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -42,9 +43,11 @@ public class BillForm extends JFrame {
     private JTextField totalAmount;
     private JButton backBtn;
     private JButton submitBtn;
+    private TableModel passed;
     
-    public BillForm() {
+    public BillForm(TableModel tm) {
         UIStyle sty = new UIStyle();
+        passed = tm;
         initComponents();
         setVisible(true);
     }
@@ -76,7 +79,7 @@ public class BillForm extends JFrame {
         clientName = new JTextField();
         nitLbl = new JLabel("NIT/C.I.");
         clientNit = new JTextField();
-
+/*
         String[] columnNames = {"Cod",
             "Cant.",
             "Unidad",
@@ -89,7 +92,8 @@ public class BillForm extends JFrame {
             {"00126", 20, "Kg.", "Electrodo 7018 1/8", 22.8, 0},
             {"00119", 20, "Kg.", "Electrodo 6013 1/8", 22.8, 0}
         };
-        contentTable = new JTable(tempData, columnNames);
+        contentTable = new JTable(tempData, columnNames); */
+        contentTable = new JTable(passed);
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 20));
         contentTable.setRowHeight(25);

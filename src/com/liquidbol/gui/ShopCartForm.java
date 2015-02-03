@@ -160,6 +160,7 @@ public class ShopCartForm extends JFrame {
             "CANT",
             "Unidad",
             "Descripcion",
+            "Precio Unit.",
             "Precio"
         };
         Object[][] tempData3 = {
@@ -210,7 +211,7 @@ public class ShopCartForm extends JFrame {
         toNoteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                NoteForm nf = new NoteForm();
+                NoteForm nf = new NoteForm(wholeTable.getModel());
                 setVisible(false);
             }
         });
@@ -218,7 +219,7 @@ public class ShopCartForm extends JFrame {
         toBillBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BillForm bf = new BillForm();
+                BillForm bf = new BillForm(wholeTable.getModel());
                 setVisible(false);
             }
         });
