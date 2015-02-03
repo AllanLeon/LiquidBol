@@ -6,9 +6,10 @@
 
 package com.liquidbol.db.persistence;
 
+import com.liquidbol.model.Bill;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Employee;
-import com.liquidbol.model.ServiceBill;
+import com.liquidbol.model.Store;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -21,41 +22,43 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class responsible of all persistence operations related to service bills.
+ * Class responsible of all persistence operations related to item bills.
  * @author Allan Leon
  */
-public class ServiceBillCrud implements DBCrud<ServiceBill> {
+public class BillCrud implements DBCrud<Bill> {
     
-    private static final Logger LOG = Logger.getLogger(ServiceBillCrud.class.getName());
+    private static final Logger LOG = Logger.getLogger(BillCrud.class.getName());
 
     private Connection connection;
 
-    public ServiceBill save(ServiceBill element, Client parent) throws PersistenceException, ClassNotFoundException {
+    public Bill save(Bill element, Client parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
-            String insert = "INSERT INTO service_bills(client_id, employee_id, "
-                    + "bill_date, total_amount, is_billed, obs) VALUES(?,?,?,?,?)";
+            String insert = "INSERT INTO bills(client_id, store_id, employee_id, "
+                    + "bill_date, total_amount, is_billed, is_route, obs) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, parent.getId());
-            statement.setInt(2, element.getEmployee().getId());
-            statement.setDate(3, element.getDate());
-            statement.setDouble(4, element.getTotalAmount());
-            statement.setBoolean(5, element.isBilled());
-            statement.setString(6, element.getObs());
+            statement.setInt(2, element.getStore().getId());
+            statement.setInt(3, element.getEmployee().getId());
+            statement.setDate(4, element.getDate());
+            statement.setDouble(5, element.getTotalAmount());
+            statement.setBoolean(6, element.isBilled());
+            statement.setBoolean(7, element.isRoute());
+            statement.setString(8, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new PersistenceException("service bill was not saved");
+                throw new PersistenceException("Bill was not saved");
             }
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
                 int id = rs.getInt(1);
                 element.setId(id);
             }
-            LOG.info(String.format("service bill: %d successfuly saved", element.getId()));
+            LOG.info(String.format("Bill: %d successfuly saved", element.getId()));
             return element;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException(String.format("Failed to save service bill: %d", element.getId()), ex);
+            throw new PersistenceException(String.format("Failed to save item bill: %d", element.getId()), ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -66,14 +69,14 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
     }
 
     @Override
-    public ServiceBill find(String id) throws PersistenceException, ClassNotFoundException {
+    public Bill find(String id) throws PersistenceException, ClassNotFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ServiceBill find(int id) throws PersistenceException, ClassNotFoundException {
+    public Bill find(int id) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM service_bills WHERE servicebill_id = ?";
+            String query = "SELECT * FROM bills WHERE bill_id = ?";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
@@ -81,11 +84,11 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
             if (resultSet.next()) {
                 return createElementFromResultSet(resultSet);
             } else {
-                throw new PersistenceException(String.format("Couldn't find service bill with code %d", id));
+                throw new PersistenceException(String.format("Couldn't find bill with code %d", id));
             }
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read service bill", ex);
+            throw new PersistenceException("Failed to read bill", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -95,22 +98,22 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
         }
     }
     
-    public Collection<ServiceBill> findByClientId(int id) throws PersistenceException, ClassNotFoundException {
+    public Collection<Bill> findByClientId(int id) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM service_bills WHERE servicebill_id = ?";
+            String query = "SELECT * FROM bills WHERE client_id = ?";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            Collection<ServiceBill> result = new HashSet<>();
+            Collection<Bill> result = new HashSet<>();
             while (resultSet.next()) {
-                ServiceBill element = createElementFromResultSet(resultSet);
+                Bill element = createElementFromResultSet(resultSet);
                 result.add(element);
             }
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read service bill", ex);
+            throw new PersistenceException("Failed to read bill", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -121,25 +124,26 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
     }
 
     @Override
-    public ServiceBill merge(ServiceBill element) throws PersistenceException, ClassNotFoundException {
+    public Bill merge(Bill element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE service_bills SET bill_date=?, total_amount=?, "
-                    + "is_billed=?, obs=? WHERE servicebill_id=?";
+            String query = "UPDATE bills SET bill_date=?, total_amount=?, "
+                    + "is_billed=?, is_route=?, obs=? WHERE bill_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, element.getDate());
             statement.setDouble(2, element.getTotalAmount());
             statement.setBoolean(3, element.isBilled());
-            statement.setString(4, element.getObs());
-            statement.setInt(5, element.getId());
+            statement.setBoolean(4, element.isRoute());
+            statement.setString(5, element.getObs());
+            statement.setInt(6, element.getId());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
-                throw new PersistenceException("service bill was not updated");
+                throw new PersistenceException("Bill was not updated");
             }
             return element;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException(String.format("Failed to update service bill: %d", element.getId()), ex);
+            throw new PersistenceException(String.format("Failed to update bill: %d", element.getId()), ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -150,21 +154,21 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
     }
 
     @Override
-    public Collection<ServiceBill> getAll() throws PersistenceException, ClassNotFoundException {
+    public Collection<Bill> getAll() throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM service_bills";
+            String query = "SELECT * FROM bills";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
-            Collection<ServiceBill> result = new HashSet<>();
+            Collection<Bill> result = new HashSet<>();
             while (resultSet.next()) {
-                ServiceBill element = createElementFromResultSet(resultSet);
+                Bill element = createElementFromResultSet(resultSet);
                 result.add(element);
             }
             return result;
         } catch (SQLException ex) {
             LOG.log(Level.SEVERE, null, ex);
-            throw new PersistenceException("Failed to read the service bills", ex);
+            throw new PersistenceException("Failed to read the bills", ex);
         } finally {
             try {
                 ConnectionManager.getInstance().releaseConnection();
@@ -175,25 +179,27 @@ public class ServiceBillCrud implements DBCrud<ServiceBill> {
     }
 
     @Override
-    public ServiceBill refresh(ServiceBill element) throws PersistenceException, ClassNotFoundException {
+    public Bill refresh(Bill element) throws PersistenceException, ClassNotFoundException {
         return find(element.getId());
     }
 
     @Override
-    public ServiceBill createElementFromResultSet(ResultSet resultSet) throws SQLException {
+    public Bill createElementFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt(1);
-        Employee employee = new Employee(resultSet.getInt(3));
-        Date date = resultSet.getDate(4);
-        Double totalAmount = resultSet.getDouble(5);
-        boolean billed = resultSet.getBoolean(6);
-        String obs = resultSet.getString(7);
-        LOG.log(Level.FINE, "Creating service bill %d", id);
-        ServiceBill result = new ServiceBill(id, employee, date, totalAmount, billed, obs);
+        Store store = new Store(resultSet.getInt(3));
+        Employee employee = new Employee(resultSet.getInt(4));
+        Date date = resultSet.getDate(5);
+        Double totalAmount = resultSet.getDouble(6);
+        boolean billed = resultSet.getBoolean(7);
+        boolean route = resultSet.getBoolean(8);
+        String obs = resultSet.getString(9);
+        LOG.log(Level.FINE, "Creating bill %d", id);
+        Bill result = new Bill(id, store, employee, date, totalAmount, billed, route, obs);
         return result;
     }
 
     @Override
-    public ServiceBill save(ServiceBill element) throws PersistenceException, ClassNotFoundException {
+    public Bill save(Bill element) throws PersistenceException, ClassNotFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

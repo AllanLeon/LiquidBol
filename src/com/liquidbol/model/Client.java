@@ -26,8 +26,7 @@ public class Client extends Person implements Serializable {
     private Collection<CXC> receivableAccounts;
     private Collection<RechargeableItem> rechargeableItems;
     private Collection<ItemEstimate> itemEstimates;
-    private Collection<ItemBill> itemBills;
-    private Collection<ServiceBill> serviceBills;
+    private Collection<Bill> bills;
 
     /**
      * Constructor method.
@@ -55,8 +54,7 @@ public class Client extends Person implements Serializable {
         this.receivableAccounts = new HashSet<>();
         this.rechargeableItems = new HashSet<>();
         this.itemEstimates = new HashSet<>();
-        this.itemBills = new HashSet<>();
-        this.serviceBills = new HashSet<>();
+        this.bills = new HashSet<>();
     }
 
     /**
@@ -186,28 +184,16 @@ public class Client extends Person implements Serializable {
         itemEstimates.add(itemEstimate);
     }
     
-    public int getNumberOfItemBills() {
-        return itemBills.size();
+    public int getNumberOfBills() {
+        return bills.size();
     }
     
-    public Collection<ItemBill> getAllItemBills() {
-        return itemBills;
+    public Collection<Bill> getAllBills() {
+        return bills;
     }
     
-    public void addItemBill(ItemBill itemBill) {
-        itemBills.add(itemBill);
-    }
-    
-    public int getNumberOfServiceBills() {
-        return serviceBills.size();
-    }
-    
-    public Collection<ServiceBill> getAllServiceBills() {
-        return serviceBills;
-    }
-    
-    public void addServiceBill(ServiceBill serviceBill) {
-        serviceBills.add(serviceBill);
+    public void addBill(Bill bill) {
+        bills.add(bill);
     }
 
     /**
@@ -232,16 +218,9 @@ public class Client extends Person implements Serializable {
     }
 
     /**
-     * @param itemBills the itemBills to set
+     * @param bills the itemBills to set
      */
-    public void setItemBills(Collection<ItemBill> itemBills) {
-        this.itemBills = itemBills;
-    }
-
-    /**
-     * @param serviceBills the serviceBills to set
-     */
-    public void setServiceBills(Collection<ServiceBill> serviceBills) {
-        this.serviceBills = serviceBills;
+    public void setBills(Collection<Bill> bills) {
+        this.bills = bills;
     }
 }

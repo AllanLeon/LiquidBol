@@ -6,36 +6,36 @@
 
 package com.liquidbol.gui.tables.model;
 
+import com.liquidbol.model.Bill;
 import com.liquidbol.model.Client;
-import com.liquidbol.model.ServiceBill;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Represents a table of service bills.
+ * Represents a table of bills.
  * @author Allan Leon
  */
-public class ServiceBillTableModel extends AbstractTableModel {
+public class BillTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cliente",
-        "Monto Total", "Fecha", "Facturado", "Observaciones"};
+        "Monto Total", "Fecha", "Ruta", "Facturado", "Observaciones"};
     
     private final List<Client> clients;
-    private final List<ServiceBill> serviceBills;
+    private final List<Bill> bills;
 
-    public ServiceBillTableModel(List<Client> clients) {
+    public BillTableModel(List<Client> clients) {
         this.clients = new ArrayList<>();
-        serviceBills = new ArrayList<>();
+        bills = new ArrayList<>();
         initializeLists(clients);
     }
     
     private void initializeLists(List<Client> clients) {
         for (Client client : clients) {
-            for (ServiceBill serviceBill : client.getAllServiceBills()) {
+            for (Bill bill : client.getAllBills()) {
                 this.clients.add(client);
-                serviceBills.add(serviceBill);
+                bills.add(bill);
             }
         }
     }
@@ -49,7 +49,7 @@ public class ServiceBillTableModel extends AbstractTableModel {
                 return Double.class;
             case 4:
                 return Date.class;
-            case 5: 
+            case 5: case 6:
                 return Boolean.class;
             default :
                 return String.class;
@@ -60,22 +60,24 @@ public class ServiceBillTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int column) {
         
         Client client = clients.get(row);
-        ServiceBill serviceBill = serviceBills.get(row);
+        Bill bill = bills.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return serviceBill.getId();
+                return bill.getId();
             case 2:
                 return String.format("%s %s", client.getName(), client.getLastname());
             case 3:
-                return serviceBill.getTotalAmount();
+                return bill.getTotalAmount();
             case 4:
-                return serviceBill.getDate();
+                return bill.getDate();
+            case 5:
+                return bill.isRoute();
             case 6:
-                return serviceBill.isBilled();
+                return bill.isBilled();
             case 7:
-                return serviceBill.getObs();
+                return bill.getObs();
             default:
                 return null;
                 
@@ -94,6 +96,6 @@ public class ServiceBillTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return serviceBills.size();
+        return bills.size();
     }
 }
