@@ -8,7 +8,9 @@ package com.liquidbol.db;
 import com.liquidbol.db.persistence.ConnectionManager;
 import java.awt.EventQueue;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +35,7 @@ public class DatabaseCreator {
                 DatabaseCreator dbCreator = new DatabaseCreator();
                 dbCreator.dropDatabase();
                 dbCreator.createDatabase();
+                dbCreator.createInitialInfo();
             }
         });
     }
@@ -219,7 +222,7 @@ public class DatabaseCreator {
                     + ")";
             String query13 = "CREATE TABLE clients (\n"
                     + "    client_id INTEGER NOT NULL PRIMARY KEY \n"
-                    + "                GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),\n"
+                    + "                GENERATED ALWAYS AS IDENTITY (START WITH 0, INCREMENT BY 1),\n"
                     + "    client_name VARCHAR(30) NOT  NULL,\n"
                     + "    client_lastname VARCHAR(30) NOT NULL,\n"
                     + "    client_nit INTEGER NOT NULL,\n"
@@ -376,6 +379,36 @@ public class DatabaseCreator {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void createInitialInfo() {
+        try {
+            Class.forName(DRIVER);
+            Connection result = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            String query24 = "INSERT INTO clients(client_name, client_lastname, "
+                        + "client_nit, client_billname, client_address, client_phone, "
+                        + "client_phone2, client_email, client_companyname, "
+                        + "client_frequency, client_regdate, client_isroute) "
+                        + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+            PreparedStatement statement = result.prepareStatement(query24);
+                statement.setString(1, "");
+                statement.setString(2, "");
+                statement.setInt(3, 0);
+                statement.setString(4, "");
+                statement.setString(5, "");
+                statement.setInt(6, 0);
+                statement.setInt(7, 0);
+                statement.setString(8, "");
+                statement.setString(9, "");
+                statement.setInt(10, 0);
+                statement.setDate(11, new Date(new java.util.Date().getTime()));
+                statement.setBoolean(12, false);
+                statement.executeUpdate();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

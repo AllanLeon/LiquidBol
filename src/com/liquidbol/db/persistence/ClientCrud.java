@@ -142,7 +142,7 @@ public class ClientCrud implements DBCrud<Client> {
     @Override
     public Collection<Client> getAll() throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM clients";
+            String query = "SELECT * FROM clients WHERE client_id != 0";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
