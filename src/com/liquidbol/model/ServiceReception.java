@@ -27,7 +27,7 @@ public class ServiceReception implements Serializable {
     private Date receptionDate;
     private Timestamp deliverTime;
     private Double quantity;
-    private Double totalAmount;
+    private Double amount;
     private String obs;
 
     /**
@@ -47,7 +47,7 @@ public class ServiceReception implements Serializable {
         this.receptionDate = receptionDate;
         this.deliverTime = deliverTime;
         this.quantity = quantity;
-        this.totalAmount = quantity * service.getPrice() / service.getCapacity();
+        this.amount = quantity * service.getPrice() / service.getCapacity();
         this.obs = obs;
     }
     
@@ -59,17 +59,17 @@ public class ServiceReception implements Serializable {
      * @param receptionDate
      * @param deliverTime
      * @param quantity
-     * @param totalAmount
+     * @param amount
      * @param obs 
      */
-    public ServiceReception(int id, Service service, RechargeableItem item, Date receptionDate, Timestamp deliverTime, Double quantity, Double totalAmount, String obs) {
+    public ServiceReception(int id, Service service, RechargeableItem item, Date receptionDate, Timestamp deliverTime, Double quantity, Double amount, String obs) {
         this.id = id;
         this.service = service;
         this.item = item;
         this.receptionDate = receptionDate;
         this.deliverTime = deliverTime;
         this.quantity = quantity;
-        this.totalAmount = totalAmount;
+        this.amount = amount;
         this.obs = obs;
     }
 
@@ -109,10 +109,10 @@ public class ServiceReception implements Serializable {
     }
 
     /**
-     * @return the totalAmount
+     * @return the amount
      */
-    public Double getTotalAmount() {
-        return totalAmount;
+    public Double getAmount() {
+        return amount;
     }
 
     /**
@@ -172,10 +172,10 @@ public class ServiceReception implements Serializable {
     }
 
     /**
-     * @param totalAmount the totalAmount to set
+     * @param amount the amount to set
      */
-    public void setTotalAmount(Double totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     /**
