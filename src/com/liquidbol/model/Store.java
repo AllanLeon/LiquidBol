@@ -179,6 +179,16 @@ public class Store implements Serializable {
         return inventorys;
     }
     
+    public Collection<Inventory> getValidInventorys() {
+        Set<Inventory> result = new HashSet<>();
+        for (Inventory inventory : inventorys) {
+            if (inventory.getQuantity() > 0) {
+                result.add(inventory);
+            }
+        }
+        return result;
+    }
+    
     public Collection<Inventory> findInventoryByItemId(String itemId) {
         Set<Inventory> result = new HashSet<>();
         for (Inventory inventory : inventorys) {

@@ -45,7 +45,7 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
             statement.setDate(4, element.getReceptionDate());
             statement.setTimestamp(5, element.getDeliverTime());
             statement.setDouble(6, element.getQuantity());
-            statement.setDouble(7, element.getTotalAmount());
+            statement.setDouble(7, element.getAmount());
             statement.setString(8, element.getObs());
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected == 0) {
@@ -135,7 +135,7 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
             statement.setDate(1, element.getReceptionDate());
             statement.setTimestamp(2, element.getDeliverTime());
             statement.setDouble(3, element.getQuantity());
-            statement.setDouble(4, element.getTotalAmount());
+            statement.setDouble(4, element.getAmount());
             statement.setString(5, element.getObs());
             statement.setInt(6, element.getId());
             int rowsAffected = statement.executeUpdate();

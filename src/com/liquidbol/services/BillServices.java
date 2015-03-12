@@ -123,7 +123,7 @@ public class BillServices {
     
     public ServiceReception mergeServiceReception(int id, Timestamp deliverTime, String obs) throws PersistenceException, ClassNotFoundException {
         ServiceReception oldReception = serviceReceptionCrudManager.find(id);
-        ServiceReception newReception = new ServiceReception(id, oldReception.getService(), oldReception.getItem(), oldReception.getReceptionDate(), deliverTime, oldReception.getQuantity(), oldReception.getTotalAmount(), obs);
+        ServiceReception newReception = new ServiceReception(id, oldReception.getService(), oldReception.getItem(), oldReception.getReceptionDate(), deliverTime, oldReception.getQuantity(), oldReception.getAmount(), obs);
         oldReception = serviceReceptionCrudManager.merge(newReception);
         return oldReception;
     }

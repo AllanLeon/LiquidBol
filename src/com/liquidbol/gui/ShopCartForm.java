@@ -1,6 +1,11 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.gui.tables.model.ShopCartItemTableModel;
+import com.liquidbol.gui.tables.model.ShopCartServiceTableModel;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.Service;
+import com.liquidbol.model.Store;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -10,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -101,7 +107,7 @@ public class ShopCartForm extends JFrame {
         }
 
         itemsLbl = new JLabel("Articulos");
-        String[] columnNames = {"Cod",
+        /*String[] columnNames = {"Cod",
             "STOCK",
             "Unidad",
             "Descripcion",
@@ -124,12 +130,14 @@ public class ShopCartForm extends JFrame {
         itemsTable.getColumnModel().getColumn(1).setPreferredWidth(30);
         itemsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
         itemsTable.getColumnModel().getColumn(3).setPreferredWidth(240);
-        itemsTable.getColumnModel().getColumn(4).setPreferredWidth(40);
+        itemsTable.getColumnModel().getColumn(4).setPreferredWidth(40);*/
+        List<Store> stores = new ArrayList<>(Company.getAllStores());
+        itemsTable = new JTable(new ShopCartItemTableModel(stores));
         itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane itemsTableSP = new JScrollPane(itemsTable);
 
         serviceLbl = new JLabel("Servicios");
-        String[] columnNames2 = {"Cod",
+        /*String[] columnNames2 = {"Cod",
             "Descripcion",
             "Precio"
         };
@@ -148,7 +156,9 @@ public class ShopCartForm extends JFrame {
         serviceTable.setRowHeight(25);
         serviceTable.getColumnModel().getColumn(0).setPreferredWidth(60);
         serviceTable.getColumnModel().getColumn(1).setPreferredWidth(380);
-        serviceTable.getColumnModel().getColumn(2).setMinWidth(40);
+        serviceTable.getColumnModel().getColumn(2).setMinWidth(40);*/
+        List<Service> services = new ArrayList<>(Company.getAllServices());
+        serviceTable = new JTable(new ShopCartServiceTableModel(services));
         serviceTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane serviceTableSP = new JScrollPane(serviceTable);
 
