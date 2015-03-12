@@ -164,8 +164,8 @@ public class ShopCartForm extends JFrame {
             "Precio"
         };
         Object[][] tempData3 = {
-            {"00126", "", "Kg.", "Electrodo 7018 1/8", 18.00, ""},
-            {"00119", "", "Kg.", "Electrodo 6013 1/8", 18.00, ""}
+  //          {"00126", "", "Kg.", "Electrodo 7018 1/8", 18.00, 36.00},
+  //          {"00119", "", "Kg.", "Electrodo 6013 1/8", 18.00, 36.00}
         };
         wholeTable = new JTable(new DefaultTableModel(tempData3, columnNames3) {
             @Override
@@ -184,6 +184,7 @@ public class ShopCartForm extends JFrame {
         wholeTable.getColumnModel().getColumn(2).setPreferredWidth(30);
         wholeTable.getColumnModel().getColumn(3).setPreferredWidth(240);
         wholeTable.getColumnModel().getColumn(4).setPreferredWidth(40);
+        wholeTable.getColumnModel().getColumn(5).setPreferredWidth(50);
         wholeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         wholeTable.getModel().addTableModelListener(new TableModelListener() {
             @Override
@@ -192,11 +193,13 @@ public class ShopCartForm extends JFrame {
                     total = 0;
                     TableModel wholeTM = wholeTable.getModel();
                     for (int i = 0, rows = wholeTM.getRowCount(); i < rows; i++) {
-                        double quant = Double.parseDouble(wholeTM.getValueAt(i, 1).toString());
-                        double unitprice = Double.parseDouble(wholeTM.getValueAt(i, 4).toString());
-                        total += quant * unitprice;
-                        cartTotal.setText(String.valueOf(total));
+                        double quant = (double) wholeTM.getValueAt(i, 1);
+                        double unitprice = (double) wholeTM.getValueAt(i, 4);
+                        double unitTotal = quant * unitprice;
+                        wholeTM.setValueAt(unitTotal, i, 5);
+                        total += (double) wholeTM.getValueAt(i, 5);
                     }
+                    cartTotal.setText(String.format("%f", total));
                 } catch (Exception ex) {
                 }
             }
@@ -211,7 +214,7 @@ public class ShopCartForm extends JFrame {
         toNoteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                NoteForm nf = new NoteForm(wholeTable.getModel());
+                NoteForm nf = new NoteForm(wholeTable.getModel(),cartTotal.getText());
                 setVisible(false);
             }
         });
@@ -219,7 +222,7 @@ public class ShopCartForm extends JFrame {
         toBillBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BillForm bf = new BillForm(wholeTable.getModel());
+                BillForm bf = new BillForm(wholeTable.getModel(),cartTotal.getText());
                 setVisible(false);
             }
         });
@@ -237,8 +240,8 @@ public class ShopCartForm extends JFrame {
         serviceLbl.setBounds(10, 310, 50, 30);
         serviceTableSP.setBounds(10, 330, 530, 130);
         wholeTableSP.setBounds(10, 40, 520, 200);
-        totalLbl.setBounds(440, 250, 50, 30);
-        cartTotal.setBounds(470, 250, 70, 30);
+        totalLbl.setBounds(430, 250, 50, 30);
+        cartTotal.setBounds(460, 250, 70, 30);
         toNoteBtn.setBounds(70, 290, 200, 50);
         toBillBtn.setBounds(290, 290, 200, 50);
         backBtn.setBounds(50, 530, 70, 30);

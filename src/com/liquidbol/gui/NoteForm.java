@@ -47,10 +47,12 @@ public class NoteForm extends JFrame {
     private JPanel contentPane;
     private JButton backBtn;
     private TableModel passed;
+    private String totalPassed;
 
-    public NoteForm(TableModel tm) {
+    public NoteForm(TableModel tm, String tp) {
         UIStyle sty = new UIStyle();
         passed = tm;
+        totalPassed = tp;
         initComponents();
         setVisible(true);
     }
@@ -116,12 +118,12 @@ public class NoteForm extends JFrame {
         
         totalLbl = new JLabel("Total");
         totalAmount = new JTextField();
-        double total = 0;
+/*        double total = 0;
         for (int i = 0; i < contentTable.getRowCount(); i++) {
             total += Double.parseDouble(contentTable.getModel().getValueAt(i,5).toString());
         }
-
-        totalAmount.setText(String.valueOf(total));
+*/
+        totalAmount.setText(String.valueOf(totalPassed));
 
         jCheckBox1 = new JCheckBox("x Cancelar");
         jCheckBox2 = new JCheckBox("x Facturar");

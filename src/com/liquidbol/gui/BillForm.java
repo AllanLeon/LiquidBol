@@ -44,10 +44,12 @@ public class BillForm extends JFrame {
     private JButton backBtn;
     private JButton submitBtn;
     private TableModel passed;
+    private String totalPassed;
     
-    public BillForm(TableModel tm) {
+    public BillForm(TableModel tm, String tp) {
         UIStyle sty = new UIStyle();
         passed = tm;
+        totalPassed = tp;
         initComponents();
         setVisible(true);
     }
@@ -106,20 +108,17 @@ public class BillForm extends JFrame {
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane tablesp = new JScrollPane(contentTable);
         
-        //calculate import for each article
-        calculateEachArticlePrice(1,4,5);
-        
         totalLbl = new JLabel("Total");
         totalAmount = new JTextField();
-        double total = 0;
-        //calculate Total
+/*        double total = 0;
         for (int i = 0; i < contentTable.getRowCount(); i++) {
             total += Double.parseDouble(contentTable.getModel().getValueAt(i,5).toString());
         }
-        totalAmount.setText(String.valueOf(total));
+*/
+        totalAmount.setText(String.valueOf(totalPassed));
         sonLbl = new JLabel("Son:");
         declarate = new JTextField();
-        declarate.setText(NumberToWords.convert((int) total));
+        declarate.setText(NumberToWords.convert(Integer.parseInt(totalPassed)));
         bsLbl = new JLabel("Bolivianos");
         submitBtn = new JButton("PRINT");
         submitBtn.addActionListener(new ActionListener() {
@@ -170,14 +169,5 @@ public class BillForm extends JFrame {
         contentPane.add(bsLbl);
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
-    }
-
-    public void calculateEachArticlePrice(int qValueCol, int upValueCol, int resValueCol) {
-        for (int i = 0; i < contentTable.getRowCount(); i++) {
-            double quantity = Double.parseDouble(contentTable.getModel().getValueAt(i, qValueCol).toString());
-            double unitPrice = Double.parseDouble(contentTable.getModel().getValueAt(i, upValueCol).toString());
-            double calcdSubtotal = quantity * unitPrice;
-            contentTable.getModel().setValueAt(calcdSubtotal, i, resValueCol);
-        }
     }
 }
