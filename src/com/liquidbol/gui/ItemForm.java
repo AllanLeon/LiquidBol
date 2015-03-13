@@ -39,6 +39,8 @@ public class ItemForm extends JFrame {
     private JPanel contentPane;
     private JLabel title;
     private JLabel idShower;
+    private JLabel idLbl;
+    private Component idBox;
     private JLabel measureLbl;
     private Component measureBox;
     private JLabel descLbl;
@@ -101,6 +103,8 @@ public class ItemForm extends JFrame {
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         idShower = new JLabel("Nº 000001");
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
+        idLbl = new JLabel("Codigo");
+        idBox = new JTextField();
         measureLbl = new JLabel("Medida");
         measureBox = new JTextField();
         descLbl = new JLabel("Descripcion");
@@ -151,6 +155,8 @@ public class ItemForm extends JFrame {
         
         title.setBounds(100, 30, 400, 30);
         idShower.setBounds(350, 80, 150, 30);
+        idLbl.setBounds(60, 80, 70, 30);
+        idBox.setBounds(110, 80, 50, 30);
         measureLbl.setBounds(60, 120, 70, 30);
         measureBox.setBounds(110, 120, 50, 30);
         descLbl.setBounds(40, 160, 70, 30);
@@ -173,6 +179,8 @@ public class ItemForm extends JFrame {
 
         contentPane.add(title);
         contentPane.add(idShower);
+        contentPane.add(idLbl);
+        contentPane.add(idBox);
         contentPane.add(measureLbl);
         contentPane.add(measureBox);
         contentPane.add(descLbl);
@@ -196,6 +204,7 @@ public class ItemForm extends JFrame {
     }
 
     private void readIt() {
+        String id = ((JTextField) idBox).getText();
         String meas = ((JTextField) measureBox).getText();
         String desc = ((JTextField) itemDesc).getText();
         String brand = ((JTextField) itemBrand).getText();
@@ -207,13 +216,13 @@ public class ItemForm extends JFrame {
         if(1 == 0) {
             JOptionPane.showMessageDialog(this,"MISSING!","Missing some important data input!", JOptionPane.WARNING_MESSAGE);
         } else {
-            readItData = new Object[] {meas, desc, brand, made, type, subtype, cost, price};
+            readItData = new Object[] {id, meas, desc, brand, made, type, subtype, cost, price};
         }
     }
 
     private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
-        Item temp = MagikarpScreen.compServ.createItem("00523",(String)data[0],(String)data[1],(String)data[2],(String)data[3],
-                (String)data[4],(String)data[5],(double)data[6],(double)data[7]);
+        Item temp = MagikarpScreen.compServ.createItem((String)data[0],(String)data[1],(String)data[2],(String)data[3],(String)data[4],
+                (String)data[5],(String)data[6],(double)data[7],(double)data[8]);
         MagikarpScreen.compServ.saveItem(temp);
     }
 
@@ -263,6 +272,7 @@ public class ItemForm extends JFrame {
 
     private void convertToReadOnly() {    
         Icon temp = itemPhoto.getIcon();
+        contentPane.remove(idBox);
         contentPane.remove(measureBox);
         contentPane.remove(itemDesc);
         contentPane.remove(itemBrand);
@@ -274,6 +284,7 @@ public class ItemForm extends JFrame {
         contentPane.remove(itemPhoto);
         contentPane.remove(submitBtn);
 
+        idBox = new JLabel();
         measureBox = new JLabel();
         itemDesc = new JLabel();
         itemBrand = new JLabel();
@@ -285,6 +296,7 @@ public class ItemForm extends JFrame {
         itemPhoto = new JLabel(temp);
         title.setText("VER ARTICULO"); //CHANGE!!!!
 
+        idBox.setFont(new Font("Arial", Font.PLAIN, 20));
         measureBox.setFont(new Font("Arial", Font.PLAIN, 20));
         itemDesc.setFont(new Font("Arial", Font.PLAIN, 20));
         itemBrand.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -294,6 +306,7 @@ public class ItemForm extends JFrame {
         itemCost.setFont(new Font("Arial", Font.PLAIN, 20));
         itemPrice.setFont(new Font("Arial", Font.PLAIN, 20));
 
+        idBox.setBounds(110, 80, 50, 30);
         measureBox.setBounds(110, 120, 50, 30);
         itemDesc.setBounds(110, 160, 400, 30);
         itemBrand.setBounds(80, 200, 180, 30);
@@ -304,6 +317,7 @@ public class ItemForm extends JFrame {
         itemPrice.setBounds(330, 340, 100, 30);
         itemPhoto.setBounds(80, 300, 150, 150);
 
+        contentPane.add(idBox);
         contentPane.add(measureBox);
         contentPane.add(itemDesc);
         contentPane.add(itemBrand);
