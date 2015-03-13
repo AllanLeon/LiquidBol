@@ -38,7 +38,6 @@ public class ItemForm extends JFrame {
 
     private JPanel contentPane;
     private JLabel title;
-    private JLabel idShower;
     private JLabel idLbl;
     private Component idBox;
     private JLabel measureLbl;
@@ -101,8 +100,6 @@ public class ItemForm extends JFrame {
         title = new JLabel();
         title.setText("NUEVO ARTICULO");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
-        idShower = new JLabel("Nº 000001");
-        idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
         idLbl = new JLabel("Codigo");
         idBox = new JTextField();
         measureLbl = new JLabel("Medida");
@@ -154,31 +151,29 @@ public class ItemForm extends JFrame {
         });
         
         title.setBounds(100, 30, 400, 30);
-        idShower.setBounds(350, 80, 150, 30);
         idLbl.setBounds(60, 80, 70, 30);
         idBox.setBounds(110, 80, 50, 30);
-        measureLbl.setBounds(60, 120, 70, 30);
-        measureBox.setBounds(110, 120, 50, 30);
-        descLbl.setBounds(40, 160, 70, 30);
-        itemDesc.setBounds(110, 160, 400, 30);
-        brandLbl.setBounds(40, 200, 40, 30);
-        itemBrand.setBounds(80, 200, 180, 30);
-        madeLbl.setBounds(285, 200, 50, 30);
-        itemMade.setBounds(340, 200, 170, 30);
-        typeLbl.setBounds(50, 240, 70, 30);
-        itemType.setBounds(80, 240, 150, 30);
-        subtypeLbl.setBounds(270, 240, 70, 30);
-        itemSubtype.setBounds(320, 240, 150, 30);
-        costLbl.setBounds(290, 300, 40, 30);
-        itemCost.setBounds(330, 300, 100, 30);
-        priceLbl.setBounds(290, 340, 40, 30);
-        itemPrice.setBounds(330, 340, 100, 30);
-        itemPhoto.setBounds(80, 300, 150, 150);
-        submitBtn.setBounds(350, 400, 100, 30);
-        backBtn.setBounds(50, 400, 100, 30);
+        measureLbl.setBounds(300, 80, 70, 30);
+        measureBox.setBounds(350, 80, 50, 30);
+        descLbl.setBounds(40, 120, 70, 30);
+        itemDesc.setBounds(110, 120, 400, 30);
+        brandLbl.setBounds(40, 160, 40, 30);
+        itemBrand.setBounds(80, 160, 180, 30);
+        madeLbl.setBounds(285, 160, 50, 30);
+        itemMade.setBounds(340, 160, 170, 30);
+        typeLbl.setBounds(50, 200, 70, 30);
+        itemType.setBounds(80, 200, 150, 30);
+        subtypeLbl.setBounds(270, 200, 70, 30);
+        itemSubtype.setBounds(320, 200, 150, 30);
+        costLbl.setBounds(290, 280, 40, 30);
+        itemCost.setBounds(330, 280, 100, 30);
+        priceLbl.setBounds(290, 320, 40, 30);
+        itemPrice.setBounds(330, 320, 100, 30);
+        itemPhoto.setBounds(80, 250, 150, 150);
+        submitBtn.setBounds(360, 410, 100, 30);
+        backBtn.setBounds(60, 410, 100, 30);
 
         contentPane.add(title);
-        contentPane.add(idShower);
         contentPane.add(idLbl);
         contentPane.add(idBox);
         contentPane.add(measureLbl);
