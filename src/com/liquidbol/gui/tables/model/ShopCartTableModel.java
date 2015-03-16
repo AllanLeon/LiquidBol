@@ -91,6 +91,26 @@ public class ShopCartTableModel extends AbstractTableModel {
             }
         }
     }
+    
+    @Override
+    public void setValueAt(Object value, int row, int column) {
+        super.setValueAt(value, row, column);
+        if (row >= itemSales.size()) {
+            ItemSale itemSale = itemSales.get(row);
+            switch (column) {
+                case 2:
+                    itemSale.setQuantity((int) value);
+                default:;
+            }
+        } else {
+            ServiceReception serviceReception = serviceReceptions.get(row);
+            switch (column) {
+                case 2:
+                    serviceReception.setQuantity((Double) value);
+                default:;
+            }
+        }
+    }
 
     @Override
     public String getColumnName(int column) {
