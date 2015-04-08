@@ -1,16 +1,24 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
+import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.db.persistence.PersistenceException;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.Supplier;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -46,6 +54,9 @@ public class PurchaseForm extends JFrame {
     private Component totalAmount;
     private JButton submitBtn;
     private JButton backBtn;
+    private Object[] readItData;
+    private JComboBox supplierCombo;
+    private JLabel supplierLbl;
     
     public PurchaseForm(int state) {
         UIStyle sty = new UIStyle();
@@ -128,6 +139,14 @@ public class PurchaseForm extends JFrame {
         //calculate import for each article
         calculateEachArticlePrice(1,4,5);
 
+        supplierLbl = new JLabel("Proveedor:");
+        supplierCombo = new JComboBox();
+        try {
+            supplierCombo.setModel(new DefaultComboBoxModel(loadSupplierNames()));
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            Logger.getLogger(PurchaseForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         totalLbl = new JLabel("Total");
         double total = 0;
         //calculate Total
@@ -163,8 +182,10 @@ public class PurchaseForm extends JFrame {
         searchBtn.setBounds(370, 120, 50, 30);
         itemLbl.setBounds(40, 150, 50, 30);
         tablesp.setBounds(30, 170, 570, 180);
-        totalLbl.setBounds(450, 360, 30, 30);
-        totalAmount.setBounds(480, 360, 90, 30);
+        supplierLbl.setBounds(40, 360, 60, 30);
+        supplierCombo.setBounds(100, 360, 200, 30);
+        totalLbl.setBounds(470, 360, 30, 30);
+        totalAmount.setBounds(500, 360, 90, 30);
         submitBtn.setBounds(470, 400, 70, 30);
         backBtn.setBounds(70, 400, 70, 30);
 
@@ -177,18 +198,45 @@ public class PurchaseForm extends JFrame {
         contentPane.add(searchBtn);
         contentPane.add(itemLbl);
         contentPane.add(tablesp);
+        contentPane.add(supplierLbl);
+        contentPane.add(supplierCombo);
         contentPane.add(totalLbl);
         contentPane.add(totalAmount);
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
     }
+/*
+    private void readIt() {
+            //id, item, unitCost, quantity
+        String name = ((JTextField) supplierName).getText();
+        String lname = ((JTextField) supplierLName).getText();
+        int phone = Integer.parseInt(((JTextField) supplierPhone).getText());
+        int phone2 = Integer.parseInt(((JTextField) supplierPhone2).getText());
+        String company = ((JTextField) supplierCompany).getText();
+        String address = ((JTextField) supplierAddress).getText();
+        String mail = ((JTextField) supplierEmail).getText();
+        String city = ((JTextField) supplierCity).getText();
+        if(1 == 0) {
+            JOptionPane.showMessageDialog(this,"MISSING!","Missing some important data input!", JOptionPane.WARNING_MESSAGE);
+        } else {
+            readItData = new Object[] {totalamount, phone2,company, address, mail, city};
+        }
+    }
 
+    private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
+        Purchase temp = MagikarpScreen.purchServ.createPurchase(231,(String)data[0],(String)data[1],(int)data[2],
+                (int)data[3],(String)data[4],(String)data[5],(String)data[6],(String)data[7]);
+        MagikarpScreen.purchServ.savePurchase(temp);
+        MagikarpScreen.suppServ.addPurchaseToSupplier(temp, temp2);
+    }
+    */
     private void convertToReadOnly() {        
         contentPane.remove(datePicker);
         contentPane.remove(searchCB);
         contentPane.remove(searchBox);
         contentPane.remove(searchBtn);
         contentPane.remove(addBtn);
+        supplierCombo.setEnabled(false);
         contentPane.remove(totalAmount);
 
         title.setText("VER COMPRA"); //CHANGE!!!!
@@ -213,5 +261,16 @@ public class PurchaseForm extends JFrame {
             double calcdSubtotal = quantity * unitPrice;
             contentTable.getModel().setValueAt(calcdSubtotal, i, resValueCol);
         }
+    }
+
+    private Object[] loadSupplierNames() throws PersistenceException, ClassNotFoundException {
+        Collection<Supplier> sc = Company.getAllSuppliers();
+        List<String> data = new ArrayList<>();
+        int count = 0;
+        for (Supplier sup : sc) {
+            String name = sup.getName() + " " + sup.getLastname();
+            data.add(name);
+        }
+        return data.toArray();
     }
 }
