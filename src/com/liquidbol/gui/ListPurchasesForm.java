@@ -85,17 +85,18 @@ public class ListPurchasesForm extends JFrame {
             {"00002", "3820.50", "15/01/2015"},
             {"00001", "21150.00", "21/12/2014"}
         };
-        purchasesTable = new JTable(tempData, columnNames);
+        purchasesTable = new JTable(tempData, columnNames); */
+        List<Purchase> purchases = new ArrayList<>(Company.getAllPurchases());
+        purchasesTable = new JTable(new PurchaseTableModel(purchases));
         purchasesTable.getTableHeader().setReorderingAllowed(false);
         purchasesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         purchasesTable.setRowHeight(25);
         purchasesTable.getColumnModel().getColumn(0).setPreferredWidth(60);
         purchasesTable.getColumnModel().getColumn(1).setPreferredWidth(100);
         purchasesTable.getColumnModel().getColumn(2).setPreferredWidth(120);
-        purchasesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
-        List<Purchase> purchases = new ArrayList<>(Company.getAllPurchases());
-        purchasesTable = new JTable(new PurchaseTableModel(purchases));
+        purchasesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane purchasesTableSP = new JScrollPane(purchasesTable);
+
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override

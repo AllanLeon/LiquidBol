@@ -87,7 +87,9 @@ public class ListCxcForm extends JFrame {
             {"00001", "Gabino Quispia", "50.00", "2000", "30/01/2015"},
             {"00002", "Efrain Choque", "320.50", "5000", "01/02/2015"}
         };
-        clientsTable = new JTable(tempData, columnNames);
+        clientsTable = new JTable(tempData, columnNames); */
+        List<Client> clients = new ArrayList<>(Company.getAllClients());
+        clientsTable = new JTable(new CXCTableModel(clients));
         clientsTable.getTableHeader().setReorderingAllowed(false);
         clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
         clientsTable.setRowHeight(25);
@@ -96,10 +98,9 @@ public class ListCxcForm extends JFrame {
         clientsTable.getColumnModel().getColumn(2).setPreferredWidth(40);
         clientsTable.getColumnModel().getColumn(3).setPreferredWidth(30);
         clientsTable.getColumnModel().getColumn(4).setPreferredWidth(90);
-        clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
-        List<Client> clients = new ArrayList<>(Company.getAllClients());
-        clientsTable = new JTable(new CXCTableModel(clients));
+        clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane cxcsTableSP = new JScrollPane(clientsTable);
+
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override

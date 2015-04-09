@@ -89,15 +89,12 @@ public class ListClientsForm extends JFrame {
             {"001", "Gabino Quispia", "5923804019", "-", "Taller Coso", "SI", "A"},
             {"002", "Efrain Choque", "4182093", "CHOQUE", "Taller Coso #2", "SI", "B"}
         };
-        clientsTable = new JTable(tempData, columnNames);
-        
-        
-        */
+        clientsTable = new JTable(tempData, columnNames); */
         
         List<Client> clients = new ArrayList<>(Company.getAllClients());
         clientsTable = new JTable(new ClientTableModel(clients));
         clientsTable.getTableHeader().setReorderingAllowed(false);
-        /*clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
         clientsTable.setRowHeight(25);
         clientsTable.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -106,7 +103,7 @@ public class ListClientsForm extends JFrame {
         clientsTable.getColumnModel().getColumn(3).setPreferredWidth(70);
         clientsTable.getColumnModel().getColumn(4).setPreferredWidth(150);
         clientsTable.getColumnModel().getColumn(5).setPreferredWidth(20);
-        clientsTable.getColumnModel().getColumn(6).setPreferredWidth(20);*/
+        clientsTable.getColumnModel().getColumn(6).setPreferredWidth(20);
         JScrollPane clientsTableSP = new JScrollPane(clientsTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {

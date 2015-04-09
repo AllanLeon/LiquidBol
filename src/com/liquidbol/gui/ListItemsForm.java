@@ -91,7 +91,9 @@ public class ListItemsForm extends JFrame {
             {"00561", "Pza", "Dado de 27mm Hexagonal", "Inafor", "Argentina", "Auxiliares", "Dados", "20.00", "38.00"},
             {"00562", "Pza", "Dado de 16mm Hexagonal", "Inafor", "Argentina", "Auxiliares", "Dados", "20.00", "35.00"}
         };
-        itemsTable = new JTable(tempData, columnNames);
+        itemsTable = new JTable(tempData, columnNames); */
+        List<Item> items = new ArrayList<>(Company.getAllItems());
+        itemsTable = new JTable(new ItemTableModel(items));
         itemsTable.getTableHeader().setReorderingAllowed(false);
         itemsTable.setFont(new Font("Arial", Font.PLAIN, 16));
         itemsTable.setRowHeight(25);
@@ -104,10 +106,9 @@ public class ListItemsForm extends JFrame {
         itemsTable.getColumnModel().getColumn(6).setPreferredWidth(50);
         itemsTable.getColumnModel().getColumn(7).setPreferredWidth(50);
         itemsTable.getColumnModel().getColumn(8).setPreferredWidth(50);
-        itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
-        List<Item> items = new ArrayList<>(Company.getAllItems());
-        itemsTable = new JTable(new ItemTableModel(items));
+        itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane itemsTableSP = new JScrollPane(itemsTable);
+
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override

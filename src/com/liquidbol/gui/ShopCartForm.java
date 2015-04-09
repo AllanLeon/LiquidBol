@@ -117,7 +117,9 @@ public class ShopCartForm extends JFrame {
             {"00126", 19.5, "Kg.", "Electrodo 7018 1/8", 18.00},
             {"00119", 29.75, "Kg.", "Electrodo 6013 1/8", 18.00}
         };
-        itemsTable = new JTable(new DefaultTableModel(tempData, columnNames) {
+        itemsTable = new JTable(new DefaultTableModel(tempData, columnNames) */
+        List<Store> stores = new ArrayList<>(Company.getAllStores());
+        itemsTable = new JTable(new ShopCartItemTableModel(stores) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -130,9 +132,7 @@ public class ShopCartForm extends JFrame {
         itemsTable.getColumnModel().getColumn(1).setPreferredWidth(30);
         itemsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
         itemsTable.getColumnModel().getColumn(3).setPreferredWidth(240);
-        itemsTable.getColumnModel().getColumn(4).setPreferredWidth(40);*/
-        List<Store> stores = new ArrayList<>(Company.getAllStores());
-        itemsTable = new JTable(new ShopCartItemTableModel(stores));
+        itemsTable.getColumnModel().getColumn(4).setPreferredWidth(40);
         itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane itemsTableSP = new JScrollPane(itemsTable);
 
@@ -145,7 +145,9 @@ public class ShopCartForm extends JFrame {
             {"00126", "Electrodo 7018 1/8", 18.00},
             {"00119", "Electrodo 6013 1/8", 18.00}
         };
-        serviceTable = new JTable(new DefaultTableModel(tempData2, columnNames2) {
+        serviceTable = new JTable(new DefaultTableModel(tempData2, columnNames2)*/
+        List<Service> services = new ArrayList<>(Company.getAllServices());
+        serviceTable = new JTable(new ShopCartServiceTableModel(services) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -156,9 +158,7 @@ public class ShopCartForm extends JFrame {
         serviceTable.setRowHeight(25);
         serviceTable.getColumnModel().getColumn(0).setPreferredWidth(60);
         serviceTable.getColumnModel().getColumn(1).setPreferredWidth(380);
-        serviceTable.getColumnModel().getColumn(2).setMinWidth(40);*/
-        List<Service> services = new ArrayList<>(Company.getAllServices());
-        serviceTable = new JTable(new ShopCartServiceTableModel(services));
+        serviceTable.getColumnModel().getColumn(2).setMinWidth(40);
         serviceTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane serviceTableSP = new JScrollPane(serviceTable);
 

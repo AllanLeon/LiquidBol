@@ -85,17 +85,18 @@ public class ListSuppliersForm extends JFrame {
             {"PR-001", "Remberto Flores", "Esa empresa"},
             {"PR-002", "Jose Jose", "La otra"}
         };
-        suppliersTable = new JTable(tempData, columnNames);
+        suppliersTable = new JTable(tempData, columnNames); */
+        List<Supplier> suppliers = new ArrayList<>(Company.getAllSuppliers());
+        suppliersTable = new JTable(new SupplierTableModel(suppliers));
         suppliersTable.getTableHeader().setReorderingAllowed(false);
         suppliersTable.setFont(new Font("Arial", Font.PLAIN, 20));
         suppliersTable.setRowHeight(25);
         suppliersTable.getColumnModel().getColumn(0).setPreferredWidth(50);
         suppliersTable.getColumnModel().getColumn(1).setPreferredWidth(150);
         suppliersTable.getColumnModel().getColumn(2).setPreferredWidth(100);
-        suppliersTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
-        List<Supplier> suppliers = new ArrayList<>(Company.getAllSuppliers());
-        suppliersTable = new JTable(new SupplierTableModel(suppliers));
+        suppliersTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         JScrollPane clientsTableSP = new JScrollPane(suppliersTable);
+
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override
