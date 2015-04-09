@@ -21,7 +21,7 @@ import java.awt.SplashScreen;
  */
 public final class MagikarpScreen {
 
-    private final SplashScreen splash;
+    private SplashScreen splash;
     public final String[] loadingText = {"Limpiando manómetros", "Esperando a que llegue el jefe",
                             "Recargando recargas recargables", "Alistando cascos para el trabajo",
                             "Clasificando electrodos", "Alistando pan con Pepsi"};
@@ -48,20 +48,8 @@ public final class MagikarpScreen {
     }
     
     public MagikarpScreen() {
-        splash = SplashScreen.getSplashScreen();
-        animate();
-        //liquid = new Company();
-        new DatabaseLoader().loadCompanyInfo();
-        billServ = new BillServices();
-        cxcServ = new CXCServices();
-        clientServ = new ClientServices();
-        compServ = new CompanyServices(/*liquid*/);
-        debtServ = new DebtServices();
-        itemEstServ = new ItemEstimateServices();
-        itemServ = new ItemServices();
-        purchServ = new PurchaseServices();
-        storeServ = new StoreServices();
-        suppServ = new SupplierServices();
+        thread1.start();
+        thread2.start();
     }
 
     public void animate() {
@@ -89,4 +77,28 @@ public final class MagikarpScreen {
             System.out.println(e.getMessage());
         }
     }
+    
+    Thread thread1 = new Thread () {
+        public void run () {
+            splash = SplashScreen.getSplashScreen();
+            animate();
+       }
+    };
+    
+    Thread thread2 = new Thread () {
+        public void run () {
+            //liquid = new Company();
+            new DatabaseLoader().loadCompanyInfo();
+            billServ = new BillServices();
+            cxcServ = new CXCServices();
+            clientServ = new ClientServices();
+            compServ = new CompanyServices(/*liquid*/);
+            debtServ = new DebtServices();
+            itemEstServ = new ItemEstimateServices();
+            itemServ = new ItemServices();
+            purchServ = new PurchaseServices();
+            storeServ = new StoreServices();
+            suppServ = new SupplierServices();       
+        }
+    };
 }
