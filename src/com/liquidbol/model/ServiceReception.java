@@ -134,6 +134,7 @@ public class ServiceReception implements Serializable {
      */
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
+        amount = this.quantity * service.getPrice() / service.getCapacity();
     }
 
     /**
