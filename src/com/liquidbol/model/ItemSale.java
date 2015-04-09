@@ -109,6 +109,7 @@ public class ItemSale implements Serializable {
      */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+        amount = this.quantity * item.getPrice();
     }
 
     /**

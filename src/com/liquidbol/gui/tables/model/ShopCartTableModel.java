@@ -91,6 +91,36 @@ public class ShopCartTableModel extends AbstractTableModel {
             }
         }
     }
+    
+    @Override
+    public void setValueAt(Object value, int row, int column) {
+        super.setValueAt(value, row, column);
+        if (row >= itemSales.size()) {
+            ItemSale itemSale = itemSales.get(row);
+            switch (column) {
+                case 2:
+                    itemSale.setQuantity((int) value);
+                default:;
+            }
+        } else {
+            ServiceReception serviceReception = serviceReceptions.get(row);
+            switch (column) {
+                case 2:
+                    serviceReception.setQuantity((Double) value);
+                default:;
+            }
+        }
+    }
+    
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        switch (column) {
+            case 2:
+                return true;
+            default:
+                return false;
+        }
+    }
 
     @Override
     public String getColumnName(int column) {
@@ -105,5 +135,12 @@ public class ShopCartTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return itemSales.size() + serviceReceptions.size();
+    }
+    
+    public Double calculateTotal() {
+        Double total = 0.0;
+        for (ItemSale sale : itemSales) {
+        }
+        return total;
     }
 }
