@@ -14,6 +14,7 @@ import com.liquidbol.services.StoreServices;
 import com.liquidbol.services.SupplierServices;
 import java.awt.*;
 import java.awt.SplashScreen;
+import java.util.Random;
 
 /**
  *
@@ -24,7 +25,8 @@ public final class MagikarpScreen {
     private SplashScreen splash;
     public final String[] loadingText = {"Limpiando manómetros", "Esperando a que llegue el jefe",
                             "Recargando recargas recargables", "Alistando cascos para el trabajo",
-                            "Clasificando electrodos", "Alistando pan con Pepsi"};
+                            "Clasificando electrodos", "Alistando pan con Pepsi",
+                            "Oxigenando la base de datos", "Pintando naranja"};
     //private Company liquid;
     public static BillServices billServ;
     public static CXCServices cxcServ;
@@ -55,16 +57,17 @@ public final class MagikarpScreen {
     public void animate() {
         if (splash != null) {
             Graphics2D g = splash.createGraphics();
-            for (int i = 1; i < loadingText.length; i++) {
+            shuffleArray(loadingText);
+            for (int i = 1; i < 6; i++) {
                 g.setColor(new Color(4, 52, 101));//backgroundcolor
                 g.fillRect(236, 365, 280, 12);//toCoverLastText
                 g.setColor(Color.white);//textColor
                 g.drawString(loadingText[i - 1] + "...", 236, 375);
                 g.setColor(new Color(0, 105 + 30*i, 0)); //progressBarcolor
-                g.fillRect(231, 346, (i * 407 / loadingText.length), 12); //progressBar
+                g.fillRect(231, 346, (i * 407 / 6), 12); //progressBar
                 splash.update();
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(700);
                 } catch (InterruptedException e) {
                 }
             }
@@ -75,6 +78,17 @@ public final class MagikarpScreen {
             LF.setVisible(true);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+    
+    static void shuffleArray(String[] ar)
+    {
+        Random rnd = new Random();
+        for (int i = ar.length - 1; i > 0; i--) {
+            int index = rnd.nextInt(i + 1);
+            String a = ar[index];
+            ar[index] = ar[i];
+            ar[i] = a;
         }
     }
     
