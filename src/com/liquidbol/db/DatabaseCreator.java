@@ -433,4 +433,105 @@ public class DatabaseCreator {
             Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void insertData() {
+        try {
+            Class.forName(DRIVER);
+            Connection result = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
+            String query1 = "INSERT INTO suppliers(supplier_name, supplier_lastname,"
+                    + "supplier_phone, supplier_phone2, supplier_company, supplier_address,"
+                    + "supplier_email, supplier_city, supplier_regdate) VALUES('Pedro', 'Rojas',"
+                    + "456132, 56413298, 'Apol', 'Calle 13 #666', 'asdwq@dsaf.com',"
+                    + "'Guachinton', '2015-04-10')";
+            String query2 = "INSERT INTO supplier_debts(supplier_id, amount, limit_date,"
+                    + "max_amount) VALUES(1, 50, '2015-04-15', 500)";
+            String query3 = "INSERT INTO debt_payments(debt_id, pay_date,  )"
+                    + "VALUES(1, 2015-04-10, 20)";
+            String query4 = "INSERT INTO items(item_id, item_measure, item_description,"
+                    + "item_brand, item_industry, item_type, item_subtype, item_cost,"
+                    + "item_price, item_dif, item_profit) VALUES('5641Q', 'm', 'Item de prueba',"
+                    + "'3M', 'Estadounidense', 'Prueba', 'Prueba2', 17.5, 20, 2.5, 14.3)";
+            String query5 = "INSERT INTO puchases(supplier_id, total_amount, purchase_date) "
+                    + "VALUES(1, 200, '2015-04-10')";
+            String query6 = "INSERT INTO item_purchases(item_id, purchase_id, unit_cost,"
+                    + "quantity, total_amount) VALUES(1, 1, 17.5, 10, 175)";
+            String query7 = "INSERT INTO item_discounts(item_id, min_quantity, percentage) "
+                    + "VALUES(1, 3, 4)";
+            String query8 = "INSERT INTO offers(type, percentage, start_date, end_date) "
+                    + "VALUES('Prueba', 10, '2015-04-13', '2015-04-20')";
+            String query9 = "INSERT INTO stores(store_name, store_address,"
+                    + "store_phone) VALUES('La tienda', 'Al fondo a la derecha', 489156)";
+            String query10 = "INSERT INTO expenses(store_id, pay_date, description,"
+                    + "amount, obs) VALUES(1, '2015-04-10', 'Prueba', 100, 'obs')";
+            String query11 = "INSERT INTO inventorys(item_id, store_id, quantity) "
+                    + "VALUES('5641Q', 1, 10)";
+            String query12 = "INSERT INTO employees(employee_id, store_id, employee_name,"
+                    + "employee_lastname, employee_address, employee_phone, employee_phone2,"
+                    + "employee_email, employee_regdate, employee_password, employee_type) "
+                    + "VALUES(1, 1, 'Luis', 'Lopez', 'qwertw', 1234567, 645123, 'asd@qw.aje',"
+                    + "'2015-04-13', 'pass', 'Admin')";
+            String query13 = "INSERT INTO clients(client_name, client_lastname, client_nit,"
+                    + "client_billname, client_address, client_phone, client_phone2,"
+                    + "client_email, client_companyname, client_frecuency, client_regdate,"
+                    + "client_isroute) VALUES('Laura', 'Perez', 9813, 'Perez', 'qwertfa',"
+                    + "1567984, 65798513, 'weop@eqie.com', 'qwerq', 0, '2015-04-13', false)";
+            String query14 = "INSERT INTO clients_cxc(client_id, clientscxc_debt,"
+                    + "clientscxc_creditamount, clientscxc_creditdate, clientscxc_state) "
+                    + "VALUES(1, 50, 100, '2015-08-30', 'Deuda')";
+            String query15 = "INSERT INTO clients_cxcc(clientscxc_id, amount_paid, pay_date) "
+                    + "VALUES(1, 10, '2015-04-10')";
+            String query16 = "INSERT INTO services(service_id, service_capacity, service_unit,"
+                    + "service_description, service_type, service_cost, service_price,"
+                    + "service_dif, service_profit) VALUES('123S', 3, 's', 'Servicio prueba',"
+                    + "'Prueba', 10, 20, 10, 50)";
+            String query17 = "INSERT INTO rechargeable_items(rechargeableitem_id, client_id,"
+                    + "description, type, capacity, unit, warranty_limit_date, obs) "
+                    + "VALUES('1RI', 1, 'Extintor', 'Extintor', 1, 'm3', '2015-06-10', 'obs')";
+            String query18 = "INSERT INTO bills(client_id, store_id, employee_id, bill_date,"
+                    + "total_amount, is_billed, is_route, obs) VALUES(1, 1, 1, '2015-04-13',"
+                    + "50, false, false, 'obs')";
+            String query19 = "INSERT INTO service_receptions(bill_id, service_id,"
+                    + "rechargeableitem_id, reception_date, deliver_time, quantity,"
+                    + "total_amount, obs) VALUES(1, '123S', '1RI', '2015-04-13',"
+                    + "'2015-04-20 15:20:00', 1, 30, 'obs')";
+            String query20 = "INSERT INTO item_sales(bill_id, item_id, quantity,"
+                    + "total_amount, obs) VALUES(1, '5641Q', 2, 20, 'obs')";
+            String query21 = "INSERT INTO bill_payments(bill_id, employee_id, pay_date,"
+                    + "amount_paid, obs) VALUES(1, 1, '2015-04-13', 10, 'obs')";
+            String query22 = "INSERT INTO item_estimates(client_id, store_id, request_date,"
+                    + "limit_date, total_amount, obs) VALUES(1, 1, '2015-04-13', '2015-04-20',"
+                    + "200, 'obs')";
+            String query23 = "INSERT INTO item_requests(itemestimate_id, item_id, quantity,"
+                    + "total_amount) VALUES(1, '5641Q', 2, 20)";
+            
+            result.createStatement().execute(query1);
+            result.createStatement().execute(query2);
+            result.createStatement().execute(query3);
+            result.createStatement().execute(query4);
+            result.createStatement().execute(query5);
+            result.createStatement().execute(query6);
+            result.createStatement().execute(query7);
+            result.createStatement().execute(query8);
+            result.createStatement().execute(query9);
+            result.createStatement().execute(query10);
+            result.createStatement().execute(query11);
+            result.createStatement().execute(query12);
+            result.createStatement().execute(query13);
+            result.createStatement().execute(query14);
+            result.createStatement().execute(query15);
+            result.createStatement().execute(query16);
+            result.createStatement().execute(query17);
+            result.createStatement().execute(query18);
+            result.createStatement().execute(query19);
+            result.createStatement().execute(query20);
+            result.createStatement().execute(query21);
+            result.createStatement().execute(query22);
+            result.createStatement().execute(query23);
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -219,6 +219,7 @@ public class ShopCartForm extends JFrame {
         totalLbl = new JLabel("Total");
         cartTotal = new JTextField();
         cartTotal.setFont(new Font("Arial", Font.BOLD, 16));
+        cartTotal.setText("0");
 
         toNoteBtn = new JButton("A nota de venta");
         toNoteBtn.addActionListener(new ActionListener() {
