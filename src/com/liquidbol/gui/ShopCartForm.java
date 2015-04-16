@@ -29,12 +29,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -134,6 +136,8 @@ public class ShopCartForm extends JFrame {
         itemsTable.getColumnModel().getColumn(3).setPreferredWidth(240);
         itemsTable.getColumnModel().getColumn(4).setPreferredWidth(40);
         itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> itemSorter = new TableRowSorter<>(itemsTable.getModel());
+        itemsTable.setRowSorter(itemSorter);
         JScrollPane itemsTableSP = new JScrollPane(itemsTable);
 
         serviceLbl = new JLabel("Servicios");
@@ -160,6 +164,8 @@ public class ShopCartForm extends JFrame {
         serviceTable.getColumnModel().getColumn(1).setPreferredWidth(380);
         serviceTable.getColumnModel().getColumn(2).setMinWidth(40);
         serviceTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> servSorter = new TableRowSorter<>(serviceTable.getModel());
+        serviceTable.setRowSorter(servSorter);
         JScrollPane serviceTableSP = new JScrollPane(serviceTable);
 
         cartPane = new JPanel();
@@ -196,6 +202,8 @@ public class ShopCartForm extends JFrame {
         wholeTable.getColumnModel().getColumn(4).setPreferredWidth(40);
         wholeTable.getColumnModel().getColumn(5).setPreferredWidth(50);
         wholeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(wholeTable.getModel());
+        wholeTable.setRowSorter(sorter);
         wholeTable.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {

@@ -22,8 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -95,6 +98,8 @@ public class ListPurchasesForm extends JFrame {
         purchasesTable.getColumnModel().getColumn(1).setPreferredWidth(100);
         purchasesTable.getColumnModel().getColumn(2).setPreferredWidth(120);
         purchasesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(purchasesTable.getModel());
+        purchasesTable.setRowSorter(sorter);
         JScrollPane purchasesTableSP = new JScrollPane(purchasesTable);
 
         backBtn = new JButton("Back");

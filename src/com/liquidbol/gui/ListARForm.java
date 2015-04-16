@@ -22,8 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -94,6 +97,8 @@ public class ListARForm extends JFrame {
         arsTable.getColumnModel().getColumn(4).setPreferredWidth(80);
         arsTable.getColumnModel().getColumn(5).setPreferredWidth(90);
         arsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(arsTable.getModel());
+        arsTable.setRowSorter(sorter);
         JScrollPane arsTableSP = new JScrollPane(arsTable);
         
         backBtn = new JButton("Back");

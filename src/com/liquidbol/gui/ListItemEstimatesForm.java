@@ -22,8 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -101,6 +104,8 @@ public class ListItemEstimatesForm extends JFrame {
         quotesTable.getColumnModel().getColumn(4).setPreferredWidth(50);
         quotesTable.getColumnModel().getColumn(5).setPreferredWidth(150);
         quotesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(quotesTable.getModel());
+        quotesTable.setRowSorter(sorter);
         JScrollPane quotesTableSP = new JScrollPane(quotesTable);
 
         backBtn = new JButton("Back");

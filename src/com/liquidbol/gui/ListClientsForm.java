@@ -22,8 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -104,6 +107,8 @@ public class ListClientsForm extends JFrame {
         clientsTable.getColumnModel().getColumn(4).setPreferredWidth(150);
         clientsTable.getColumnModel().getColumn(5).setPreferredWidth(20);
         clientsTable.getColumnModel().getColumn(6).setPreferredWidth(20);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(clientsTable.getModel());
+        clientsTable.setRowSorter(sorter);
         JScrollPane clientsTableSP = new JScrollPane(clientsTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {

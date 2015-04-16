@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,8 +23,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -107,6 +111,8 @@ public class ListItemsForm extends JFrame {
         itemsTable.getColumnModel().getColumn(7).setPreferredWidth(50);
         itemsTable.getColumnModel().getColumn(8).setPreferredWidth(50);
         itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(itemsTable.getModel());
+        itemsTable.setRowSorter(sorter);
         JScrollPane itemsTableSP = new JScrollPane(itemsTable);
 
         backBtn = new JButton("Back");

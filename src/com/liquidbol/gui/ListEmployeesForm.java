@@ -22,8 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -95,6 +98,8 @@ public class ListEmployeesForm extends JFrame {
         employeesTable.getColumnModel().getColumn(1).setPreferredWidth(130);
         employeesTable.getColumnModel().getColumn(2).setPreferredWidth(70);
         employeesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(employeesTable.getModel());
+        employeesTable.setRowSorter(sorter);
         JScrollPane employeesTableSP = new JScrollPane(employeesTable);
 
         backBtn = new JButton("Back");
