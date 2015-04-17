@@ -173,14 +173,14 @@ public class RechargeableItemCrud implements DBCrud<RechargeableItem> {
 
     @Override
     public RechargeableItem createElementFromResultSet(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt(1);
+        String id = resultSet.getString(1);
         String description = resultSet.getString(3);
         String type = resultSet.getString(4);
         Double capacity = resultSet.getDouble(5);
         String unit = resultSet.getString(6);
         Date warrantyLimitDate = resultSet.getDate(7);
         String obs = resultSet.getString(8);
-        LOG.log(Level.FINE, "Creating rechargeable item %d", id);
+        LOG.log(Level.FINE, "Creating rechargeable item %s", id);
         RechargeableItem result = new RechargeableItem(obs, description, capacity, unit, type, warrantyLimitDate, obs);
         return result;
     }

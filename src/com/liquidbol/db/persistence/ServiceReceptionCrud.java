@@ -102,7 +102,7 @@ public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
     
     public Collection<ServiceReception> findByServiceBillId(int serviceBillId) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM service_receptions WHERE servicebill_id = ?";
+            String query = "SELECT * FROM service_receptions WHERE servicereception_id = ?";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, serviceBillId);
