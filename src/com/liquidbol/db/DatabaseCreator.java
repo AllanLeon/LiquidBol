@@ -35,7 +35,7 @@ public class DatabaseCreator {
                 DatabaseCreator dbCreator = new DatabaseCreator();
                 dbCreator.dropDatabase();
                 dbCreator.createDatabase();
-                dbCreator.createInitialInfo();
+                dbCreator.insertData();
             }
         });
     }
@@ -445,18 +445,18 @@ public class DatabaseCreator {
                     + "'Guachinton', '2015-04-10')";
             String query2 = "INSERT INTO supplier_debts(supplier_id, amount, limit_date,"
                     + "max_amount) VALUES(1, 50, '2015-04-15', 500)";
-            String query3 = "INSERT INTO debt_payments(debt_id, pay_date,  )"
-                    + "VALUES(1, 2015-04-10, 20)";
+            String query3 = "INSERT INTO debt_payments(debt_id, pay_date, amount)"
+                    + "VALUES(1, '2015-04-10', 20)";
             String query4 = "INSERT INTO items(item_id, item_measure, item_description,"
                     + "item_brand, item_industry, item_type, item_subtype, item_cost,"
                     + "item_price, item_dif, item_profit) VALUES('5641Q', 'm', 'Item de prueba',"
                     + "'3M', 'Estadounidense', 'Prueba', 'Prueba2', 17.5, 20, 2.5, 14.3)";
-            String query5 = "INSERT INTO puchases(supplier_id, total_amount, purchase_date) "
+            String query5 = "INSERT INTO purchases(supplier_id, total_amount, purchase_date) "
                     + "VALUES(1, 200, '2015-04-10')";
             String query6 = "INSERT INTO item_purchases(item_id, purchase_id, unit_cost,"
-                    + "quantity, total_amount) VALUES(1, 1, 17.5, 10, 175)";
+                    + "quantity, total_amount) VALUES('5641Q', 1, 17.5, 10, 175)";
             String query7 = "INSERT INTO item_discounts(item_id, min_quantity, percentage) "
-                    + "VALUES(1, 3, 4)";
+                    + "VALUES('5641Q', 3, 4)";
             String query8 = "INSERT INTO offers(type, percentage, start_date, end_date) "
                     + "VALUES('Prueba', 10, '2015-04-13', '2015-04-20')";
             String query9 = "INSERT INTO stores(store_name, store_address,"
@@ -472,7 +472,7 @@ public class DatabaseCreator {
                     + "'2015-04-13', 'pass', 'Admin')";
             String query13 = "INSERT INTO clients(client_name, client_lastname, client_nit,"
                     + "client_billname, client_address, client_phone, client_phone2,"
-                    + "client_email, client_companyname, client_frecuency, client_regdate,"
+                    + "client_email, client_companyname, client_frequency, client_regdate,"
                     + "client_isroute) VALUES('Laura', 'Perez', 9813, 'Perez', 'qwertfa',"
                     + "1567984, 65798513, 'weop@eqie.com', 'qwerq', 0, '2015-04-13', false)";
             String query14 = "INSERT INTO clients_cxc(client_id, clientscxc_debt,"
@@ -516,6 +516,7 @@ public class DatabaseCreator {
             result.createStatement().execute(query10);
             result.createStatement().execute(query11);
             result.createStatement().execute(query12);
+            result.createStatement().execute(query13);
             result.createStatement().execute(query13);
             result.createStatement().execute(query14);
             result.createStatement().execute(query15);
