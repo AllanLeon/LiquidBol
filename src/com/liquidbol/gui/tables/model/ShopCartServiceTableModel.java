@@ -6,6 +6,7 @@
 
 package com.liquidbol.gui.tables.model;
 
+import com.liquidbol.model.Item;
 import com.liquidbol.model.Service;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -68,5 +69,9 @@ public class ShopCartServiceTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return services.size();
+    }
+    
+    public Service getServiceAt(int row) {
+        return services.get(row);
     }
 }

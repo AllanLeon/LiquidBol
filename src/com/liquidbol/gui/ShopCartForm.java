@@ -3,8 +3,16 @@ package com.liquidbol.gui;
 import com.liquidbol.addons.UIStyle;
 import com.liquidbol.gui.tables.model.ShopCartItemTableModel;
 import com.liquidbol.gui.tables.model.ShopCartServiceTableModel;
+import com.liquidbol.gui.tables.model.ShopCartTableModel;
+import com.liquidbol.model.Bill;
+import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
+import com.liquidbol.model.Employee;
+import com.liquidbol.model.Item;
+import com.liquidbol.model.ItemSale;
+import com.liquidbol.model.RechargeableItem;
 import com.liquidbol.model.Service;
+import com.liquidbol.model.ServiceReception;
 import com.liquidbol.model.Store;
 import java.awt.Font;
 import java.awt.Point;
@@ -13,8 +21,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,10 +40,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  * @author Franco
@@ -61,6 +66,7 @@ public class ShopCartForm extends JFrame {
     private JButton toBillBtn;
     private JButton backBtn;
     private double total;
+    private Bill newBill;
 
     public ShopCartForm() {
         UIStyle sty = new UIStyle();
@@ -177,7 +183,10 @@ public class ShopCartForm extends JFrame {
   //          {"00126", "", "Kg.", "Electrodo 7018 1/8", 18.00, 36.00},
   //          {"00119", "", "Kg.", "Electrodo 6013 1/8", 18.00, 36.00}
         };
-        wholeTable = new JTable(new DefaultTableModel(tempData3, columnNames3) {
+        List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
+        newBill = new Bill(1, stores.get(0), employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
+        wholeTable = new JTable(new ShopCartTableModel(newBill));
+        /*wholeTable = new JTable(new DefaultTableModel(tempData3, columnNames3) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 if (column == 1) {
@@ -213,7 +222,7 @@ public class ShopCartForm extends JFrame {
                 } catch (Exception ex) {
                 }
             }
-        });
+        });*/
         JScrollPane wholeTableSP = new JScrollPane(wholeTable);
 
         totalLbl = new JLabel("Total");
@@ -284,16 +293,30 @@ public class ShopCartForm extends JFrame {
         aTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
-                JTable table = (JTable) me.getSource();
-                int colCount = aTable.getColumnCount();
-                Point p = me.getPoint();
-                int row = table.rowAtPoint(p);
+                //int colCount = aTable.getColumnCount();
                 if (me.getClickCount() == 2) {
-                    DefaultTableModel model = (DefaultTableModel) bTable.getModel();
-                    Object[] rowdata = {};
+                    JTable table = (JTable) me.getSource();
+                    Point p = me.getPoint();
+                    int row = table.rowAtPoint(p);
+                    ShopCartTableModel shopCart = (ShopCartTableModel) bTable.getModel();
+                    if (isService) {
+                        ShopCartServiceTableModel model = (ShopCartServiceTableModel) aTable.getModel();
+                        Service reqService = model.getServiceAt(row);
+                        List<Client> clients = new ArrayList<>(Company.getAllClients());
+                        List<RechargeableItem> recItems = new ArrayList<>(clients.get(0).getAllRechargeableItems());
+                        newBill.addServiceReception(new ServiceReception(1, reqService, recItems.get(0), new Date(new java.util.Date().getTime()), new Timestamp(new java.util.Date().getTime()), 1.0, ""));
+                    } else {
+                        ShopCartItemTableModel model = (ShopCartItemTableModel) aTable.getModel();
+                        Item reqItem = model.getItemAt(row);
+                        newBill.addItemSale(new ItemSale(0, reqItem, 1, ""));
+                    }
+                    shopCart.updateLists();
+                    shopCart.fireTableDataChanged();
+                    /*Object[] rowdata = {};
                     Object[] obj = new Object[]{};
                     ArrayList<Object> newObj = new ArrayList<Object>(Arrays.asList(obj));
                     if (!isService) {
+                        ShopCartServiceTableModel model = (ShopCartServiceTableModel) bTable.getModel();
                         for (int i = 0; i < colCount; i++) {
                             if (i == 1) {
                                 newObj.add("");
@@ -303,13 +326,14 @@ public class ShopCartForm extends JFrame {
                         }
                         model.addRow(newObj.toArray());
                     } else {
+                        ShopCartItemTableModel sourceModel = (ShopCartItemTableModel) bTable.getModel();
                         newObj.add(table.getValueAt(row, 0));
                         newObj.add("");
                         newObj.add("");
                         newObj.add(table.getValueAt(row, 1));
                         newObj.add(table.getValueAt(row, 2));
                         model.addRow(newObj.toArray());
-                    }
+                    }*/
                 }
             }
         });

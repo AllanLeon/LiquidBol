@@ -9,9 +9,15 @@ package com.liquidbol.gui.tables.model;
 import com.liquidbol.model.Inventory;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.Store;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * Represents a table of items displayed in the shopping cart.
@@ -35,7 +41,7 @@ public class ShopCartItemTableModel extends AbstractTableModel {
         for (Store store : stores) {
             for (Inventory inventory : store.getValidInventorys()) {
                 inventorys.add(inventory);
-                stores.add(store);
+                this.stores.add(store);
             }
         }
     }
@@ -89,5 +95,9 @@ public class ShopCartItemTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return inventorys.size();
+    }
+    
+    public Item getItemAt(int row) {
+        return inventorys.get(row).getItem();
     }
 }
