@@ -29,8 +29,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -134,6 +137,8 @@ public class PurchaseForm extends JFrame {
         contentTable.getColumnModel().getColumn(4).setPreferredWidth(30);
         contentTable.getColumnModel().getColumn(5).setPreferredWidth(50);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());
+        contentTable.setRowSorter(sorter);
         JScrollPane tablesp = new JScrollPane(contentTable);
 
         //calculate import for each article

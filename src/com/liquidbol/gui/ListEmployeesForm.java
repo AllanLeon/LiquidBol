@@ -22,8 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -85,17 +88,20 @@ public class ListEmployeesForm extends JFrame {
             {"5382191", "Jesus Ledezma", "74823991"},
             {"4809321", "Lupe Cardenas", "71109254"}
         };
-        employeesTable = new JTable(tempData, columnNames);
+        employeesTable = new JTable(tempData, columnNames); */
+        List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
+        employeesTable = new JTable(new EmployeeTableModel(employees));
         employeesTable.getTableHeader().setReorderingAllowed(false);
         employeesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         employeesTable.setRowHeight(25);
         employeesTable.getColumnModel().getColumn(0).setPreferredWidth(70);
         employeesTable.getColumnModel().getColumn(1).setPreferredWidth(130);
         employeesTable.getColumnModel().getColumn(2).setPreferredWidth(70);
-        employeesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
-        List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
-        employeesTable = new JTable(new EmployeeTableModel(employees));
+        employeesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(employeesTable.getModel());
+        employeesTable.setRowSorter(sorter);
         JScrollPane employeesTableSP = new JScrollPane(employeesTable);
+
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override

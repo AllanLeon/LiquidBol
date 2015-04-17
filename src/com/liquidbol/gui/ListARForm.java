@@ -22,8 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -81,7 +84,9 @@ public class ListARForm extends JFrame {
             {"00001", "012453", "Gabino Quispia", "Extintor de Polvo Quimico 3 Lb.", "30/06/15", "-"},
             {"00002", "E-1227", "Efrain Choque", "Tubo de Oxigeno industrial 6 Mts3", "01/07/15", "-"}
         };
-        arsTable = new JTable(tempData, columnNames);
+        arsTable = new JTable(tempData, columnNames); */
+        List<Client> clients = new ArrayList<>(Company.getAllClients());
+        arsTable = new JTable(new RechargeableItemTableModel(clients));
         arsTable.getTableHeader().setReorderingAllowed(false);
         arsTable.setFont(new Font("Arial", Font.PLAIN, 16));
         arsTable.setRowHeight(25);
@@ -91,10 +96,11 @@ public class ListARForm extends JFrame {
         arsTable.getColumnModel().getColumn(3).setPreferredWidth(250);
         arsTable.getColumnModel().getColumn(4).setPreferredWidth(80);
         arsTable.getColumnModel().getColumn(5).setPreferredWidth(90);
-        arsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
-        List<Client> clients = new ArrayList<>(Company.getAllClients());
-        arsTable = new JTable(new RechargeableItemTableModel(clients));
+        arsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(arsTable.getModel());
+        arsTable.setRowSorter(sorter);
         JScrollPane arsTableSP = new JScrollPane(arsTable);
+        
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override

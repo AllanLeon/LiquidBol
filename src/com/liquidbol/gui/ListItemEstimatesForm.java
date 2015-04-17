@@ -22,8 +22,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -88,7 +91,9 @@ public class ListItemEstimatesForm extends JFrame {
             {"COT-001", "Central", "23/01/2015", "30/01/2015", "20.00", "Requiere Id Cotizante!!!"},
             {"COT-002", "S.I.", "10/01/2015", "17/01/2015", "20.00", "Requiere Id Cotizante!!!"}
         };
-        quotesTable = new JTable(tempData, columnNames);
+        quotesTable = new JTable(tempData, columnNames); */
+        List<Client> clients = new ArrayList<>(Company.getAllClients());
+        quotesTable = new JTable(new ItemEstimateTableModel(clients));
         quotesTable.getTableHeader().setReorderingAllowed(false);
         quotesTable.setFont(new Font("Arial", Font.PLAIN, 16));
         quotesTable.setRowHeight(25);
@@ -98,10 +103,11 @@ public class ListItemEstimatesForm extends JFrame {
         quotesTable.getColumnModel().getColumn(3).setPreferredWidth(80);
         quotesTable.getColumnModel().getColumn(4).setPreferredWidth(50);
         quotesTable.getColumnModel().getColumn(5).setPreferredWidth(150);
-        quotesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
-        List<Client> clients = new ArrayList<>(Company.getAllClients());
-        quotesTable = new JTable(new ItemEstimateTableModel(clients));
+        quotesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(quotesTable.getModel());
+        quotesTable.setRowSorter(sorter);
         JScrollPane quotesTableSP = new JScrollPane(quotesTable);
+
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override

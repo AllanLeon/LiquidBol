@@ -15,8 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -67,17 +70,19 @@ public class ListStoresForm extends JFrame {
          {"00001", "Central", "C. Pagador esq. Herrera", "52 79947"},
          {"00002", "S.I.", "C. Pagador entre Herrera y 1ro de noviembre", "52 32190"}
          };
-         storeTable = new JTable(tempData, columnNames);
-         storeTable.getTableHeader().setReorderingAllowed(false);
-         storeTable.setFont(new Font("Arial", Font.PLAIN, 16));
-         storeTable.setRowHeight(25);
-         storeTable.getColumnModel().getColumn(0).setPreferredWidth(50);
-         storeTable.getColumnModel().getColumn(1).setPreferredWidth(60);
-         storeTable.getColumnModel().getColumn(2).setPreferredWidth(250);
-         storeTable.getColumnModel().getColumn(3).setPreferredWidth(80);
-         storeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
+         storeTable = new JTable(tempData, columnNames); */
         List<Store> stores = new ArrayList<>(Company.getAllStores());
         storeTable = new JTable(new StoreTableModel(stores));
+        storeTable.getTableHeader().setReorderingAllowed(false);
+        storeTable.setFont(new Font("Arial", Font.PLAIN, 16));
+        storeTable.setRowHeight(25);
+        storeTable.getColumnModel().getColumn(0).setPreferredWidth(50);
+        storeTable.getColumnModel().getColumn(1).setPreferredWidth(60);
+        storeTable.getColumnModel().getColumn(2).setPreferredWidth(250);
+        storeTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+        storeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(storeTable.getModel());
+        storeTable.setRowSorter(sorter);
         JScrollPane storeTableSP = new JScrollPane(storeTable);
 
         backBtn = new JButton("Back");

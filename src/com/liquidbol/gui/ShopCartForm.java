@@ -38,8 +38,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
@@ -123,7 +126,9 @@ public class ShopCartForm extends JFrame {
             {"00126", 19.5, "Kg.", "Electrodo 7018 1/8", 18.00},
             {"00119", 29.75, "Kg.", "Electrodo 6013 1/8", 18.00}
         };
-        itemsTable = new JTable(new DefaultTableModel(tempData, columnNames) {
+        itemsTable = new JTable(new DefaultTableModel(tempData, columnNames) */
+        List<Store> stores = new ArrayList<>(Company.getAllStores());
+        itemsTable = new JTable(new ShopCartItemTableModel(stores) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -136,10 +141,10 @@ public class ShopCartForm extends JFrame {
         itemsTable.getColumnModel().getColumn(1).setPreferredWidth(30);
         itemsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
         itemsTable.getColumnModel().getColumn(3).setPreferredWidth(240);
-        itemsTable.getColumnModel().getColumn(4).setPreferredWidth(40);*/
-        List<Store> stores = new ArrayList<>(Company.getAllStores());
-        itemsTable = new JTable(new ShopCartItemTableModel(stores));
+        itemsTable.getColumnModel().getColumn(4).setPreferredWidth(40);
         itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> itemSorter = new TableRowSorter<>(itemsTable.getModel());
+        itemsTable.setRowSorter(itemSorter);
         JScrollPane itemsTableSP = new JScrollPane(itemsTable);
 
         serviceLbl = new JLabel("Servicios");
@@ -151,7 +156,9 @@ public class ShopCartForm extends JFrame {
             {"00126", "Electrodo 7018 1/8", 18.00},
             {"00119", "Electrodo 6013 1/8", 18.00}
         };
-        serviceTable = new JTable(new DefaultTableModel(tempData2, columnNames2) {
+        serviceTable = new JTable(new DefaultTableModel(tempData2, columnNames2)*/
+        List<Service> services = new ArrayList<>(Company.getAllServices());
+        serviceTable = new JTable(new ShopCartServiceTableModel(services) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -162,10 +169,10 @@ public class ShopCartForm extends JFrame {
         serviceTable.setRowHeight(25);
         serviceTable.getColumnModel().getColumn(0).setPreferredWidth(60);
         serviceTable.getColumnModel().getColumn(1).setPreferredWidth(380);
-        serviceTable.getColumnModel().getColumn(2).setMinWidth(40);*/
-        List<Service> services = new ArrayList<>(Company.getAllServices());
-        serviceTable = new JTable(new ShopCartServiceTableModel(services));
+        serviceTable.getColumnModel().getColumn(2).setMinWidth(40);
         serviceTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> servSorter = new TableRowSorter<>(serviceTable.getModel());
+        serviceTable.setRowSorter(servSorter);
         JScrollPane serviceTableSP = new JScrollPane(serviceTable);
 
         cartPane = new JPanel();
@@ -205,6 +212,8 @@ public class ShopCartForm extends JFrame {
         wholeTable.getColumnModel().getColumn(4).setPreferredWidth(40);
         wholeTable.getColumnModel().getColumn(5).setPreferredWidth(50);
         wholeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        RowSorter<TableModel> sorter = new TableRowSorter<>(wholeTable.getModel());
+        wholeTable.setRowSorter(sorter);
         wholeTable.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {

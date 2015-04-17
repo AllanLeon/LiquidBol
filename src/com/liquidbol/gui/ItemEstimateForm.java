@@ -18,8 +18,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -129,6 +132,8 @@ public class ItemEstimateForm extends JFrame {
         contentTable.getColumnModel().getColumn(4).setPreferredWidth(40);
         contentTable.getColumnModel().getColumn(5).setPreferredWidth(40);
         contentTable.setDefaultRenderer(contentTable.getColumnModel().getColumn(3).getClass(), new MultiLineCellRenderer());
+        RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());
+        contentTable.setRowSorter(sorter);
         JScrollPane tablesp = new JScrollPane(contentTable);
 
         //calculate import for each article
