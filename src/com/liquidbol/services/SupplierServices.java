@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.services;
 
+import static com.liquidbol.addons.MagikarpScreen.ANSI_CYAN;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_PURPLE;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_RESET;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.db.persistence.PurchaseCrud;
 import com.liquidbol.db.persistence.SupplierDebtCrud;
@@ -45,25 +42,25 @@ public class SupplierServices {
     public Debt addDebtToSupplier(Debt element, Supplier parent) throws PersistenceException, ClassNotFoundException {
         element = debtCrudManager.save(element, parent);
         parent.addDebt(element);
-        LOG.info(String.format("Supplier debt: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Supplier debt: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public Purchase addPurchaseToSupplier(Purchase element, Supplier parent) throws PersistenceException, ClassNotFoundException {
         element = purchaseCrudManager.save(element, parent);
         parent.addPurchase(element);
-        LOG.info(String.format("Purchase: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Purchase: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public void loadSupplierDebts(Supplier parent) throws PersistenceException, ClassNotFoundException {
         parent.setDebts(debtCrudManager.findBySupplierId(parent.getId()));
-        LOG.info(String.format("%d supplier debts loaded", parent.getAllDebts().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d supplier debts loaded" + ANSI_RESET, parent.getAllDebts().size()));
     }
     
     public void loadSupplierPurchases(Supplier parent) throws PersistenceException, ClassNotFoundException {
         parent.setPurchases(purchaseCrudManager.findBySupplierId(parent.getId()));
-        LOG.info(String.format("%d purchases loaded", parent.getAllPurchases().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d purchases loaded" + ANSI_RESET, parent.getAllPurchases().size()));
     }
     
     public void loadAllSupplierInfo(Supplier parent) {

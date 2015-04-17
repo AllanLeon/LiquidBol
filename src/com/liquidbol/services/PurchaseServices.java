@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.services;
 
+import static com.liquidbol.addons.MagikarpScreen.ANSI_CYAN;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_PURPLE;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_RESET;
 import com.liquidbol.db.persistence.ItemPurchaseCrud;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Item;
@@ -36,13 +33,13 @@ public class PurchaseServices {
     public ItemPurchase addItemPurchaseToPurchase(ItemPurchase element, Purchase parent) throws PersistenceException, ClassNotFoundException {
         element = itemPurchaseCrudManager.save(element, parent);
         parent.addItemPurchase(element);
-        LOG.info(String.format("Item purchase: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Item purchase: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public void loadPurchaseItemPurchases(Purchase parent) throws PersistenceException, ClassNotFoundException {
         parent.setItemPurchases(itemPurchaseCrudManager.findByPurchaseId(parent.getId()));
-        LOG.info(String.format("%d item purchases loaded", parent.getAllItemPurchases().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d item purchases loaded" + ANSI_RESET, parent.getAllItemPurchases().size()));
     }
     
     public void loadAllPurchaseInfo(Purchase parent) {

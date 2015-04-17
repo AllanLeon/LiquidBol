@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.services;
 
+import static com.liquidbol.addons.MagikarpScreen.ANSI_CYAN;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_PURPLE;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_RESET;
 import com.liquidbol.db.persistence.ClientCXCCCrud;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.CXC;
@@ -36,13 +33,13 @@ public class CXCServices {
     public CXCC addCXCCToCXC(CXCC element, CXC parent) throws PersistenceException, ClassNotFoundException {
         element = cxccCrudManager.save(element, parent);
         parent.addCollectedReceivableAccount(element);
-        LOG.info(String.format("Collected receivable account: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Collected receivable account: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public void loadCXCPayments(CXC parent) throws PersistenceException, ClassNotFoundException {
         parent.setCollectedReceivableAccounts(cxccCrudManager.findByCXCId(parent.getId()));
-        LOG.info(String.format("%d collected receivable accounts loaded", parent.getAllCollectedReceivableAccounts().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d collected receivable accounts loaded" + ANSI_RESET, parent.getAllCollectedReceivableAccounts().size()));
     }
     
     public void loadAllCXCInfo(CXC parent) {

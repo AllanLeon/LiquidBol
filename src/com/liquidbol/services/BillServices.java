@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.services;
 
+import static com.liquidbol.addons.MagikarpScreen.ANSI_CYAN;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_PURPLE;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_RESET;
 import com.liquidbol.db.persistence.BillPaymentCrud;
 import com.liquidbol.db.persistence.ItemSaleCrud;
 import com.liquidbol.db.persistence.PersistenceException;
@@ -62,14 +59,14 @@ public class BillServices {
     public BillPayment addPaymentToBill(BillPayment element, Bill parent) throws PersistenceException, ClassNotFoundException {
         element = billPaymentCrudManager.save(element, parent);
         parent.addPayment(element);
-        LOG.info(String.format("Bill payment: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Bill payment: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public ItemSale addItemSaleToBill(ItemSale element, Bill parent) throws PersistenceException, ClassNotFoundException {
         element = itemSaleCrudManager.save(element, parent);
         parent.addItemSale(element);
-        LOG.info(String.format("Item sale: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Item sale: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
@@ -77,23 +74,24 @@ public class BillServices {
             throws PersistenceException, ClassNotFoundException {
         element = serviceReceptionCrudManager.save(element, parent);
         parent.addServiceReception(element);
-        LOG.info(String.format("Service reception: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Service reception: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public void loadBillPayments(Bill parent) throws PersistenceException, ClassNotFoundException {
         parent.setPayments(billPaymentCrudManager.findByBillId(parent.getId()));
-        LOG.info(String.format("%d item payments loaded", parent.getAllPayments().size()));
+        
+        LOG.info(String.format(ANSI_CYAN + "%d item payments loaded" + ANSI_RESET, parent.getAllPayments().size()));
     }
     
     public void loadBillItemSales(Bill parent) throws PersistenceException, ClassNotFoundException {
         parent.setItemSales(itemSaleCrudManager.findByItemBillId(parent.getId()));
-        LOG.info(String.format("%d item sales loaded", parent.getAllItemSales().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d item sales loaded" + ANSI_RESET, parent.getAllItemSales().size()));
     }
     
     public void loadBillServiceReceptions(Bill parent) throws PersistenceException, ClassNotFoundException {
         parent.setServiceReceptions(serviceReceptionCrudManager.findByServiceBillId(parent.getId()));
-        LOG.info(String.format("%d service receptions loaded", parent.getAllServiceReceptions().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d service receptions loaded" + ANSI_RESET, parent.getAllServiceReceptions().size()));
     }
     
     public void loadAllItemBillInfo(Bill parent) {

@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.services;
 
+import static com.liquidbol.addons.MagikarpScreen.ANSI_CYAN;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_PURPLE;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_RESET;
 import com.liquidbol.db.persistence.ItemDiscountCrud;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Discount;
@@ -39,13 +36,13 @@ public class ItemServices {
     public Discount addDiscountToItem(Discount element, Item parent) throws PersistenceException, ClassNotFoundException {
         element = discountCrudManager.save(element, parent);
         parent.addDiscount(element);
-        LOG.info(String.format("Item discount: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Item discount: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public void loadItemDiscounts(Item parent) throws PersistenceException, ClassNotFoundException {
         parent.setDiscounts(discountCrudManager.findByItemId(parent.getId()));
-        LOG.info(String.format("%d item discounts loaded", parent.getAllDiscounts().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d item discounts loaded" + ANSI_RESET, parent.getAllDiscounts().size()));
     }
     
     public void loadAllItemInfo(Item parent) {

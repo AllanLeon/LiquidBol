@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.db.persistence;
 
+import static com.liquidbol.addons.MagikarpScreen.ANSI_RESET;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_YELLOW;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -43,7 +39,7 @@ public class ConnectionManager {
     private Connection connect() throws SQLException, ClassNotFoundException {
         Class.forName(DRIVER);
         Connection result = DriverManager.getConnection(JDBC_URL, USER, PASSWORD);
-        LOGGER.info("New connection successfuly opened on liquidbol_db");
+        LOGGER.info(ANSI_YELLOW + "New connection successfuly opened on liquidbol_db" + ANSI_RESET);
         return result;
     }
     
@@ -62,7 +58,7 @@ public class ConnectionManager {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }
-        LOGGER.info("Locking a connection to liquidbol_db");
+        LOGGER.info(ANSI_YELLOW + "Locking a connection to liquidbol_db" + ANSI_RESET);
         isConnectionUsed = true;
         if (connection == null || connection.isClosed()) {
             connection = connect();
@@ -76,7 +72,7 @@ public class ConnectionManager {
      * @throws SQLException if there is a problem with the database
      */
     public synchronized void releaseConnection() throws SQLException {
-        LOGGER.info("Releasing connection");
+        LOGGER.info(ANSI_YELLOW + "Releasing connection" + ANSI_RESET);
         isConnectionUsed = false;
         if (connection == null) {
             LOGGER.info("There is no connection to the database to release");

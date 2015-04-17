@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.services;
 
+import static com.liquidbol.addons.MagikarpScreen.ANSI_CYAN;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_PURPLE;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_RESET;
 import com.liquidbol.db.persistence.ClientCXCCrud;
 import com.liquidbol.db.persistence.BillCrud;
 import com.liquidbol.db.persistence.ItemEstimateCrud;
@@ -76,7 +73,7 @@ public class ClientServices {
     public CXC addCXCToClient(CXC element, Client parent) throws PersistenceException, ClassNotFoundException {
         element = cxcCrudManager.save(element, parent);
         parent.addReceivableAccount(element);
-        LOG.info(String.format("Receivable account: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Receivable account: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
@@ -84,7 +81,7 @@ public class ClientServices {
             throws PersistenceException, ClassNotFoundException {
         element = rechargeableItemCrudManager.save(element, parent);
         parent.addRechargeableItem(element);
-        LOG.info(String.format("Rechargeable item: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Rechargeable item: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
@@ -92,7 +89,7 @@ public class ClientServices {
             throws PersistenceException, ClassNotFoundException {
         element = itemEstimateCrudManager.save(element, parent);
         parent.addItemEstimate(element);
-        LOG.info(String.format("Item estimate: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Item estimate: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
@@ -100,28 +97,28 @@ public class ClientServices {
             throws PersistenceException, ClassNotFoundException {
         element = billCrudManager.save(element, parent);
         parent.addBill(element);
-        LOG.info(String.format("Item bill: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Item bill: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public void loadClientCXCs(Client parent) throws PersistenceException, ClassNotFoundException {
         parent.setReceivableAccounts(cxcCrudManager.findByClientId(parent.getId()));
-        LOG.info(String.format("%d receivable accounts loaded", parent.getAllReceivableAccounts().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d receivable accounts loaded" + ANSI_RESET, parent.getAllReceivableAccounts().size()));
     }
     
     public void loadClientRechargeableItems(Client parent) throws PersistenceException, ClassNotFoundException {
         parent.setRechargeableItems(rechargeableItemCrudManager.findByClientId(parent.getId()));
-        LOG.info(String.format("%d rechargeable items loaded", parent.getAllRechargeableItems().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d rechargeable items loaded" + ANSI_RESET, parent.getAllRechargeableItems().size()));
     }
     
     public void loadClientItemEstimates(Client parent) throws PersistenceException, ClassNotFoundException {
         parent.setItemEstimates(itemEstimateCrudManager.findByClientId(parent.getId()));
-        LOG.info(String.format("%d item estimates loaded", parent.getAllItemEstimates().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d item estimates loaded" + ANSI_RESET, parent.getAllItemEstimates().size()));
     }
     
     public void loadClientItemBills(Client parent) throws PersistenceException, ClassNotFoundException {
         parent.setBills(billCrudManager.findByClientId(parent.getId()));
-        LOG.info(String.format("%d item bills loaded", parent.getAllBills().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d item bills loaded" + ANSI_RESET, parent.getAllBills().size()));
     }
     
     public void loadAllClientInfo(Client parent) {

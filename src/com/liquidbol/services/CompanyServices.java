@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.services;
 
+import static com.liquidbol.addons.MagikarpScreen.ANSI_CYAN;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_PURPLE;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_RESET;
 import com.liquidbol.db.persistence.ClientCrud;
 import com.liquidbol.model.Item;
 import com.liquidbol.db.persistence.ItemCrud;
@@ -201,7 +198,7 @@ public class CompanyServices {
     public Client saveClient(Client client) throws PersistenceException, ClassNotFoundException {
         client = clientCrudManager.save(client);
         Company.addClient(client);
-        LOG.info(String.format("Client: %d saved", client.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Client: %d saved" + ANSI_RESET, client.getId()));
         return client;
     }
     
@@ -215,7 +212,7 @@ public class CompanyServices {
     public Item saveItem(Item item) throws PersistenceException, ClassNotFoundException {
         item = itemCrudManager.save(item);
         Company.addItem(item);
-        LOG.info(String.format("Item: %s saved", item.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Item: %s saved" + ANSI_RESET, item.getId()));
         return item;
     }
     
@@ -229,7 +226,7 @@ public class CompanyServices {
     public Service saveService(Service service) throws PersistenceException, ClassNotFoundException {
         service = serviceCrudManager.save(service);
         Company.addService(service);
-        LOG.info(String.format("Service: %s saved", service.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Service: %s saved" + ANSI_RESET, service.getId()));
         return service;
     }
     
@@ -243,7 +240,7 @@ public class CompanyServices {
     public Offer saveOffer(Offer offer) throws PersistenceException, ClassNotFoundException {
         offer = offerCrudManager.save(offer);
         Company.addOffer(offer);
-        LOG.info(String.format("Offer: %d saved", offer.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Offer: %d saved" + ANSI_RESET, offer.getId()));
         return offer;
     }
     
@@ -257,7 +254,7 @@ public class CompanyServices {
     public Supplier saveSupplier(Supplier supplier) throws PersistenceException, ClassNotFoundException {
         supplier = supplierCrudManager.save(supplier);
         Company.addSupplier(supplier);
-        LOG.info(String.format("Supplier: %d saved", supplier.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Supplier: %d saved" + ANSI_RESET, supplier.getId()));
         return supplier;
     }
     
@@ -271,7 +268,7 @@ public class CompanyServices {
     public Store saveStore(Store store) throws PersistenceException, ClassNotFoundException {
         store = storeCrudManager.save(store);
         Company.addStore(store);
-        LOG.info(String.format("Store: %d saved", store.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Store: %d saved" + ANSI_RESET, store.getId()));
         return store;
     }
     
@@ -282,7 +279,7 @@ public class CompanyServices {
      */
     public void loadClients() throws PersistenceException, ClassNotFoundException {
         Company.setClients(clientCrudManager.getAll());
-        LOG.info(String.format("%d clients loaded", Company.getAllClients().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d clients loaded" + ANSI_RESET, Company.getAllClients().size()));
     }
     
     /**
@@ -292,7 +289,7 @@ public class CompanyServices {
      */
     public void loadItems() throws PersistenceException, ClassNotFoundException {
         Company.setItems(itemCrudManager.getAll());
-        LOG.info(String.format("%d items loaded", Company.getAllItems().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d items loaded" + ANSI_RESET, Company.getAllItems().size()));
     }
     
     /**
@@ -302,7 +299,7 @@ public class CompanyServices {
      */
     public void loadServices() throws PersistenceException, ClassNotFoundException {
         Company.setServices(serviceCrudManager.getAll());
-        LOG.info(String.format("%d services loaded", Company.getAllServices().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d services loaded" + ANSI_RESET, Company.getAllServices().size()));
     }
     
     /**
@@ -312,7 +309,7 @@ public class CompanyServices {
      */
     public void loadOffers() throws PersistenceException, ClassNotFoundException {
         Company.setOffers(offerCrudManager.getAll());
-        LOG.info(String.format("%d offers loaded", Company.getAllOffers().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d offers loaded" + ANSI_RESET, Company.getAllOffers().size()));
     }
     
     /**
@@ -322,7 +319,7 @@ public class CompanyServices {
      */
     public void loadSuppliers() throws PersistenceException, ClassNotFoundException {
         Company.setSuppliers(supplierCrudManager.getAll());
-        LOG.info(String.format("%d suppliers loaded", Company.getAllSuppliers().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d suppliers loaded" + ANSI_RESET, Company.getAllSuppliers().size()));
     }
     
     /**
@@ -332,7 +329,7 @@ public class CompanyServices {
      */
     public void loadStores() throws PersistenceException, ClassNotFoundException {
         Company.setStores(storeCrudManager.getAll());
-        LOG.info(String.format("%d stores loaded", Company.getAllStores().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d stores loaded" + ANSI_RESET, Company.getAllStores().size()));
     }
     
     public void loadAllCompanyInfo() {

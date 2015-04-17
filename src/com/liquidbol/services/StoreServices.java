@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.services;
 
+import static com.liquidbol.addons.MagikarpScreen.ANSI_CYAN;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_PURPLE;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_RESET;
 import com.liquidbol.db.persistence.EmployeeCrud;
 import com.liquidbol.db.persistence.ExpenseCrud;
 import com.liquidbol.db.persistence.InventoryCrud;
@@ -63,37 +60,37 @@ public class StoreServices {
     public Expense addExpenseToStore(Expense element, Store parent) throws PersistenceException, ClassNotFoundException {
         element = expenseCrudManager.save(element, parent);
         parent.addExpense(element);
-        LOG.info(String.format("Expense: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Expense: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public Inventory addInventoryToStore(Inventory element, Store parent) throws PersistenceException, ClassNotFoundException {
         element = inventoryCrudManager.save(element, parent);
         parent.addInventory(element);
-        LOG.info(String.format("Inventory: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Inventory: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public Employee addEmployeeToStore(Employee element, Store parent) throws PersistenceException, ClassNotFoundException {
         element = employeeCrudManager.save(element, parent);
         parent.addEmployee(element);
-        LOG.info(String.format("Employee: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Employee: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public void loadStoreExpenses(Store parent) throws PersistenceException, ClassNotFoundException {
         parent.setExpenses(expenseCrudManager.findByStoreId(parent.getId()));
-        LOG.info(String.format("%d expenses loaded", parent.getAllExpenses().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d expenses loaded" + ANSI_RESET, parent.getAllExpenses().size()));
     }
     
     public void loadStoreInventorys(Store parent) throws PersistenceException, ClassNotFoundException {
         parent.setInventorys(inventoryCrudManager.findByStoreId(parent.getId()));
-        LOG.info(String.format("%d inventorys loaded", parent.getAllInventorys().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d inventorys loaded" + ANSI_RESET, parent.getAllInventorys().size()));
     }
     
     public void loadStoreEmployees(Store parent) throws PersistenceException, ClassNotFoundException {
         parent.setEmployees(employeeCrudManager.findByStoreId(parent.getId()));
-        LOG.info(String.format("%d employees loaded", parent.getAllEmployees().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d employees loaded" + ANSI_RESET, parent.getAllEmployees().size()));
     }
     
     public void loadAllStoreInfo(Store parent) {

@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.services;
 
+import static com.liquidbol.addons.MagikarpScreen.ANSI_CYAN;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_PURPLE;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_RESET;
 import com.liquidbol.db.persistence.ItemRequestCrud;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Item;
@@ -37,13 +34,13 @@ public class ItemEstimateServices {
             throws PersistenceException, ClassNotFoundException {
         element = itemRequestCrudManager.save(element, parent);
         parent.addRequest(element);
-        LOG.info(String.format("Item request: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Item request: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public void loadItemEstimateRequests(ItemEstimate parent) throws PersistenceException, ClassNotFoundException {
         parent.setRequests(itemRequestCrudManager.findByItemEstimateId(parent.getId()));
-        LOG.info(String.format("%d item requests loaded", parent.getAllRequests().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d item requests loaded" + ANSI_RESET, parent.getAllRequests().size()));
     }
     
     public void loadAllItemEstimateInfo(ItemEstimate parent) {

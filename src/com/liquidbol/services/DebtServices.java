@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.services;
 
+import static com.liquidbol.addons.MagikarpScreen.ANSI_CYAN;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_PURPLE;
+import static com.liquidbol.addons.MagikarpScreen.ANSI_RESET;
 import com.liquidbol.db.persistence.DebtPaymentCrud;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Debt;
@@ -37,13 +34,13 @@ public class DebtServices {
             throws PersistenceException, ClassNotFoundException {
         element = debtPaymentCrudManager.save(element, parent);
         parent.addPayment(element);
-        LOG.info(String.format("Debt payment: %d saved", element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Debt payment: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }
     
     public void loadDebtPayments(Debt parent) throws PersistenceException, ClassNotFoundException {
         parent.setPayments(debtPaymentCrudManager.findByDebtId(parent.getId()));
-        LOG.info(String.format("%d debt payments loaded", parent.getAllPayments().size()));
+        LOG.info(String.format(ANSI_CYAN + "%d debt payments loaded" + ANSI_RESET, parent.getAllPayments().size()));
     }
     
     public void loadAllDebtInfo(Debt parent) {
