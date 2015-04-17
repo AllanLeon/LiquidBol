@@ -24,10 +24,16 @@ public class ShopCartTableModel extends AbstractTableModel {
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cantidad",
         "Unidad", "Descripcion", "Precio Unit.", "Precio"};
     
-    private final List<ItemSale> itemSales;
-    private final List<ServiceReception> serviceReceptions;
+    private List<ItemSale> itemSales;
+    private List<ServiceReception> serviceReceptions;
+    private Bill bill;
 
     public ShopCartTableModel(Bill bill) {
+        this.bill = bill;
+        updateLists();
+    }
+    
+    public void updateLists() {
         this.itemSales = new ArrayList<>(bill.getAllItemSales());
         this.serviceReceptions = new ArrayList<>(bill.getAllServiceReceptions());
     }
@@ -46,8 +52,8 @@ public class ShopCartTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
-        if (row >= itemSales.size()) {
+
+        if (row < itemSales.size()) {
             ItemSale itemSale = itemSales.get(row);
             Item item = itemSale.getItem();
             switch (column) {
@@ -69,6 +75,7 @@ public class ShopCartTableModel extends AbstractTableModel {
                     return null;
             }
         } else {
+            row -= itemSales.size();
             ServiceReception serviceReception = serviceReceptions.get(row);
             Service service = serviceReception.getService();
             switch (column) {
@@ -95,7 +102,7 @@ public class ShopCartTableModel extends AbstractTableModel {
     @Override
     public void setValueAt(Object value, int row, int column) {
         super.setValueAt(value, row, column);
-        if (row >= itemSales.size()) {
+        if (row < itemSales.size()) {
             ItemSale itemSale = itemSales.get(row);
             switch (column) {
                 case 2:
@@ -103,6 +110,7 @@ public class ShopCartTableModel extends AbstractTableModel {
                 default:;
             }
         } else {
+            row -= itemSales.size();
             ServiceReception serviceReception = serviceReceptions.get(row);
             switch (column) {
                 case 2:
@@ -110,6 +118,7 @@ public class ShopCartTableModel extends AbstractTableModel {
                 default:;
             }
         }
+        fireTableDataChanged();
     }
     
     @Override

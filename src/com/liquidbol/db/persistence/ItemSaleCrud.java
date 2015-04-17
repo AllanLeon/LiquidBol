@@ -95,7 +95,7 @@ public class ItemSaleCrud implements DBCrud<ItemSale> {
     
     public Collection<ItemSale> findByItemBillId(int itemBillId) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "SELECT * FROM item_sales WHERE itembill_id = ?";
+            String query = "SELECT * FROM item_sales WHERE itemsale_id = ?";
             connection = ConnectionManager.getInstance().getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, itemBillId);
