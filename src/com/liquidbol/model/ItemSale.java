@@ -23,6 +23,7 @@ public class ItemSale implements Serializable {
     private int quantity;
     private Double amount;
     private String obs;
+    private int maxQuantity;
 
     /**
      * Constructor method.
@@ -37,6 +38,24 @@ public class ItemSale implements Serializable {
         this.quantity = quantity;
         this.obs = obs;
         this.amount = item.getPrice() * quantity;
+        this.maxQuantity = 0;
+    }
+    
+    /**
+     * Constructor method.
+     * @param id
+     * @param item
+     * @param quantity
+     * @param obs 
+     * @param maxQuantity
+     */
+    public ItemSale(int id, Item item, int quantity, String obs, int maxQuantity) {
+        this.id = id;
+        this.item = item;
+        this.quantity = quantity;
+        this.obs = obs;
+        this.amount = item.getPrice() * quantity;
+        this.maxQuantity = maxQuantity;
     }
 
     /**
@@ -53,6 +72,7 @@ public class ItemSale implements Serializable {
         this.quantity = quantity;
         this.amount = amount;
         this.obs = obs;
+        this.maxQuantity = 0;
     }
 
     /**
@@ -108,7 +128,11 @@ public class ItemSale implements Serializable {
      * @param quantity the quantity to set
      */
     public void setQuantity(int quantity) {
-        this.quantity = quantity;
+        if (quantity < maxQuantity) {
+            this.quantity = quantity;
+        } else {
+            this.quantity = maxQuantity;
+        }
         amount = this.quantity * item.getPrice();
     }
 
@@ -124,6 +148,10 @@ public class ItemSale implements Serializable {
      */
     public void setObs(String obs) {
         this.obs = obs;
+    }
+    
+    public void setMaxQuantity(int maxQuantity) {
+        this.maxQuantity = maxQuantity;
     }
     
     public void refresh() {

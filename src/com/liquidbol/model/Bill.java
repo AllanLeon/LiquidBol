@@ -237,6 +237,13 @@ public class Bill implements Serializable {
     }
     
     public void addItemSale(ItemSale itemSale) {
+        int stock = 0;
+        try {
+            stock = store.getInventoryByItemId(itemSale.getItem().getId()).getQuantity();
+        } catch (OperationFailedException ex) {
+            Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        itemSale.setMaxQuantity(stock);
         itemSales.add(itemSale);
     }
     
