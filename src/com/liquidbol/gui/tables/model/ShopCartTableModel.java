@@ -36,6 +36,7 @@ public class ShopCartTableModel extends AbstractTableModel {
     public void updateLists() {
         this.itemSales = new ArrayList<>(bill.getAllItemSales());
         this.serviceReceptions = new ArrayList<>(bill.getAllServiceReceptions());
+        fireTableDataChanged();
     }
     
     @Override
@@ -114,7 +115,7 @@ public class ShopCartTableModel extends AbstractTableModel {
             ServiceReception serviceReception = serviceReceptions.get(row);
             switch (column) {
                 case 2:
-                    serviceReception.setQuantity((Double) value);
+                    serviceReception.setQuantity(new Double((int) value));
                 default:;
             }
         }
