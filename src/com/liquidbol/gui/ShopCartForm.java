@@ -193,7 +193,7 @@ public class ShopCartForm extends JFrame {
   //          {"00119", "", "Kg.", "Electrodo 6013 1/8", 18.00, 36.00}
         };
         List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
-        newBill = new Bill(0, stores.get(1), employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
+        newBill = new Bill(0, stores.get(0), employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
         wholeTable = new JTable(new ShopCartTableModel(newBill));
         /*wholeTable = new JTable(new DefaultTableModel(tempData3, columnNames3) {
             @Override
