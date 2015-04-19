@@ -280,6 +280,14 @@ public class Bill implements Serializable {
             Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void execute() throws OperationFailedException {
+        Inventory inventory;
+        for (ItemSale itemSale : itemSales) {
+            inventory = store.getInventoryByItemId(itemSale.getItem().getId());
+            inventory.reduceQuantityBy(itemSale.getQuantity());
+        }
+    }
 
     @Override
     public int hashCode() {

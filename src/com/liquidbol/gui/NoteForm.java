@@ -72,7 +72,7 @@ public class NoteForm extends JFrame {
 	setContentPane(contentPane);
         contentPane.setLayout(null);
  
-        UtilDateModel model = new UtilDateModel();
+        UtilDateModel model = new UtilDateModel(bill.getDate());
         Properties p = new Properties();
         p.put("text.today", "Today");
         p.put("text.month", "Month");

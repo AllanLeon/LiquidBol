@@ -3,10 +3,13 @@ package com.liquidbol.gui;
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.NumberToWords;
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Bill;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
 import com.liquidbol.model.OperationFailedException;
+import com.liquidbol.services.ClientServices;
+import com.liquidbol.services.StoreServices;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,11 +59,15 @@ public class BillForm extends JFrame implements KeyListener {
     private TableModel passed;
     private Bill bill;
     private Client client;
+    private ClientServices clientServices;
+    private StoreServices storeServices;
     
     public BillForm(TableModel tm, Bill bill) {
         UIStyle sty = new UIStyle();
         passed = tm;
         this.bill = bill;
+        this.clientServices = new ClientServices();
+        this.storeServices = new StoreServices();
         initComponents();
         setVisible(true);
     }
@@ -77,13 +84,14 @@ public class BillForm extends JFrame implements KeyListener {
 	setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        UtilDateModel model = new UtilDateModel();
+        UtilDateModel model = new UtilDateModel(bill.getDate());
         Properties p = new Properties();
         p.put("text.today", "Today");
         p.put("text.month", "Month");
         p.put("text.year", "Year");
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+        datePicker.setEnabled(false);
         title = new JLabel("FACTURA");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         idShower = new JLabel("Nº 000001");
@@ -137,9 +145,10 @@ public class BillForm extends JFrame implements KeyListener {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "You just printed a Bill! \n Respect+");
+                /*JOptionPane.showMessageDialog(null, "You just printed a Bill! \n Respect+");
                 LoginForm.LF.setVisible(true);
-                dispose();
+                dispose();*/
+                invoice();
             }
         });
         backBtn = new JButton("Back");
@@ -184,7 +193,38 @@ public class BillForm extends JFrame implements KeyListener {
         contentPane.add(backBtn);
         
         //clientNit.setText("9813");
-        clientNit.addKeyListener(this);
+        //clientNit.addKeyListener(this);
+        clientNit.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                findNIT();
+            }
+        });
+    }
+    
+    private void invoice() {
+        try {
+            bill.execute();
+            clientServices.addBillToClient(bill, client);
+            storeServices.updateInventorys(bill.getStore());
+            storeServices.loadStoreInventorys(bill.getStore());
+        } catch (OperationFailedException ex) {
+            Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void findNIT() {
+        try {
+                client = Company.findClientByNit(Integer.parseInt(clientNit.getText()));
+                clientName.setText(client.getBillName());
+            } catch (OperationFailedException ex) {
+                Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 
     @Override

@@ -35,7 +35,7 @@ public class BillCrud implements DBCrud<Bill> {
         try {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO bills(client_id, store_id, employee_id, "
-                    + "bill_date, total_amount, is_billed, is_route, obs) VALUES(?,?,?,?,?,?,?)";
+                    + "bill_date, total_amount, is_billed, is_route, obs) VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, parent.getId());
             statement.setInt(2, element.getStore().getId());

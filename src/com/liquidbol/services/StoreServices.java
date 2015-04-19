@@ -125,4 +125,10 @@ public class StoreServices {
         oldEmployee = employeeCrudManager.merge(newEmployee);
         return oldEmployee;
     }
+    
+    public void updateInventorys(Store store) throws PersistenceException, ClassNotFoundException {
+        for (Inventory inventory : store.getAllInventorys()) {
+            mergeInventory(inventory.getId(), inventory.getQuantity());
+        }
+    }
 }
