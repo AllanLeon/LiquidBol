@@ -3,10 +3,18 @@ package com.liquidbol.gui;
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.NumberToWords;
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.model.Bill;
+import com.liquidbol.model.Client;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.OperationFailedException;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,7 +35,7 @@ import org.jdatepicker.impl.UtilDateModel;
 /**
  * @author Franco
  */
-public class BillForm extends JFrame {
+public class BillForm extends JFrame implements KeyListener {
 
     private JPanel contentPane;
     private JLabel title;
@@ -46,12 +54,13 @@ public class BillForm extends JFrame {
     private JButton backBtn;
     private JButton submitBtn;
     private TableModel passed;
-    private String totalPassed;
+    private Bill bill;
+    private Client client;
     
-    public BillForm(TableModel tm, String tp) {
+    public BillForm(TableModel tm, Bill bill) {
         UIStyle sty = new UIStyle();
         passed = tm;
-        totalPassed = tp;
+        this.bill = bill;
         initComponents();
         setVisible(true);
     }
@@ -119,10 +128,10 @@ public class BillForm extends JFrame {
             total += Double.parseDouble(contentTable.getModel().getValueAt(i,5).toString());
         }
 */
-        totalAmount.setText(String.valueOf(totalPassed));
+        totalAmount.setText(String.valueOf(bill.calculateTotalAmount()));
         sonLbl = new JLabel("Son:");
         declarate = new JTextField();
-        declarate.setText(NumberToWords.convert(Integer.parseInt(totalPassed)));
+        declarate.setText(NumberToWords.convert(bill.getTotalAmount().intValue()));
         bsLbl = new JLabel("Bolivianos");
         submitBtn = new JButton("PRINT");
         submitBtn.addActionListener(new ActionListener() {
@@ -173,5 +182,30 @@ public class BillForm extends JFrame {
         contentPane.add(bsLbl);
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
+        
+        //clientNit.setText("9813");
+        clientNit.addKeyListener(this);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent ke) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyPressed(KeyEvent ke) {
+        if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+            try {
+                client = Company.findClientByNit(Integer.parseInt(clientNit.getText()));
+                clientName.setText(client.getBillName());
+            } catch (OperationFailedException ex) {
+                Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

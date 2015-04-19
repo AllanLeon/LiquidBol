@@ -245,7 +245,7 @@ public class ShopCartForm extends JFrame {
         toNoteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                NoteForm nf = new NoteForm(wholeTable.getModel(),cartTotal.getText());
+                NoteForm nf = new NoteForm(wholeTable.getModel(), newBill);
                 setVisible(false);
             }
         });
@@ -253,7 +253,7 @@ public class ShopCartForm extends JFrame {
         toBillBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BillForm bf = new BillForm(wholeTable.getModel(),cartTotal.getText());
+                BillForm bf = new BillForm(wholeTable.getModel(), newBill);
                 setVisible(false);
             }
         });

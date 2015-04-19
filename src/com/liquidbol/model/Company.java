@@ -158,7 +158,17 @@ public class Company implements Serializable {
                 return store;
             }
         }
-        throw new OperationFailedException(String.format("Store: %s not found", id));
+        throw new OperationFailedException(String.format("Store: %d not found", id));
+    }
+    
+    public static Client findClientByNit(int nit) throws OperationFailedException {
+        for (Client client : clients) {
+            if (client.getNit() == nit) {
+                System.out.println(nit);
+                return client;
+            }
+        }
+        throw new OperationFailedException(String.format("Client nit: %d not found", nit));
     }
     
     public static Collection<Employee> getAllEmployees() {

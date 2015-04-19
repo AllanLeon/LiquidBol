@@ -115,6 +115,10 @@ public class Bill implements Serializable {
      * @return the totalAmount
      */
     public Double getTotalAmount() {
+        return totalAmount;
+    }
+    
+    public Double calculateTotalAmount() {
         totalAmount = 0.0;
         for (ServiceReception serviceReception : serviceReceptions) {
             totalAmount += serviceReception.getAmount();
