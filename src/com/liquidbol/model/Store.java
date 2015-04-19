@@ -198,6 +198,15 @@ public class Store implements Serializable {
         }
         return result;
     }
+    
+    public Inventory getInventoryByItemId(String itemId) throws OperationFailedException {
+        for (Inventory inventory : inventorys) {
+            if (inventory.getItem().getId().equals(itemId)) {
+                return inventory;
+            }
+        }
+        throw new OperationFailedException(String.format("Couldn't find inventory with item id: %s", itemId));
+    }
 
     public void addInventory(Inventory inventory) {
        inventorys.add(inventory);

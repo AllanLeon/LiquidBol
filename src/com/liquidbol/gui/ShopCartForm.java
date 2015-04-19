@@ -10,6 +10,7 @@ import com.liquidbol.model.Company;
 import com.liquidbol.model.Employee;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemSale;
+import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.model.RechargeableItem;
 import com.liquidbol.model.Service;
 import com.liquidbol.model.ServiceReception;
@@ -41,6 +42,7 @@ import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -191,7 +193,7 @@ public class ShopCartForm extends JFrame {
   //          {"00119", "", "Kg.", "Electrodo 6013 1/8", 18.00, 36.00}
         };
         List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
-        newBill = new Bill(1, stores.get(0), employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
+        newBill = new Bill(0, stores.get(1), employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
         wholeTable = new JTable(new ShopCartTableModel(newBill));
         /*wholeTable = new JTable(new DefaultTableModel(tempData3, columnNames3) {
             @Override
@@ -237,13 +239,13 @@ public class ShopCartForm extends JFrame {
         totalLbl = new JLabel("Total");
         cartTotal = new JTextField();
         cartTotal.setFont(new Font("Arial", Font.BOLD, 16));
-        cartTotal.setText("0");
+        cartTotal.setText(newBill.getTotalAmount().toString());
 
         toNoteBtn = new JButton("A nota de venta");
         toNoteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                NoteForm nf = new NoteForm(wholeTable.getModel(),cartTotal.getText());
+                NoteForm nf = new NoteForm(wholeTable.getModel(), newBill);
                 setVisible(false);
             }
         });
@@ -251,7 +253,7 @@ public class ShopCartForm extends JFrame {
         toBillBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BillForm bf = new BillForm(wholeTable.getModel(),cartTotal.getText());
+                BillForm bf = new BillForm(wholeTable.getModel(), newBill);
                 setVisible(false);
             }
         });
@@ -320,7 +322,6 @@ public class ShopCartForm extends JFrame {
                         newBill.addItemSale(new ItemSale(0, reqItem, 1, ""));
                     }
                     shopCart.updateLists();
-                    shopCart.fireTableDataChanged();
                     /*Object[] rowdata = {};
                     Object[] obj = new Object[]{};
                     ArrayList<Object> newObj = new ArrayList<Object>(Arrays.asList(obj));

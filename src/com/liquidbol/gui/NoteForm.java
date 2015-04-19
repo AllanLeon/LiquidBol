@@ -2,6 +2,7 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.model.Bill;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,12 +50,12 @@ public class NoteForm extends JFrame {
     private JPanel contentPane;
     private JButton backBtn;
     private TableModel passed;
-    private String totalPassed;
+    private Bill bill;
 
-    public NoteForm(TableModel tm, String tp) {
+    public NoteForm(TableModel tm, Bill bill) {
         UIStyle sty = new UIStyle();
         passed = tm;
-        totalPassed = tp;
+        this.bill = bill;
         initComponents();
         setVisible(true);
     }
@@ -71,7 +72,7 @@ public class NoteForm extends JFrame {
 	setContentPane(contentPane);
         contentPane.setLayout(null);
  
-        UtilDateModel model = new UtilDateModel();
+        UtilDateModel model = new UtilDateModel(bill.getDate());
         Properties p = new Properties();
         p.put("text.today", "Today");
         p.put("text.month", "Month");
@@ -127,7 +128,7 @@ public class NoteForm extends JFrame {
             total += Double.parseDouble(contentTable.getModel().getValueAt(i,5).toString());
         }
 */
-        totalAmount.setText(String.valueOf(totalPassed));
+        totalAmount.setText(String.valueOf(bill.calculateTotalAmount()));
 
         jCheckBox1 = new JCheckBox("x Cancelar");
         jCheckBox2 = new JCheckBox("x Facturar");

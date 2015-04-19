@@ -117,6 +117,17 @@ public class Bill implements Serializable {
     public Double getTotalAmount() {
         return totalAmount;
     }
+    
+    public Double calculateTotalAmount() {
+        totalAmount = 0.0;
+        for (ServiceReception serviceReception : serviceReceptions) {
+            totalAmount += serviceReception.getAmount();
+        }
+        for (ItemSale itemSale : itemSales) {
+            totalAmount += itemSale.getAmount();
+        }
+        return totalAmount;
+    }
 
     /**
      * @return the billed
@@ -230,6 +241,13 @@ public class Bill implements Serializable {
     }
     
     public void addItemSale(ItemSale itemSale) {
+        int stock = 0;
+        try {
+            stock = store.getInventoryByItemId(itemSale.getItem().getId()).getQuantity();
+        } catch (OperationFailedException ex) {
+            Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        itemSale.setMaxQuantity(stock);
         itemSales.add(itemSale);
     }
     
@@ -260,6 +278,14 @@ public class Bill implements Serializable {
             Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void execute() throws OperationFailedException {
+        Inventory inventory;
+        for (ItemSale itemSale : itemSales) {
+            inventory = store.getInventoryByItemId(itemSale.getItem().getId());
+            inventory.reduceQuantityBy(itemSale.getQuantity());
         }
     }
 
