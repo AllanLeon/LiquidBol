@@ -10,7 +10,6 @@ import com.liquidbol.model.Company;
 import com.liquidbol.model.Employee;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemSale;
-import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.model.RechargeableItem;
 import com.liquidbol.model.Service;
 import com.liquidbol.model.ServiceReception;
@@ -42,7 +41,6 @@ import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -139,25 +137,21 @@ public class ShopCartForm extends JFrame {
         itemsTable.getTableHeader().setReorderingAllowed(false);
         itemsTable.setFont(new Font("Arial", Font.BOLD, 16));
         itemsTable.setRowHeight(25);
-        itemsTable.getColumnModel().getColumn(0).setPreferredWidth(40);
-        itemsTable.getColumnModel().getColumn(1).setPreferredWidth(30);
+        itemsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        itemsTable.getColumnModel().getColumn(1).setPreferredWidth(40);
         itemsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
-        itemsTable.getColumnModel().getColumn(3).setPreferredWidth(240);
-        itemsTable.getColumnModel().getColumn(4).setPreferredWidth(40);
+        itemsTable.getColumnModel().getColumn(3).setPreferredWidth(30);
+        itemsTable.getColumnModel().getColumn(4).setPreferredWidth(240);
+        itemsTable.getColumnModel().getColumn(5).setPreferredWidth(40);
         itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> itemSorter = new TableRowSorter<>(itemsTable.getModel());
         itemsTable.setRowSorter(itemSorter);
         JScrollPane itemsTableSP = new JScrollPane(itemsTable);
 
         serviceLbl = new JLabel("Servicios");
-        /*String[] columnNames2 = {"Cod",
-            "Descripcion",
-            "Precio"
-        };
+        /*String[] columnNames2 = {"Cod", "Descripcion", "Precio"};
         Object[][] tempData2 = {
-            {"00126", "Electrodo 7018 1/8", 18.00},
-            {"00119", "Electrodo 6013 1/8", 18.00}
-        };
+            {"00126", "Electrodo 7018 1/8", 18.00}, {"00119", "Electrodo 6013 1/8", 18.00}};
         serviceTable = new JTable(new DefaultTableModel(tempData2, columnNames2)*/
         List<Service> services = new ArrayList<>(Company.getAllServices());
         serviceTable = new JTable(new ShopCartServiceTableModel(services) {
@@ -169,9 +163,10 @@ public class ShopCartForm extends JFrame {
         serviceTable.getTableHeader().setReorderingAllowed(false);
         serviceTable.setFont(new Font("Arial", Font.BOLD, 16));
         serviceTable.setRowHeight(25);
-        serviceTable.getColumnModel().getColumn(0).setPreferredWidth(60);
-        serviceTable.getColumnModel().getColumn(1).setPreferredWidth(380);
-        serviceTable.getColumnModel().getColumn(2).setMinWidth(40);
+        serviceTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+        serviceTable.getColumnModel().getColumn(1).setPreferredWidth(60);
+        serviceTable.getColumnModel().getColumn(2).setPreferredWidth(380);
+        serviceTable.getColumnModel().getColumn(3).setPreferredWidth(40);
         serviceTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> servSorter = new TableRowSorter<>(serviceTable.getModel());
         serviceTable.setRowSorter(servSorter);
@@ -180,22 +175,13 @@ public class ShopCartForm extends JFrame {
         cartPane = new JPanel();
         cartPane.setBorder(BorderFactory.createTitledBorder("Carrito"));
         cartPane.setLayout(null);
-
-        String[] columnNames3 = {"Cod",
-            "CANT",
-            "Unidad",
-            "Descripcion",
-            "Precio Unit.",
-            "Precio"
-        };
+/*
+        String[] columnNames3 = {"Cod", "CANT", "Unidad", "Descripcion", "Precio Unit.", "Precio"};
         Object[][] tempData3 = {
-  //          {"00126", "", "Kg.", "Electrodo 7018 1/8", 18.00, 36.00},
-  //          {"00119", "", "Kg.", "Electrodo 6013 1/8", 18.00, 36.00}
+            {"00126", "", "Kg.", "Electrodo 7018 1/8", 18.00, 36.00},
+            {"00119", "", "Kg.", "Electrodo 6013 1/8", 18.00, 36.00}
         };
-        List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
-        newBill = new Bill(0, stores.get(0), employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
-        wholeTable = new JTable(new ShopCartTableModel(newBill));
-        /*wholeTable = new JTable(new DefaultTableModel(tempData3, columnNames3) {
+        wholeTable = new JTable(new DefaultTableModel(tempData3, columnNames3) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 if (column == 1) {
@@ -203,20 +189,24 @@ public class ShopCartForm extends JFrame {
                 }
                 return false;
             }
-        });
+        }); */
+        List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
+        newBill = new Bill(0, stores.get(0), employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
+        wholeTable = new JTable(new ShopCartTableModel(newBill));
         wholeTable.getTableHeader().setReorderingAllowed(false);
         wholeTable.setFont(new Font("Arial", Font.BOLD, 16));
         wholeTable.setRowHeight(25);
-        wholeTable.getColumnModel().getColumn(0).setPreferredWidth(40);
-        wholeTable.getColumnModel().getColumn(1).setPreferredWidth(30);
+        wholeTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        wholeTable.getColumnModel().getColumn(1).setPreferredWidth(40);
         wholeTable.getColumnModel().getColumn(2).setPreferredWidth(30);
-        wholeTable.getColumnModel().getColumn(3).setPreferredWidth(240);
-        wholeTable.getColumnModel().getColumn(4).setPreferredWidth(40);
-        wholeTable.getColumnModel().getColumn(5).setPreferredWidth(50);
+        wholeTable.getColumnModel().getColumn(3).setPreferredWidth(30);
+        wholeTable.getColumnModel().getColumn(4).setPreferredWidth(240);
+        wholeTable.getColumnModel().getColumn(5).setPreferredWidth(40);
+        wholeTable.getColumnModel().getColumn(6).setPreferredWidth(50);
         wholeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(wholeTable.getModel());
         wholeTable.setRowSorter(sorter);
-        wholeTable.getModel().addTableModelListener(new TableModelListener() {
+        /*wholeTable.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 try {
@@ -233,13 +223,12 @@ public class ShopCartForm extends JFrame {
                 } catch (Exception ex) {
                 }
             }
-        });*/
+        }); */
         JScrollPane wholeTableSP = new JScrollPane(wholeTable);
 
         totalLbl = new JLabel("Total");
         cartTotal = new JTextField();
         cartTotal.setFont(new Font("Arial", Font.BOLD, 16));
-        cartTotal.setText(newBill.getTotalAmount().toString());
 
         toNoteBtn = new JButton("A nota de venta");
         toNoteBtn.addActionListener(new ActionListener() {
@@ -321,7 +310,9 @@ public class ShopCartForm extends JFrame {
                         Item reqItem = model.getItemAt(row);
                         newBill.addItemSale(new ItemSale(0, reqItem, 1, ""));
                     }
-                    shopCart.updateLists();
+                    //cartTotal.setText(String.valueOf(newBill.calculateTotalAmount()));
+                    cartTotal.setText(String.valueOf(shopCart.updateLists()));
+                    //shopCart.updateLists();
                     /*Object[] rowdata = {};
                     Object[] obj = new Object[]{};
                     ArrayList<Object> newObj = new ArrayList<Object>(Arrays.asList(obj));

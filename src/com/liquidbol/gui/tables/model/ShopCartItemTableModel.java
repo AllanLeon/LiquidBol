@@ -1,23 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Inventory;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.Store;
-import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  * Represents a table of items displayed in the shopping cart.
@@ -25,8 +13,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ShopCartItemTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "STOCK", "Unidad",
-        "Descripcion", "Precio"};
+    private static final String[] COLUMN_NAMES = {"#", "Cod.", "STOCK", "Unidad",
+        "Descripcion", "P/U"};
     
     private final List<Inventory> inventorys;
     private final List<Store> stores;
@@ -60,7 +48,6 @@ public class ShopCartItemTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
         Inventory inventory = inventorys.get(row);
         Item item = inventory.getItem();
         switch (column) {
@@ -78,7 +65,6 @@ public class ShopCartItemTableModel extends AbstractTableModel {
                 return item.getPrice();
             default:
                 return null;
-                
         }
     }
 

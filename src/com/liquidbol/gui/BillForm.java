@@ -118,12 +118,13 @@ public class BillForm extends JFrame implements KeyListener {
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 20));
         contentTable.setRowHeight(25);
-        contentTable.getColumnModel().getColumn(0).setPreferredWidth(60);
-        contentTable.getColumnModel().getColumn(1).setPreferredWidth(40);
-        contentTable.getColumnModel().getColumn(2).setPreferredWidth(50);
-        contentTable.getColumnModel().getColumn(3).setPreferredWidth(280);
-        contentTable.getColumnModel().getColumn(4).setPreferredWidth(70);
-        contentTable.getColumnModel().getColumn(5).setMinWidth(20);
+        contentTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(1).setPreferredWidth(60);
+        contentTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+        contentTable.getColumnModel().getColumn(4).setPreferredWidth(280);
+        contentTable.getColumnModel().getColumn(5).setPreferredWidth(70);
+        contentTable.getColumnModel().getColumn(6).setMinWidth(20);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());
         contentTable.setRowSorter(sorter);
@@ -131,11 +132,6 @@ public class BillForm extends JFrame implements KeyListener {
         
         totalLbl = new JLabel("Total");
         totalAmount = new JTextField();
-/*        double total = 0;
-        for (int i = 0; i < contentTable.getRowCount(); i++) {
-            total += Double.parseDouble(contentTable.getModel().getValueAt(i,5).toString());
-        }
-*/
         totalAmount.setText(String.valueOf(bill.calculateTotalAmount()));
         sonLbl = new JLabel("Son:");
         declarate = new JTextField();
@@ -145,10 +141,10 @@ public class BillForm extends JFrame implements KeyListener {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /*JOptionPane.showMessageDialog(null, "You just printed a Bill! \n Respect+");
-                LoginForm.LF.setVisible(true);
-                dispose();*/
                 invoice();
+                JOptionPane.showMessageDialog(null, "You just printed a Bill! \n Respect+");
+                LoginForm.LF.setVisible(true);
+                dispose();
             }
         });
         backBtn = new JButton("Back");
@@ -209,22 +205,18 @@ public class BillForm extends JFrame implements KeyListener {
             clientServices.addBillToClient(bill, client);
             storeServices.updateInventorys(bill.getStore());
             storeServices.loadStoreInventorys(bill.getStore());
-        } catch (OperationFailedException ex) {
-            Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PersistenceException ex) {
-            Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (OperationFailedException | PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     private void findNIT() {
         try {
-                client = Company.findClientByNit(Integer.parseInt(clientNit.getText()));
-                clientName.setText(client.getBillName());
-            } catch (OperationFailedException ex) {
-                Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            client = Company.findClientByNit(Integer.parseInt(clientNit.getText()));
+            clientName.setText(client.getBillName());
+        } catch (OperationFailedException ex) {
+            Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

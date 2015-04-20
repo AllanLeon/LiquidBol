@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Bill;
@@ -21,8 +15,8 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ShopCartTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cantidad",
-        "Unidad", "Descripcion", "Precio Unit.", "Precio"};
+    private static final String[] COLUMN_NAMES = {"#", "Cod.", "Cantidad",
+        "Unidad", "Descripcion", "P/U", "Precio"};
     
     private List<ItemSale> itemSales;
     private List<ServiceReception> serviceReceptions;
@@ -33,10 +27,11 @@ public class ShopCartTableModel extends AbstractTableModel {
         updateLists();
     }
     
-    public void updateLists() {
+    public double updateLists() {
         this.itemSales = new ArrayList<>(bill.getAllItemSales());
         this.serviceReceptions = new ArrayList<>(bill.getAllServiceReceptions());
         fireTableDataChanged();
+        return bill.getTotalAmount();
     }
     
     @Override
@@ -53,7 +48,6 @@ public class ShopCartTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-
         if (row < itemSales.size()) {
             ItemSale itemSale = itemSales.get(row);
             Item item = itemSale.getItem();
@@ -145,12 +139,5 @@ public class ShopCartTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return itemSales.size() + serviceReceptions.size();
-    }
-    
-    public Double calculateTotal() {
-        Double total = 0.0;
-        for (ItemSale sale : itemSales) {
-        }
-        return total;
     }
 }

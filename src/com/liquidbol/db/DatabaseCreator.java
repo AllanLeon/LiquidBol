@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.liquidbol.db;
 
 import com.liquidbol.db.persistence.ConnectionManager;
@@ -91,9 +86,7 @@ public class DatabaseCreator {
             result.createStatement().execute(query21);
             result.createStatement().execute(query22);
             result.createStatement().execute(query23);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -529,9 +522,7 @@ public class DatabaseCreator {
             result.createStatement().execute(query22);
             result.createStatement().execute(query23);
             
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
