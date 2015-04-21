@@ -27,10 +27,10 @@ public class PurchaseTableModel extends AbstractTableModel {
 
     public PurchaseTableModel(Purchase purchase) {
         this.purchase = purchase;
-        updateLists();
+        updateList();
     }
     
-    public void updateLists() {
+    public void updateList() {
         this.itemPurchases = new ArrayList<>(purchase.getAllItemPurchases());
         fireTableDataChanged();
     }
