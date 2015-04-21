@@ -1,7 +1,7 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.UIStyle;
-import com.liquidbol.gui.tables.model.PurchaseTableModel;
+import com.liquidbol.gui.tables.model.PurchaseListTableModel;
 import com.liquidbol.model.Company;
 import com.liquidbol.model.Purchase;
 import java.awt.Font;
@@ -90,7 +90,7 @@ public class ListPurchasesForm extends JFrame {
         };
         purchasesTable = new JTable(tempData, columnNames); */
         List<Purchase> purchases = new ArrayList<>(Company.getAllPurchases());
-        purchasesTable = new JTable(new PurchaseTableModel(purchases));
+        purchasesTable = new JTable(new PurchaseListTableModel(purchases));
         purchasesTable.getTableHeader().setReorderingAllowed(false);
         purchasesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         purchasesTable.setRowHeight(25);

@@ -6,34 +6,42 @@
 
 package com.liquidbol.gui.tables.model;
 
+import com.liquidbol.model.Item;
+import com.liquidbol.model.ItemPurchase;
 import com.liquidbol.model.Purchase;
-import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Represents a table of purchases.
+ *
  * @author Allan Leon
  */
 public class PurchaseTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Monto Total", "Fecha"};
+    private static final String[] COLUMN_NAMES = {"#", "Cod.", "Cantidad",
+        "Unidad", "Descripcion", "Costo", "Monto"};
     
-    private final List<Purchase> purchases;
+    private List<ItemPurchase> itemPurchases;
+    private Purchase purchase;
 
-    public PurchaseTableModel(List<Purchase> purchases) {
-        this.purchases = purchases;
+    public PurchaseTableModel(Purchase purchase) {
+        this.purchase = purchase;
+        updateList();
+    }
+    
+    public void updateList() {
+        this.itemPurchases = new ArrayList<>(purchase.getAllItemPurchases());
+        fireTableDataChanged();
     }
     
     @Override
     public Class getColumnClass(int columnIndex) {
         switch (columnIndex) {
-            case 0:  case 1:
+            case 0: case 2:
                 return Integer.class;
-            case 2:
+            case 5: case 6:
                 return Double.class;
-            case 3:
-                return Date.class;
             default :
                 return String.class;
         }
@@ -41,20 +49,47 @@ public class PurchaseTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
-        Purchase purchase = purchases.get(row);
+        ItemPurchase itemPurchase = itemPurchases.get(row);
+        Item item = itemPurchase.getItem();
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return purchase.getId();
+                return item.getId();
             case 2:
-                return purchase.getTotalAmount();
+                return itemPurchase.getQuantity();
             case 3:
-                return purchase.getDate();
+                return item.getMeasure();
+            case 4:
+                return item.getDescription();
+            case 5:
+                return itemPurchase.getUnitCost();
+            case 6:
+                return itemPurchase.getAmount();
             default:
                 return null;
-                
+        }
+    }
+    
+    @Override
+    public void setValueAt(Object value, int row, int column) {
+        super.setValueAt(value, row, column);
+        ItemPurchase itemPurchase = itemPurchases.get(row);
+        switch (column) {
+            case 2:
+                itemPurchase.setQuantity((int) value);
+            default:;
+        }
+        fireTableDataChanged();
+    }
+    
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        switch (column) {
+            case 2:
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -70,6 +105,6 @@ public class PurchaseTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return purchases.size();
+        return itemPurchases.size();
     }
 }

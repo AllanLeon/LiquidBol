@@ -1,18 +1,25 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
-import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.addons.UIStyle;
 import com.liquidbol.db.persistence.PersistenceException;
+import com.liquidbol.gui.tables.model.PurchaseTableModel;
 import com.liquidbol.model.Company;
+import com.liquidbol.model.Item;
+import com.liquidbol.model.ItemPurchase;
+import com.liquidbol.model.OperationFailedException;
+import com.liquidbol.model.Purchase;
+import com.liquidbol.model.Store;
 import com.liquidbol.model.Supplier;
+import com.liquidbol.services.StoreServices;
+import com.liquidbol.services.SupplierServices;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -29,11 +36,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -42,6 +46,8 @@ import org.jdatepicker.impl.UtilDateModel;
  * @author Franco
  */
 public class PurchaseForm extends JFrame {
+    
+    private final String[] SEARCH_PARAMETERS = {"Cod."};
 
     private JPanel contentPane;
     private Component datePicker;
@@ -60,9 +66,17 @@ public class PurchaseForm extends JFrame {
     private Object[] readItData;
     private JComboBox supplierCombo;
     private JLabel supplierLbl;
+    private Purchase newPurchase;
+    private List<Supplier> suppliers;
+    private SupplierServices supplierServices;
+    private StoreServices storeServices;
     
     public PurchaseForm(int state) {
         UIStyle sty = new UIStyle();
+        newPurchase = new Purchase(0, new Date(new java.util.Date().getTime()));
+        suppliers = new ArrayList<>(Company.getAllSuppliers());
+        supplierServices = new SupplierServices();
+        storeServices = new StoreServices();
         switch (state) {
             case 1: //Add/edit new purchase
                 initComponents();
@@ -99,6 +113,7 @@ public class PurchaseForm extends JFrame {
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
         addBtn = new JButton("+");
         searchCB = new JComboBox();
+        searchCB.setModel(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
@@ -114,7 +129,8 @@ public class PurchaseForm extends JFrame {
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
         itemLbl = new JLabel("Items");
-        String[] columnNames = {"Cod",
+        contentTable = new JTable(new PurchaseTableModel(newPurchase));
+        /*String[] columnNames = {"Cod",
             "Cant.",
             "Unidad",
             "Nombre",
@@ -125,8 +141,7 @@ public class PurchaseForm extends JFrame {
         Object[][] tempData = {
             {"00126", 120, "Kg.", "Electrodo 7018 1/8", 18, 0},
             {"00119", 50, "Kg.", "Electrodo 6013 1/8", 19.5, 0}
-        };
-        contentTable = new JTable(tempData, columnNames);
+        };contentTable = new JTable(tempData, columnNames);
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 20));
         contentTable.setRowHeight(25);
@@ -138,11 +153,11 @@ public class PurchaseForm extends JFrame {
         contentTable.getColumnModel().getColumn(5).setPreferredWidth(50);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());
-        contentTable.setRowSorter(sorter);
+        contentTable.setRowSorter(sorter);*/
         JScrollPane tablesp = new JScrollPane(contentTable);
 
         //calculate import for each article
-        calculateEachArticlePrice(1,4,5);
+        //calculateEachArticlePrice(1,4,5);
 
         supplierLbl = new JLabel("Proveedor:");
         supplierCombo = new JComboBox();
@@ -160,10 +175,28 @@ public class PurchaseForm extends JFrame {
         }
         totalAmount = new JTextField(String.valueOf(total));
         totalAmount.setFont(new Font("Arial", Font.PLAIN, 20));
+        
+        addBtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    Item res = Company.findItemById(searchBox.getText());
+                    ItemPurchase itemPurchase = new ItemPurchase(0, res, res.getCost(), 1);
+                    newPurchase.addItemPurchase(itemPurchase);
+                    PurchaseTableModel tableModel = (PurchaseTableModel) contentTable.getModel();
+                    tableModel.updateList();
+                } catch (OperationFailedException ex) {
+                    Logger.getLogger(PurchaseForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
         submitBtn = new JButton("Add");
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                invoice();
                 JOptionPane.showMessageDialog(null, "Purchase completed! \n Respect+");
                 LoginForm.mm.setVisible(true);
                 dispose();
@@ -210,6 +243,19 @@ public class PurchaseForm extends JFrame {
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
     }
+    
+    public void invoice() {
+        try {
+            newPurchase.execute();
+            List<Store> stores = new ArrayList<>(Company.getAllStores());
+            supplierServices.addPurchaseToSupplier(newPurchase, suppliers.get(supplierCombo.getSelectedIndex()));
+            storeServices.updateInventorys(stores.get(0));
+            storeServices.loadStoreInventorys(stores.get(0));
+        } catch (OperationFailedException | PersistenceException | ClassNotFoundException ex) {
+            Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 /*
     private void readIt() {
             //id, item, unitCost, quantity
@@ -269,11 +315,9 @@ public class PurchaseForm extends JFrame {
     }
 
     private Object[] loadSupplierNames() throws PersistenceException, ClassNotFoundException {
-        Collection<Supplier> sc = Company.getAllSuppliers();
         List<String> data = new ArrayList<>();
-        int count = 0;
-        for (Supplier sup : sc) {
-            String name = sup.getName() + " " + sup.getLastname();
+        for (Supplier supplier : suppliers) {
+            String name = supplier.getName() + " " + supplier.getLastname();
             data.add(name);
         }
         return data.toArray();

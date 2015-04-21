@@ -118,6 +118,7 @@ public class ItemPurchase implements Serializable {
      */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+        this.amount = unitCost * quantity;
     }
 
     /**
@@ -130,9 +131,7 @@ public class ItemPurchase implements Serializable {
     public void refresh() {
         try {
             item = new ItemCrud().refresh(item);
-        } catch (PersistenceException ex) {
-            Logger.getLogger(ItemSale.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(ItemSale.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

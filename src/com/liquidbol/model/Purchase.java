@@ -8,8 +8,10 @@ package com.liquidbol.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -119,6 +121,15 @@ public class Purchase implements Serializable {
             }
         }
         return result;
+    }
+    
+    public void execute() throws OperationFailedException {
+        Inventory inventory;
+        List<Store> stores = new ArrayList<>(Company.getAllStores());
+        for (ItemPurchase itemPurchase : itemPurchases) {
+            inventory = stores.get(0).getInventoryByItemId(itemPurchase.getItem().getId());
+            inventory.increaseQuantityBy(itemPurchase.getQuantity());
+        }
     }
 
     @Override
