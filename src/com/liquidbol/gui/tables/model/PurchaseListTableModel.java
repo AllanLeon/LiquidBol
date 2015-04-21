@@ -15,13 +15,13 @@ import javax.swing.table.AbstractTableModel;
  * Represents a table of purchases.
  * @author Allan Leon
  */
-public class PurchaseTableModel extends AbstractTableModel {
+public class PurchaseListTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Monto Total", "Fecha"};
     
     private final List<Purchase> purchases;
 
-    public PurchaseTableModel(List<Purchase> purchases) {
+    public PurchaseListTableModel(List<Purchase> purchases) {
         this.purchases = purchases;
     }
     
