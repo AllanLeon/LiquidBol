@@ -41,6 +41,8 @@ import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -206,6 +208,12 @@ public class ShopCartForm extends JFrame {
         wholeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(wholeTable.getModel());
         wholeTable.setRowSorter(sorter);
+        wholeTable.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                cartTotal.setText(String.valueOf(newBill.calculateTotalAmount()));
+            }
+        });
         /*wholeTable.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -310,9 +318,8 @@ public class ShopCartForm extends JFrame {
                         Item reqItem = model.getItemAt(row);
                         newBill.addItemSale(new ItemSale(0, reqItem, 1, ""));
                     }
-                    //cartTotal.setText(String.valueOf(newBill.calculateTotalAmount()));
-                    cartTotal.setText(String.valueOf(shopCart.updateLists()));
-                    //shopCart.updateLists();
+                    cartTotal.setText(String.valueOf(newBill.calculateTotalAmount()));
+                    shopCart.updateLists();
                     /*Object[] rowdata = {};
                     Object[] obj = new Object[]{};
                     ArrayList<Object> newObj = new ArrayList<Object>(Arrays.asList(obj));

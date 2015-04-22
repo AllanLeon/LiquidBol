@@ -27,11 +27,10 @@ public class ShopCartTableModel extends AbstractTableModel {
         updateLists();
     }
     
-    public double updateLists() {
+    public void updateLists() {
         this.itemSales = new ArrayList<>(bill.getAllItemSales());
         this.serviceReceptions = new ArrayList<>(bill.getAllServiceReceptions());
         fireTableDataChanged();
-        return bill.getTotalAmount();
     }
     
     @Override
