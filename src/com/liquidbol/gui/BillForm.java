@@ -118,7 +118,7 @@ public class BillForm extends JFrame implements KeyListener {
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 20));
         contentTable.setRowHeight(25);
-        contentTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(0).setPreferredWidth(20);
         contentTable.getColumnModel().getColumn(1).setPreferredWidth(60);
         contentTable.getColumnModel().getColumn(2).setPreferredWidth(40);
         contentTable.getColumnModel().getColumn(3).setPreferredWidth(50);
@@ -141,8 +141,8 @@ public class BillForm extends JFrame implements KeyListener {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                invoice();
                 JOptionPane.showMessageDialog(null, "You just printed a Bill! \n Respect+");
+                invoice();
                 LoginForm.LF.setVisible(true);
                 dispose();
             }

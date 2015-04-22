@@ -181,7 +181,7 @@ public class RechargeableItemCrud implements DBCrud<RechargeableItem> {
         Date warrantyLimitDate = resultSet.getDate(7);
         String obs = resultSet.getString(8);
         LOG.log(Level.FINE, "Creating rechargeable item %s", id);
-        RechargeableItem result = new RechargeableItem(obs, description, capacity, unit, type, warrantyLimitDate, obs);
+        RechargeableItem result = new RechargeableItem(id, description, capacity, unit, type, warrantyLimitDate, obs);
         return result;
     }
 

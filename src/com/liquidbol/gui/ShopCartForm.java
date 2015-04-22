@@ -211,27 +211,9 @@ public class ShopCartForm extends JFrame {
         wholeTable.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
-                cartTotal.setText(String.valueOf(newBill.calculateTotalAmount()));
+                cartTotal.setText(String.format("%.2f",newBill.calculateTotalAmount()));
             }
         });
-        /*wholeTable.getModel().addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                try {
-                    total = 0;
-                    TableModel wholeTM = wholeTable.getModel();
-                    for (int i = 0, rows = wholeTM.getRowCount(); i < rows; i++) {
-                        double quant = (double) wholeTM.getValueAt(i, 1);
-                        double unitprice = (double) wholeTM.getValueAt(i, 4);
-                        double unitTotal = quant * unitprice;
-                        wholeTM.setValueAt(unitTotal, i, 5);
-                        total += (double) wholeTM.getValueAt(i, 5);
-                    }
-                    cartTotal.setText(String.format("%f", total));
-                } catch (Exception ex) {
-                }
-            }
-        }); */
         JScrollPane wholeTableSP = new JScrollPane(wholeTable);
 
         totalLbl = new JLabel("Total");
@@ -318,7 +300,7 @@ public class ShopCartForm extends JFrame {
                         Item reqItem = model.getItemAt(row);
                         newBill.addItemSale(new ItemSale(0, reqItem, 1, ""));
                     }
-                    cartTotal.setText(String.valueOf(newBill.calculateTotalAmount()));
+                    cartTotal.setText(String.format("%.2f",newBill.calculateTotalAmount()));
                     shopCart.updateLists();
                     /*Object[] rowdata = {};
                     Object[] obj = new Object[]{};
