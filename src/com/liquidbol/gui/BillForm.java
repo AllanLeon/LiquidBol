@@ -132,6 +132,7 @@ public class BillForm extends JFrame implements KeyListener {
 
         totalLbl = new JLabel("Total");
         totalAmount = new JTextField();
+        totalAmount.setEditable(false);
         totalAmount.setText(String.valueOf(bill.calculateTotalAmount()));
         sonLbl = new JLabel("Son:");
         declarate = new JTextField();
