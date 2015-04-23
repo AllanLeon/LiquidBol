@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.CXCC;
@@ -18,7 +12,6 @@ import javax.swing.table.AbstractTableModel;
 public class CXCCTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Monto", "Fecha"};
-    
     private final List<CXCC> collectedReceivableAccounts;
 
     public CXCCTableModel(List<CXCC> cxcc) {
@@ -41,7 +34,6 @@ public class CXCCTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
         CXCC cxcc = collectedReceivableAccounts.get(row);
         switch (column) {
             case 0:
@@ -53,8 +45,7 @@ public class CXCCTableModel extends AbstractTableModel {
             case 3:
                 return cxcc.getPayDate();
             default:
-                return null;
-                
+                return null;     
         }
     }
 

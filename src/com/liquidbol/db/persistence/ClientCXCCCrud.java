@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.CXC;
@@ -27,7 +21,6 @@ import java.util.logging.Logger;
 public class ClientCXCCCrud implements DBCrud<CXCC> {
     
     private static final Logger LOG = Logger.getLogger(ClientCXCCCrud.class.getName());
-
     private Connection connection;
 
     public CXCC save(CXCC element, CXC parent) throws PersistenceException, ClassNotFoundException {

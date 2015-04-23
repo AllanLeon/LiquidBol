@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Item;
@@ -14,7 +8,6 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- *
  * @author Allan Leon
  */
 public class PurchaseTableModel extends AbstractTableModel {
@@ -23,7 +16,7 @@ public class PurchaseTableModel extends AbstractTableModel {
         "Unidad", "Descripcion", "Costo", "Monto"};
     
     private List<ItemPurchase> itemPurchases;
-    private Purchase purchase;
+    private final Purchase purchase;
 
     public PurchaseTableModel(Purchase purchase) {
         this.purchase = purchase;

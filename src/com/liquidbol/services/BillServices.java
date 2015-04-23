@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 public class BillServices {
     
     private static final Logger LOG = Logger.getLogger(BillServices.class.getName());
-    
     private final BillPaymentCrud billPaymentCrudManager;
     private final ItemSaleCrud itemSaleCrudManager;
     private final ServiceReceptionCrud serviceReceptionCrudManager;

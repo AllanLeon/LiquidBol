@@ -184,9 +184,7 @@ public class ServiceReception implements Serializable {
         try {
             service = new ServiceCrud().refresh(service);
             item = new RechargeableItemCrud().refresh(item);
-        } catch (PersistenceException ex) {
-            Logger.getLogger(ServiceReception.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(ServiceReception.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

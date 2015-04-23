@@ -56,12 +56,12 @@ public class BillForm extends JFrame implements KeyListener {
     private JTextField totalAmount;
     private JButton backBtn;
     private JButton submitBtn;
-    private TableModel passed;
-    private Bill bill;
+    private final TableModel passed;
+    private final Bill bill;
     private Client client;
-    private ClientServices clientServices;
-    private StoreServices storeServices;
-    
+    private final ClientServices clientServices;
+    private final StoreServices storeServices;
+
     public BillForm(TableModel tm, Bill bill) {
         UIStyle sty = new UIStyle();
         passed = tm;
@@ -79,9 +79,9 @@ public class BillForm extends JFrame implements KeyListener {
         setLocationRelativeTo(null);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	contentPane = new JPanel();
-	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-	setContentPane(contentPane);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
         contentPane.setLayout(null);
 
         UtilDateModel model = new UtilDateModel(bill.getDate());
@@ -100,20 +100,20 @@ public class BillForm extends JFrame implements KeyListener {
         clientName = new JTextField();
         nitLbl = new JLabel("NIT/C.I.");
         clientNit = new JTextField();
-/*
-        String[] columnNames = {"Cod",
-            "Cant.",
-            "Unidad",
-            "Descripcion",
-            "Precio Unit.",
-            "Importe"
-        };
+        /*
+         String[] columnNames = {"Cod",
+         "Cant.",
+         "Unidad",
+         "Descripcion",
+         "Precio Unit.",
+         "Importe"
+         };
 
-        Object[][] tempData = {
-            {"00126", 20, "Kg.", "Electrodo 7018 1/8", 22.8, 0},
-            {"00119", 20, "Kg.", "Electrodo 6013 1/8", 22.8, 0}
-        };
-        contentTable = new JTable(tempData, columnNames); */
+         Object[][] tempData = {
+         {"00126", 20, "Kg.", "Electrodo 7018 1/8", 22.8, 0},
+         {"00119", 20, "Kg.", "Electrodo 6013 1/8", 22.8, 0}
+         };
+         contentTable = new JTable(tempData, columnNames); */
         contentTable = new JTable(passed);
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -129,7 +129,7 @@ public class BillForm extends JFrame implements KeyListener {
         RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());
         contentTable.setRowSorter(sorter);
         JScrollPane tablesp = new JScrollPane(contentTable);
-        
+
         totalLbl = new JLabel("Total");
         totalAmount = new JTextField();
         totalAmount.setText(String.valueOf(bill.calculateTotalAmount()));
@@ -187,18 +187,17 @@ public class BillForm extends JFrame implements KeyListener {
         contentPane.add(bsLbl);
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
-        
+
         //clientNit.setText("9813");
         //clientNit.addKeyListener(this);
         clientNit.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent ae) {
                 findNIT();
             }
         });
     }
-    
+
     private void invoice() {
         try {
             bill.execute();
@@ -209,7 +208,7 @@ public class BillForm extends JFrame implements KeyListener {
             Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void findNIT() {
         try {
             client = Company.findClientByNit(Integer.parseInt(clientNit.getText()));

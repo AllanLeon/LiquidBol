@@ -1,12 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
-import com.liquidbol.model.CXC;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.ItemEstimate;
 import java.sql.Date;
@@ -22,7 +15,6 @@ public class ItemEstimateTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cliente", "Tienda",
         "Fecha Cotizacion", "Fecha Limite", "Monto", "Observaciones"};
-    
     private final List<Client> clients;
     private final List<ItemEstimate> itemEstimates;
 
@@ -56,8 +48,7 @@ public class ItemEstimateTableModel extends AbstractTableModel {
     }
     
     @Override
-    public Object getValueAt(int row, int column) {
-        
+    public Object getValueAt(int row, int column) {        
         Client client = clients.get(row);
         ItemEstimate estimate = itemEstimates.get(row);
         switch (column) {
@@ -79,7 +70,6 @@ public class ItemEstimateTableModel extends AbstractTableModel {
                 return estimate.getObs();
             default:
                 return null;
-                
         }
     }
 

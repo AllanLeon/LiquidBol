@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.Offer;
@@ -25,7 +19,6 @@ import java.util.logging.Logger;
 public class OfferCrud implements DBCrud<Offer> {
     
     private static final Logger LOG = Logger.getLogger(OfferCrud.class.getName());
-
     private Connection connection;
 
     @Override
@@ -161,5 +154,4 @@ public class OfferCrud implements DBCrud<Offer> {
         Offer result = new Offer(id, type, percentage, startDate, endDate);
         return result;
     }
-    
 }

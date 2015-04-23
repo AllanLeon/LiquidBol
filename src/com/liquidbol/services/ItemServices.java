@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 public class ItemServices {
     
     private static final Logger LOG = Logger.getLogger(ItemServices.class.getName());
-    
     private final ItemDiscountCrud discountCrudManager;
     
     public ItemServices() {

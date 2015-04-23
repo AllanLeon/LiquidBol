@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.model;
 
 import com.liquidbol.db.persistence.EmployeeCrud;
@@ -114,9 +108,7 @@ public class BillPayment implements Serializable {
     public void refresh() {
         try {
             employee = new EmployeeCrud().refresh(employee);
-        } catch (PersistenceException ex) {
-            Logger.getLogger(BillPayment.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(BillPayment.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.Expense;
@@ -21,12 +15,12 @@ import java.util.logging.Logger;
 
 /**
  * Class responsible of all persistence operations related to expenses.
+ *
  * @author Allan Leon
  */
 public class ExpenseCrud implements DBCrud<Expense> {
-    
-    private static final Logger LOG = Logger.getLogger(ExpenseCrud.class.getName());
 
+    private static final Logger LOG = Logger.getLogger(ExpenseCrud.class.getName());
     private Connection connection;
 
     public Expense save(Expense element, Store parent) throws PersistenceException, ClassNotFoundException {
@@ -92,7 +86,7 @@ public class ExpenseCrud implements DBCrud<Expense> {
             }
         }
     }
-    
+
     public Collection<Expense> findByStoreId(int storeId) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "SELECT * FROM expenses WHERE store_id = ?";
@@ -123,8 +117,8 @@ public class ExpenseCrud implements DBCrud<Expense> {
         try {
             String query = "UPDATE expenses SET pay_date=?, description=?, "
                     + "amount=?, obs=? WHERE expense_id=?";
-            PreparedStatement statement = 
-                ConnectionManager.getInstance().getConnection().prepareStatement(query);
+            PreparedStatement statement
+                    = ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, element.getPayDate());
             statement.setString(2, element.getDescription());
             statement.setDouble(3, element.getAmount());

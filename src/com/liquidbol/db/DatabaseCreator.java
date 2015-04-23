@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 /**
  * Manages the database creation and updates.
- *
  * @author Allan Leon
  */
 public class DatabaseCreator {

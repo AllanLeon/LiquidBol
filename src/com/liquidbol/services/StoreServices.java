@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 public class StoreServices {
     
     private static final Logger LOG = Logger.getLogger(StoreServices.class.getName());
-    
     private final ExpenseCrud expenseCrudManager;
     private final InventoryCrud inventoryCrudManager;
     private final EmployeeCrud employeeCrudManager;

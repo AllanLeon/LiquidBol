@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.Debt;
@@ -26,9 +20,8 @@ import java.util.logging.Logger;
 public class DebtPaymentCrud implements DBCrud<DebtPayment> {
 
     private static final Logger LOG = Logger.getLogger(DebtPaymentCrud.class.getName());
-
     private Connection connection;
-    
+
     public DebtPayment save(DebtPayment payment, Debt parent) throws PersistenceException, ClassNotFoundException {
         try {
             connection = ConnectionManager.getInstance().getConnection();
@@ -58,7 +51,6 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
             } catch (SQLException ex) {
                 LOG.log(Level.SEVERE, null, ex);
             }
-            return payment;
         }
     }
 
@@ -91,7 +83,7 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
             }
         }
     }
-    
+
     public Collection<DebtPayment> findByDebtId(int debtId) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "SELECT * FROM debt_payments WHERE debt_id = ?";
@@ -121,8 +113,8 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
     public DebtPayment merge(DebtPayment payment) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "UPDATE debt_payments SET pay_date=?, amount=? WHERE debt_payment_id=?";
-            PreparedStatement statement = 
-                ConnectionManager.getInstance().getConnection().prepareStatement(query);
+            PreparedStatement statement
+                    = ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setDate(1, payment.getPayDate());
             statement.setDouble(2, payment.getAmount());
             statement.setInt(3, payment.getId());
@@ -183,5 +175,4 @@ public class DebtPaymentCrud implements DBCrud<DebtPayment> {
     public DebtPayment save(DebtPayment element) throws PersistenceException, ClassNotFoundException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 }

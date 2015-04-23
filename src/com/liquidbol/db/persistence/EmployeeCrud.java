@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.Employee;
@@ -23,9 +17,8 @@ import java.util.logging.Logger;
  * @author Allan Leon
  */
 public class EmployeeCrud implements DBCrud<Employee> {
-    
-    private static final Logger LOG = Logger.getLogger(EmployeeCrud.class.getName());
 
+    private static final Logger LOG = Logger.getLogger(EmployeeCrud.class.getName());
     private Connection connection;
 
     public Employee save(Employee element, Store parent) throws PersistenceException, ClassNotFoundException {
@@ -94,7 +87,7 @@ public class EmployeeCrud implements DBCrud<Employee> {
             }
         }
     }
-    
+
     public Employee autenticate(int id, String password) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "SELECT * FROM employees WHERE employee_id = ? AND employee_password = ?";
@@ -119,7 +112,7 @@ public class EmployeeCrud implements DBCrud<Employee> {
             }
         }
     }
-    
+
     public Collection<Employee> findByStoreId(int storeId) throws PersistenceException, ClassNotFoundException {
         try {
             String query = "SELECT * FROM employees WHERE store_id = ?";
@@ -151,8 +144,8 @@ public class EmployeeCrud implements DBCrud<Employee> {
             String query = "UPDATE employees SET employee_address=?, employee_phone=?, "
                     + "employee_phone2=?, employee_email=?, employee_password=?, employee_type "
                     + "WHERE employee_id=?";
-            PreparedStatement statement = 
-                ConnectionManager.getInstance().getConnection().prepareStatement(query);
+            PreparedStatement statement
+                    = ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setString(1, element.getAddress());
             statement.setInt(2, element.getPhone());
             statement.setInt(3, element.getPhone2());

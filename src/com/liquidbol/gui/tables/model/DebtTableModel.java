@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Debt;
@@ -20,7 +14,6 @@ import javax.swing.table.AbstractTableModel;
 public class DebtTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Saldo", "Credito", "Fecha Limite"};
-    
     private final List<Supplier> suppliers;
     private final List<Debt> debts;
 
@@ -55,7 +48,6 @@ public class DebtTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
         Supplier supplier = suppliers.get(row);
         Debt debt = debts.get(row);
         switch (column) {
@@ -73,7 +65,6 @@ public class DebtTableModel extends AbstractTableModel {
                 return debt.getLimitDate();
             default:
                 return null;
-                
         }
     }
 

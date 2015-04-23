@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.Item;
@@ -20,13 +14,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class responsible of- all persistence operations related to item requests.
+ * Class responsible of all persistence operations related to item requests.
  * @author Allan Leon
  */
 public class ItemRequestCrud implements DBCrud<ItemRequest> {
     
     private static final Logger LOG = Logger.getLogger(ItemRequestCrud.class.getName());
-
     private Connection connection;
 
     public ItemRequest save(ItemRequest element, ItemEstimate parent) throws PersistenceException, ClassNotFoundException {

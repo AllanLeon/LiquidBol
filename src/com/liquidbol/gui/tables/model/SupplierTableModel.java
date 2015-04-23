@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Supplier;
@@ -17,7 +11,6 @@ import javax.swing.table.AbstractTableModel;
 public class SupplierTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Compañia"};
-    
     private final List<Supplier> suppliers;
 
     public SupplierTableModel(List<Supplier> suppliers) {
@@ -36,7 +29,6 @@ public class SupplierTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
         Supplier supplier = suppliers.get(row);
         switch (column) {
             case 0:
@@ -49,7 +41,6 @@ public class SupplierTableModel extends AbstractTableModel {
                 return supplier.getCompany();
             default:
                 return null;
-                
         }
     }
 
@@ -66,6 +57,5 @@ public class SupplierTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return suppliers.size();
-    }
-    
+    }   
 }

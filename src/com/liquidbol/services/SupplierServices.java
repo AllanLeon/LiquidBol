@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 public class SupplierServices {
     
     private static final Logger LOG = Logger.getLogger(SupplierServices.class.getName());
-    
     private final SupplierDebtCrud debtCrudManager;
     private final PurchaseCrud purchaseCrudManager;
     

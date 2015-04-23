@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Item;
@@ -18,7 +12,6 @@ public class ItemTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Unidad", "Descripcion",
         "Marca", "Industria", "Tipo", "Subtipo", "Costo", "Precio"};
-    
     private final List<Item> items;
 
     public ItemTableModel(List<Item> item) {
@@ -39,7 +32,6 @@ public class ItemTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
         Item item = items.get(row);
         switch (column) {
             case 0:
@@ -64,7 +56,6 @@ public class ItemTableModel extends AbstractTableModel {
                 return item.getPrice();
             default:
                 return null;
-                
         }
     }
 
