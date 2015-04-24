@@ -9,6 +9,7 @@ import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
 import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.services.ClientServices;
+import com.liquidbol.services.CompanyServices;
 import com.liquidbol.services.StoreServices;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -61,6 +62,7 @@ public class BillForm extends JFrame implements KeyListener {
     private Client client;
     private final ClientServices clientServices;
     private final StoreServices storeServices;
+    private final CompanyServices companyServices;
 
     public BillForm(TableModel tm, Bill bill) {
         UIStyle sty = new UIStyle();
@@ -68,6 +70,7 @@ public class BillForm extends JFrame implements KeyListener {
         this.bill = bill;
         this.clientServices = new ClientServices();
         this.storeServices = new StoreServices();
+        this.companyServices = new CompanyServices();
         initComponents();
         setVisible(true);
     }
@@ -203,6 +206,7 @@ public class BillForm extends JFrame implements KeyListener {
         try {
             bill.execute();
             clientServices.addBillToClient(bill, client);
+            companyServices.mergeClient(client);
             storeServices.updateInventorys(bill.getStore());
             storeServices.loadStoreInventorys(bill.getStore());
         } catch (OperationFailedException | PersistenceException | ClassNotFoundException ex) {

@@ -96,6 +96,7 @@ public class ClientServices {
             throws PersistenceException, ClassNotFoundException {
         element = billCrudManager.save(element, parent);
         parent.addBill(element);
+        parent.increaseFrequency();
         LOG.info(String.format(ANSI_PURPLE + "Item bill: %d saved" + ANSI_RESET, element.getId()));
         return element;
     }

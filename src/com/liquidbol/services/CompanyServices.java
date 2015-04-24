@@ -354,6 +354,11 @@ public class CompanyServices {
         return oldClient;
     }
     
+    public Client mergeClient(Client client)
+            throws PersistenceException, ClassNotFoundException {
+        return clientCrudManager.merge(client);
+    }
+    
     public Item mergeItem(String id, String brand, String industry, Double cost, Double price)
             throws PersistenceException, ClassNotFoundException {
         Item oldItem = itemCrudManager.find(id);
