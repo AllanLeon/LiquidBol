@@ -94,9 +94,10 @@ public class ListEmployeesForm extends JFrame {
         employeesTable.getTableHeader().setReorderingAllowed(false);
         employeesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         employeesTable.setRowHeight(25);
-        employeesTable.getColumnModel().getColumn(0).setPreferredWidth(70);
-        employeesTable.getColumnModel().getColumn(1).setPreferredWidth(130);
-        employeesTable.getColumnModel().getColumn(2).setPreferredWidth(70);
+        employeesTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        employeesTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        employeesTable.getColumnModel().getColumn(2).setPreferredWidth(150);
+        employeesTable.getColumnModel().getColumn(3).setPreferredWidth(70);
         employeesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(employeesTable.getModel());
         employeesTable.setRowSorter(sorter);

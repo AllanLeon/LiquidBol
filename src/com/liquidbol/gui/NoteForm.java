@@ -123,12 +123,13 @@ public class NoteForm extends JFrame {
         
         totalLbl = new JLabel("Total");
         totalAmount = new JTextField();
+        totalAmount.setEditable(false);
+        totalAmount.setText(String.valueOf(bill.calculateTotalAmount()));
 /*        double total = 0;
         for (int i = 0; i < contentTable.getRowCount(); i++) {
             total += Double.parseDouble(contentTable.getModel().getValueAt(i,5).toString());
         }
 */
-        totalAmount.setText(String.valueOf(bill.calculateTotalAmount()));
 
         jCheckBox1 = new JCheckBox("x Cancelar");
         jCheckBox2 = new JCheckBox("x Facturar");

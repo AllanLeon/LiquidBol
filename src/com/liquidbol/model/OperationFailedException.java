@@ -14,7 +14,6 @@ public class OperationFailedException extends Exception {
 
     /**
      * Constructs an instance of OperationFailedException with the specified detail message.
-     *
      * @param msg the detail message.
      */
     public OperationFailedException(String msg) {

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Employee;
@@ -17,7 +11,6 @@ import javax.swing.table.AbstractTableModel;
 public class EmployeeTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod./C.I.", "Nombre", "Telefono"};
-    
     private final List<Employee> employees;
 
     public EmployeeTableModel(List<Employee> employees) {
@@ -48,7 +41,6 @@ public class EmployeeTableModel extends AbstractTableModel {
                 return employee.getPhone();
             default:
                 return null;
-                
         }
     }
 

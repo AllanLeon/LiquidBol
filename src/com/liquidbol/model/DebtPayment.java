@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.model;
 
 import java.io.Serializable;
@@ -17,8 +11,8 @@ import java.util.Objects;
 public class DebtPayment implements Serializable {
     
     private int id;
-    private Date payDate;
-    private Double amount;
+    private final Date payDate;
+    private final Double amount;
 
     /**
      * Constructor method of the class.

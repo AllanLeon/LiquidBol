@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Purchase;
@@ -18,7 +12,6 @@ import javax.swing.table.AbstractTableModel;
 public class PurchaseListTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Monto Total", "Fecha"};
-    
     private final List<Purchase> purchases;
 
     public PurchaseListTableModel(List<Purchase> purchases) {
@@ -41,7 +34,6 @@ public class PurchaseListTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
         Purchase purchase = purchases.get(row);
         switch (column) {
             case 0:
@@ -54,7 +46,6 @@ public class PurchaseListTableModel extends AbstractTableModel {
                 return purchase.getDate();
             default:
                 return null;
-                
         }
     }
 

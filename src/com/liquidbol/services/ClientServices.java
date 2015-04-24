@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 public class ClientServices {
     
     private static final Logger LOG = Logger.getLogger(ClientServices.class.getName());
-    
     private final ClientCXCCrud cxcCrudManager;
     private final RechargeableItemCrud rechargeableItemCrudManager;
     private final ItemEstimateCrud itemEstimateCrudManager;

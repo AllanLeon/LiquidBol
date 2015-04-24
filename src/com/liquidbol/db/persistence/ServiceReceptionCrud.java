@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 public class ServiceReceptionCrud implements DBCrud<ServiceReception> {
     
     private static final Logger LOG = Logger.getLogger(ServiceReceptionCrud.class.getName());
-
     private Connection connection;
 
     public ServiceReception save(ServiceReception element, Bill parent) throws PersistenceException, ClassNotFoundException {

@@ -94,9 +94,10 @@ public class ListSuppliersForm extends JFrame {
         suppliersTable.getTableHeader().setReorderingAllowed(false);
         suppliersTable.setFont(new Font("Arial", Font.PLAIN, 20));
         suppliersTable.setRowHeight(25);
-        suppliersTable.getColumnModel().getColumn(0).setPreferredWidth(50);
-        suppliersTable.getColumnModel().getColumn(1).setPreferredWidth(150);
-        suppliersTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+        suppliersTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+        suppliersTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        suppliersTable.getColumnModel().getColumn(2).setPreferredWidth(150);
+        suppliersTable.getColumnModel().getColumn(3).setPreferredWidth(100);
         suppliersTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(suppliersTable.getModel());
         suppliersTable.setRowSorter(sorter);

@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 public class ItemEstimateServices {
     
     private static final Logger LOG = Logger.getLogger(ItemEstimateServices.class.getName());
-    
     private final ItemRequestCrud itemRequestCrudManager;
     
     public ItemEstimateServices() {

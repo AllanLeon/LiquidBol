@@ -17,10 +17,9 @@ public class ShopCartTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"#", "Cod.", "Cantidad",
         "Unidad", "Descripcion", "P/U", "Precio"};
-    
     private List<ItemSale> itemSales;
     private List<ServiceReception> serviceReceptions;
-    private Bill bill;
+    private final Bill bill;
 
     public ShopCartTableModel(Bill bill) {
         this.bill = bill;

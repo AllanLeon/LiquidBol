@@ -41,7 +41,7 @@ public class ServiceReception implements Serializable {
         this.receptionDate = receptionDate;
         this.deliverTime = deliverTime;
         this.quantity = quantity;
-        this.amount = quantity * service.getPrice() / service.getCapacity();
+        this.amount = quantity * service.getPrice();// / service.getCapacity();
         this.obs = obs;
     }
     
@@ -128,7 +128,7 @@ public class ServiceReception implements Serializable {
      */
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
-        amount = this.quantity * service.getPrice() / service.getCapacity();
+        amount = this.quantity * service.getPrice(); // / service.getCapacity();
     }
 
     /**
@@ -184,9 +184,7 @@ public class ServiceReception implements Serializable {
         try {
             service = new ServiceCrud().refresh(service);
             item = new RechargeableItemCrud().refresh(item);
-        } catch (PersistenceException ex) {
-            Logger.getLogger(ServiceReception.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(ServiceReception.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

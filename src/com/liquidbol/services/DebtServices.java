@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 public class DebtServices {
     
     private static final Logger LOG = Logger.getLogger(DebtServices.class.getName());
-    
     private final DebtPaymentCrud debtPaymentCrudManager;
     
     public DebtServices() {

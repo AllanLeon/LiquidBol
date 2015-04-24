@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.Client;
@@ -25,7 +19,6 @@ import java.util.logging.Logger;
 public class RechargeableItemCrud implements DBCrud<RechargeableItem> {
     
     private static final Logger LOG = Logger.getLogger(RechargeableItemCrud.class.getName());
-
     private Connection connection;
 
     public RechargeableItem save(RechargeableItem element, Client parent) throws PersistenceException, ClassNotFoundException {
@@ -181,7 +174,7 @@ public class RechargeableItemCrud implements DBCrud<RechargeableItem> {
         Date warrantyLimitDate = resultSet.getDate(7);
         String obs = resultSet.getString(8);
         LOG.log(Level.FINE, "Creating rechargeable item %s", id);
-        RechargeableItem result = new RechargeableItem(obs, description, capacity, unit, type, warrantyLimitDate, obs);
+        RechargeableItem result = new RechargeableItem(id, description, capacity, unit, type, warrantyLimitDate, obs);
         return result;
     }
 

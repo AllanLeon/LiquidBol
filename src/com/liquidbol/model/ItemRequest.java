@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.model;
 
 import com.liquidbol.db.persistence.ItemCrud;
@@ -109,9 +103,7 @@ public class ItemRequest implements Serializable {
     public void refresh() {
         try {
             item = new ItemCrud().refresh(item);
-        } catch (PersistenceException ex) {
-            Logger.getLogger(ItemSale.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(ItemSale.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

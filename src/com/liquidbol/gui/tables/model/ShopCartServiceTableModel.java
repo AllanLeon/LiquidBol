@@ -11,7 +11,6 @@ import javax.swing.table.AbstractTableModel;
 public class ShopCartServiceTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"#", "Cod.", "Descripcion", "P/U"};
-    
     private final List<Service> services;
 
     public ShopCartServiceTableModel(List<Service> services) {

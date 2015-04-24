@@ -1,12 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
-import com.liquidbol.model.CXC;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.RechargeableItem;
 import java.sql.Date;
@@ -21,7 +14,6 @@ import javax.swing.table.AbstractTableModel;
 public class RechargeableItemTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cliente", "Descripcion", "Fecha garantia", "Observaciones"};
-    
     private final List<Client> clients;
     private final List<RechargeableItem> rechargeableItems;
 
@@ -54,7 +46,6 @@ public class RechargeableItemTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
         Client client = clients.get(row);
         RechargeableItem rechargeableItem = rechargeableItems.get(row);
         switch (column) {
@@ -72,7 +63,6 @@ public class RechargeableItemTableModel extends AbstractTableModel {
                 return rechargeableItem.getObs();
             default:
                 return null;
-                
         }
     }
 

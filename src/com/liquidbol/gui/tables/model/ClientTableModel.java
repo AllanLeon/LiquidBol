@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Client;
@@ -18,7 +12,6 @@ public class ClientTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "NIT",
         "Factura", "Taller/Emp.", "Ruta", "Frec."};
-    
     private final List<Client> clients;
 
     public ClientTableModel(List<Client> clients) {
@@ -39,7 +32,6 @@ public class ClientTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
         Client client = clients.get(row);
         switch (column) {
             case 0:
@@ -60,7 +52,6 @@ public class ClientTableModel extends AbstractTableModel {
                 return client.getFrequency();
             default:
                 return null;
-                
         }
     }
 

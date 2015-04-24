@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 public class PurchaseServices {
     
     private static final Logger LOG = Logger.getLogger(PurchaseServices.class.getName());
-    
     private final ItemPurchaseCrud itemPurchaseCrudManager;
     
     public PurchaseServices() {

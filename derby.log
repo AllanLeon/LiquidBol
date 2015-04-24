@@ -1,8 +1,15 @@
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Wed Apr 22 13:37:05 BOT 2015:
 Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-014c-e234-5dd2-000007d9dcc0 
 on database directory D:\Java\workspace\LiquidBol\liquidbol_db with class loader sun.misc.Launcher$AppClassLoader@55f96302 
 Loaded from file:/D:/Java/workspace/LiquidBol/lib/derby.jar
+=======
+Thu Apr 23 03:26:13 BOT 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-014c-e52b-7820-00000600e538 
+on database directory D:\Franco\Documents\NetBeansProjects\LiquidBol\liquidbol_db with class loader sun.misc.Launcher$AppClassLoader@55f96302 
+Loaded from file:/D:/Franco/Documents/NetBeansProjects/LiquidBol/lib/derby.jar
+>>>>>>> 4552cec780b3ac579b951d186cadd273f1f12fd1
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_05-b13
 user.dir=D:\Java\workspace\LiquidBol

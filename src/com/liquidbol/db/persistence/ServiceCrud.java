@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 public class ServiceCrud implements DBCrud<Service> {
     
     private static final Logger LOG = Logger.getLogger(ServiceCrud.class.getName());
-
     private Connection connection;
 
     @Override

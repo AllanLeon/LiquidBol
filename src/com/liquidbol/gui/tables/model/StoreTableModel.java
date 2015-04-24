@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Store;
@@ -17,7 +11,6 @@ import javax.swing.table.AbstractTableModel;
 public class StoreTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Direccion", "Telefono"};
-    
     private final List<Store> stores;
 
     public StoreTableModel(List<Store> stores) {
@@ -36,7 +29,6 @@ public class StoreTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
         Store store = stores.get(row);
         switch (column) {
             case 0:
@@ -51,7 +43,6 @@ public class StoreTableModel extends AbstractTableModel {
                 return store.getPhone();
             default:
                 return null;
-                
         }
     }
 
@@ -69,5 +60,4 @@ public class StoreTableModel extends AbstractTableModel {
     public int getRowCount() {
         return stores.size();
     }
-    
 }

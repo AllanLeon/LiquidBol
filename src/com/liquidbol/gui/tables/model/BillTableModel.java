@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Bill;
@@ -21,7 +15,6 @@ public class BillTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cliente",
         "Monto Total", "Fecha", "Ruta", "Facturado", "Observaciones"};
-    
     private final List<Client> clients;
     private final List<Bill> bills;
 
@@ -80,7 +73,6 @@ public class BillTableModel extends AbstractTableModel {
                 return bill.getObs();
             default:
                 return null;
-                
         }
     }
 

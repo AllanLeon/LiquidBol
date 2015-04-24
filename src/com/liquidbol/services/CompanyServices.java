@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 public class CompanyServices {
     
     private static final Logger LOG = Logger.getLogger(CompanyServices.class.getName());
-    
     private final ClientCrud clientCrudManager;
     private final ItemCrud itemCrudManager;
     private final ServiceCrud serviceCrudManager;

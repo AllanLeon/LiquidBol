@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Discount;
@@ -20,7 +14,6 @@ public class ItemDiscountTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Articulo",
         "Cantidad minima", "%% descuento"};
-    
     private final List<Item> items;
     private final List<Discount> discounts;
 
@@ -53,7 +46,6 @@ public class ItemDiscountTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        
         Item item = items.get(row);
         Discount discount = discounts.get(row);
         switch (column) {
@@ -69,7 +61,6 @@ public class ItemDiscountTableModel extends AbstractTableModel {
                 return discount.getPercentage();
             default:
                 return null;
-                
         }
     }
 

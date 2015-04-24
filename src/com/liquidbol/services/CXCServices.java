@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 public class CXCServices {
     
     private static final Logger LOG = Logger.getLogger(CXCServices.class.getName());
-    
     private final ClientCXCCCrud cxccCrudManager;
     
     public CXCServices() {

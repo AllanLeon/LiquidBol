@@ -1,6 +1,7 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.gui.tables.model.ShopCartItemTableModel;
 import com.liquidbol.gui.tables.model.ShopCartServiceTableModel;
 import com.liquidbol.gui.tables.model.ShopCartTableModel;
@@ -14,6 +15,7 @@ import com.liquidbol.model.RechargeableItem;
 import com.liquidbol.model.Service;
 import com.liquidbol.model.ServiceReception;
 import com.liquidbol.model.Store;
+import com.liquidbol.model.Supplier;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -29,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -69,12 +72,15 @@ public class ShopCartForm extends JFrame {
     private JTextField cartTotal;
     private JButton toNoteBtn;
     private JButton toBillBtn;
+    private JButton toEstimateBtn;
     private JButton backBtn;
     private double total;
     private Bill newBill;
+    private final ArrayList<Store> stores;
 
     public ShopCartForm() {
         UIStyle sty = new UIStyle();
+        stores = new ArrayList<>(Company.getAllStores());
         initComponents();
         setVisible(true);
     }
@@ -108,7 +114,12 @@ public class ShopCartForm extends JFrame {
 
         branchLbl = new JLabel("Sucursal");
         branchNameCB = new JComboBox();
-
+        try {
+            branchNameCB.setModel(new DefaultComboBoxModel(loadBranchNames()));
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            Logger.getLogger(ShopCartForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         searchCB = new JComboBox();
         searchBox = new JTextField();
         try {
@@ -211,33 +222,16 @@ public class ShopCartForm extends JFrame {
         wholeTable.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
-                cartTotal.setText(String.valueOf(newBill.calculateTotalAmount()));
+                cartTotal.setText(String.format("%.2f",newBill.calculateTotalAmount()));
             }
         });
-        /*wholeTable.getModel().addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                try {
-                    total = 0;
-                    TableModel wholeTM = wholeTable.getModel();
-                    for (int i = 0, rows = wholeTM.getRowCount(); i < rows; i++) {
-                        double quant = (double) wholeTM.getValueAt(i, 1);
-                        double unitprice = (double) wholeTM.getValueAt(i, 4);
-                        double unitTotal = quant * unitprice;
-                        wholeTM.setValueAt(unitTotal, i, 5);
-                        total += (double) wholeTM.getValueAt(i, 5);
-                    }
-                    cartTotal.setText(String.format("%f", total));
-                } catch (Exception ex) {
-                }
-            }
-        }); */
         JScrollPane wholeTableSP = new JScrollPane(wholeTable);
 
         totalLbl = new JLabel("Total");
         cartTotal = new JTextField();
         cartTotal.setFont(new Font("Arial", Font.BOLD, 16));
-
+        cartTotal.setEditable(false);
+        
         toNoteBtn = new JButton("A nota de venta");
         toNoteBtn.addActionListener(new ActionListener() {
             @Override
@@ -254,10 +248,18 @@ public class ShopCartForm extends JFrame {
                 setVisible(false);
             }
         });
+        toEstimateBtn = new JButton("A cotización");
+        toEstimateBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ItemEstimateForm ief = new ItemEstimateForm(1);
+                setVisible(false);
+            }
+        });
 
         title.setBounds(440, 20, 300, 30);
         inventoryPane.setBounds(0, 50, 550, 470);
-        cartPane.setBounds(550, 50, 540, 370);
+        cartPane.setBounds(550, 50, 540, 410);
         branchLbl.setBounds(20, 40, 80, 30);
         branchNameCB.setBounds(80, 40, 150, 30);
         searchCB.setBounds(20, 80, 150, 30);
@@ -272,6 +274,7 @@ public class ShopCartForm extends JFrame {
         cartTotal.setBounds(460, 250, 70, 30);
         toNoteBtn.setBounds(70, 290, 200, 50);
         toBillBtn.setBounds(290, 290, 200, 50);
+        toEstimateBtn.setBounds(180, 350, 200, 50);
         backBtn.setBounds(50, 530, 70, 30);
 
         add(title);
@@ -292,11 +295,21 @@ public class ShopCartForm extends JFrame {
         cartPane.add(cartTotal);
         cartPane.add(toNoteBtn);
         cartPane.add(toBillBtn);
+        cartPane.add(toEstimateBtn);
 
         addDoubleClickList(itemsTable, wholeTable, false);
         addDoubleClickList(serviceTable, wholeTable, true);
     }
 
+    private Object[] loadBranchNames() throws PersistenceException, ClassNotFoundException {
+        List<String> data = new ArrayList<>();
+        for (Store store : stores) {
+            String name = store.getName();
+            data.add(name);
+        }
+        return data.toArray();
+    }
+    
     private void addDoubleClickList(JTable aTable, JTable bTable, boolean isService) {
         aTable.addMouseListener(new MouseAdapter() {
             @Override
@@ -318,7 +331,7 @@ public class ShopCartForm extends JFrame {
                         Item reqItem = model.getItemAt(row);
                         newBill.addItemSale(new ItemSale(0, reqItem, 1, ""));
                     }
-                    cartTotal.setText(String.valueOf(newBill.calculateTotalAmount()));
+                    cartTotal.setText(String.format("%.2f",newBill.calculateTotalAmount()));
                     shopCart.updateLists();
                     /*Object[] rowdata = {};
                     Object[] obj = new Object[]{};

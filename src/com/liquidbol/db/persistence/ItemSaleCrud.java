@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.liquidbol.db.persistence;
 
 import com.liquidbol.model.Bill;
@@ -26,7 +20,6 @@ import java.util.logging.Logger;
 public class ItemSaleCrud implements DBCrud<ItemSale> {
     
     private static final Logger LOG = Logger.getLogger(ItemSaleCrud.class.getName());
-
     private Connection connection;
 
     public ItemSale save(ItemSale element, Bill parent) throws PersistenceException, ClassNotFoundException {
