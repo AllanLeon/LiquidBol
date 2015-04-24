@@ -99,10 +99,10 @@ public class ClientCrud implements DBCrud<Client> {
     @Override
     public Client merge(Client element) throws PersistenceException, ClassNotFoundException {
         try {
-            String query = "UPDATE table SET client_nit=?, client_billname, "
+            String query = "UPDATE clients SET client_nit=?, client_billname=?, "
                     + "client_address=?, client_phone=?, client_phone2=?, "
                     + "client_email=?, client_companyname=?, client_frequency=?, "
-                    + "client_isroute WHERE table_id=?";
+                    + "client_isroute=? WHERE client_id=?";
             PreparedStatement statement = 
                 ConnectionManager.getInstance().getConnection().prepareStatement(query);
             statement.setInt(1, element.getNit());

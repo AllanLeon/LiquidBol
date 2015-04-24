@@ -217,4 +217,8 @@ public class Client extends Person implements Serializable {
     public void setBills(Collection<Bill> bills) {
         this.bills = bills;
     }
+    
+    public void increaseFrequency() {
+        frequency++;
+    }
 }

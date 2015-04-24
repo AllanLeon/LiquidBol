@@ -329,7 +329,7 @@ public class ShopCartForm extends JFrame {
                     } else {
                         ShopCartItemTableModel model = (ShopCartItemTableModel) aTable.getModel();
                         Item reqItem = model.getItemAt(row);
-                        newBill.addItemSale(new ItemSale(0, reqItem, 1, ""));
+                        newBill.addItemSale(new ItemSale(0, reqItem, 0, ""));
                     }
                     cartTotal.setText(String.format("%.2f",newBill.calculateTotalAmount()));
                     shopCart.updateLists();
