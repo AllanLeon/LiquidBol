@@ -2,6 +2,8 @@ package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Expense;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -15,8 +17,8 @@ public class ExpenseTableModel extends AbstractTableModel {
         "Fecha", "Observaciones"};
     private final List<Expense> expenses;
 
-    public ExpenseTableModel(List<Expense> expenses) {
-        this.expenses = expenses;
+    public ExpenseTableModel(Collection<Expense> expenses) {
+        this.expenses = new ArrayList<>(expenses);
     }
     
     @Override

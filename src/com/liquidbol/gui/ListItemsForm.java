@@ -95,8 +95,7 @@ public class ListItemsForm extends JFrame {
             {"00562", "Pza", "Dado de 16mm Hexagonal", "Inafor", "Argentina", "Auxiliares", "Dados", "20.00", "35.00"}
         };
         itemsTable = new JTable(tempData, columnNames); */
-        List<Item> items = new ArrayList<>(Company.getAllItems());
-        itemsTable = new JTable(new ItemTableModel(items));
+        itemsTable = new JTable(new ItemTableModel(Company.getAllItems()));
         itemsTable.getTableHeader().setReorderingAllowed(false);
         itemsTable.setFont(new Font("Arial", Font.PLAIN, 16));
         itemsTable.setRowHeight(25);

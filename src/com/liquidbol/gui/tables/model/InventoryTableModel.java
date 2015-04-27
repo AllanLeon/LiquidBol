@@ -3,6 +3,7 @@ package com.liquidbol.gui.tables.model;
 import com.liquidbol.model.Inventory;
 import com.liquidbol.model.Store;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -16,13 +17,13 @@ public class InventoryTableModel extends AbstractTableModel {
     private final List<Store> stores;
     private final List<Inventory> inventorys;
 
-    public InventoryTableModel(List<Store> stores) {
+    public InventoryTableModel(Collection<Store> stores) {
         this.stores = new ArrayList<>();
         inventorys = new ArrayList<>();
         initializeLists(stores);
     }
     
-    private void initializeLists(List<Store> stores) {
+    private void initializeLists(Collection<Store> stores) {
         for (Store store : stores) {
             for (Inventory inventory : store.getAllInventorys()) {
                 this.stores.add(store);

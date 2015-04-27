@@ -89,8 +89,7 @@ public class ListPurchasesForm extends JFrame {
             {"00001", "21150.00", "21/12/2014"}
         };
         purchasesTable = new JTable(tempData, columnNames); */
-        List<Supplier> suppliers = new ArrayList<>(Company.getAllSuppliers());
-        purchasesTable = new JTable(new PurchaseListTableModel(suppliers));
+        purchasesTable = new JTable(new PurchaseListTableModel(Company.getAllSuppliers()));
         purchasesTable.getTableHeader().setReorderingAllowed(false);
         purchasesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         purchasesTable.setRowHeight(25);

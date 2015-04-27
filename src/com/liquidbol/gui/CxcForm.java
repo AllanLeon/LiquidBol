@@ -2,10 +2,13 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.gui.tables.model.CXCCTableModel;
+import com.liquidbol.model.CXCC;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -108,14 +111,15 @@ public class CxcForm extends JFrame {
             {001, 40.00, "02/01/2015"},
             {002, 100.00, "05/01/2015"}
         };
-        contentTable = new JTable(tempData, columnNames);
+        /*contentTable = new JTable(tempData, columnNames);
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 16));
         contentTable.setRowHeight(25);
         contentTable.getColumnModel().getColumn(0).setPreferredWidth(40);
         contentTable.getColumnModel().getColumn(1).setPreferredWidth(60);
         contentTable.getColumnModel().getColumn(2).setPreferredWidth(90);
-        contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+        contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);*/
+        contentTable = new JTable(new CXCCTableModel(new ArrayList<CXCC>()));
         RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());
         contentTable.setRowSorter(sorter);
 

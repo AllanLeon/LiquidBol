@@ -1,6 +1,8 @@
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Client;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -14,8 +16,8 @@ public class ClientTableModel extends AbstractTableModel {
         "Factura", "Taller/Emp.", "Ruta", "Frec."};
     private final List<Client> clients;
 
-    public ClientTableModel(List<Client> clients) {
-        this.clients = clients;
+    public ClientTableModel(Collection<Client> clients) {
+        this.clients = new ArrayList<>(clients);
     }
     
     @Override

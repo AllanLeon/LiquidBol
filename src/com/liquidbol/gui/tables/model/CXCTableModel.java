@@ -4,6 +4,7 @@ import com.liquidbol.model.CXC;
 import com.liquidbol.model.Client;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -17,13 +18,13 @@ public class CXCTableModel extends AbstractTableModel {
     private final List<Client> clients;
     private final List<CXC> receivableAccounts;
 
-    public CXCTableModel(List<Client> clients) {
+    public CXCTableModel(Collection<Client> clients) {
         this.clients = new ArrayList<>();
         receivableAccounts = new ArrayList<>();
         initializeValidCXCLists(clients);
     }
     
-    private void initializeValidCXCLists(List<Client> clients) {
+    private void initializeValidCXCLists(Collection<Client> clients) {
         for (Client client : clients) {
             for (CXC cxc : client.getValidReceivableAccounts()) {
                 this.clients.add(client);

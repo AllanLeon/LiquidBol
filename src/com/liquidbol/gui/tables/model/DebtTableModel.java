@@ -4,6 +4,7 @@ import com.liquidbol.model.Debt;
 import com.liquidbol.model.Supplier;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -17,13 +18,13 @@ public class DebtTableModel extends AbstractTableModel {
     private final List<Supplier> suppliers;
     private final List<Debt> debts;
 
-    public DebtTableModel(List<Supplier> suppliers) {
+    public DebtTableModel(Collection<Supplier> suppliers) {
         this.suppliers = new ArrayList<>();
         debts = new ArrayList<>();
         initializeValidDebtLists(suppliers);
     }
     
-    private void initializeValidDebtLists(List<Supplier> suppliers) {
+    private void initializeValidDebtLists(Collection<Supplier> suppliers) {
         for (Supplier supplier : suppliers) {
             for (Debt debt : supplier.getValidDebts()) {
                 this.suppliers.add(supplier);

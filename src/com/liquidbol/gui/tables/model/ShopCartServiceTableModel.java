@@ -1,6 +1,8 @@
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Service;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -13,8 +15,8 @@ public class ShopCartServiceTableModel extends AbstractTableModel {
     private static final String[] COLUMN_NAMES = {"#", "Cod.", "Descripcion", "P/U"};
     private final List<Service> services;
 
-    public ShopCartServiceTableModel(List<Service> services) {
-        this.services = services;
+    public ShopCartServiceTableModel(Collection<Service> services) {
+        this.services = new ArrayList<>(services);
     }
     
     @Override

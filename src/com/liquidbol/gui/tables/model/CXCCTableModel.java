@@ -2,6 +2,8 @@ package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.CXCC;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -14,8 +16,8 @@ public class CXCCTableModel extends AbstractTableModel {
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Monto", "Fecha"};
     private final List<CXCC> collectedReceivableAccounts;
 
-    public CXCCTableModel(List<CXCC> cxcc) {
-        this.collectedReceivableAccounts = cxcc;
+    public CXCCTableModel(Collection<CXCC> cxcc) {
+        this.collectedReceivableAccounts = new ArrayList<>(cxcc);
     }
     
     @Override

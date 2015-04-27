@@ -91,8 +91,7 @@ public class ListCxcForm extends JFrame {
             {"00002", "Efrain Choque", "320.50", "5000", "01/02/2015"}
         };
         clientsTable = new JTable(tempData, columnNames); */
-        List<Client> clients = new ArrayList<>(Company.getAllClients());
-        clientsTable = new JTable(new CXCTableModel(clients));
+        clientsTable = new JTable(new CXCTableModel(Company.getAllClients()));
         clientsTable.getTableHeader().setReorderingAllowed(false);
         clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
         clientsTable.setRowHeight(25);
