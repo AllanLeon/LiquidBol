@@ -1,7 +1,9 @@
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Purchase;
+import com.liquidbol.model.Supplier;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -11,11 +13,23 @@ import javax.swing.table.AbstractTableModel;
  */
 public class PurchaseListTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Monto Total", "Fecha"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Proveedor","Monto Total", "Fecha"};
+    private final List<Supplier> suppliers;
     private final List<Purchase> purchases;
 
-    public PurchaseListTableModel(List<Purchase> purchases) {
-        this.purchases = purchases;
+    public PurchaseListTableModel(List<Supplier> suppliers) {
+        this.suppliers = new ArrayList<>();
+        purchases = new ArrayList<>();
+        initializeLists(suppliers);
+    }
+    
+    private void initializeLists(List<Supplier> suppliers) {
+        for (Supplier supplier : suppliers) {
+            for (Purchase purchase : supplier.getAllPurchases()) {
+                this.suppliers.add(supplier);
+                purchases.add(purchase);
+            }
+        }
     }
     
     @Override
@@ -23,9 +37,9 @@ public class PurchaseListTableModel extends AbstractTableModel {
         switch (columnIndex) {
             case 0:  case 1:
                 return Integer.class;
-            case 2:
-                return Double.class;
             case 3:
+                return Double.class;
+            case 4:
                 return Date.class;
             default :
                 return String.class;
@@ -35,14 +49,17 @@ public class PurchaseListTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int column) {
         Purchase purchase = purchases.get(row);
+        Supplier supplier = suppliers.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
                 return purchase.getId();
             case 2:
-                return purchase.getTotalAmount();
+                return supplier.getName() + " " + supplier.getLastname();
             case 3:
+                return purchase.getTotalAmount();
+            case 4:
                 return purchase.getDate();
             default:
                 return null;

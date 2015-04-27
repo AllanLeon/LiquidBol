@@ -30,7 +30,7 @@ public class Purchase implements Serializable {
         this.date = date;
         this.itemPurchases = new HashSet<>();
     }
-
+    
     /**
      * Constructor method with amount.
      * @param id
@@ -54,6 +54,14 @@ public class Purchase implements Serializable {
      * @return the totalAmount
      */
     public Double getTotalAmount() {
+        return totalAmount;
+    }
+    
+    public Double calculateTotalAmount() {
+        totalAmount = 0.0;
+        for (ItemPurchase itemPurchase : itemPurchases) {
+            totalAmount += itemPurchase.getAmount();
+        }
         return totalAmount;
     }
 

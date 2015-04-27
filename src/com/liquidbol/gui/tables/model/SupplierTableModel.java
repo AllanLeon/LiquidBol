@@ -10,7 +10,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class SupplierTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Compañia"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Compañia", "Ciudad"};
     private final List<Supplier> suppliers;
 
     public SupplierTableModel(List<Supplier> suppliers) {
@@ -39,6 +39,8 @@ public class SupplierTableModel extends AbstractTableModel {
                 return String.format("%s %s", supplier.getName(), supplier.getLastname());
             case 3:
                 return supplier.getCompany();
+            case 4:
+                return supplier.getCity();
             default:
                 return null;
         }

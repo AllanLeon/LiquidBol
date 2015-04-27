@@ -73,7 +73,7 @@ public class ShopCartTableModel extends AbstractTableModel {
             Service service = serviceReception.getService();
             switch (column) {
                 case 0:
-                    return row + 1;
+                    return row + itemSales.size() + 1;
                 case 1:
                     return service.getId();
                 case 2:
