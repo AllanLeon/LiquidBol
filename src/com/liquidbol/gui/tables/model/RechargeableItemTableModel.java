@@ -4,6 +4,7 @@ import com.liquidbol.model.Client;
 import com.liquidbol.model.RechargeableItem;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -17,13 +18,13 @@ public class RechargeableItemTableModel extends AbstractTableModel {
     private final List<Client> clients;
     private final List<RechargeableItem> rechargeableItems;
 
-    public RechargeableItemTableModel(List<Client> clients) {
+    public RechargeableItemTableModel(Collection<Client> clients) {
         this.clients = new ArrayList<>();
         rechargeableItems = new ArrayList<>();
         initializeLists(clients);
     }
     
-    private void initializeLists(List<Client> clients) {
+    private void initializeLists(Collection<Client> clients) {
         for (Client client : clients) {
             for (RechargeableItem rechargeableItem : client.getAllRechargeableItems()) {
                 this.clients.add(client);

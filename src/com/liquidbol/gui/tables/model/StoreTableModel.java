@@ -1,6 +1,8 @@
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Store;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -13,8 +15,8 @@ public class StoreTableModel extends AbstractTableModel {
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Direccion", "Telefono"};
     private final List<Store> stores;
 
-    public StoreTableModel(List<Store> stores) {
-        this.stores = stores;
+    public StoreTableModel(Collection<Store> stores) {
+        this.stores = new ArrayList<>(stores);
     }
     
     @Override

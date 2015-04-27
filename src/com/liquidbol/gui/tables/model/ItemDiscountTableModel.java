@@ -3,6 +3,7 @@ package com.liquidbol.gui.tables.model;
 import com.liquidbol.model.Discount;
 import com.liquidbol.model.Item;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -17,13 +18,13 @@ public class ItemDiscountTableModel extends AbstractTableModel {
     private final List<Item> items;
     private final List<Discount> discounts;
 
-    public ItemDiscountTableModel(List<Item> items) {
+    public ItemDiscountTableModel(Collection<Item> items) {
         this.discounts = new ArrayList<>();
         this.items = new ArrayList<>();
         initializeLists(items);
     }
     
-    private void initializeLists(List<Item> items) {
+    private void initializeLists(Collection<Item> items) {
         for (Item item : items) {
             for (Discount discount : item.getAllDiscounts()) {
                 items.add(item);

@@ -92,8 +92,7 @@ public class ListItemEstimatesForm extends JFrame {
             {"COT-002", "S.I.", "10/01/2015", "17/01/2015", "20.00", "Requiere Id Cotizante!!!"}
         };
         quotesTable = new JTable(tempData, columnNames); */
-        List<Client> clients = new ArrayList<>(Company.getAllClients());
-        quotesTable = new JTable(new ItemEstimateTableModel(clients));
+        quotesTable = new JTable(new ItemEstimateTableModel(Company.getAllClients()));
         quotesTable.getTableHeader().setReorderingAllowed(false);
         quotesTable.setFont(new Font("Arial", Font.PLAIN, 16));
         quotesTable.setRowHeight(25);

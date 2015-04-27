@@ -4,6 +4,7 @@ import com.liquidbol.model.Bill;
 import com.liquidbol.model.Client;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -18,13 +19,13 @@ public class BillTableModel extends AbstractTableModel {
     private final List<Client> clients;
     private final List<Bill> bills;
 
-    public BillTableModel(List<Client> clients) {
+    public BillTableModel(Collection<Client> clients) {
         this.clients = new ArrayList<>();
         bills = new ArrayList<>();
         initializeLists(clients);
     }
     
-    private void initializeLists(List<Client> clients) {
+    private void initializeLists(Collection<Client> clients) {
         for (Client client : clients) {
             for (Bill bill : client.getAllBills()) {
                 this.clients.add(client);

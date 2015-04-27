@@ -4,6 +4,7 @@ import com.liquidbol.model.Inventory;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.Store;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -18,13 +19,13 @@ public class ShopCartItemTableModel extends AbstractTableModel {
     private final List<Inventory> inventorys;
     private final List<Store> stores;
 
-    public ShopCartItemTableModel(List<Store> stores) {
+    public ShopCartItemTableModel(Collection<Store> stores) {
         this.stores = new ArrayList<>();
         this.inventorys = new ArrayList<>();
         initializeLists(stores);
     }
     
-    private void initializeLists(List<Store> stores) {
+    private void initializeLists(Collection<Store> stores) {
         for (Store store : stores) {
             for (Inventory inventory : store.getValidInventorys()) {
                 inventorys.add(inventory);

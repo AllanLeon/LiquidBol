@@ -4,6 +4,7 @@ import com.liquidbol.model.Client;
 import com.liquidbol.model.ItemEstimate;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -18,13 +19,13 @@ public class ItemEstimateTableModel extends AbstractTableModel {
     private final List<Client> clients;
     private final List<ItemEstimate> itemEstimates;
 
-    public ItemEstimateTableModel(List<Client> clients) {
+    public ItemEstimateTableModel(Collection<Client> clients) {
         this.clients = new ArrayList<>();
         itemEstimates = new ArrayList<>();
         initializeLists(clients);
     }
     
-    private void initializeLists(List<Client> clients) {
+    private void initializeLists(Collection<Client> clients) {
         for (Client client : clients) {
             for (ItemEstimate estimate : client.getAllItemEstimates()) {
                 this.clients.add(client);

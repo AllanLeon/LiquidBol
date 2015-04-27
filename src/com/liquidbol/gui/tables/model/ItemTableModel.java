@@ -1,6 +1,8 @@
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Item;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -14,8 +16,8 @@ public class ItemTableModel extends AbstractTableModel {
         "Marca", "Industria", "Tipo", "Subtipo", "Costo", "Precio"};
     private final List<Item> items;
 
-    public ItemTableModel(List<Item> item) {
-        this.items = item;
+    public ItemTableModel(Collection<Item> item) {
+        this.items = new ArrayList<>(item);
     }
     
     @Override

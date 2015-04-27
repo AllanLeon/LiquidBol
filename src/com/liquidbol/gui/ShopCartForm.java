@@ -139,8 +139,7 @@ public class ShopCartForm extends JFrame {
             {"00119", 29.75, "Kg.", "Electrodo 6013 1/8", 18.00}
         };
         itemsTable = new JTable(new DefaultTableModel(tempData, columnNames) */
-        List<Store> stores = new ArrayList<>(Company.getAllStores());
-        itemsTable = new JTable(new ShopCartItemTableModel(stores) {
+        itemsTable = new JTable(new ShopCartItemTableModel(Company.getAllStores()) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -165,8 +164,7 @@ public class ShopCartForm extends JFrame {
         Object[][] tempData2 = {
             {"00126", "Electrodo 7018 1/8", 18.00}, {"00119", "Electrodo 6013 1/8", 18.00}};
         serviceTable = new JTable(new DefaultTableModel(tempData2, columnNames2)*/
-        List<Service> services = new ArrayList<>(Company.getAllServices());
-        serviceTable = new JTable(new ShopCartServiceTableModel(services) {
+        serviceTable = new JTable(new ShopCartServiceTableModel(Company.getAllServices()) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

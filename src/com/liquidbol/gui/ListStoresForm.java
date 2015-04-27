@@ -71,8 +71,7 @@ public class ListStoresForm extends JFrame {
          {"00002", "S.I.", "C. Pagador entre Herrera y 1ro de noviembre", "52 32190"}
          };
          storeTable = new JTable(tempData, columnNames); */
-        List<Store> stores = new ArrayList<>(Company.getAllStores());
-        storeTable = new JTable(new StoreTableModel(stores));
+        storeTable = new JTable(new StoreTableModel(Company.getAllStores()));
         storeTable.getTableHeader().setReorderingAllowed(false);
         storeTable.setFont(new Font("Arial", Font.PLAIN, 16));
         storeTable.setRowHeight(25);

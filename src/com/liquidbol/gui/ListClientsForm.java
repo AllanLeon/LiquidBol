@@ -94,8 +94,7 @@ public class ListClientsForm extends JFrame {
         };
         clientsTable = new JTable(tempData, columnNames); */
         
-        List<Client> clients = new ArrayList<>(Company.getAllClients());
-        clientsTable = new JTable(new ClientTableModel(clients));
+        clientsTable = new JTable(new ClientTableModel(Company.getAllClients()));
         clientsTable.getTableHeader().setReorderingAllowed(false);
         clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));

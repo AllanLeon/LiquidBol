@@ -85,8 +85,7 @@ public class ListARForm extends JFrame {
             {"00002", "E-1227", "Efrain Choque", "Tubo de Oxigeno industrial 6 Mts3", "01/07/15", "-"}
         };
         arsTable = new JTable(tempData, columnNames); */
-        List<Client> clients = new ArrayList<>(Company.getAllClients());
-        arsTable = new JTable(new RechargeableItemTableModel(clients));
+        arsTable = new JTable(new RechargeableItemTableModel(Company.getAllClients()));
         arsTable.getTableHeader().setReorderingAllowed(false);
         arsTable.setFont(new Font("Arial", Font.PLAIN, 16));
         arsTable.setRowHeight(25);

@@ -1,6 +1,8 @@
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Supplier;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -13,8 +15,8 @@ public class SupplierTableModel extends AbstractTableModel {
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Compañia", "Ciudad"};
     private final List<Supplier> suppliers;
 
-    public SupplierTableModel(List<Supplier> suppliers) {
-        this.suppliers = suppliers;
+    public SupplierTableModel(Collection<Supplier> suppliers) {
+        this.suppliers = new ArrayList<>(suppliers);
     }
     
     @Override
