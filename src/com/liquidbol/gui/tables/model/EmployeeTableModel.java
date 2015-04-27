@@ -12,7 +12,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class EmployeeTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod./C.I.", "Nombre", "Telefono", "Sucursal"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod./C.I.", "Nombre", "Telefono", "Tipo", "Sucursal"};
     private final List<Store> stores;
     private final List<Employee> employees;
 
@@ -55,6 +55,8 @@ public class EmployeeTableModel extends AbstractTableModel {
             case 3:
                 return employee.getPhone();
             case 4:
+                return employee.getType();
+            case 5:
                 return store.getName();
             default:
                 return null;
