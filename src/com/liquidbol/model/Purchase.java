@@ -1,5 +1,7 @@
 package com.liquidbol.model;
 
+import com.liquidbol.db.persistence.PersistenceException;
+import com.liquidbol.services.StoreServices;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -7,6 +9,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Class that represents a group item´s purchases.
@@ -125,12 +129,23 @@ public class Purchase implements Serializable {
         return result;
     }
     
-    public void execute() throws OperationFailedException {
+    public void execute() {
         Inventory inventory;
         List<Store> stores = new ArrayList<>(Company.getAllStores());
+        StoreServices storeServices = new StoreServices();
         for (ItemPurchase itemPurchase : itemPurchases) {
-            inventory = stores.get(0).getInventoryByItemId(itemPurchase.getItem().getId());
-            inventory.increaseQuantityBy(itemPurchase.getQuantity());
+            try {
+                inventory = stores.get(0).getInventoryByItemId(itemPurchase.getItem().getId());
+                inventory.increaseQuantityBy(itemPurchase.getQuantity());
+            } catch (OperationFailedException ex) {
+                try {
+                    inventory = storeServices.createInventory(0, itemPurchase.getItem(), 0);
+                    storeServices.addInventoryToStore(inventory, stores.get(0));
+                    inventory.increaseQuantityBy(id);
+                } catch (PersistenceException | ClassNotFoundException ex1) {
+                    Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
         }
     }
 

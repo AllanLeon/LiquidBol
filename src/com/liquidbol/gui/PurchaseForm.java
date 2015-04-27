@@ -255,7 +255,7 @@ public class PurchaseForm extends JFrame {
             supplierServices.addPurchaseToSupplier(newPurchase, suppliers.get(supplierCombo.getSelectedIndex()));
             storeServices.updateInventorys(stores.get(0));
             storeServices.loadStoreInventorys(stores.get(0));
-        } catch (OperationFailedException | PersistenceException | ClassNotFoundException ex) {
+        } catch (PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
