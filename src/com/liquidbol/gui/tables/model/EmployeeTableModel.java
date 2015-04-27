@@ -1,6 +1,8 @@
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Employee;
+import com.liquidbol.model.Store;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -10,11 +12,23 @@ import javax.swing.table.AbstractTableModel;
  */
 public class EmployeeTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod./C.I.", "Nombre", "Telefono"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod./C.I.", "Nombre", "Telefono", "Sucursal"};
+    private final List<Store> stores;
     private final List<Employee> employees;
 
-    public EmployeeTableModel(List<Employee> employees) {
-        this.employees = employees;
+    public EmployeeTableModel(List<Store> stores) {
+        this.stores = new ArrayList<>();
+        this.employees = new ArrayList<>();
+        initializeLists(stores);
+    }
+    
+    private void initializeLists(List<Store> stores) {
+        for (Store store : stores) {
+            for (Employee employee : store.getAllEmployees()) {
+                this.stores.add(store);
+                employees.add(employee);
+            }
+        }
     }
     
     @Override
@@ -30,6 +44,7 @@ public class EmployeeTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int column) {
         Employee employee = employees.get(row);
+        Store store = stores.get(row);
         switch (column) {
             case 0:
                 return row + 1;
@@ -39,6 +54,8 @@ public class EmployeeTableModel extends AbstractTableModel {
                 return String.format("%s %s", employee.getName(), employee.getLastname());
             case 3:
                 return employee.getPhone();
+            case 4:
+                return store.getName();
             default:
                 return null;
         }

@@ -3,7 +3,7 @@ package com.liquidbol.gui;
 import com.liquidbol.addons.UIStyle;
 import com.liquidbol.gui.tables.model.EmployeeTableModel;
 import com.liquidbol.model.Company;
-import com.liquidbol.model.Employee;
+import com.liquidbol.model.Store;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -89,8 +89,8 @@ public class ListEmployeesForm extends JFrame {
             {"4809321", "Lupe Cardenas", "71109254"}
         };
         employeesTable = new JTable(tempData, columnNames); */
-        List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
-        employeesTable = new JTable(new EmployeeTableModel(employees));
+        List<Store> stores = new ArrayList<>(Company.getAllStores());
+        employeesTable = new JTable(new EmployeeTableModel(stores));
         employeesTable.getTableHeader().setReorderingAllowed(false);
         employeesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         employeesTable.setRowHeight(25);
