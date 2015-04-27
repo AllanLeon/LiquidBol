@@ -27,7 +27,6 @@ public class PurchaseListTableModel extends AbstractTableModel {
         for (Supplier supplier : suppliers) {
             for (Purchase purchase : supplier.getAllPurchases()) {
                 this.suppliers.add(supplier);
-                purchase.setSupplierName(supplier.getName() + " " + supplier.getLastname());
                 purchases.add(purchase);
             }
         }
@@ -50,13 +49,14 @@ public class PurchaseListTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int column) {
         Purchase purchase = purchases.get(row);
+        Supplier supplier = suppliers.get(row);
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
                 return purchase.getId();
             case 2:
-                return purchase.getSupplierName();
+                return supplier.getName() + " " + supplier.getLastname();
             case 3:
                 return purchase.getTotalAmount();
             case 4:

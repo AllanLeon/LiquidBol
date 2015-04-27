@@ -17,23 +17,8 @@ public class Purchase implements Serializable {
     private int id;
     private Double totalAmount;
     private Date date;
-    private String supplierName;
     private Collection<ItemPurchase> itemPurchases;
 
-    /**
-     * Constructor method.
-     * @param id
-     * @param supplierName
-     * @param date 
-     */
-    public Purchase(int id, String supplierName, Date date) {
-        this.id = id;
-        this.supplierName = supplierName;
-        this.totalAmount = 0.0;
-        this.date = date;
-        this.itemPurchases = new HashSet<>();
-    }
-    
     /**
      * Constructor method.
      * @param id
@@ -41,24 +26,9 @@ public class Purchase implements Serializable {
      */
     public Purchase(int id, Date date) {
         this.id = id;
-        this.supplierName = "";
         this.totalAmount = 0.0;
         this.date = date;
         this.itemPurchases = new HashSet<>();
-    }
-
-    /**
-     * Constructor method with amount.
-     * @param id
-     * @param supplierName
-     * @param totalAmount
-     * @param date 
-     */
-    public Purchase(int id, String supplierName, Double totalAmount, Date date) {
-        this.id = id;
-        this.supplierName = supplierName;
-        this.totalAmount = totalAmount;
-        this.date = date;
     }
     
     /**
@@ -69,7 +39,6 @@ public class Purchase implements Serializable {
      */
     public Purchase(int id, Double totalAmount, Date date) {
         this.id = id;
-        this.supplierName = "";
         this.totalAmount = totalAmount;
         this.date = date;
     }
@@ -79,13 +48,6 @@ public class Purchase implements Serializable {
      */
     public int getId() {
         return id;
-    }
-    
-    /**
-     * @return the supplierName
-     */
-    public String getSupplierName() {
-        return supplierName;
     }
 
     /**
@@ -126,13 +88,6 @@ public class Purchase implements Serializable {
      */
     public void setId(int id) {
         this.id = id;
-    }
-    
-    /**
-     * @param supplierName the supplierName to set
-     */
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
     }
 
     /**
