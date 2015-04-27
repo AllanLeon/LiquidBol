@@ -3,7 +3,7 @@ package com.liquidbol.gui;
 import com.liquidbol.addons.UIStyle;
 import com.liquidbol.gui.tables.model.PurchaseListTableModel;
 import com.liquidbol.model.Company;
-import com.liquidbol.model.Purchase;
+import com.liquidbol.model.Supplier;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -89,8 +89,8 @@ public class ListPurchasesForm extends JFrame {
             {"00001", "21150.00", "21/12/2014"}
         };
         purchasesTable = new JTable(tempData, columnNames); */
-        List<Purchase> purchases = new ArrayList<>(Company.getAllPurchases());
-        purchasesTable = new JTable(new PurchaseListTableModel(purchases));
+        List<Supplier> suppliers = new ArrayList<>(Company.getAllSuppliers());
+        purchasesTable = new JTable(new PurchaseListTableModel(suppliers));
         purchasesTable.getTableHeader().setReorderingAllowed(false);
         purchasesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         purchasesTable.setRowHeight(25);
