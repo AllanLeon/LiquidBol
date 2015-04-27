@@ -94,6 +94,14 @@ public class Purchase implements Serializable {
     public Double getTotalAmount() {
         return totalAmount;
     }
+    
+    public Double calculateTotalAmount() {
+        totalAmount = 0.0;
+        for (ItemPurchase itemPurchase : itemPurchases) {
+            totalAmount += itemPurchase.getAmount();
+        }
+        return totalAmount;
+    }
 
     /**
      * @return the date

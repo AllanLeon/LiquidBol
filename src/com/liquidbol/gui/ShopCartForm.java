@@ -15,7 +15,6 @@ import com.liquidbol.model.RechargeableItem;
 import com.liquidbol.model.Service;
 import com.liquidbol.model.ServiceReception;
 import com.liquidbol.model.Store;
-import com.liquidbol.model.Supplier;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;

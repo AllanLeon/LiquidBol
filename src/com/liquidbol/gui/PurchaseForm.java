@@ -38,6 +38,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -60,7 +62,7 @@ public class PurchaseForm extends JFrame {
     private JLabel itemLbl;
     private JTable contentTable;
     private JLabel totalLbl;
-    private Component totalAmount;
+    private JTextField totalAmount;
     private JButton submitBtn;
     private JButton backBtn;
     private Object[] readItData;
@@ -154,6 +156,12 @@ public class PurchaseForm extends JFrame {
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());
         contentTable.setRowSorter(sorter);*/
+        contentTable.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                totalAmount.setText(String.format("%.2f",newPurchase.calculateTotalAmount()));
+            }
+        });
         JScrollPane tablesp = new JScrollPane(contentTable);
 
         //calculate import for each article
@@ -168,13 +176,9 @@ public class PurchaseForm extends JFrame {
         }
         
         totalLbl = new JLabel("Total");
-        double total = 0;
-        //calculate Total
-        for (int i = 0; i < contentTable.getRowCount(); i++) {
-            total += Double.parseDouble(contentTable.getModel().getValueAt(i,5).toString());
-        }
-        totalAmount = new JTextField(String.valueOf(total));
+        totalAmount = new JTextField(String.valueOf(newPurchase.getTotalAmount()));
         totalAmount.setFont(new Font("Arial", Font.PLAIN, 20));
+        totalAmount.setEditable(false);
         
         addBtn.addActionListener(new ActionListener() {
 
@@ -182,7 +186,7 @@ public class PurchaseForm extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 try {
                     Item res = Company.findItemById(searchBox.getText());
-                    ItemPurchase itemPurchase = new ItemPurchase(0, res, res.getCost(), 1);
+                    ItemPurchase itemPurchase = new ItemPurchase(0, res, res.getCost(), 0);
                     newPurchase.addItemPurchase(itemPurchase);
                     PurchaseTableModel tableModel = (PurchaseTableModel) contentTable.getModel();
                     tableModel.updateList();
@@ -292,7 +296,7 @@ public class PurchaseForm extends JFrame {
 
         title.setText("VER COMPRA"); //CHANGE!!!!
         datePicker = new JLabel();
-        totalAmount = new JLabel();
+        totalAmount = new JTextField();
         contentTable.setEnabled(false);
         
         datePicker.setFont(new Font("Arial", Font.PLAIN, 20));
