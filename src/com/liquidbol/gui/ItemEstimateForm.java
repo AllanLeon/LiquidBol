@@ -3,6 +3,11 @@ package com.liquidbol.gui;
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.MultiLineCellRenderer;
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.model.Bill;
+import com.liquidbol.model.Client;
+import com.liquidbol.services.ClientServices;
+import com.liquidbol.services.CompanyServices;
+import com.liquidbol.services.StoreServices;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -33,9 +38,8 @@ import org.jdatepicker.impl.UtilDateModel;
 public class ItemEstimateForm extends JFrame {
 
     private JPanel contentPane;
-    private JButton submitBtn;
-    private Component datePicker;
     private JLabel title;
+    private Component datePicker;
     private JLabel idShower;
     private JLabel nameLbl;
     private Component clientName;
@@ -49,10 +53,19 @@ public class ItemEstimateForm extends JFrame {
     private JLabel offerValLbl;
     private Component offerVal;
     private JButton backBtn;
-    
+    private JButton submitBtn;
+    private final TableModel passed;
+    private final Bill bill;
+    private Client client;
+    private final ClientServices clientServices;
+    private final StoreServices storeServices;
+    private final CompanyServices companyServices;
+    private boolean flag = false;
+/*    
     public ItemEstimateForm(int state) {
         this.df = new DecimalFormat("##.00");
         UIStyle sty = new UIStyle();
+        flag = true;
         switch (state) {
             case 1: //Add/edit new itemestimate
                 initComponents();
@@ -69,7 +82,20 @@ public class ItemEstimateForm extends JFrame {
                 break;
         }
     }
-
+*/
+    public ItemEstimateForm(TableModel tm, Bill bill) {
+        flag = false;
+        this.df = new DecimalFormat("##.00");
+        UIStyle sty = new UIStyle();
+        passed = tm;
+        this.bill = bill;
+        this.clientServices = new ClientServices();
+        this.storeServices = new StoreServices();
+        this.companyServices = new CompanyServices();
+        initComponents();
+        setVisible(true);
+    }
+  
     private void initComponents() {
         setTitle("Liquid");
         setSize(700, 550);
@@ -82,7 +108,7 @@ public class ItemEstimateForm extends JFrame {
 	setContentPane(contentPane);
         contentPane.setLayout(null);
  
-        UtilDateModel model = new UtilDateModel();
+        UtilDateModel model = new UtilDateModel(bill.getDate());
         Properties p = new Properties();
         p.put("text.today", "Today");
         p.put("text.month", "Month");
@@ -97,7 +123,7 @@ public class ItemEstimateForm extends JFrame {
         clientName = new JTextField();
         compLbl = new JLabel("Empresa");
         clientComp = new JTextField();
-
+        /*
         String[] columnNames = {"Cod",
             "Cant.",
             "Unidad",
@@ -121,28 +147,27 @@ public class ItemEstimateForm extends JFrame {
             {"S-00512", 6, "Pza.", "Arnes de posicionamiento c/Anillo de espalda 10911", 572.00, 0},
             {"S-00549", 6, "Pza.", "Linea de vida 3570-0241 c/Amortig c/Gancho 2 3/4, estiramiento de 4 a 6''", 582.00, 0}
         };
-        contentTable = new JTable(tempData, columnNames);
+        contentTable = new JTable(tempData, columnNames); */
+        contentTable = new JTable(passed);
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 16));
         contentTable.setRowHeight(25);
-        contentTable.getColumnModel().getColumn(0).setPreferredWidth(40);
-        contentTable.getColumnModel().getColumn(1).setPreferredWidth(10);
-        contentTable.getColumnModel().getColumn(2).setPreferredWidth(20);
-        contentTable.getColumnModel().getColumn(3).setPreferredWidth(270);
-        contentTable.getColumnModel().getColumn(4).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        contentTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(2).setPreferredWidth(10);
+        contentTable.getColumnModel().getColumn(3).setPreferredWidth(20);
+        contentTable.getColumnModel().getColumn(4).setPreferredWidth(270);
         contentTable.getColumnModel().getColumn(5).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(6).setPreferredWidth(40);
         contentTable.setDefaultRenderer(contentTable.getColumnModel().getColumn(3).getClass(), new MultiLineCellRenderer());
         RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());
         contentTable.setRowSorter(sorter);
         JScrollPane tablesp = new JScrollPane(contentTable);
 
-        //calculate import for each article
-        calculateEachArticlePrice(1, 4, 5);
-
         totalLbl = new JLabel("Total");
-        totalAmount = new JTextField(String.valueOf(calculateTotal()));
-        totalAmount.setFont(new Font("Arial", Font.PLAIN, 16));
-        
+        totalAmount = (JTextField) new JTextField(String.valueOf(bill.calculateTotalAmount()));
+        totalAmount.setFont(new Font("Arial", Font.PLAIN, 16));      
+                
         offerValLbl = new JLabel("Validez de la oferta:            días");
         offerVal = new JTextField();
         obsArea = new JTextArea("* Los precios incluyen Impuestos de Ley.\n" +
@@ -157,7 +182,11 @@ public class ItemEstimateForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Quote printed! \n Respect+");
-                LoginForm.mm.setVisible(true);
+                if(flag) {
+                    ListItemEstimatesForm lief = new ListItemEstimatesForm();
+                } else {
+                    LoginForm.LF.setVisible(true);
+                }
                 dispose();
             }
         });
@@ -165,7 +194,11 @@ public class ItemEstimateForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListItemEstimatesForm lqf = new ListItemEstimatesForm();
+                if(flag) {
+                    ListItemEstimatesForm lief = new ListItemEstimatesForm();
+                } else{
+                    MainMenuForm.scf.setVisible(true);
+                }
                 dispose();
             }
         });
@@ -201,26 +234,6 @@ public class ItemEstimateForm extends JFrame {
         contentPane.add(sp);
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
-    }
-
-    public void calculateEachArticlePrice(int qValueCol, int upValueCol, int resValueCol) {
-        for (int i = 0; i < contentTable.getRowCount(); i++) {
-            double quantity = Double.parseDouble(contentTable.getModel().getValueAt(i, qValueCol).toString());
-            double unitPrice = Double.parseDouble(contentTable.getModel().getValueAt(i, upValueCol).toString());
-            double calcdSubtotal = quantity * unitPrice;
-            String result = df.format(calcdSubtotal).replaceAll(",",".");
-            contentTable.getModel().setValueAt(result, i, resValueCol);
-        }
-    }
-
-    public String calculateTotal() {
-        double total = 0;
-        for (int i = 0; i < contentTable.getRowCount(); i++) {
-            total += Double.parseDouble(contentTable.getModel().getValueAt(i, 5).toString());
-        }
-        double rounded = (double) Math.round(total * 10) / 10;
-        String result = df.format(rounded).replaceAll(",",".");
-        return result;
     }
     
     private void convertToReadOnly() {        

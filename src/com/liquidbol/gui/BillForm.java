@@ -94,7 +94,6 @@ public class BillForm extends JFrame implements KeyListener {
         p.put("text.year", "Year");
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-        datePicker.setEnabled(false);
         title = new JLabel("FACTURA");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         idShower = new JLabel("Nº 000001");
