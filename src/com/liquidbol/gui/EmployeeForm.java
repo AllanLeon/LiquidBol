@@ -7,6 +7,7 @@ import com.liquidbol.model.Company;
 import com.liquidbol.model.Employee;
 import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.model.Store;
+import com.liquidbol.services.StoreServices;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
@@ -17,9 +18,12 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -46,8 +50,6 @@ public class EmployeeForm extends JFrame {
     private Component employeeCI;
     private JLabel passLbl;
     private Component employeePass;
-    private JLabel typeLbl;
-    private Component employeeType;
     private JLabel nameLbl;
     private Component employeeName;
     private JLabel lnameLbl;
@@ -60,14 +62,24 @@ public class EmployeeForm extends JFrame {
     private Component employeePhone2;
     private JLabel emailLbl;
     private Component employeeEmail;
+    private JLabel typeLbl;
+    private Component employeeType;
+    private JLabel storeLbl;
+    private JComboBox employeeStore;
     private JLabel employeePhoto;
     private JButton submitBtn;
     private MouseListener ml;
     private JButton backBtn;
+    private Employee newEmployee;
     private Object[] readItData;
+    private List<Store> stores;
+    private StoreServices storeServices;
     
     public EmployeeForm(int state) {
         UIStyle sty = new UIStyle();
+        newEmployee = new Employee(0);
+        stores = new ArrayList<>(Company.getAllStores());
+        storeServices = new StoreServices();
         switch (state) {
             case 1: //Add new employee
                 initComponents();
@@ -91,7 +103,7 @@ public class EmployeeForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(550, 450);
+        setSize(550, 500);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -108,9 +120,6 @@ public class EmployeeForm extends JFrame {
         employeeCI = new JTextField();
         passLbl = new JLabel("Contraseña");
         employeePass = new JTextField();
-        typeLbl = new JLabel("Tipo");
-        Object[] CBdata = new Object[] {"Rookie", "Midway", "Pro"};
-        employeeType = new JComboBox(CBdata);
         nameLbl = new JLabel("Nombre(s)");
         employeeName = new JTextField();
         lnameLbl = new JLabel("Apellido(s)");
@@ -123,6 +132,16 @@ public class EmployeeForm extends JFrame {
         employeePhone2 = new JTextField();
         emailLbl = new JLabel("Email");
         employeeEmail = new JTextField();
+        typeLbl = new JLabel("Tipo");
+        Object[] CBdata = new Object[] {"Rookie", "Midway", "Pro"};
+        employeeType = new JComboBox(CBdata);
+        storeLbl = new JLabel("Sucursal:");
+        employeeStore = new JComboBox();
+        try {
+            employeeStore.setModel(new DefaultComboBoxModel(loadStoreNames()));
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            Logger.getLogger(PurchaseForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         try {
             employeePhoto = new JLabel(new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/weld.jpg"))));
@@ -156,12 +175,10 @@ public class EmployeeForm extends JFrame {
         });
 
         title.setBounds(100, 30, 400, 30);
-        ciLbl.setBounds(40, 80, 30, 30);
-        employeeCI.setBounds(60, 80, 100, 30);
-        passLbl.setBounds(180, 80, 70, 30);
-        employeePass.setBounds(250, 80, 100, 30);
-        typeLbl.setBounds(390, 80, 50, 30);
-        employeeType.setBounds(420, 80, 100, 30);
+        ciLbl.setBounds(120, 80, 30, 30);
+        employeeCI.setBounds(140, 80, 100, 30);
+        passLbl.setBounds(280, 80, 70, 30);
+        employeePass.setBounds(350, 80, 100, 30);
         nameLbl.setBounds(40, 120, 70, 30);
         employeeName.setBounds(100, 120, 160, 30);
         lnameLbl.setBounds(290, 120, 70, 30);
@@ -174,9 +191,13 @@ public class EmployeeForm extends JFrame {
         employeePhone2.setBounds(330, 210, 150, 30);
         emailLbl.setBounds(50, 250, 70, 30);
         employeeEmail.setBounds(100, 250, 250, 30);
-        employeePhoto.setBounds(210, 290, 100, 100);
-        submitBtn.setBounds(400, 340, 70, 30);
-        backBtn.setBounds(50, 340, 70, 30);
+        typeLbl.setBounds(70, 290, 70, 30);
+        employeeType.setBounds(110, 290, 100, 30);
+        storeLbl.setBounds(300, 290, 70, 30);
+        employeeStore.setBounds(350, 290, 100, 30);
+        employeePhoto.setBounds(210, 350, 100, 100);
+        submitBtn.setBounds(400, 400, 70, 30);
+        backBtn.setBounds(50, 400, 70, 30);
 
         contentPane.add(title);
         contentPane.add(ciLbl);
@@ -197,6 +218,8 @@ public class EmployeeForm extends JFrame {
         contentPane.add(employeePhone2);
         contentPane.add(emailLbl);
         contentPane.add(employeeEmail);
+        contentPane.add(storeLbl);
+        contentPane.add(employeeStore);
         contentPane.add(employeePhoto);
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
@@ -287,12 +310,13 @@ public class EmployeeForm extends JFrame {
         contentPane.remove(employeePhone);
         contentPane.remove(employeePhone2);
         contentPane.remove(employeeEmail);
+        employeeType.setEnabled(false);
+        employeeStore.setEnabled(false);
         contentPane.remove(employeePhoto);
         contentPane.remove(submitBtn);
 
         employeeCI = new JLabel();
         employeePass = new JLabel();
-        employeeType = new JLabel();
         employeeName = new JLabel();
         employeeLName = new JLabel();
         employeeAddress = new JLabel();
@@ -304,7 +328,6 @@ public class EmployeeForm extends JFrame {
 
         employeeCI.setFont(new Font("Arial", Font.PLAIN, 20));
         employeePass.setFont(new Font("Arial", Font.PLAIN, 20));
-        employeeType.setFont(new Font("Arial", Font.PLAIN, 20));
         employeeName.setFont(new Font("Arial", Font.PLAIN, 20));
         employeeLName.setFont(new Font("Arial", Font.PLAIN, 20));
         employeeAddress.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -314,18 +337,16 @@ public class EmployeeForm extends JFrame {
         
         employeeCI.setBounds(60, 80, 100, 30);
         employeePass.setBounds(250, 80, 100, 30);
-        employeeType.setBounds(420, 80, 100, 30);
         employeeName.setBounds(100, 120, 160, 30);
         employeeLName.setBounds(350, 120, 160, 30);
         employeeAddress.setBounds(100, 170, 350, 30);
         employeePhone.setBounds(100, 210, 150, 30);
         employeePhone2.setBounds(330, 210, 150, 30);
         employeeEmail.setBounds(100, 250, 250, 30);
-        employeePhoto.setBounds(210, 290, 100, 100);
-                
+        employeePhoto.setBounds(210, 350, 100, 100);
+        
         contentPane.add(employeeCI);
         contentPane.add(employeePass);
-        contentPane.add(employeeType);
         contentPane.add(employeeName);
         contentPane.add(employeeLName);
         contentPane.add(employeeAddress);
@@ -333,5 +354,14 @@ public class EmployeeForm extends JFrame {
         contentPane.add(employeePhone2);
         contentPane.add(employeeEmail);
         contentPane.add(employeePhoto);
+    }
+    
+    private Object[] loadStoreNames() throws PersistenceException, ClassNotFoundException {
+        List<String> data = new ArrayList<>();
+        for (Store store : stores) {
+            String name = store.getName();
+            data.add(name);
+        }
+        return data.toArray();
     }
 }

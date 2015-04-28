@@ -164,9 +164,6 @@ public class PurchaseForm extends JFrame {
         });
         JScrollPane tablesp = new JScrollPane(contentTable);
 
-        //calculate import for each article
-        //calculateEachArticlePrice(1,4,5);
-
         supplierLbl = new JLabel("Proveedor:");
         supplierCombo = new JComboBox();
         try {
@@ -181,7 +178,6 @@ public class PurchaseForm extends JFrame {
         totalAmount.setEditable(false);
         
         addBtn.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent ae) {
                 try {
@@ -284,6 +280,15 @@ public class PurchaseForm extends JFrame {
         MagikarpScreen.purchServ.savePurchase(temp);
         MagikarpScreen.suppServ.addPurchaseToSupplier(temp, temp2);
     }
+        
+    public void calculateEachArticlePrice(int qValueCol, int upValueCol, int resValueCol) {
+        for (int i = 0; i < contentTable.getRowCount(); i++) {
+            double quantity = Double.parseDouble(contentTable.getModel().getValueAt(i, qValueCol).toString());
+            double unitPrice = Double.parseDouble(contentTable.getModel().getValueAt(i, upValueCol).toString());
+            double calcdSubtotal = quantity * unitPrice;
+            contentTable.getModel().setValueAt(calcdSubtotal, i, resValueCol);
+        }
+    }
     */
     private void convertToReadOnly() {        
         contentPane.remove(datePicker);
@@ -307,15 +312,6 @@ public class PurchaseForm extends JFrame {
         
         contentPane.add(datePicker);
         contentPane.add(totalAmount);
-    }
-    
-    public void calculateEachArticlePrice(int qValueCol, int upValueCol, int resValueCol) {
-        for (int i = 0; i < contentTable.getRowCount(); i++) {
-            double quantity = Double.parseDouble(contentTable.getModel().getValueAt(i, qValueCol).toString());
-            double unitPrice = Double.parseDouble(contentTable.getModel().getValueAt(i, upValueCol).toString());
-            double calcdSubtotal = quantity * unitPrice;
-            contentTable.getModel().setValueAt(calcdSubtotal, i, resValueCol);
-        }
     }
 
     private Object[] loadSupplierNames() throws PersistenceException, ClassNotFoundException {
