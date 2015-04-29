@@ -1,6 +1,7 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
+import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.addons.UIStyle;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.gui.tables.model.PurchaseTableModel;
