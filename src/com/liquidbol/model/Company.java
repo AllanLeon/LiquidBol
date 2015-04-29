@@ -3,6 +3,7 @@ package com.liquidbol.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
+import javax.swing.JOptionPane;
 
 /**
  * Class that represents LiquidBol company.
