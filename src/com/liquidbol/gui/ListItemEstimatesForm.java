@@ -2,14 +2,11 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.UIStyle;
 import com.liquidbol.gui.tables.model.ItemEstimateTableModel;
-import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -67,7 +64,7 @@ public class ListItemEstimatesForm extends JFrame {
         addBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ItemEstimateForm ief = new ItemEstimateForm(1);
+                //ItemEstimateForm ief = new ItemEstimateForm(1);
                 dispose();
             }
         });

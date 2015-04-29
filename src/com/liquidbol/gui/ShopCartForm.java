@@ -249,7 +249,7 @@ public class ShopCartForm extends JFrame {
         toEstimateBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ItemEstimateForm ief = new ItemEstimateForm(1);
+                ItemEstimateForm ief = new ItemEstimateForm(wholeTable.getModel(), newBill);
                 setVisible(false);
             }
         });
