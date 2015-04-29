@@ -1,8 +1,10 @@
 package com.liquidbol.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Class that represents LiquidBol company.
@@ -173,10 +175,206 @@ public class Company implements Serializable {
         return result;
     }
     
-    public static Collection<Purchase> getAllPurchases() {
-        Collection<Purchase> result = new HashSet<>();
-        for (Supplier supplier : suppliers) {
-            result.addAll(supplier.getAllPurchases());
+    public static Collection<Supplier> searchSuppliersByName(String name) {
+        Set<Supplier> result = new HashSet<>();
+        for (Supplier current : suppliers) {
+            String fullName = current.getName() + " " + current.getLastname();
+            if (fullName.contains(name)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Supplier> searchSuppliersByCompany(String company) {
+        Set<Supplier> result = new HashSet<>();
+        for (Supplier current : suppliers) {
+            if (current.getCompany().contains(company)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Supplier> searchSuppliersByCity(String city) {
+        Set<Supplier> result = new HashSet<>();
+        for (Supplier current : suppliers) {
+            if (current.getCity().contains(city)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Item> searchItemById(String id) {
+        Set<Item> result = new HashSet<>();
+        for (Item current : items) {
+            if (current.getId().contains(id)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Item> searchItemByDescription(String description) {
+        Set<Item> result = new HashSet<>();
+        for (Item current : items) {
+            if (current.getDescription().contains(description)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Item> searchItemByBrand(String brand) {
+        Set<Item> result = new HashSet<>();
+        for (Item current : items) {
+            if (current.getBrand().contains(brand)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Item> searchItemByIndustry(String industry) {
+        Set<Item> result = new HashSet<>();
+        for (Item current : items) {
+            if (current.getIndustry().contains(industry)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Item> searchItemByType(String type) {
+        Set<Item> result = new HashSet<>();
+        for (Item current : items) {
+            if (current.getType().contains(type)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Item> searchItemBySubtype(String subtype) {
+        Set<Item> result = new HashSet<>();
+        for (Item current : items) {
+            if (current.getSubtype().contains(subtype)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Offer> searchOffersByDate(Date date) {
+        Set<Offer> result = new HashSet<>();
+        for (Offer current : offers) {
+            Date offerStartDate = current.getStartDate();
+            Date offerEndDate = current.getEndDate();
+            if (offerStartDate.compareTo(date) <= 0 && offerEndDate.compareTo(date) >= 0) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Offer> searchOffersByType(String type) {
+        Set<Offer> result = new HashSet<>();
+        for (Offer current : offers) {
+            if (current.getType().contains(type)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Store> searchStoresByName(String name) {
+        Set<Store> result = new HashSet<>();
+        for (Store current : stores) {
+            if (current.getName().contains(name)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Client> searchClientsById(String id) {
+        Set<Client> result = new HashSet<>();
+        for (Client current : clients) {
+            if (String.valueOf(current.getId()).contains(id)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Client> searchClientsByName(String name) {
+        Set<Client> result = new HashSet<>();
+        for (Client current : clients) {
+            String fullName = current.getName() + " " + current.getLastname();
+            if (fullName.contains(name)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Client> searchClientsByNit(String nit) {
+        Set<Client> result = new HashSet<>();
+        for (Client current : clients) {
+            if (String.valueOf(current.getNit()).contains(nit)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Client> searchClientsByBillName(String billName) {
+        Set<Client> result = new HashSet<>();
+        for (Client current : clients) {
+            if (current.getBillName().contains(billName)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Client> searchClientsByRoute(boolean route) {
+        Set<Client> result = new HashSet<>();
+        for (Client current : clients) {
+            if (current.isRoute() == route) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Service> searchServicesById(String id) {
+        Set<Service> result = new HashSet<>();
+        for (Service current : services) {
+            if (current.getId().contains(id)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Service> searchServicesByDescription(String description) {
+        Set<Service> result = new HashSet<>();
+        for (Service current : services) {
+            if (current.getDescription().contains(description)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public static Collection<Service> searchServicesByType(String type) {
+        Set<Service> result = new HashSet<>();
+        for (Service current : services) {
+            if (current.getType().contains(type)) {
+                result.add(current);
+            }
         }
         return result;
     }
