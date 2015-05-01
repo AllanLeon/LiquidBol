@@ -60,7 +60,7 @@ public class ItemEstimateForm extends JFrame {
     private final ClientServices clientServices;
     private final StoreServices storeServices;
     private final CompanyServices companyServices;
-    private boolean flag = false;
+    private boolean isTMPassed = false;
 /*    
     public ItemEstimateForm(int state) {
         this.df = new DecimalFormat("##.00");
@@ -84,7 +84,7 @@ public class ItemEstimateForm extends JFrame {
     }
 */
     public ItemEstimateForm(TableModel tm, Bill bill) {
-        flag = false;
+        isTMPassed = true;
         this.df = new DecimalFormat("##.00");
         UIStyle sty = new UIStyle();
         passed = tm;
@@ -182,10 +182,10 @@ public class ItemEstimateForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Quote printed! \n Respect+");
-                if(flag) {
-                    ListItemEstimatesForm lief = new ListItemEstimatesForm();
-                } else {
+                if(isTMPassed) {
                     LoginForm.LF.setVisible(true);
+                } else {
+                    ListItemEstimatesForm lief = new ListItemEstimatesForm();
                 }
                 dispose();
             }
@@ -194,10 +194,10 @@ public class ItemEstimateForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(flag) {
-                    ListItemEstimatesForm lief = new ListItemEstimatesForm();
-                } else{
+                if(isTMPassed) {
                     MainMenuForm.scf.setVisible(true);
+                } else{
+                    ListItemEstimatesForm lief = new ListItemEstimatesForm();
                 }
                 dispose();
             }

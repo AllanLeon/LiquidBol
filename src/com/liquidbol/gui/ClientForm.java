@@ -154,8 +154,11 @@ public class ClientForm extends JFrame {
                 JOptionPane.showMessageDialog(null, "Client added! \n Respect+");
                 if(!flag){
                     LoginForm.mm.setVisible(true);
+                    dispose();
+                } else {
+                    ListClientsForm lcf = new ListClientsForm();
+                    dispose();
                 }
-                dispose();
             }
         });
         backBtn = new JButton("Back");

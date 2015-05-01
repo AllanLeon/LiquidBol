@@ -129,7 +129,7 @@ public class CxcForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Debt added! \n Respect+");
-                LoginForm.mm.setVisible(true);
+                ListCxcForm lcf = new ListCxcForm();
                 dispose();
             }
         });

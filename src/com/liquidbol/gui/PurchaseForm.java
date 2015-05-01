@@ -198,7 +198,7 @@ public class PurchaseForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 invoice();
                 JOptionPane.showMessageDialog(null, "Purchase completed! \n Respect+");
-                LoginForm.mm.setVisible(true);
+                ListPurchasesForm lpf = new ListPurchasesForm();
                 dispose();
             }
         });
