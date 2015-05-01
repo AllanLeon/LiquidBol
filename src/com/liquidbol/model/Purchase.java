@@ -119,7 +119,7 @@ public class Purchase implements Serializable {
         itemPurchases.add(itemPurchase);
     }
     
-    public Collection<ItemPurchase> findItemPurchasesByItemId(String itemId) {
+    public Collection<ItemPurchase> searchItemPurchasesByItemId(String itemId) {
         Set<ItemPurchase> result = new HashSet<>();
         for (ItemPurchase purchase : itemPurchases) {
             if (purchase.getItem().getId().equals(itemId)) {
