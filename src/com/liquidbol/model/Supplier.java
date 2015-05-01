@@ -109,17 +109,6 @@ public class Supplier extends Person implements Serializable {
     public Collection<Purchase> getAllPurchases() {
         return purchases;
     }
-    
-    public Collection<Purchase> findPurchasesBetweenDates(Date startDate, Date endDate) {
-        Set<Purchase> result = new HashSet<>();
-        for (Purchase purchase : purchases) {
-            Date purchaseDate = purchase.getDate();
-            if (purchaseDate.compareTo(startDate) >= 0 && purchaseDate.compareTo(endDate) <= 0) {
-                result.add(purchase);
-            }
-        }
-        return result;
-    }
 
     public void addPurchase(Purchase purchase) {
        purchases.add(purchase);
@@ -137,5 +126,16 @@ public class Supplier extends Person implements Serializable {
      */
     public void setPurchases(Collection<Purchase> purchases) {
         this.purchases = purchases;
+    }
+    
+    public Collection<Purchase> searchPurchasesBetweenDates(Date startDate, Date endDate) {
+        Set<Purchase> result = new HashSet<>();
+        for (Purchase purchase : purchases) {
+            Date purchaseDate = purchase.getDate();
+            if (purchaseDate.compareTo(startDate) >= 0 && purchaseDate.compareTo(endDate) <= 0) {
+                result.add(purchase);
+            }
+        }
+        return result;
     }
 }
