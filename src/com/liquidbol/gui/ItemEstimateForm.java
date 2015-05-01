@@ -152,12 +152,12 @@ public class ItemEstimateForm extends JFrame {
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 16));
         contentTable.setRowHeight(25);
-        contentTable.getColumnModel().getColumn(0).setPreferredWidth(20);
-        contentTable.getColumnModel().getColumn(1).setPreferredWidth(40);
-        contentTable.getColumnModel().getColumn(2).setPreferredWidth(10);
-        contentTable.getColumnModel().getColumn(3).setPreferredWidth(20);
+        contentTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+        contentTable.getColumnModel().getColumn(1).setPreferredWidth(30);
+        contentTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(3).setPreferredWidth(10);
         contentTable.getColumnModel().getColumn(4).setPreferredWidth(270);
-        contentTable.getColumnModel().getColumn(5).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(5).setPreferredWidth(30);
         contentTable.getColumnModel().getColumn(6).setPreferredWidth(40);
         contentTable.setDefaultRenderer(contentTable.getColumnModel().getColumn(3).getClass(), new MultiLineCellRenderer());
         RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());

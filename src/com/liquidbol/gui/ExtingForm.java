@@ -63,7 +63,7 @@ public class ExtingForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(700, 500);
+        setSize(850, 470);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -81,7 +81,7 @@ public class ExtingForm extends JFrame {
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
         title = new JLabel("NOTA DE RECEPCIÓN DE EXTINTORES");
-        title.setFont(new Font("Arial", Font.PLAIN, 26));
+        title.setFont(new Font("Arial", Font.PLAIN, 30));
         idShower = new JLabel("Nº 000001");
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
         nameLbl = new JLabel("Señor(es)");
@@ -151,31 +151,31 @@ public class ExtingForm extends JFrame {
             }
         });
 
-        title.setBounds(120, 20, 500, 30);
-        datePicker.setBounds(300, 90, 150, 30);
-        idShower.setBounds(500, 90, 150, 30);
-        nameLbl.setBounds(40, 130, 150, 30);
-        clientName.setBounds(100, 130, 350, 30);
-        compLbl.setBounds(40, 160, 150, 30);
-        clientComp.setBounds(100, 160, 350, 30);
-        phoneLbl.setBounds(465, 130, 150, 30);
-        clientPhone.setBounds(510, 130, 150, 30);
-        tablesp.setBounds(30, 200, 640, 150);
-        quantLbl.setBounds(30, 350, 70, 30);
-        quantAmount.setBounds(90, 350, 50, 30);
-        dateLbl.setBounds(150, 345, 110, 30);
-        dateField.setBounds(150, 370, 130, 30);
-        hourLbl.setBounds(150, 390, 50, 30);
-        hourField.setBounds(150, 410, 90, 30);
-        amountLbl.setBounds(320, 370, 120, 30);
-        totalLbl.setBounds(430, 350, 50, 30);
-        totalAmount.setBounds(430, 370, 70, 30);
-        ACLbl.setBounds(500, 350, 50, 30);
-        ACAmount.setBounds(500, 370, 70, 30);
-        balanceLbl.setBounds(570, 350, 50, 30);
-        balanceAmount.setBounds(570, 370, 70, 30);
-        submitBtn.setBounds(350, 430, 50, 30);
-        backBtn.setBounds(50, 430, 70, 30);
+        title.setBounds(140, 20, 600, 30);
+        datePicker.setBounds(300, 70, 150, 30);
+        idShower.setBounds(500, 70, 150, 30);
+        nameLbl.setBounds(90, 110, 150, 30);
+        clientName.setBounds(150, 110, 350, 30);
+        compLbl.setBounds(90, 140, 130, 30);
+        clientComp.setBounds(150, 140, 350, 30);
+        phoneLbl.setBounds(565, 110, 150, 30);
+        clientPhone.setBounds(610, 110, 150, 30);
+        tablesp.setBounds(15, 180, 810, 150);
+        quantLbl.setBounds(20, 330, 70, 30);
+        quantAmount.setBounds(80, 330, 50, 30);
+        dateLbl.setBounds(170, 325, 110, 30);
+        dateField.setBounds(170, 350, 130, 30);
+        hourLbl.setBounds(320, 325, 50, 30);
+        hourField.setBounds(320, 350, 90, 30);
+        amountLbl.setBounds(480, 350, 120, 30);
+        totalLbl.setBounds(590, 330, 50, 30);
+        totalAmount.setBounds(590, 350, 70, 30);
+        ACLbl.setBounds(660, 330, 50, 30);
+        ACAmount.setBounds(660, 350, 70, 30);
+        balanceLbl.setBounds(730, 330, 50, 30);
+        balanceAmount.setBounds(730, 350, 70, 30);
+        submitBtn.setBounds(620, 390, 100, 30);
+        backBtn.setBounds(100, 390, 100, 30);
 
         contentPane.add(title);
         contentPane.add(datePicker);

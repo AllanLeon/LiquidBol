@@ -218,7 +218,10 @@ public class BillForm extends JFrame implements KeyListener {
             client = Company.findClientByNit(Integer.parseInt(clientNit.getText()));
             clientName.setText(client.getBillName());
         } catch (OperationFailedException ex) {
-            Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se encuentra al cliente. Creelo!");
+            ClientForm cf = new ClientForm(4);
+            JTextField nitbx = (JTextField) cf.nitBox;
+            nitbx.setText(clientNit.getText());
         }
     }
 
