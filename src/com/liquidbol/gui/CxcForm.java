@@ -8,15 +8,10 @@ import com.liquidbol.model.CXC;
 import com.liquidbol.model.CXCC;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
-import com.liquidbol.model.Purchase;
-import com.liquidbol.model.Supplier;
-import com.liquidbol.services.StoreServices;
-import com.liquidbol.services.SupplierServices;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -109,6 +104,13 @@ public class CxcForm extends JFrame {
         } catch (PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(PurchaseForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        idBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = idBox.getSelectedIndex();
+                clientBox.setSelectedIndex(index);
+            }
+        });
         
         nameLbl = new JLabel("Nombre");
         clientBox = new JComboBox();
@@ -117,6 +119,14 @@ public class CxcForm extends JFrame {
         } catch (PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(PurchaseForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        clientBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int index = clientBox.getSelectedIndex();
+                idBox.setSelectedIndex(index);
+            }
+        });
+
         dateLbl = new JLabel("Fecha limite");
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
