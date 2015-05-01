@@ -65,7 +65,7 @@ public class ClientForm extends JFrame {
     private MouseListener ml;
     private JButton backBtn;
     private Object[] readItData;
-    private boolean flag = false;
+    private boolean isExpress = false;
 
     public ClientForm(int state) {
         UIStyle sty = new UIStyle();
@@ -86,7 +86,7 @@ public class ClientForm extends JFrame {
             case 4: //fastNewClient
                 initComponents();
                 setVisible(true);
-                flag = true;
+                isExpress = true;
                 break;
             default:
                 initComponents();
@@ -152,13 +152,10 @@ public class ClientForm extends JFrame {
                     Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JOptionPane.showMessageDialog(null, "Client added! \n Respect+");
-                if(!flag){
-                    LoginForm.mm.setVisible(true);
-                    dispose();
-                } else {
+                if(!isExpress){
                     ListClientsForm lcf = new ListClientsForm();
-                    dispose();
                 }
+                dispose();
             }
         });
         backBtn = new JButton("Back");

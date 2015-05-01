@@ -280,15 +280,6 @@ public class PurchaseForm extends JFrame {
         MagikarpScreen.purchServ.savePurchase(temp);
         MagikarpScreen.suppServ.addPurchaseToSupplier(temp, temp2);
     }
-        
-    public void calculateEachArticlePrice(int qValueCol, int upValueCol, int resValueCol) {
-        for (int i = 0; i < contentTable.getRowCount(); i++) {
-            double quantity = Double.parseDouble(contentTable.getModel().getValueAt(i, qValueCol).toString());
-            double unitPrice = Double.parseDouble(contentTable.getModel().getValueAt(i, upValueCol).toString());
-            double calcdSubtotal = quantity * unitPrice;
-            contentTable.getModel().setValueAt(calcdSubtotal, i, resValueCol);
-        }
-    }
     */
     private void convertToReadOnly() {        
         contentPane.remove(datePicker);

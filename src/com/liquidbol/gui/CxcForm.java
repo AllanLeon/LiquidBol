@@ -2,14 +2,27 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.gui.tables.model.CXCCTableModel;
+import com.liquidbol.model.CXC;
 import com.liquidbol.model.CXCC;
+import com.liquidbol.model.Client;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.Purchase;
+import com.liquidbol.model.Supplier;
+import com.liquidbol.services.StoreServices;
+import com.liquidbol.services.SupplierServices;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -36,9 +49,9 @@ public class CxcForm extends JFrame {
     private JPanel contentPane;
     private JLabel title;
     private JLabel idLbl;
-    private Component idBox;
+    private JComboBox idBox;
     private JLabel nameLbl;
-    private Component clientName;
+    private JComboBox clientBox;
     private JTable contentTable;
     private JLabel cxccLbl;
     private Component datePicker;
@@ -49,9 +62,14 @@ public class CxcForm extends JFrame {
     private Component clientDebt;
     private JButton backBtn;
     private JButton submitBtn;
+    private CXC newCxc;
+    private List<Client> clients;
+
 
     public CxcForm(int state) {
         UIStyle sty = new UIStyle();
+        newCxc = new CXC(0, Double.NaN, Double.NaN, null, null);
+        clients = new ArrayList<>(Company.getAllClients());
         switch (state) {
             case 1: //Add/edit new cxc
                 initComponents();
@@ -85,9 +103,20 @@ public class CxcForm extends JFrame {
         title.setText("NUEVA CXC");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         idLbl = new JLabel("Id");
-        idBox = new JComboBox();
+        idBox = new JComboBox();       
+        try {
+            idBox.setModel(new DefaultComboBoxModel(loadClient("IDs")));
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            Logger.getLogger(PurchaseForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         nameLbl = new JLabel("Nombre");
-        clientName = new JComboBox();
+        clientBox = new JComboBox();
+        try {
+            clientBox.setModel(new DefaultComboBoxModel(loadClient("Names")));
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            Logger.getLogger(PurchaseForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         dateLbl = new JLabel("Fecha limite");
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
@@ -102,7 +131,7 @@ public class CxcForm extends JFrame {
         clientDebt = new JTextField();
 
         cxccLbl = new JLabel("CxCC");
-        String[] columnNames = {"ID",
+        /*String[] columnNames = {"ID",
             "Monto pagado",
             "Fecha"
         };
@@ -111,7 +140,7 @@ public class CxcForm extends JFrame {
             {001, 40.00, "02/01/2015"},
             {002, 100.00, "05/01/2015"}
         };
-        /*contentTable = new JTable(tempData, columnNames);
+        contentTable = new JTable(tempData, columnNames);
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 16));
         contentTable.setRowHeight(25);
@@ -146,7 +175,7 @@ public class CxcForm extends JFrame {
         idLbl.setBounds(40, 90, 70, 30);
         idBox.setBounds(60, 90, 100, 30);
         nameLbl.setBounds(180, 90, 70, 30);
-        clientName.setBounds(230, 90, 180, 30);
+        clientBox.setBounds(230, 90, 180, 30);
         cxccLbl.setBounds(40, 120, 50, 30);
         tablesp.setBounds(40, 140, 400, 180);
         dateLbl.setBounds(40, 330, 70, 30);
@@ -162,7 +191,7 @@ public class CxcForm extends JFrame {
         contentPane.add(idLbl);
         contentPane.add(idBox);
         contentPane.add(nameLbl);
-        contentPane.add(clientName);
+        contentPane.add(clientBox);
         contentPane.add(cxccLbl);
         contentPane.add(tablesp);
         contentPane.add(dateLbl);
@@ -175,35 +204,43 @@ public class CxcForm extends JFrame {
         contentPane.add(submitBtn);
     }
 
+    private Object[] loadClient(String query) throws PersistenceException, ClassNotFoundException {
+        List<String> data = new ArrayList<>();
+        if(query.equals("IDs")) {
+            for (Client client : clients) {
+                int id = client.getId();
+                data.add(String.valueOf(id));
+            }        
+        } else {
+            for (Client client : clients) {
+                String name = client.getName();
+                data.add(name);
+            }
+        }
+        return data.toArray();
+    }
+
     private void convertToReadOnly() {        
-        contentPane.remove(idBox);
-        contentPane.remove(clientName);
+        idBox.setEnabled(false);
+        clientBox.setEnabled(false);
         contentPane.remove(datePicker);
         contentPane.remove(maxAmount);
         contentPane.remove(clientDebt);
 
-        idBox = new JLabel();
-        clientName = new JLabel();
         title.setText("VER CxC"); //CHANGE!!!!
         datePicker = new JLabel();
         maxAmount = new JLabel();
         clientDebt = new JLabel();
         contentTable.setEnabled(false);
-        
-        idBox.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientName.setFont(new Font("Arial", Font.PLAIN, 20));
+
         datePicker.setFont(new Font("Arial", Font.PLAIN, 20));
         maxAmount.setFont(new Font("Arial", Font.PLAIN, 20));
         clientDebt.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        idBox.setBounds(120, 80, 100, 30);
-        clientName.setBounds(100, 120, 350, 30);
         datePicker.setBounds(110, 360, 120, 30);
         maxAmount.setBounds(110, 390, 80, 30);
         clientDebt.setBounds(360, 360, 70, 30);
         
-        contentPane.add(idBox);
-        contentPane.add(clientName);
         contentPane.add(datePicker);
         contentPane.add(maxAmount);
         contentPane.add(clientDebt);
