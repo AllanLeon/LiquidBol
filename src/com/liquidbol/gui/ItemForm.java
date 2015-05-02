@@ -137,7 +137,7 @@ public class ItemForm extends JFrame {
                     Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JOptionPane.showMessageDialog(null, "Item added! \n Respect+");
-                LoginForm.mm.setVisible(true);
+                ListItemsForm lif = new ListItemsForm();
                 dispose();
             }
         });

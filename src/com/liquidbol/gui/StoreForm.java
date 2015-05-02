@@ -76,7 +76,7 @@ public class StoreForm extends JFrame {
                     Logger.getLogger(StoreForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JOptionPane.showMessageDialog(null, "Store added! \n Respect+");
-                LoginForm.mm.setVisible(true);
+                ListStoresForm lsf = new ListStoresForm();
                 dispose();
             }
         });
