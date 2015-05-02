@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -237,7 +238,7 @@ public class Bill implements Serializable {
     public void addItemSale(ItemSale itemSale) {
         int stock = 0;
         try {
-            stock = store.getInventoryByItemId(itemSale.getItem().getId()).getQuantity();
+            stock = store.searchInventoryByItemId(itemSale.getItem().getId()).getQuantity();
         } catch (OperationFailedException ex) {
             Logger.getLogger(Bill.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -263,6 +264,108 @@ public class Bill implements Serializable {
     public void setServiceReceptions(Collection<ServiceReception> serviceReceptions) {
         this.serviceReceptions = serviceReceptions;
     }
+    
+    public Collection<BillPayment> searchPaymentsByEmployeeId(int employeeId) {
+        Set<BillPayment> result = new HashSet<>();
+        for (BillPayment current : payments) {
+            if (current.getEmployee().getId() == employeeId) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<BillPayment> searchPaymentsByDate(Date date) {
+        Set<BillPayment> result = new HashSet<>();
+        for (BillPayment current : payments) {
+            if (current.getPayDate().compareTo(date) == 0) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<BillPayment> searchPaymentsBetweenDates(Date startDate, Date endDate) {
+        Set<BillPayment> result = new HashSet<>();
+        for (BillPayment current : payments) {
+            Date expenseDate = current.getPayDate();
+            if (expenseDate.compareTo(startDate) >= 0 && expenseDate.compareTo(endDate) <= 0) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<ItemSale> searchItemSalesByItemId(String itemId) {
+        Set<ItemSale> result = new HashSet<>();
+        for (ItemSale current : itemSales) {
+            if (current.getItem().getId().contains(itemId)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<ItemSale> searchItemSalesByItemDescription(String itemDesc) {
+        Set<ItemSale> result = new HashSet<>();
+        for (ItemSale current : itemSales) {
+            if (current.getItem().getDescription().contains(itemDesc)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<ServiceReception> searchServiceReceptionsByServiceId(String serviceId) {
+        Set<ServiceReception> result = new HashSet<>();
+        for (ServiceReception current : serviceReceptions) {
+            if (current.getService().getId().contains(serviceId)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<ServiceReception> searchServiceReceptionsByServiceDescription(String serviceDesc) {
+        Set<ServiceReception> result = new HashSet<>();
+        for (ServiceReception current : serviceReceptions) {
+            if (current.getService().getDescription().contains(serviceDesc)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<ServiceReception> searchServiceReceptionsByRechargeableItemId(String rechItemId) {
+        Set<ServiceReception> result = new HashSet<>();
+        for (ServiceReception current : serviceReceptions) {
+            if (current.getItem().getId().contains(rechItemId)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<ServiceReception> searchServiceReceptionsByDate(Date date) {
+        Set<ServiceReception> result = new HashSet<>();
+        for (ServiceReception current : serviceReceptions) {
+            if (current.getReceptionDate().compareTo(date) == 0) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<ServiceReception> searchServiceReceptionsBetweenDates(Date startDate, Date endDate) {
+        Set<ServiceReception> result = new HashSet<>();
+        for (ServiceReception current : serviceReceptions) {
+            Date expenseDate = current.getReceptionDate();
+            if (expenseDate.compareTo(startDate) >= 0 && expenseDate.compareTo(endDate) <= 0) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
 
     public void refresh() {
         try {
@@ -276,7 +379,7 @@ public class Bill implements Serializable {
     public void execute() throws OperationFailedException {
         Inventory inventory;
         for (ItemSale itemSale : itemSales) {
-            inventory = store.getInventoryByItemId(itemSale.getItem().getId());
+            inventory = store.searchInventoryByItemId(itemSale.getItem().getId());
             inventory.reduceQuantityBy(itemSale.getQuantity());
         }
     }
