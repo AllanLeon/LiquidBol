@@ -129,17 +129,6 @@ public class Client extends Person implements Serializable {
         return receivableAccounts;
     }
     
-    public Collection<CXC> getValidReceivableAccounts() {
-        Set<CXC> result = new HashSet<>();
-        Date today = new Date(new java.util.Date().getTime());
-        for (CXC cxc : receivableAccounts) {
-            if (/*cxc.getCreditLimitDate().compareTo(today) < 0 && */cxc.getDebt() > 0) {
-                result.add(cxc);
-            }
-        }
-        return result;
-    }
-    
     public void addReceivableAccount(CXC cxc) {
         receivableAccounts.add(cxc);
     }
@@ -150,16 +139,6 @@ public class Client extends Person implements Serializable {
     
     public Collection<RechargeableItem> getAllRechargeableItems() {
         return rechargeableItems;
-    }
-    
-    public Collection<RechargeableItem> findRechargeableItemsByType(String type) {
-        Set<RechargeableItem> result = new HashSet<>();
-        for (RechargeableItem recItem : rechargeableItems) {
-            if (recItem.getType().contains(type)) {
-                result.add(recItem);
-            }
-        }
-        return result;
     }
     
     public void addRechargeableItem(RechargeableItem rechargeableItem) {
@@ -220,5 +199,149 @@ public class Client extends Person implements Serializable {
     
     public void increaseFrequency() {
         frequency++;
+    }
+    
+    public Collection<CXC> getValidReceivableAccounts() {
+        Set<CXC> result = new HashSet<>();
+        Date today = new Date(new java.util.Date().getTime());
+        for (CXC cxc : receivableAccounts) {
+            if (/*cxc.getCreditLimitDate().compareTo(today) < 0 && */cxc.getDebt() > 0) {
+                result.add(cxc);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<CXC> searchReceivableAccountsByState(String state) {
+        Set<CXC> result = new HashSet<>();
+        for (CXC cxc : receivableAccounts) {
+            if (cxc.getState().contains(state)) {
+                result.add(cxc);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<RechargeableItem> searchRechargeableItemsById(String id) {
+        Set<RechargeableItem> result = new HashSet<>();
+        for (RechargeableItem recItem : rechargeableItems) {
+            if (recItem.getId().contains(id)) {
+                result.add(recItem);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<RechargeableItem> searchRechargeableItemsByDescription(String description) {
+        Set<RechargeableItem> result = new HashSet<>();
+        for (RechargeableItem recItem : rechargeableItems) {
+            if (recItem.getDescription().contains(description)) {
+                result.add(recItem);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<RechargeableItem> searchRechargeableItemsByType(String type) {
+        Set<RechargeableItem> result = new HashSet<>();
+        for (RechargeableItem recItem : rechargeableItems) {
+            if (recItem.getType().contains(type)) {
+                result.add(recItem);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Bill> searchBillsByEmployeeId(int id) {
+        Set<Bill> result = new HashSet<>();
+        for (Bill current : bills) {
+            if (current.getEmployee().getId() == id) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Bill> searchBillsByStoreId(int id) {
+        Set<Bill> result = new HashSet<>();
+        for (Bill current : bills) {
+            if (current.getStore().getId() == id) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Bill> searchBillsByBilled(boolean billed) {
+        Set<Bill> result = new HashSet<>();
+        for (Bill current : bills) {
+            if (current.isBilled() == billed) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Bill> searchBillsByRoute(boolean route) {
+        Set<Bill> result = new HashSet<>();
+        for (Bill current : bills) {
+            if (current.isRoute() == route) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Bill> searchBillsByDate(Date date) {
+        Set<Bill> result = new HashSet<>();
+        for (Bill bill : bills) {
+            if (bill.getDate().compareTo(date) == 0) {
+                result.add(bill);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Bill> searchBillsBetweenDates(Date startDate, Date endDate) {
+        Set<Bill> result = new HashSet<>();
+        for (Bill bills : bills) {
+            Date expenseDate = bills.getDate();
+            if (expenseDate.compareTo(startDate) >= 0 && expenseDate.compareTo(endDate) <= 0) {
+                result.add(bills);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<ItemEstimate> searchItemEstimatesByDate(Date date) {
+        Set<ItemEstimate> result = new HashSet<>();
+        for (ItemEstimate current : itemEstimates) {
+            if (current.getRequestDate().compareTo(date) == 0) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<ItemEstimate> searchItemEstimatesBetweenDates(Date startDate, Date endDate) {
+        Set<ItemEstimate> result = new HashSet<>();
+        for (ItemEstimate current : itemEstimates) {
+            Date expenseDate = current.getRequestDate();
+            if (expenseDate.compareTo(startDate) >= 0 && expenseDate.compareTo(endDate) <= 0) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<ItemEstimate> getValidItemEstimates() {
+        Set<ItemEstimate> result = new HashSet<>();
+        Date today = new Date(new java.util.Date().getTime());
+        for (ItemEstimate current : itemEstimates) {
+            if (current.getLimitDate().compareTo(today) < 0) {
+                result.add(current);
+            }
+        }
+        return result;
     }
 }

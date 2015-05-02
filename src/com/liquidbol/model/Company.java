@@ -298,6 +298,16 @@ public class Company implements Serializable {
         return result;
     }
     
+    public static Collection<Client> searchClientById(int id) {
+        Set<Client> result = new HashSet<>();
+        for (Client current : clients) {
+            if (current.getId() == id) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
     public static Collection<Client> searchClientsById(String id) {
         Set<Client> result = new HashSet<>();
         for (Client current : clients) {

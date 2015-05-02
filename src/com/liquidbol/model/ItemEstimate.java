@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -143,6 +144,26 @@ public class ItemEstimate implements Serializable {
     
     public void addRequest(ItemRequest request) {
         requests.add(request);
+    }
+    
+    public Collection<ItemRequest> searchItemRequestsByItemId(String itemId) {
+        Set<ItemRequest> result = new HashSet<>();
+        for (ItemRequest current : requests) {
+            if (current.getItem().getId().contains(itemId)) {
+                result.add(current);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<ItemRequest> searchItemRequestsByItemDescription(String itemDescription) {
+        Set<ItemRequest> result = new HashSet<>();
+        for (ItemRequest current : requests) {
+            if (current.getItem().getDescription().contains(itemDescription)) {
+                result.add(current);
+            }
+        }
+        return result;
     }
     
     public void refresh() {
