@@ -6,10 +6,13 @@ import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,6 +33,8 @@ import javax.swing.table.TableRowSorter;
  */
 public class ListItemsForm extends JFrame {
 
+    private final String[] SEARCH_PARAMETERS = {"Cod.", "Descripcion", "Marca", "Industria", "Tipo", "Subtipo"};
+    
     private JPanel contentPane;
     private JLabel title;
     private JButton addBtn;
@@ -38,6 +43,7 @@ public class ListItemsForm extends JFrame {
     private JButton searchBtn;
     private JTable itemsTable;
     private JButton backBtn;
+    private ItemTableModel itemsTableModel;
     
     public ListItemsForm() {
         UIStyle sty = new UIStyle();
@@ -70,29 +76,34 @@ public class ListItemsForm extends JFrame {
         });
 
         searchCB = new JComboBox();
+        searchCB.setModel(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
+        searchBox.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                //updateItemTableModel();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                //updateItemTableModel();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                updateItemTableModel();
+            }
+        });
+        
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
             Logger.getLogger(ListItemsForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        /*String[] columnNames = {"Cod",
-            "Unidad",
-            "Descripcion",
-            "Marca",
-            "Industria",
-            "Tipo",
-            "Subtipo",
-            "Costo",
-            "Precio"
-        };
-        Object[][] tempData = {            
-            {"00561", "Pza", "Dado de 27mm Hexagonal", "Inafor", "Argentina", "Auxiliares", "Dados", "20.00", "38.00"},
-            {"00562", "Pza", "Dado de 16mm Hexagonal", "Inafor", "Argentina", "Auxiliares", "Dados", "20.00", "35.00"}
-        };
-        itemsTable = new JTable(tempData, columnNames); */
-        itemsTable = new JTable(new ItemTableModel(Company.getAllItems()));
+        itemsTableModel = new ItemTableModel(Company.getAllItems());
+        itemsTable = new JTable(itemsTableModel);
         itemsTable.getTableHeader().setReorderingAllowed(false);
         itemsTable.setFont(new Font("Arial", Font.PLAIN, 16));
         itemsTable.setRowHeight(25);
@@ -135,5 +146,29 @@ public class ListItemsForm extends JFrame {
         contentPane.add(searchBtn);
         contentPane.add(itemsTableSP);
         contentPane.add(backBtn);
+    }
+    
+    private void updateItemTableModel() {
+        switch (searchCB.getSelectedIndex()) {
+            case 0:
+                itemsTableModel.setItems(Company.searchItemsById(searchBox.getText()));
+                break;
+            case 1:
+                itemsTableModel.setItems(Company.searchItemsByDescription(searchBox.getText()));
+                break;
+            case 2:
+                itemsTableModel.setItems(Company.searchItemsByBrand(searchBox.getText()));
+                break;
+            case 3:
+                itemsTableModel.setItems(Company.searchItemsByIndustry(searchBox.getText()));
+                break;
+            case 4:
+                itemsTableModel.setItems(Company.searchItemsByType(searchBox.getText()));
+                break;
+            case 5:
+                itemsTableModel.setItems(Company.searchItemsBySubtype(searchBox.getText()));
+                break;
+            default:;
+        }
     }
 }

@@ -206,7 +206,7 @@ public class Company implements Serializable {
         return result;
     }
     
-    public static Collection<Item> searchItemById(String id) {
+    public static Collection<Item> searchItemsById(String id) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
             if (current.getId().contains(id)) {
@@ -216,7 +216,7 @@ public class Company implements Serializable {
         return result;
     }
     
-    public static Collection<Item> searchItemByDescription(String description) {
+    public static Collection<Item> searchItemsByDescription(String description) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
             if (current.getDescription().contains(description)) {
@@ -226,7 +226,7 @@ public class Company implements Serializable {
         return result;
     }
     
-    public static Collection<Item> searchItemByBrand(String brand) {
+    public static Collection<Item> searchItemsByBrand(String brand) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
             if (current.getBrand().contains(brand)) {
@@ -236,7 +236,7 @@ public class Company implements Serializable {
         return result;
     }
     
-    public static Collection<Item> searchItemByIndustry(String industry) {
+    public static Collection<Item> searchItemsByIndustry(String industry) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
             if (current.getIndustry().contains(industry)) {
@@ -246,7 +246,7 @@ public class Company implements Serializable {
         return result;
     }
     
-    public static Collection<Item> searchItemByType(String type) {
+    public static Collection<Item> searchItemsByType(String type) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
             if (current.getType().contains(type)) {
@@ -256,7 +256,7 @@ public class Company implements Serializable {
         return result;
     }
     
-    public static Collection<Item> searchItemBySubtype(String subtype) {
+    public static Collection<Item> searchItemsBySubtype(String subtype) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
             if (current.getSubtype().contains(subtype)) {
@@ -292,16 +292,6 @@ public class Company implements Serializable {
         Set<Store> result = new HashSet<>();
         for (Store current : stores) {
             if (current.getName().contains(name)) {
-                result.add(current);
-            }
-        }
-        return result;
-    }
-    
-    public static Collection<Client> searchClientById(int id) {
-        Set<Client> result = new HashSet<>();
-        for (Client current : clients) {
-            if (current.getId() == id) {
                 result.add(current);
             }
         }
