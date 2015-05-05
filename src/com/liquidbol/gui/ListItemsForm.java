@@ -75,8 +75,7 @@ public class ListItemsForm extends JFrame {
             }
         });
 
-        searchCB = new JComboBox();
-        searchCB.setModel(new DefaultComboBoxModel(SEARCH_PARAMETERS));
+        searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
         searchBox.addKeyListener(new KeyListener() {
 

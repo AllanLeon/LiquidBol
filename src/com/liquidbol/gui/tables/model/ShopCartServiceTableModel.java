@@ -13,7 +13,7 @@ import javax.swing.table.AbstractTableModel;
 public class ShopCartServiceTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"#", "Cod.", "Descripcion", "P/U"};
-    private final List<Service> services;
+    private List<Service> services;
 
     public ShopCartServiceTableModel(Collection<Service> services) {
         this.services = new ArrayList<>(services);
@@ -65,5 +65,10 @@ public class ShopCartServiceTableModel extends AbstractTableModel {
     
     public Service getServiceAt(int row) {
         return services.get(row);
+    }
+    
+    public void setServices(Collection<Service> services) {
+        this.services = new ArrayList<>(services);
+        fireTableDataChanged();
     }
 }
