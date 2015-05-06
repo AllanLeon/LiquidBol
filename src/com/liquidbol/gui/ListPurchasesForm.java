@@ -6,10 +6,13 @@ import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,6 +33,8 @@ import javax.swing.table.TableRowSorter;
  */
 public class ListPurchasesForm extends JFrame {
 
+    private final String[] SEARCH_PARAMETERS = {"Proveedor"};
+    
     private JPanel contentPane;
     private JLabel title;
     private JButton addBtn;
@@ -38,6 +43,7 @@ public class ListPurchasesForm extends JFrame {
     private JButton searchBtn;
     private JTable purchasesTable;
     private JButton backBtn;
+    private PurchaseListTableModel purchasesTableModel;
 
     public ListPurchasesForm() {
         UIStyle sty = new UIStyle();
@@ -69,24 +75,29 @@ public class ListPurchasesForm extends JFrame {
             }
         });
 
-        searchCB = new JComboBox();
+        searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
             Logger.getLogger(ListPurchasesForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchBox.addKeyListener(new KeyListener() {
 
-        /*String[] columnNames = {"Cod",
-            "Monto Total",
-            "Fecha"
-        };
-        Object[][] tempData = {
-            {"00002", "3820.50", "15/01/2015"},
-            {"00001", "21150.00", "21/12/2014"}
-        };
-        purchasesTable = new JTable(tempData, columnNames); */
-        purchasesTable = new JTable(new PurchaseListTableModel(Company.getAllSuppliers()));
+            @Override
+            public void keyTyped(KeyEvent ke) {}
+
+            @Override
+            public void keyPressed(KeyEvent ke) {}
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                updatePurchaseTableModel();
+            }
+        });
+
+        purchasesTableModel = new PurchaseListTableModel(Company.getAllSuppliers());
+        purchasesTable = new JTable(purchasesTableModel);
         purchasesTable.getTableHeader().setReorderingAllowed(false);
         purchasesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         purchasesTable.setRowHeight(25);
@@ -122,5 +133,14 @@ public class ListPurchasesForm extends JFrame {
         contentPane.add(searchBtn);
         contentPane.add(purchasesTableSP);
         contentPane.add(backBtn);
+    }
+    
+    private void updatePurchaseTableModel() {
+        switch (searchCB.getSelectedIndex()) {
+            case 0:
+                purchasesTableModel.setSuppliers(Company.searchSuppliersByName(searchBox.getText()));
+                break;
+            default:;
+        }
     }
 }
