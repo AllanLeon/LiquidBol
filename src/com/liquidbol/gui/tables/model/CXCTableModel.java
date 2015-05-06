@@ -14,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class CXCTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Saldo", "Credito", "Fecha Limite"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Saldo", "Credito", "Fecha Limite", "Estado"};
     private final List<Client> clients;
     private final List<CXC> receivableAccounts;
 
@@ -67,6 +67,8 @@ public class CXCTableModel extends AbstractTableModel {
                 return cxc.getCreditMaxAmount();
             case 5:
                 return cxc.getCreditLimitDate();
+            case 6:
+                return cxc.getState();
             default:
                 return null;
         }
