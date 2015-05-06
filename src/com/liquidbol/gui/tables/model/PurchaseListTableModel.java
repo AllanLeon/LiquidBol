@@ -21,16 +21,19 @@ public class PurchaseListTableModel extends AbstractTableModel {
     public PurchaseListTableModel(Collection<Supplier> suppliers) {
         this.suppliers = new ArrayList<>();
         purchases = new ArrayList<>();
-        initializeLists(suppliers);
+        updateLists(suppliers);
     }
     
-    private void initializeLists(Collection<Supplier> suppliers) {
+    private void updateLists(Collection<Supplier> suppliers) {
+        this.suppliers.clear();
+        purchases.clear();
         for (Supplier supplier : suppliers) {
             for (Purchase purchase : supplier.getAllPurchases()) {
                 this.suppliers.add(supplier);
                 purchases.add(purchase);
             }
         }
+        fireTableDataChanged();
     }
     
     @Override
@@ -80,5 +83,9 @@ public class PurchaseListTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return purchases.size();
+    }
+    
+    public void setSuppliers(Collection<Supplier> suppliers) {
+        updateLists(suppliers);
     }
 }

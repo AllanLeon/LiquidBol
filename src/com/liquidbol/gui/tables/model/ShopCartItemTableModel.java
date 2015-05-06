@@ -15,23 +15,22 @@ import javax.swing.table.AbstractTableModel;
 public class ShopCartItemTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"#", "Cod.", "STOCK", "Unidad",
-        "Descripcion", "P/U"};    
-    private final List<Inventory> inventorys;
-    private final List<Store> stores;
+        "Descripcion", "P/U"};
+    private List<Inventory> inventorys;
+    private Store store;
 
-    public ShopCartItemTableModel(Collection<Store> stores) {
-        this.stores = new ArrayList<>();
+    public ShopCartItemTableModel(Store store) {
+        this.store = store;
         this.inventorys = new ArrayList<>();
-        initializeLists(stores);
+        updateInventorys();
     }
     
-    private void initializeLists(Collection<Store> stores) {
-        for (Store store : stores) {
-            for (Inventory inventory : store.getValidInventorys()) {
-                inventorys.add(inventory);
-                this.stores.add(store);
-            }
+    private void updateInventorys() {
+        inventorys.clear();
+        for (Inventory inventory : store.getValidInventorys()) {
+            inventorys.add(inventory);
         }
+        fireTableDataChanged();
     }
     
     @Override
@@ -85,5 +84,15 @@ public class ShopCartItemTableModel extends AbstractTableModel {
     
     public Item getItemAt(int row) {
         return inventorys.get(row).getItem();
+    }
+    
+    public void setStore(Store store) {
+        this.store = store;
+        updateInventorys();
+    }
+    
+    public void setInventorys(Collection<Inventory> inventorys) {
+        this.inventorys = new ArrayList<>(inventorys);
+        fireTableDataChanged();
     }
 }

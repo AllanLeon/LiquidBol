@@ -19,6 +19,8 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -53,6 +55,8 @@ import javax.swing.table.TableRowSorter;
  */
 public class ShopCartForm extends JFrame {
 
+    private final String[] SEARCH_PARAMETERS = {"Cod.", "Descripcion", "Tipo"};
+    
     private JPanel parentPane;
     private JPanel inventoryPane;
     private JLabel title;
@@ -74,11 +78,16 @@ public class ShopCartForm extends JFrame {
     private JButton toEstimateBtn;
     private JButton backBtn;
     private Bill newBill;
-    private final ArrayList<Store> stores;
+    private ShopCartItemTableModel itemsTableModel;
+    private ShopCartServiceTableModel servicesTableModel;
+    private ShopCartTableModel shopCartTableModel;
+    private List<Store> stores;
+    private Store selectedStore;
 
     public ShopCartForm() {
         UIStyle sty = new UIStyle();
         stores = new ArrayList<>(Company.getAllStores());
+        selectedStore = stores.get(0);
         initComponents();
         setVisible(true);
     }
@@ -117,33 +126,43 @@ public class ShopCartForm extends JFrame {
         } catch (PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(ShopCartForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        branchNameCB.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                selectedStore = stores.get(branchNameCB.getSelectedIndex());
+                itemsTableModel.setStore(selectedStore);
+            }
+        });
         
-        searchCB = new JComboBox();
+        searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
             Logger.getLogger(ShopCartForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchBox.addKeyListener(new KeyListener() {
 
-        itemsLbl = new JLabel("Articulos");
-        /*String[] columnNames = {"Cod",
-            "STOCK",
-            "Unidad",
-            "Descripcion",
-            "Precio"
-        };
-        Object[][] tempData = {
-            {"00126", 19.5, "Kg.", "Electrodo 7018 1/8", 18.00},
-            {"00119", 29.75, "Kg.", "Electrodo 6013 1/8", 18.00}
-        };
-        itemsTable = new JTable(new DefaultTableModel(tempData, columnNames) */
-        itemsTable = new JTable(new ShopCartItemTableModel(Company.getAllStores()) {
             @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
+            public void keyTyped(KeyEvent ke) {
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                updateTableModels();
             }
         });
+
+        itemsLbl = new JLabel("Articulos");
+        itemsTableModel = new ShopCartItemTableModel(selectedStore);
+        itemsTable = new JTable(itemsTableModel);
         itemsTable.getTableHeader().setReorderingAllowed(false);
         itemsTable.setFont(new Font("Arial", Font.BOLD, 16));
         itemsTable.setRowHeight(25);
@@ -159,16 +178,8 @@ public class ShopCartForm extends JFrame {
         JScrollPane itemsTableSP = new JScrollPane(itemsTable);
 
         serviceLbl = new JLabel("Servicios");
-        /*String[] columnNames2 = {"Cod", "Descripcion", "Precio"};
-        Object[][] tempData2 = {
-            {"00126", "Electrodo 7018 1/8", 18.00}, {"00119", "Electrodo 6013 1/8", 18.00}};
-        serviceTable = new JTable(new DefaultTableModel(tempData2, columnNames2)*/
-        serviceTable = new JTable(new ShopCartServiceTableModel(Company.getAllServices()) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        });
+        servicesTableModel = new ShopCartServiceTableModel(Company.getAllServices());
+        serviceTable = new JTable(servicesTableModel);
         serviceTable.getTableHeader().setReorderingAllowed(false);
         serviceTable.setFont(new Font("Arial", Font.BOLD, 16));
         serviceTable.setRowHeight(25);
@@ -184,24 +195,11 @@ public class ShopCartForm extends JFrame {
         cartPane = new JPanel();
         cartPane.setBorder(BorderFactory.createTitledBorder("Carrito"));
         cartPane.setLayout(null);
-/*
-        String[] columnNames3 = {"Cod", "CANT", "Unidad", "Descripcion", "Precio Unit.", "Precio"};
-        Object[][] tempData3 = {
-            {"00126", "", "Kg.", "Electrodo 7018 1/8", 18.00, 36.00},
-            {"00119", "", "Kg.", "Electrodo 6013 1/8", 18.00, 36.00}
-        };
-        wholeTable = new JTable(new DefaultTableModel(tempData3, columnNames3) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                if (column == 1) {
-                    return true;
-                }
-                return false;
-            }
-        }); */
+        
         List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
-        newBill = new Bill(0, stores.get(0), employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
-        wholeTable = new JTable(new ShopCartTableModel(newBill));
+        newBill = new Bill(0, selectedStore, employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
+        shopCartTableModel = new ShopCartTableModel(newBill);
+        wholeTable = new JTable(shopCartTableModel);
         wholeTable.getTableHeader().setReorderingAllowed(false);
         wholeTable.setFont(new Font("Arial", Font.BOLD, 16));
         wholeTable.setRowHeight(25);
@@ -310,7 +308,6 @@ public class ShopCartForm extends JFrame {
         aTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
-                //int colCount = aTable.getColumnCount();
                 if (me.getClickCount() == 2) {
                     JTable table = (JTable) me.getSource();
                     Point p = me.getPoint();
@@ -327,32 +324,27 @@ public class ShopCartForm extends JFrame {
                         Item reqItem = model.getItemAt(row);
                         newBill.addItemSale(new ItemSale(0, reqItem, 0, ""));
                     }
-                    cartTotal.setText(String.format("%.2f",newBill.calculateTotalAmount()));
                     shopCart.updateLists();
-                    /*Object[] rowdata = {};
-                    Object[] obj = new Object[]{};
-                    ArrayList<Object> newObj = new ArrayList<Object>(Arrays.asList(obj));
-                    if (!isService) {
-                        ShopCartServiceTableModel model = (ShopCartServiceTableModel) bTable.getModel();
-                        for (int i = 0; i < colCount; i++) {
-                            if (i == 1) {
-                                newObj.add("");
-                            } else {
-                                newObj.add(table.getValueAt(row, i));
-                            }
-                        }
-                        model.addRow(newObj.toArray());
-                    } else {
-                        ShopCartItemTableModel sourceModel = (ShopCartItemTableModel) bTable.getModel();
-                        newObj.add(table.getValueAt(row, 0));
-                        newObj.add("");
-                        newObj.add("");
-                        newObj.add(table.getValueAt(row, 1));
-                        newObj.add(table.getValueAt(row, 2));
-                        model.addRow(newObj.toArray());
-                    }*/
                 }
             }
         });
+    }
+    
+    private void updateTableModels() {
+        switch (searchCB.getSelectedIndex()) {
+            case 0:
+                itemsTableModel.setInventorys(selectedStore.searchInventorysByItemId(searchBox.getText()));
+                servicesTableModel.setServices(Company.searchServicesById(searchBox.getText()));
+                break;
+            case 1:
+                itemsTableModel.setInventorys(selectedStore.searchInventorysByItemDescription(searchBox.getText()));
+                servicesTableModel.setServices(Company.searchServicesByDescription(searchBox.getText()));
+                break;
+            case 2:
+                itemsTableModel.setInventorys(selectedStore.searchInventorysByItemType(searchBox.getText()));
+                servicesTableModel.setServices(Company.searchServicesByType(searchBox.getText()));
+                break;
+            default:;
+        }
     }
 }

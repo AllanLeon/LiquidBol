@@ -14,7 +14,7 @@ public class ClientTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "NIT",
         "Factura", "Taller/Emp.", "Ruta", "Frec."};
-    private final List<Client> clients;
+    private List<Client> clients;
 
     public ClientTableModel(Collection<Client> clients) {
         this.clients = new ArrayList<>(clients);
@@ -70,5 +70,10 @@ public class ClientTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return clients.size();
+    }
+    
+    public void setClients(Collection<Client> clients) {
+        this.clients = new ArrayList<>(clients);
+        fireTableDataChanged();
     }
 }

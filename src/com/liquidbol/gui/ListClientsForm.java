@@ -6,10 +6,13 @@ import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,6 +33,8 @@ import javax.swing.table.TableRowSorter;
  */
 public class ListClientsForm extends JFrame {
 
+    private final String[] SEARCH_PARAMETERS = {"Cod.", "Nombre", "Nit", "Factura"};
+    
     private JPanel contentPane;
     private JLabel title;
     private JButton addBtn;
@@ -38,6 +43,7 @@ public class ListClientsForm extends JFrame {
     private JButton searchBtn;
     private JTable clientsTable;
     private JButton backBtn;
+    private ClientTableModel clientsTableModel;
 
     public ListClientsForm() {
         UIStyle sty = new UIStyle();
@@ -69,29 +75,30 @@ public class ListClientsForm extends JFrame {
             }
         });
 
-        searchCB = new JComboBox();
+        searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
             Logger.getLogger(ListClientsForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchBox.addKeyListener(new KeyListener() {
 
-        /*String[] columnNames = {"Cod",
-            "Nombre",
-            "NIT",
-            "Factura",
-            "Taller/Emp.",
-            "Ruta",
-            "Frec."
-        };
-        Object[][] tempData = {
-            {"001", "Gabino Quispia", "5923804019", "-", "Taller Coso", "SI", "A"},
-            {"002", "Efrain Choque", "4182093", "CHOQUE", "Taller Coso #2", "SI", "B"}
-        };
-        clientsTable = new JTable(tempData, columnNames); */
+            @Override
+            public void keyTyped(KeyEvent ke) { }
+
+            @Override
+            public void keyPressed(KeyEvent ke) { }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                updateClientTableModel();
+            }
+        });
         
-        clientsTable = new JTable(new ClientTableModel(Company.getAllClients()));
+        
+        clientsTableModel = new ClientTableModel(Company.getAllClients());
+        clientsTable = new JTable(clientsTableModel);
         clientsTable.getTableHeader().setReorderingAllowed(false);
         clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -131,5 +138,23 @@ public class ListClientsForm extends JFrame {
         contentPane.add(searchBtn);
         contentPane.add(clientsTableSP);
         contentPane.add(backBtn);
+    }
+    
+    private void updateClientTableModel() {
+        switch (searchCB.getSelectedIndex()) {
+            case 0:
+                clientsTableModel.setClients(Company.searchClientsById(searchBox.getText()));
+                break;
+            case 1:
+                clientsTableModel.setClients(Company.searchClientsByName(searchBox.getText()));
+                break;
+            case 2:
+                clientsTableModel.setClients(Company.searchClientsByNit(searchBox.getText()));
+                break;
+            case 3:
+                clientsTableModel.setClients(Company.searchClientsByBillName(searchBox.getText()));
+                break;
+            default:;
+        }
     }
 }

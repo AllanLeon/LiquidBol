@@ -14,7 +14,8 @@ public class ItemTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Unidad", "Descripcion",
         "Marca", "Industria", "Tipo", "Subtipo", "Costo", "Precio"};
-    private final List<Item> items;
+    
+    private List<Item> items;
 
     public ItemTableModel(Collection<Item> item) {
         this.items = new ArrayList<>(item);
@@ -74,5 +75,10 @@ public class ItemTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return items.size();
+    }
+    
+    public void setItems(Collection<Item> item) {
+        this.items = new ArrayList<>(item);
+        fireTableDataChanged();
     }
 }

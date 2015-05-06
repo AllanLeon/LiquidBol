@@ -14,23 +14,26 @@ import javax.swing.table.AbstractTableModel;
  */
 public class RechargeableItemTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cliente", "Descripcion", "Fecha garantia", "Observaciones"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cliente", "Descripcion", "Tipo", "Fecha garantia", "Observaciones"};
     private final List<Client> clients;
     private final List<RechargeableItem> rechargeableItems;
 
     public RechargeableItemTableModel(Collection<Client> clients) {
         this.clients = new ArrayList<>();
         rechargeableItems = new ArrayList<>();
-        initializeLists(clients);
+        updateLists(clients);
     }
     
-    private void initializeLists(Collection<Client> clients) {
+    private void updateLists(Collection<Client> clients) {
+        this.clients.clear();
+        rechargeableItems.clear();
         for (Client client : clients) {
             for (RechargeableItem rechargeableItem : client.getAllRechargeableItems()) {
                 this.clients.add(client);
                 rechargeableItems.add(rechargeableItem);
             }
         }
+        fireTableDataChanged();
     }
     
     @Override
@@ -38,7 +41,7 @@ public class RechargeableItemTableModel extends AbstractTableModel {
         switch (columnIndex) {
             case 0:
                 return Integer.class;
-            case 4:
+            case 5:
                 return Date.class;
             default :
                 return String.class;
@@ -59,8 +62,10 @@ public class RechargeableItemTableModel extends AbstractTableModel {
             case 3:
                 return rechargeableItem.getDescription();
             case 4:
-                return rechargeableItem.getWarrantyLimitDate();
+                return rechargeableItem.getType();
             case 5:
+                return rechargeableItem.getWarrantyLimitDate();
+            case 6:
                 return rechargeableItem.getObs();
             default:
                 return null;
@@ -80,5 +85,45 @@ public class RechargeableItemTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return rechargeableItems.size();
+    }
+    
+    public void updateListsByRechargeableItemId(Collection<Client> clients, String rechargeableItemId) {
+        this.clients.clear();
+        rechargeableItems.clear();
+        for (Client client : clients) {
+            for (RechargeableItem rechargeableItem : client.searchRechargeableItemsById(rechargeableItemId)) {
+                this.clients.add(client);
+                rechargeableItems.add(rechargeableItem);
+            }
+        }
+        fireTableDataChanged();
+    }
+    
+    public void updateListsByRechargeableItemDescription(Collection<Client> clients, String rechargeableItemDesc) {
+        this.clients.clear();
+        rechargeableItems.clear();
+        for (Client client : clients) {
+            for (RechargeableItem rechargeableItem : client.searchRechargeableItemsByDescription(rechargeableItemDesc)) {
+                this.clients.add(client);
+                rechargeableItems.add(rechargeableItem);
+            }
+        }
+        fireTableDataChanged();
+    }
+    
+    public void updateListsByRechargeableItemType(Collection<Client> clients, String rechargeableItemType) {
+        this.clients.clear();
+        rechargeableItems.clear();
+        for (Client client : clients) {
+            for (RechargeableItem rechargeableItem : client.searchRechargeableItemsByType(rechargeableItemType)) {
+                this.clients.add(client);
+                rechargeableItems.add(rechargeableItem);
+            }
+        }
+        fireTableDataChanged();
+    }
+    
+    public void setClients(Collection<Client> clients) {
+        updateLists(clients);
     }
 }

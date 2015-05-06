@@ -6,10 +6,13 @@ import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -29,6 +32,8 @@ import javax.swing.table.TableRowSorter;
  * @author Franco
  */
 public class ListSuppliersForm extends JFrame {
+    
+    private final String[] SEARCH_PARAMETERS = {"Nombre", "Compañia", "Ciudad"};
 
     private JPanel contentPane;
     private JLabel title;
@@ -38,6 +43,7 @@ public class ListSuppliersForm extends JFrame {
     private JButton searchBtn;
     private JTable suppliersTable;
     private JButton backBtn;
+    private SupplierTableModel suppliersTableModel;
 
     public ListSuppliersForm() {
         UIStyle sty = new UIStyle();
@@ -69,24 +75,29 @@ public class ListSuppliersForm extends JFrame {
             }
         });
 
-        searchCB = new JComboBox();
+        searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
             Logger.getLogger(ListSuppliersForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchBox.addKeyListener(new KeyListener() {
 
-        /*String[] columnNames = {"Id",
-            "Nombre",
-            "Compañia"
-        };
-        Object[][] tempData = {
-            {"PR-001", "Remberto Flores", "Esa empresa"},
-            {"PR-002", "Jose Jose", "La otra"}
-        };
-        suppliersTable = new JTable(tempData, columnNames); */
-        suppliersTable = new JTable(new SupplierTableModel(Company.getAllSuppliers()));
+            @Override
+            public void keyTyped(KeyEvent ke) { }
+
+            @Override
+            public void keyPressed(KeyEvent ke) { }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                updateSupplierTableModel();
+            }
+        });
+
+        suppliersTableModel = new SupplierTableModel(Company.getAllSuppliers());
+        suppliersTable = new JTable(suppliersTableModel);
         suppliersTable.getTableHeader().setReorderingAllowed(false);
         suppliersTable.setFont(new Font("Arial", Font.PLAIN, 20));
         suppliersTable.setRowHeight(25);
@@ -123,5 +134,20 @@ public class ListSuppliersForm extends JFrame {
         contentPane.add(searchBtn);
         contentPane.add(clientsTableSP);
         contentPane.add(backBtn);
+    }
+    
+    private void updateSupplierTableModel() {
+        switch (searchCB.getSelectedIndex()) {
+            case 0:
+                suppliersTableModel.setSuppliers(Company.searchSuppliersByName(searchBox.getText()));
+                break;
+            case 1:
+                suppliersTableModel.setSuppliers(Company.searchSuppliersByCompany(searchBox.getText()));
+                break;
+            case 2:
+                suppliersTableModel.setSuppliers(Company.searchSuppliersByCity(searchBox.getText()));
+                break;
+            default:;
+        }
     }
 }

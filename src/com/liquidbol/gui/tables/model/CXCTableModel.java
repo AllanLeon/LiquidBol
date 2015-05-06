@@ -14,23 +14,26 @@ import javax.swing.table.AbstractTableModel;
  */
 public class CXCTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Saldo", "Credito", "Fecha Limite"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Saldo", "Credito", "Fecha Limite", "Estado"};
     private final List<Client> clients;
     private final List<CXC> receivableAccounts;
 
     public CXCTableModel(Collection<Client> clients) {
         this.clients = new ArrayList<>();
         receivableAccounts = new ArrayList<>();
-        initializeValidCXCLists(clients);
+        updateLists(clients);
     }
     
-    private void initializeValidCXCLists(Collection<Client> clients) {
+    private void updateLists(Collection<Client> clients) {
+        this.clients.clear();
+        receivableAccounts.clear();
         for (Client client : clients) {
-            for (CXC cxc : client.getValidReceivableAccounts()) {
+            for (CXC cxc : client.getAllReceivableAccounts()) {
                 this.clients.add(client);
                 receivableAccounts.add(cxc);
             }
         }
+        fireTableDataChanged();
     }
     
     @Override
@@ -64,6 +67,8 @@ public class CXCTableModel extends AbstractTableModel {
                 return cxc.getCreditMaxAmount();
             case 5:
                 return cxc.getCreditLimitDate();
+            case 6:
+                return cxc.getState();
             default:
                 return null;
         }
@@ -82,5 +87,21 @@ public class CXCTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return receivableAccounts.size();
+    }
+    
+    public void setClients(Collection<Client> clients) {
+        updateLists(clients);
+    }
+    
+    public void updateListsByCXCState(Collection<Client> clients, String cxcState) {
+        this.clients.clear();
+        receivableAccounts.clear();
+        for (Client client : clients) {
+            for (CXC cxc : client.searchReceivableAccountsByState(cxcState)) {
+                this.clients.add(client);
+                receivableAccounts.add(cxc);
+            }
+        }
+        fireTableDataChanged();
     }
 }

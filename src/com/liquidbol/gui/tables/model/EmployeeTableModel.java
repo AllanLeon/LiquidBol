@@ -20,16 +20,19 @@ public class EmployeeTableModel extends AbstractTableModel {
     public EmployeeTableModel(Collection<Store> stores) {
         this.stores = new ArrayList<>();
         this.employees = new ArrayList<>();
-        initializeLists(stores);
+        updateLists(stores);
     }
     
-    private void initializeLists(Collection<Store> stores) {
+    private void updateLists(Collection<Store> stores) {
+        this.stores.clear();
+        employees.clear();
         for (Store store : stores) {
             for (Employee employee : store.getAllEmployees()) {
                 this.stores.add(store);
                 employees.add(employee);
             }
         }
+        fireTableDataChanged();
     }
     
     @Override
@@ -77,5 +80,45 @@ public class EmployeeTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return employees.size();
+    }
+    
+    public void setStores(Collection<Store> stores) {
+        updateLists(stores);
+    }
+    
+    public void updateListsByEmployeeId(Collection<Store> stores, String employeeId) {
+        this.stores.clear();
+        employees.clear();
+        for (Store store : stores) {
+            for (Employee employee : store.searchEmployeesById(employeeId)) {
+                this.stores.add(store);
+                employees.add(employee);
+            }
+        }
+        fireTableDataChanged();
+    }
+    
+    public void updateListsByEmployeeName(Collection<Store> stores, String employeeName) {
+        this.stores.clear();
+        employees.clear();
+        for (Store store : stores) {
+            for (Employee employee : store.searchEmployeesByName(employeeName)) {
+                this.stores.add(store);
+                employees.add(employee);
+            }
+        }
+        fireTableDataChanged();
+    }
+    
+    public void updateListsByEmployeeType(Collection<Store> stores, String employeeType) {
+        this.stores.clear();
+        employees.clear();
+        for (Store store : stores) {
+            for (Employee employee : store.searchEmployeesByType(employeeType)) {
+                this.stores.add(store);
+                employees.add(employee);
+            }
+        }
+        fireTableDataChanged();
     }
 }
