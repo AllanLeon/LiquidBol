@@ -14,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class RechargeableItemTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cliente", "Descripcion", "Fecha garantia", "Observaciones"};
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Cliente", "Descripcion", "Tipo", "Fecha garantia", "Observaciones"};
     private final List<Client> clients;
     private final List<RechargeableItem> rechargeableItems;
 
@@ -41,7 +41,7 @@ public class RechargeableItemTableModel extends AbstractTableModel {
         switch (columnIndex) {
             case 0:
                 return Integer.class;
-            case 4:
+            case 5:
                 return Date.class;
             default :
                 return String.class;
@@ -62,8 +62,10 @@ public class RechargeableItemTableModel extends AbstractTableModel {
             case 3:
                 return rechargeableItem.getDescription();
             case 4:
-                return rechargeableItem.getWarrantyLimitDate();
+                return rechargeableItem.getType();
             case 5:
+                return rechargeableItem.getWarrantyLimitDate();
+            case 6:
                 return rechargeableItem.getObs();
             default:
                 return null;
