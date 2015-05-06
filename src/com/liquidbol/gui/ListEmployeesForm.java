@@ -6,10 +6,13 @@ import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,6 +33,8 @@ import javax.swing.table.TableRowSorter;
  */
 public class ListEmployeesForm extends JFrame {
 
+    private final String[] SEARCH_PARAMETERS = {"Cod.", "Nombre", "Tipo", "Sucursal"};
+    
     private JPanel contentPane;
     private JLabel title;
     private JButton addBtn;
@@ -38,6 +43,7 @@ public class ListEmployeesForm extends JFrame {
     private JButton searchBtn;
     private JTable employeesTable;
     private JButton backBtn;
+    private EmployeeTableModel employeesTableModel;
 
     public ListEmployeesForm() {
         UIStyle sty = new UIStyle();
@@ -69,24 +75,29 @@ public class ListEmployeesForm extends JFrame {
             }
         });
 
-        searchCB = new JComboBox();
+        searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
             Logger.getLogger(ListEmployeesForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchBox.addKeyListener(new KeyListener() {
 
-        /*String[] columnNames = {"C.I.",
-            "Nombre",
-            "Telf/Celular 1"
-        };
-        Object[][] tempData = {
-            {"5382191", "Jesus Ledezma", "74823991"},
-            {"4809321", "Lupe Cardenas", "71109254"}
-        };
-        employeesTable = new JTable(tempData, columnNames); */
-        employeesTable = new JTable(new EmployeeTableModel(Company.getAllStores()));
+            @Override
+            public void keyTyped(KeyEvent ke) { }
+
+            @Override
+            public void keyPressed(KeyEvent ke) { }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                updateEmployeeTableModel();
+            }
+        });
+
+        employeesTableModel = new EmployeeTableModel(Company.getAllStores());
+        employeesTable = new JTable(employeesTableModel);
         employeesTable.getTableHeader().setReorderingAllowed(false);
         employeesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         employeesTable.setRowHeight(25);
@@ -123,5 +134,23 @@ public class ListEmployeesForm extends JFrame {
         contentPane.add(searchBtn);
         contentPane.add(employeesTableSP);
         contentPane.add(backBtn);
+    }
+    
+    private void updateEmployeeTableModel() {
+        switch (searchCB.getSelectedIndex()) {
+            case 0:
+                employeesTableModel.updateListsByEmployeeId(Company.getAllStores(), searchBox.getText());
+                break;
+            case 1:
+                employeesTableModel.updateListsByEmployeeName(Company.getAllStores(), searchBox.getText());
+                break;
+            case 2:
+                employeesTableModel.updateListsByEmployeeType(Company.getAllStores(), searchBox.getText());
+                break;
+            case 3:
+                employeesTableModel.setStores(Company.searchStoresByName(searchBox.getText()));
+                break;
+            default:;
+        }
     }
 }

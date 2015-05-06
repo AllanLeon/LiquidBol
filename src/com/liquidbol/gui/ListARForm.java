@@ -6,10 +6,13 @@ import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,6 +33,8 @@ import javax.swing.table.TableRowSorter;
  */
 public class ListARForm extends JFrame {
 
+    private final String[] SEARCH_PARAMETERS = {"Cod.", "Descripcion", "Tipo", "Cliente"};
+    
     private JPanel contentPane;
     private JLabel title;
     private JButton addBtn;
@@ -38,6 +43,7 @@ public class ListARForm extends JFrame {
     private JButton searchBtn;
     private JTable arsTable;
     private JButton backBtn;
+    private RechargeableItemTableModel rechargeableItemTableModel;
 
     public ListARForm() {
         UIStyle sty = new UIStyle();
@@ -62,27 +68,29 @@ public class ListARForm extends JFrame {
         
         addBtn = new JButton("+");
 
-        searchCB = new JComboBox();
+        searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
             Logger.getLogger(ListARForm.class.getName()).log(Level.SEVERE, null, ex);
         }
+        searchBox.addKeyListener(new KeyListener() {
 
-        /*String[] columnNames = {"Cod",
-            "Cod Ext.",
-            "Cliente",
-            "Descripcion",
-            "Fecha Garantia",
-            "Obs"
-        };
-        Object[][] tempData = {
-            {"00001", "012453", "Gabino Quispia", "Extintor de Polvo Quimico 3 Lb.", "30/06/15", "-"},
-            {"00002", "E-1227", "Efrain Choque", "Tubo de Oxigeno industrial 6 Mts3", "01/07/15", "-"}
-        };
-        arsTable = new JTable(tempData, columnNames); */
-        arsTable = new JTable(new RechargeableItemTableModel(Company.getAllClients()));
+            @Override
+            public void keyTyped(KeyEvent ke) { }
+
+            @Override
+            public void keyPressed(KeyEvent ke) { }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                updateRechargeableItemTableModel();
+            }
+        });
+
+        rechargeableItemTableModel = new RechargeableItemTableModel(Company.getAllClients());
+        arsTable = new JTable(rechargeableItemTableModel);
         arsTable.getTableHeader().setReorderingAllowed(false);
         arsTable.setFont(new Font("Arial", Font.PLAIN, 16));
         arsTable.setRowHeight(25);
@@ -121,5 +129,23 @@ public class ListARForm extends JFrame {
         contentPane.add(searchBtn);
         contentPane.add(arsTableSP);
         contentPane.add(backBtn);
+    }
+    
+    private void updateRechargeableItemTableModel() {
+        switch (searchCB.getSelectedIndex()) {
+            case 0:
+                rechargeableItemTableModel.updateListsByRechargeableItemId(Company.getAllClients(), searchBox.getText());
+                break;
+            case 1:
+                rechargeableItemTableModel.updateListsByRechargeableItemDescription(Company.getAllClients(), searchBox.getText());
+                break;
+            case 2:
+                rechargeableItemTableModel.updateListsByRechargeableItemType(Company.getAllClients(), searchBox.getText());
+                break;
+            case 3:
+                rechargeableItemTableModel.setClients(Company.searchClientsByName(searchBox.getText()));
+                break;
+            default:;
+        }
     }
 }
