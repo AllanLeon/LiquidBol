@@ -13,7 +13,7 @@ import javax.swing.table.AbstractTableModel;
 public class SupplierTableModel extends AbstractTableModel {
     
     private static final String[] COLUMN_NAMES = {"Nro.", "Cod.", "Nombre", "Compañia", "Ciudad"};
-    private final List<Supplier> suppliers;
+    private List<Supplier> suppliers;
 
     public SupplierTableModel(Collection<Supplier> suppliers) {
         this.suppliers = new ArrayList<>(suppliers);
@@ -61,5 +61,10 @@ public class SupplierTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return suppliers.size();
-    }   
+    }
+    
+    public void setSuppliers(Collection<Supplier> suppliers) {
+        this.suppliers = new ArrayList<>(suppliers);
+        fireTableDataChanged();
+    }
 }

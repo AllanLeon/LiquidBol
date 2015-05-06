@@ -119,10 +119,10 @@ public class Purchase implements Serializable {
         itemPurchases.add(itemPurchase);
     }
     
-    public Collection<ItemPurchase> findItemPurchasesByItemId(String itemId) {
+    public Collection<ItemPurchase> searchItemPurchasesByItemId(String itemId) {
         Set<ItemPurchase> result = new HashSet<>();
         for (ItemPurchase purchase : itemPurchases) {
-            if (purchase.getItem().getId().equals(itemId)) {
+            if (purchase.getItem().getId().contains(itemId)) {
                 result.add(purchase);
             }
         }
@@ -135,7 +135,7 @@ public class Purchase implements Serializable {
         StoreServices storeServices = new StoreServices();
         for (ItemPurchase itemPurchase : itemPurchases) {
             try {
-                inventory = stores.get(0).getInventoryByItemId(itemPurchase.getItem().getId());
+                inventory = stores.get(0).searchInventoryByItemId(itemPurchase.getItem().getId());
                 inventory.increaseQuantityBy(itemPurchase.getQuantity());
             } catch (OperationFailedException ex) {
                 try {

@@ -21,16 +21,19 @@ public class RechargeableItemTableModel extends AbstractTableModel {
     public RechargeableItemTableModel(Collection<Client> clients) {
         this.clients = new ArrayList<>();
         rechargeableItems = new ArrayList<>();
-        initializeLists(clients);
+        updateLists(clients);
     }
     
-    private void initializeLists(Collection<Client> clients) {
+    private void updateLists(Collection<Client> clients) {
+        this.clients.clear();
+        rechargeableItems.clear();
         for (Client client : clients) {
             for (RechargeableItem rechargeableItem : client.getAllRechargeableItems()) {
                 this.clients.add(client);
                 rechargeableItems.add(rechargeableItem);
             }
         }
+        fireTableDataChanged();
     }
     
     @Override
@@ -80,5 +83,45 @@ public class RechargeableItemTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return rechargeableItems.size();
+    }
+    
+    public void updateListsByRechargeableItemId(Collection<Client> clients, String rechargeableItemId) {
+        this.clients.clear();
+        rechargeableItems.clear();
+        for (Client client : clients) {
+            for (RechargeableItem rechargeableItem : client.searchRechargeableItemsById(rechargeableItemId)) {
+                this.clients.add(client);
+                rechargeableItems.add(rechargeableItem);
+            }
+        }
+        fireTableDataChanged();
+    }
+    
+    public void updateListsByRechargeableItemDescription(Collection<Client> clients, String rechargeableItemDesc) {
+        this.clients.clear();
+        rechargeableItems.clear();
+        for (Client client : clients) {
+            for (RechargeableItem rechargeableItem : client.searchRechargeableItemsByDescription(rechargeableItemDesc)) {
+                this.clients.add(client);
+                rechargeableItems.add(rechargeableItem);
+            }
+        }
+        fireTableDataChanged();
+    }
+    
+    public void updateListsByRechargeableItemType(Collection<Client> clients, String rechargeableItemType) {
+        this.clients.clear();
+        rechargeableItems.clear();
+        for (Client client : clients) {
+            for (RechargeableItem rechargeableItem : client.searchRechargeableItemsByType(rechargeableItemType)) {
+                this.clients.add(client);
+                rechargeableItems.add(rechargeableItem);
+            }
+        }
+        fireTableDataChanged();
+    }
+    
+    public void setClients(Collection<Client> clients) {
+        updateLists(clients);
     }
 }

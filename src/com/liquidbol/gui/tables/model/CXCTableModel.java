@@ -21,16 +21,19 @@ public class CXCTableModel extends AbstractTableModel {
     public CXCTableModel(Collection<Client> clients) {
         this.clients = new ArrayList<>();
         receivableAccounts = new ArrayList<>();
-        initializeValidCXCLists(clients);
+        updateLists(clients);
     }
     
-    private void initializeValidCXCLists(Collection<Client> clients) {
+    private void updateLists(Collection<Client> clients) {
+        this.clients.clear();
+        receivableAccounts.clear();
         for (Client client : clients) {
-            for (CXC cxc : client.getValidReceivableAccounts()) {
+            for (CXC cxc : client.getAllReceivableAccounts()) {
                 this.clients.add(client);
                 receivableAccounts.add(cxc);
             }
         }
+        fireTableDataChanged();
     }
     
     @Override
@@ -82,5 +85,21 @@ public class CXCTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return receivableAccounts.size();
+    }
+    
+    public void setClients(Collection<Client> clients) {
+        updateLists(clients);
+    }
+    
+    public void updateListsByCXCState(Collection<Client> clients, String cxcState) {
+        this.clients.clear();
+        receivableAccounts.clear();
+        for (Client client : clients) {
+            for (CXC cxc : client.searchReceivableAccountsByState(cxcState)) {
+                this.clients.add(client);
+                receivableAccounts.add(cxc);
+            }
+        }
+        fireTableDataChanged();
     }
 }

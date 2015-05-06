@@ -41,7 +41,7 @@ public class ClientForm extends JFrame {
     private JLabel title;
     private JLabel idShower;
     private JLabel nitLbl;
-    private Component nitBox;
+    public Component nitBox;
     private JLabel nickLbl;
     private Component nickBox;
     private JLabel nameLbl;
@@ -65,6 +65,7 @@ public class ClientForm extends JFrame {
     private MouseListener ml;
     private JButton backBtn;
     private Object[] readItData;
+    private boolean isExpress = false;
 
     public ClientForm(int state) {
         UIStyle sty = new UIStyle();
@@ -81,6 +82,11 @@ public class ClientForm extends JFrame {
             case 3: //edit client data
                 initComponents();
                 setVisible(true);
+                break;
+            case 4: //fastNewClient
+                initComponents();
+                setVisible(true);
+                isExpress = true;
                 break;
             default:
                 initComponents();
@@ -146,7 +152,9 @@ public class ClientForm extends JFrame {
                     Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JOptionPane.showMessageDialog(null, "Client added! \n Respect+");
-                LoginForm.mm.setVisible(true);
+                if(!isExpress){
+                    ListClientsForm lcf = new ListClientsForm();
+                }
                 dispose();
             }
         });

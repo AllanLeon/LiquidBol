@@ -199,7 +199,7 @@ public class PurchaseForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 invoice();
                 JOptionPane.showMessageDialog(null, "Purchase completed! \n Respect+");
-                LoginForm.mm.setVisible(true);
+                ListPurchasesForm lpf = new ListPurchasesForm();
                 dispose();
             }
         });
@@ -280,15 +280,6 @@ public class PurchaseForm extends JFrame {
                 (int)data[3],(String)data[4],(String)data[5],(String)data[6],(String)data[7]);
         MagikarpScreen.purchServ.savePurchase(temp);
         MagikarpScreen.suppServ.addPurchaseToSupplier(temp, temp2);
-    }
-        
-    public void calculateEachArticlePrice(int qValueCol, int upValueCol, int resValueCol) {
-        for (int i = 0; i < contentTable.getRowCount(); i++) {
-            double quantity = Double.parseDouble(contentTable.getModel().getValueAt(i, qValueCol).toString());
-            double unitPrice = Double.parseDouble(contentTable.getModel().getValueAt(i, upValueCol).toString());
-            double calcdSubtotal = quantity * unitPrice;
-            contentTable.getModel().setValueAt(calcdSubtotal, i, resValueCol);
-        }
     }
     */
     private void convertToReadOnly() {        

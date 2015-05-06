@@ -161,7 +161,7 @@ public class EmployeeForm extends JFrame {
                     Logger.getLogger(EmployeeForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JOptionPane.showMessageDialog(null, "Employee added! \n Respect+");
-                LoginForm.mm.setVisible(true);
+                ListEmployeesForm lef = new ListEmployeesForm();
                 dispose();
             }
         });

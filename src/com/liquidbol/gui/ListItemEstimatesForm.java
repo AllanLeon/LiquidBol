@@ -47,7 +47,7 @@ public class ListItemEstimatesForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(900, 450);
+        setSize(760, 450);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -93,12 +93,14 @@ public class ListItemEstimatesForm extends JFrame {
         quotesTable.getTableHeader().setReorderingAllowed(false);
         quotesTable.setFont(new Font("Arial", Font.PLAIN, 16));
         quotesTable.setRowHeight(25);
-        quotesTable.getColumnModel().getColumn(0).setPreferredWidth(40);
-        quotesTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        quotesTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        quotesTable.getColumnModel().getColumn(1).setPreferredWidth(30);
         quotesTable.getColumnModel().getColumn(2).setPreferredWidth(80);
-        quotesTable.getColumnModel().getColumn(3).setPreferredWidth(80);
-        quotesTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-        quotesTable.getColumnModel().getColumn(5).setPreferredWidth(150);
+        quotesTable.getColumnModel().getColumn(3).setPreferredWidth(60);
+        quotesTable.getColumnModel().getColumn(4).setPreferredWidth(100);
+        quotesTable.getColumnModel().getColumn(5).setPreferredWidth(100);
+        quotesTable.getColumnModel().getColumn(6).setPreferredWidth(50);
+        quotesTable.getColumnModel().getColumn(7).setPreferredWidth(150);
         quotesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(quotesTable.getModel());
         quotesTable.setRowSorter(sorter);
@@ -113,12 +115,12 @@ public class ListItemEstimatesForm extends JFrame {
             }
         });  
 
-        title.setBounds(350, 30, 500, 30);
+        title.setBounds(250, 30, 400, 30);
         addBtn.setBounds(570, 80, 100, 30);
         searchCB.setBounds(150, 120, 150, 30);
         searchBox.setBounds(310, 120, 250, 30);
         searchBtn.setBounds(550, 120, 50, 30);
-        quotesTableSP.setBounds(30, 170, 830, 200);
+        quotesTableSP.setBounds(15, 170, 730, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);

@@ -136,7 +136,7 @@ public class SupplierForm extends JFrame {
                     Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JOptionPane.showMessageDialog(null, "Supplier added! \n Respect+");
-                LoginForm.mm.setVisible(true);
+                ListSuppliersForm lsf = new ListSuppliersForm();
                 dispose();
             }
         });

@@ -130,7 +130,7 @@ public class Store implements Serializable {
         return expenses;
     }
     
-    public Collection<Expense> findExpensesByDescription(String desc) {
+    public Collection<Expense> searchExpensesByDescription(String desc) {
         Set<Expense> result = new HashSet<>();
         for (Expense expense : expenses) {
             if (expense.getDescription().contains(desc)) {
@@ -140,7 +140,7 @@ public class Store implements Serializable {
         return result;
     }
     
-    public Collection<Expense> findExpensesByDate(Date date) {
+    public Collection<Expense> searchExpensesByDate(Date date) {
         Set<Expense> result = new HashSet<>();
         for (Expense expense : expenses) {
             if (expense.getPayDate().compareTo(date) == 0) {
@@ -150,7 +150,7 @@ public class Store implements Serializable {
         return result;
     }
     
-    public Collection<Expense> findExpensesBetweenDates(Date startDate, Date endDate) {
+    public Collection<Expense> searchExpensesBetweenDates(Date startDate, Date endDate) {
         Set<Expense> result = new HashSet<>();
         for (Expense expense : expenses) {
             Date expenseDate = expense.getPayDate();
@@ -183,17 +183,37 @@ public class Store implements Serializable {
         return result;
     }
     
-    public Collection<Inventory> findInventoryByItemId(String itemId) {
+    public Collection<Inventory> searchInventorysByItemId(String itemId) {
         Set<Inventory> result = new HashSet<>();
         for (Inventory inventory : inventorys) {
-            if (inventory.getItem().getId().equals(itemId)) {
+            if (inventory.getItem().getId().contains(itemId)) {
                 result.add(inventory);
             }
         }
         return result;
     }
     
-    public Inventory getInventoryByItemId(String itemId) throws OperationFailedException {
+    public Collection<Inventory> searchInventorysByItemDescription(String description) {
+        Set<Inventory> result = new HashSet<>();
+        for (Inventory inventory : inventorys) {
+            if (inventory.getItem().getDescription().contains(description)) {
+                result.add(inventory);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Inventory> searchInventorysByItemType(String type) {
+        Set<Inventory> result = new HashSet<>();
+        for (Inventory inventory : inventorys) {
+            if (inventory.getItem().getType().contains(type)) {
+                result.add(inventory);
+            }
+        }
+        return result;
+    }
+    
+    public Inventory searchInventoryByItemId(String itemId) throws OperationFailedException {
         for (Inventory inventory : inventorys) {
             if (inventory.getItem().getId().equals(itemId)) {
                 return inventory;
@@ -214,10 +234,40 @@ public class Store implements Serializable {
         return employees;
     }
     
-    public Collection<Employee> findEmployeesByName(String name) {
+    public Collection<Employee> searchEmployeeById(int id) {
+        Set<Employee> result = new HashSet<>();
+        for (Employee employee : employees) {
+            if (employee.getId() == id) {
+                result.add(employee);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Employee> searchEmployeesById(String id) {
+        Set<Employee> result = new HashSet<>();
+        for (Employee employee : employees) {
+            if (String.valueOf(employee.getId()).contains(id)) {
+                result.add(employee);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Employee> searchEmployeesByName(String name) {
         Set<Employee> result = new HashSet<>();
         for (Employee employee : employees) {
             if (employee.getName().contains(name)) {
+                result.add(employee);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<Employee> searchEmployeesByType(String type) {
+        Set<Employee> result = new HashSet<>();
+        for (Employee employee : employees) {
+            if (employee.getType().contains(type)) {
                 result.add(employee);
             }
         }

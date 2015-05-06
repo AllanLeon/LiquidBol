@@ -60,7 +60,7 @@ public class ItemEstimateForm extends JFrame {
     private final ClientServices clientServices;
     private final StoreServices storeServices;
     private final CompanyServices companyServices;
-    private boolean flag = false;
+    private boolean isTMPassed = false;
 /*    
     public ItemEstimateForm(int state) {
         this.df = new DecimalFormat("##.00");
@@ -84,7 +84,7 @@ public class ItemEstimateForm extends JFrame {
     }
 */
     public ItemEstimateForm(TableModel tm, Bill bill) {
-        flag = false;
+        isTMPassed = true;
         this.df = new DecimalFormat("##.00");
         UIStyle sty = new UIStyle();
         passed = tm;
@@ -152,12 +152,12 @@ public class ItemEstimateForm extends JFrame {
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 16));
         contentTable.setRowHeight(25);
-        contentTable.getColumnModel().getColumn(0).setPreferredWidth(20);
-        contentTable.getColumnModel().getColumn(1).setPreferredWidth(40);
-        contentTable.getColumnModel().getColumn(2).setPreferredWidth(10);
-        contentTable.getColumnModel().getColumn(3).setPreferredWidth(20);
+        contentTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+        contentTable.getColumnModel().getColumn(1).setPreferredWidth(30);
+        contentTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(3).setPreferredWidth(10);
         contentTable.getColumnModel().getColumn(4).setPreferredWidth(270);
-        contentTable.getColumnModel().getColumn(5).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(5).setPreferredWidth(30);
         contentTable.getColumnModel().getColumn(6).setPreferredWidth(40);
         contentTable.setDefaultRenderer(contentTable.getColumnModel().getColumn(3).getClass(), new MultiLineCellRenderer());
         RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());
@@ -182,10 +182,10 @@ public class ItemEstimateForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Quote printed! \n Respect+");
-                if(flag) {
-                    ListItemEstimatesForm lief = new ListItemEstimatesForm();
-                } else {
+                if(isTMPassed) {
                     LoginForm.LF.setVisible(true);
+                } else {
+                    ListItemEstimatesForm lief = new ListItemEstimatesForm();
                 }
                 dispose();
             }
@@ -194,10 +194,10 @@ public class ItemEstimateForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(flag) {
-                    ListItemEstimatesForm lief = new ListItemEstimatesForm();
-                } else{
+                if(isTMPassed) {
                     MainMenuForm.scf.setVisible(true);
+                } else{
+                    ListItemEstimatesForm lief = new ListItemEstimatesForm();
                 }
                 dispose();
             }

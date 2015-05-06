@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Class that represents a receivable account.
@@ -122,6 +123,27 @@ public class CXC implements Serializable {
     
     public void addCollectedReceivableAccount(CXCC cxcc) {
         collectedReceivableAccounts.add(cxcc);
+    }
+    
+    public Collection<CXCC> searchCollectedReceivableAccountsByDate(Date date) {
+        Set<CXCC> result = new HashSet<>();
+        for (CXCC cxcc : collectedReceivableAccounts) {
+            if (cxcc.getPayDate().compareTo(date) == 0) {
+                result.add(cxcc);
+            }
+        }
+        return result;
+    }
+    
+    public Collection<CXCC> searchCollectedReceivableAccountsBetweenDates(Date startDate, Date endDate) {
+        Set<CXCC> result = new HashSet<>();
+        for (CXCC cxcc : collectedReceivableAccounts) {
+            Date expenseDate = cxcc.getPayDate();
+            if (expenseDate.compareTo(startDate) >= 0 && expenseDate.compareTo(endDate) <= 0) {
+                result.add(cxcc);
+            }
+        }
+        return result;
     }
 
     @Override
