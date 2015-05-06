@@ -73,7 +73,6 @@ public class ShopCartForm extends JFrame {
     private JButton toBillBtn;
     private JButton toEstimateBtn;
     private JButton backBtn;
-    private double total;
     private Bill newBill;
     private final ArrayList<Store> stores;
 

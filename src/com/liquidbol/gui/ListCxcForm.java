@@ -92,11 +92,12 @@ public class ListCxcForm extends JFrame {
         clientsTable.getTableHeader().setReorderingAllowed(false);
         clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
         clientsTable.setRowHeight(25);
-        clientsTable.getColumnModel().getColumn(0).setPreferredWidth(40);
-        clientsTable.getColumnModel().getColumn(1).setPreferredWidth(160);
-        clientsTable.getColumnModel().getColumn(2).setPreferredWidth(40);
-        clientsTable.getColumnModel().getColumn(3).setPreferredWidth(30);
-        clientsTable.getColumnModel().getColumn(4).setPreferredWidth(90);
+        clientsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        clientsTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        clientsTable.getColumnModel().getColumn(2).setPreferredWidth(160);
+        clientsTable.getColumnModel().getColumn(3).setPreferredWidth(40);
+        clientsTable.getColumnModel().getColumn(4).setPreferredWidth(30);
+        clientsTable.getColumnModel().getColumn(5).setPreferredWidth(90);
         clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(clientsTable.getModel());
         clientsTable.setRowSorter(sorter);

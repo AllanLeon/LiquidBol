@@ -2,11 +2,19 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Bill;
+import com.liquidbol.model.Client;
+import com.liquidbol.model.OperationFailedException;
+import com.liquidbol.services.ClientServices;
+import com.liquidbol.services.CompanyServices;
+import com.liquidbol.services.StoreServices;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -32,30 +40,37 @@ import org.jdatepicker.impl.UtilDateModel;
  */
 public class NoteForm extends JFrame {
 
-    private JButton submitBtn;
+    private JLabel title;
+    private JLabel idShower;
     private JRadioButton jRadioButton1;
     private JRadioButton jRadioButton2;
     private JDatePickerImpl datePicker;
-    private JLabel title;
-    private JLabel idShower;
     private JLabel nameLbl;
     private JTextField clientName;
     private JTextField clientPhone;
     private JLabel phoneLbl;
-    private JCheckBox jCheckBox1;
-    private JCheckBox jCheckBox2;
+    private JCheckBox toPay;
+    private JCheckBox toBilled;
     private JTable contentTable;
     private JLabel totalLbl;
     private JTextField totalAmount;
     private JPanel contentPane;
     private JButton backBtn;
-    private TableModel passed;
-    private Bill bill;
+    private JButton submitBtn;
+    private final TableModel passed;
+    private final Bill bill;
+    private Client client; //needs constructor without billname
+    private final ClientServices clientServices;
+    private final StoreServices storeServices;
+    private final CompanyServices companyServices;
 
     public NoteForm(TableModel tm, Bill bill) {
         UIStyle sty = new UIStyle();
         passed = tm;
         this.bill = bill;
+        this.clientServices = new ClientServices();
+        this.storeServices = new StoreServices();
+        this.companyServices = new CompanyServices();
         initComponents();
         setVisible(true);
     }
@@ -126,13 +141,14 @@ public class NoteForm extends JFrame {
         totalAmount.setEditable(false);
         totalAmount.setText(String.valueOf(bill.calculateTotalAmount()));
 
-        jCheckBox1 = new JCheckBox("x Cancelar");
-        jCheckBox2 = new JCheckBox("x Facturar");
+        toPay = new JCheckBox("x Cancelar");
+        toBilled = new JCheckBox("x Facturar");
         submitBtn = new JButton("OK");
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Note printed! \n Respect+");
+                invoice();
                 LoginForm.LF.setVisible(true);
                 dispose();
             }
@@ -158,8 +174,8 @@ public class NoteForm extends JFrame {
         tablejs.setBounds(30, 210, 640, 150);
         totalLbl.setBounds(540, 360, 50, 30);
         totalAmount.setBounds(570, 360, 100, 30);
-        jCheckBox1.setBounds(250, 370, 100, 30);
-        jCheckBox2.setBounds(350, 370, 100, 30);
+        toPay.setBounds(250, 370, 100, 30);
+        toBilled.setBounds(350, 370, 100, 30);
         submitBtn.setBounds(350, 420, 50, 30);
         backBtn.setBounds(50, 420, 80, 30);
 
@@ -175,9 +191,22 @@ public class NoteForm extends JFrame {
         getContentPane().add(tablejs);
         getContentPane().add(totalLbl);
         getContentPane().add(totalAmount);
-        getContentPane().add(jCheckBox1);
-        getContentPane().add(jCheckBox2);
+        getContentPane().add(toPay);
+        getContentPane().add(toBilled);
         getContentPane().add(submitBtn);
         getContentPane().add(backBtn);
+    }
+    
+    private void invoice() {
+        try {
+            bill.setBilled(false);
+            bill.execute();
+            clientServices.addBillToClient(bill, client);
+            companyServices.mergeClient(client);
+            storeServices.updateInventorys(bill.getStore());
+            storeServices.loadStoreInventorys(bill.getStore());
+        } catch (OperationFailedException | PersistenceException | ClassNotFoundException ex) {
+            Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
