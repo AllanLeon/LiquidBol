@@ -53,7 +53,7 @@ public class ListARForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(800, 450);
+        setSize(800, 470);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -64,10 +64,17 @@ public class ListARForm extends JFrame {
         contentPane.setLayout(null);
 
         title = new JLabel("ARTICULOS RECARGABLES");
-        title.setFont(new Font("Arial", Font.PLAIN, 30));
+        title.setFont(new Font("Arial", Font.PLAIN, 40));
         
         addBtn = new JButton("+");
-
+        addBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ARForm cf = new ARForm(1);
+                dispose();
+            }
+        });
+        
         searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
         try {
@@ -94,12 +101,13 @@ public class ListARForm extends JFrame {
         arsTable.getTableHeader().setReorderingAllowed(false);
         arsTable.setFont(new Font("Arial", Font.PLAIN, 16));
         arsTable.setRowHeight(25);
-        arsTable.getColumnModel().getColumn(0).setPreferredWidth(50);
-        arsTable.getColumnModel().getColumn(1).setPreferredWidth(60);
-        arsTable.getColumnModel().getColumn(2).setPreferredWidth(150);
+        arsTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+        arsTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+        arsTable.getColumnModel().getColumn(2).setPreferredWidth(140);
         arsTable.getColumnModel().getColumn(3).setPreferredWidth(250);
-        arsTable.getColumnModel().getColumn(4).setPreferredWidth(80);
-        arsTable.getColumnModel().getColumn(5).setPreferredWidth(90);
+        arsTable.getColumnModel().getColumn(4).setPreferredWidth(60);
+        arsTable.getColumnModel().getColumn(5).setPreferredWidth(100);
+        arsTable.getColumnModel().getColumn(5).setPreferredWidth(100);
         arsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(arsTable.getModel());
         arsTable.setRowSorter(sorter);
@@ -114,11 +122,11 @@ public class ListARForm extends JFrame {
             }
         });
 
-        title.setBounds(140, 30, 500, 30);
-        addBtn.setBounds(510, 80, 100, 30);
-        searchCB.setBounds(90, 120, 150, 30);
-        searchBox.setBounds(250, 120, 250, 30);
-        searchBtn.setBounds(500, 120, 50, 30);
+        title.setBounds(140, 30, 550, 30);
+        addBtn.setBounds(550, 80, 100, 30);
+        searchCB.setBounds(130, 120, 150, 30);
+        searchBox.setBounds(290, 120, 250, 30);
+        searchBtn.setBounds(540, 120, 50, 30);
         arsTableSP.setBounds(30, 170, 730, 200);
         backBtn.setBounds(50, 380, 70, 30);
 

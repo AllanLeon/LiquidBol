@@ -144,8 +144,8 @@ public class BillForm extends JFrame implements KeyListener {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "You just printed a Bill! \n Respect+");
                 invoice();
+                JOptionPane.showMessageDialog(null, "You just printed a Bill! \n Respect+");
                 LoginForm.LF.setVisible(true);
                 dispose();
             }

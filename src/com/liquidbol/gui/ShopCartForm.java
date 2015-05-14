@@ -88,6 +88,8 @@ public class ShopCartForm extends JFrame {
         UIStyle sty = new UIStyle();
         stores = new ArrayList<>(Company.getAllStores());
         selectedStore = stores.get(0);
+        List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
+        newBill = new Bill(0, selectedStore, employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
         initComponents();
         setVisible(true);
     }
@@ -127,7 +129,6 @@ public class ShopCartForm extends JFrame {
             Logger.getLogger(ShopCartForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         branchNameCB.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent ae) {
                 selectedStore = stores.get(branchNameCB.getSelectedIndex());
@@ -143,15 +144,12 @@ public class ShopCartForm extends JFrame {
             Logger.getLogger(ShopCartForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         searchBox.addKeyListener(new KeyListener() {
-
             @Override
             public void keyTyped(KeyEvent ke) {
-                
             }
 
             @Override
             public void keyPressed(KeyEvent ke) {
-                
             }
 
             @Override
@@ -196,8 +194,6 @@ public class ShopCartForm extends JFrame {
         cartPane.setBorder(BorderFactory.createTitledBorder("Carrito"));
         cartPane.setLayout(null);
         
-        List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
-        newBill = new Bill(0, selectedStore, employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
         shopCartTableModel = new ShopCartTableModel(newBill);
         wholeTable = new JTable(shopCartTableModel);
         wholeTable.getTableHeader().setReorderingAllowed(false);

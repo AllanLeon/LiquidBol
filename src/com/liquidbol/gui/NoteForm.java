@@ -5,6 +5,7 @@ import com.liquidbol.addons.UIStyle;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Bill;
 import com.liquidbol.model.Client;
+import com.liquidbol.model.Company;
 import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.services.ClientServices;
 import com.liquidbol.services.CompanyServices;
@@ -40,6 +41,7 @@ import org.jdatepicker.impl.UtilDateModel;
  */
 public class NoteForm extends JFrame {
 
+    private JPanel contentPane;
     private JLabel title;
     private JLabel idShower;
     private JRadioButton jRadioButton1;
@@ -54,7 +56,6 @@ public class NoteForm extends JFrame {
     private JTable contentTable;
     private JLabel totalLbl;
     private JTextField totalAmount;
-    private JPanel contentPane;
     private JButton backBtn;
     private JButton submitBtn;
     private final TableModel passed;
@@ -125,12 +126,13 @@ public class NoteForm extends JFrame {
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 20));
         contentTable.setRowHeight(25);
-        contentTable.getColumnModel().getColumn(0).setPreferredWidth(60);
-        contentTable.getColumnModel().getColumn(1).setPreferredWidth(40);
-        contentTable.getColumnModel().getColumn(2).setPreferredWidth(50);
-        contentTable.getColumnModel().getColumn(3).setPreferredWidth(280);
-        contentTable.getColumnModel().getColumn(4).setPreferredWidth(70);
-        contentTable.getColumnModel().getColumn(5).setMinWidth(20);
+        contentTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        contentTable.getColumnModel().getColumn(1).setPreferredWidth(60);
+        contentTable.getColumnModel().getColumn(2).setPreferredWidth(40);
+        contentTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+        contentTable.getColumnModel().getColumn(4).setPreferredWidth(280);
+        contentTable.getColumnModel().getColumn(5).setPreferredWidth(70);
+        contentTable.getColumnModel().getColumn(6).setMinWidth(20);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());
         contentTable.setRowSorter(sorter);
@@ -147,8 +149,8 @@ public class NoteForm extends JFrame {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Note printed! \n Respect+");
                 invoice();
+                JOptionPane.showMessageDialog(null, "Note printed! \n Respect+");
                 LoginForm.LF.setVisible(true);
                 dispose();
             }
@@ -209,4 +211,19 @@ public class NoteForm extends JFrame {
             Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    /*
+    private void findNIT() {
+        try {
+            //ASK: if a known client asks for a note, find by name?
+            //if an unknown client asks for a note, register it on BD?
+            client = Company.findClientByNit(Integer.parseInt(clientNit.getText()));
+            clientName.setText(client.getBillName());
+        } catch (OperationFailedException ex) {
+            JOptionPane.showMessageDialog(null, "No se encuentra al cliente. Creelo!");
+            ClientForm cf = new ClientForm(4);
+            JTextField nitbx = (JTextField) cf.nitBox;
+            nitbx.setText(clientNit.getText());
+        }
+    }
+    */
 }

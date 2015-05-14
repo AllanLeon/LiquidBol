@@ -42,8 +42,8 @@ public class ListCxcForm extends JFrame {
     private JTextField searchBox;
     private JButton searchBtn;
     private JTable cxcTable;
-    private JButton backBtn;
     private CXCTableModel cxcTableModel;
+    private JButton backBtn;
 
     public ListCxcForm() {
         UIStyle sty = new UIStyle();
@@ -53,7 +53,7 @@ public class ListCxcForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(600, 450);
+        setSize(700, 450);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -83,34 +83,6 @@ public class ListCxcForm extends JFrame {
             Logger.getLogger(ListCxcForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         searchBox.addKeyListener(new KeyListener() {
-
-<<<<<<< HEAD
-        /*String[] columnNames = {"Cod",
-            "Nombre",
-            "Saldo",
-            "Credito Limite",
-            "Fecha Limite"
-        };
-        Object[][] tempData = {
-            {"00001", "Gabino Quispia", "50.00", "2000", "30/01/2015"},
-            {"00002", "Efrain Choque", "320.50", "5000", "01/02/2015"}
-        };
-        clientsTable = new JTable(tempData, columnNames); */
-        clientsTable = new JTable(new CXCTableModel(Company.getAllClients()));
-        clientsTable.getTableHeader().setReorderingAllowed(false);
-        clientsTable.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientsTable.setRowHeight(25);
-        clientsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
-        clientsTable.getColumnModel().getColumn(1).setPreferredWidth(40);
-        clientsTable.getColumnModel().getColumn(2).setPreferredWidth(160);
-        clientsTable.getColumnModel().getColumn(3).setPreferredWidth(40);
-        clientsTable.getColumnModel().getColumn(4).setPreferredWidth(30);
-        clientsTable.getColumnModel().getColumn(5).setPreferredWidth(90);
-        clientsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        RowSorter<TableModel> sorter = new TableRowSorter<>(clientsTable.getModel());
-        clientsTable.setRowSorter(sorter);
-        JScrollPane cxcsTableSP = new JScrollPane(clientsTable);
-=======
             @Override
             public void keyTyped(KeyEvent ke) { }
 
@@ -123,21 +95,33 @@ public class ListCxcForm extends JFrame {
             }
         });
 
+        /*String[] columnNames = {"Cod",
+            "Nombre",
+            "Saldo",
+            "Credito Limite",
+            "Fecha Limite"
+        };
+        Object[][] tempData = {
+            {"00001", "Gabino Quispia", "50.00", "2000", "30/01/2015"},
+            {"00002", "Efrain Choque", "320.50", "5000", "01/02/2015"}
+        };
+        cxcTable = new JTable(tempData, columnNames); */
         cxcTableModel = new CXCTableModel(Company.getAllClients());
         cxcTable = new JTable(cxcTableModel);
         cxcTable.getTableHeader().setReorderingAllowed(false);
         cxcTable.setFont(new Font("Arial", Font.PLAIN, 20));
         cxcTable.setRowHeight(25);
-        cxcTable.getColumnModel().getColumn(0).setPreferredWidth(40);
-        cxcTable.getColumnModel().getColumn(1).setPreferredWidth(160);
-        cxcTable.getColumnModel().getColumn(2).setPreferredWidth(40);
-        cxcTable.getColumnModel().getColumn(3).setPreferredWidth(30);
-        cxcTable.getColumnModel().getColumn(4).setPreferredWidth(90);
+        cxcTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        cxcTable.getColumnModel().getColumn(1).setPreferredWidth(20);
+        cxcTable.getColumnModel().getColumn(2).setPreferredWidth(140);
+        cxcTable.getColumnModel().getColumn(3).setPreferredWidth(40);
+        cxcTable.getColumnModel().getColumn(4).setPreferredWidth(50);
+        cxcTable.getColumnModel().getColumn(5).setPreferredWidth(120);
+        cxcTable.getColumnModel().getColumn(6).setPreferredWidth(90);
         cxcTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(cxcTable.getModel());
         cxcTable.setRowSorter(sorter);
         JScrollPane cxcsTableSP = new JScrollPane(cxcTable);
->>>>>>> upstream/master
 
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
@@ -148,12 +132,12 @@ public class ListCxcForm extends JFrame {
             }
         });  
         
-        title.setBounds(100, 30, 500, 30);
-        addBtn.setBounds(470, 80, 100, 30);
-        searchCB.setBounds(50, 120, 150, 30);
-        searchBox.setBounds(210, 120, 250, 30);
-        searchBtn.setBounds(450, 120, 50, 30);
-        cxcsTableSP.setBounds(30, 170, 530, 200);
+        title.setBounds(150, 30, 500, 30);
+        addBtn.setBounds(520, 80, 100, 30);
+        searchCB.setBounds(100, 120, 150, 30);
+        searchBox.setBounds(260, 120, 250, 30);
+        searchBtn.setBounds(500, 120, 50, 30);
+        cxcsTableSP.setBounds(20, 170, 650, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
