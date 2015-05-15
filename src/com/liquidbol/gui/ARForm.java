@@ -4,7 +4,10 @@ import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.addons.UIStyle;
 import com.liquidbol.db.persistence.PersistenceException;
-import com.liquidbol.model.Item;
+import com.liquidbol.model.Client;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.RechargeableItem;
+import com.liquidbol.model.Supplier;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
@@ -15,11 +18,15 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -49,33 +56,29 @@ public class ARForm extends JFrame {
     private JLabel idLbl;
     private Component ritemId;
     private JLabel clientLbl;
-    private Component ritemClient;
+    private JComboBox ritemClient;
     private JLabel descLbl;
     private Component ritemDesc;
-    private JLabel brandLbl;
-    private Component itemBrand;
-    private JLabel madeLbl;
-    private Component itemMade;
     private JLabel typeLbl;
-    private Component itemType;
-    private JLabel subtypeLbl;
-    private Component itemSubtype;
+    private JRadioButton isCylinderRB;
+    private JRadioButton isExtinguisherRB;
+    private JDatePickerImpl datePicker;
+    private JLabel dateLbl;
     private JLabel obsLbl;
     private Component ritemObs;
-    private JLabel costLbl;
-    private Component itemCost;
     private JLabel ritemPhoto;
     private JButton submitBtn;
     private MouseListener ml;
     private JButton backBtn;
     private Object[] readItData;
-    private JRadioButton jRadioButton1;
-    private JRadioButton jRadioButton2;
-    private JDatePickerImpl datePicker;
-    private JLabel dateLbl;
+    private JLabel capacityLbl;
+    private JTextField ritemCapacity;
+    private JComboBox ritemUnits;
+    private List<Client> clients;
 
     public ARForm(int state) {
         UIStyle sty = new UIStyle();
+        clients = new ArrayList<>(Company.getAllClients());
         switch (state) {
             case 1: //Add new rechargable item
                 initComponents();
@@ -114,17 +117,43 @@ public class ARForm extends JFrame {
         title.setFont(new Font("Arial", Font.PLAIN, 30));
         clientLbl = new JLabel("Cliente");
         ritemClient = new JComboBox();
+        try {
+            ritemClient.setModel(new DefaultComboBoxModel(loadClientNames()));
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            Logger.getLogger(PurchaseForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         idLbl = new JLabel("Codigo");
         ritemId = new JTextField();
         descLbl = new JLabel("Descripcion");
         ritemDesc = new JTextField();
         typeLbl = new JLabel("Tipo");
-        jRadioButton1 = new JRadioButton("Cilindro");
-        jRadioButton2 = new JRadioButton("Extintor");
+        isCylinderRB = new JRadioButton("Cilindro");
+        isCylinderRB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String[] unitContent = {"Mts3","Kg"};
+                if(isCylinderRB.isSelected()){
+                    ritemUnits.setModel(new DefaultComboBoxModel(unitContent));
+                }
+            }
+        });
+        isExtinguisherRB = new JRadioButton("Extintor");
+        isExtinguisherRB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String[] unitContent = {"Lb","Kg"};
+                if(isExtinguisherRB.isSelected()){
+                    ritemUnits.setModel(new DefaultComboBoxModel(unitContent));
+                }
+            }
+        });
         dateLbl = new JLabel("Vencimiento de garantía");
         ButtonGroup bg = new ButtonGroup();
-        bg.add(jRadioButton1);
-        bg.add(jRadioButton2);
+        bg.add(isCylinderRB);
+        bg.add(isExtinguisherRB);
+        capacityLbl = new JLabel("Capacidad");
+        ritemCapacity = new JTextField();
+        ritemUnits = new JComboBox();
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
         p.put("text.today", "Today");
@@ -146,13 +175,13 @@ public class ARForm extends JFrame {
          submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                readIt();
+              /*  readIt();
                 try {
                     saveIt(readItData);
                 } catch (PersistenceException | ClassNotFoundException ex) {
                     Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                JOptionPane.showMessageDialog(null, "Rechargble ttem added! \n Respect+");
+              */  JOptionPane.showMessageDialog(null, "Rechargeable ttem added! \n Respect+");
                 ListARForm larf = new ListARForm();
                 dispose();
             }
@@ -173,16 +202,19 @@ public class ARForm extends JFrame {
         ritemId.setBounds(380, 90, 80, 30);
         descLbl.setBounds(40, 130, 70, 30);
         ritemDesc.setBounds(110, 130, 400, 30);
-        typeLbl.setBounds(280, 180, 70, 30);
-        jRadioButton1.setBounds(320, 170, 150, 30);
-        jRadioButton2.setBounds(320, 190, 150, 30);
-        dateLbl.setBounds(280, 220, 170, 30);
-        datePicker.setBounds(280, 245, 150, 30);
-        obsLbl.setBounds(280, 275, 100, 30);
-        ritemObs.setBounds(280, 300, 220, 30);
-        ritemPhoto.setBounds(80, 190, 150, 150);
-        submitBtn.setBounds(360, 360, 100, 30);
-        backBtn.setBounds(60, 360, 100, 30);
+        typeLbl.setBounds(270, 180, 70, 30);
+        isCylinderRB.setBounds(300, 170, 100, 30);
+        isExtinguisherRB.setBounds(300, 190, 100, 30);
+        capacityLbl.setBounds(410, 160, 70, 30);
+        ritemCapacity.setBounds(410, 185, 40, 30);
+        ritemUnits.setBounds(450, 185, 60, 30);
+        dateLbl.setBounds(270, 220, 170, 30);
+        datePicker.setBounds(270, 245, 150, 30);
+        obsLbl.setBounds(270, 275, 100, 30);
+        ritemObs.setBounds(270, 300, 220, 30);
+        ritemPhoto.setBounds(80, 180, 150, 150);
+        submitBtn.setBounds(360, 350, 100, 30);
+        backBtn.setBounds(60, 350, 100, 30);
         
         contentPane.add(title);
         contentPane.add(clientLbl);
@@ -192,8 +224,11 @@ public class ARForm extends JFrame {
         contentPane.add(descLbl);
         contentPane.add(ritemDesc);
         contentPane.add(typeLbl);
-        contentPane.add(jRadioButton1);
-        contentPane.add(jRadioButton2);
+        contentPane.add(isCylinderRB);
+        contentPane.add(isExtinguisherRB);
+        contentPane.add(capacityLbl);
+        contentPane.add(ritemCapacity);
+        contentPane.add(ritemUnits);
         contentPane.add(dateLbl);
         contentPane.add(datePicker);
         contentPane.add(obsLbl);
@@ -206,25 +241,28 @@ public class ARForm extends JFrame {
 
     private void readIt() {
         String id = ((JTextField) ritemId).getText();
-        String meas = ((JTextField) ritemClient).getText();
         String desc = ((JTextField) ritemDesc).getText();
-        String brand = ((JTextField) itemBrand).getText();
-        String made = ((JTextField) itemMade).getText();
-        String type = ((JTextField) itemType).getText();
-        String subtype = ((JTextField) itemSubtype).getText();
-        double cost = Double.parseDouble(((JTextField) itemCost).getText());
-        double price = Double.parseDouble(((JTextField) ritemObs).getText());
+        double capac = Double.parseDouble(((JTextField) ritemCapacity).getText());
+        String unit = ritemUnits.getSelectedItem().toString();
+        String type = "";
+        if(isCylinderRB.isSelected()){
+            type = isCylinderRB.getText();
+        } else if (isExtinguisherRB.isSelected()) {
+            type = isExtinguisherRB.getText();
+        }
+        Date date = Date.valueOf(datePicker.getToolTipText());
+        String obs = ((JTextField) ritemObs).getText();
         if(1 == 0) {
             JOptionPane.showMessageDialog(this,"MISSING!","Missing some important data input!", JOptionPane.WARNING_MESSAGE);
         } else {
-            readItData = new Object[] {id, meas, desc, brand, made, type, subtype, cost, price};
+            readItData = new Object[] {id, desc, capac, unit, type, date, obs};
         }
     }
 
     private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
-        Item temp = MagikarpScreen.compServ.createItem((String)data[0],(String)data[1],(String)data[2],(String)data[3],(String)data[4],
-                (String)data[5],(String)data[6],(double)data[7],(double)data[8]);
-        MagikarpScreen.compServ.saveItem(temp);
+        RechargeableItem temp = MagikarpScreen.clientServ.createRechargeableItem((String)data[0],(String)data[1],(double)data[2],
+                (String)data[3],(String)data[4],(Date)data[5],(String)data[6]);
+        MagikarpScreen.clientServ.addRechargeableItemToClient(temp, clients.get(ritemClient.getSelectedIndex()));
     }
 
     private void onMouseHover(JLabel lbl) {
@@ -271,62 +309,45 @@ public class ARForm extends JFrame {
         lbl.addMouseListener(ml);
     }
 
-    private void convertToReadOnly() {    
+    private void convertToReadOnly() {
         Icon temp = ritemPhoto.getIcon();
+        ritemClient.setEnabled(false);
         contentPane.remove(ritemId);
-        contentPane.remove(ritemClient);
         contentPane.remove(ritemDesc);
-        contentPane.remove(itemBrand);
-        contentPane.remove(itemMade);
-        contentPane.remove(itemType);
-        contentPane.remove(itemSubtype);
-        contentPane.remove(itemCost);
+        isCylinderRB.setEnabled(false);
+        isExtinguisherRB.setEnabled(false);
+        datePicker.setTextEditable(false);
         contentPane.remove(ritemObs);
         contentPane.remove(ritemPhoto);
         contentPane.remove(submitBtn);
 
         ritemId = new JLabel();
-        ritemClient = new JLabel();
         ritemDesc = new JLabel();
-        itemBrand = new JLabel();
-        itemMade = new JLabel();
-        itemType = new JLabel();
-        itemSubtype = new JLabel();
-        itemCost = new JLabel();
         ritemObs = new JLabel();
         ritemPhoto = new JLabel(temp);
-        title.setText("VER ARTICULO"); //CHANGE!!!!
+        title.setText("VER ARTICULO RECARGABLE"); //CHANGE!!!!
 
         ritemId.setFont(new Font("Arial", Font.PLAIN, 20));
-        ritemClient.setFont(new Font("Arial", Font.PLAIN, 20));
         ritemDesc.setFont(new Font("Arial", Font.PLAIN, 20));
-        itemBrand.setFont(new Font("Arial", Font.PLAIN, 20));
-        itemMade.setFont(new Font("Arial", Font.PLAIN, 20));
-        itemType.setFont(new Font("Arial", Font.PLAIN, 20));
-        itemSubtype.setFont(new Font("Arial", Font.PLAIN, 20));
-        itemCost.setFont(new Font("Arial", Font.PLAIN, 20));
         ritemObs.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        ritemId.setBounds(110, 80, 50, 30);
-        ritemClient.setBounds(110, 120, 50, 30);
-        ritemDesc.setBounds(110, 160, 400, 30);
-        itemBrand.setBounds(80, 200, 180, 30);
-        itemMade.setBounds(340, 200, 170, 30);
-        itemType.setBounds(80, 240, 150, 30);
-        itemSubtype.setBounds(320, 240, 150, 30);
-        itemCost.setBounds(330, 300, 100, 30);
-        ritemObs.setBounds(330, 340, 100, 30);
-        ritemPhoto.setBounds(80, 300, 150, 150);
-
+        ritemId.setBounds(380, 90, 80, 30);
+        ritemDesc.setBounds(110, 130, 400, 30);
+        ritemObs.setBounds(280, 300, 220, 30);
+        ritemPhoto.setBounds(80, 190, 150, 150);
+        
         contentPane.add(ritemId);
-        contentPane.add(ritemClient);
         contentPane.add(ritemDesc);
-        contentPane.add(itemBrand);
-        contentPane.add(itemMade);
-        contentPane.add(itemType);
-        contentPane.add(itemSubtype);
-        contentPane.add(itemCost);
         contentPane.add(ritemObs);
         contentPane.add(ritemPhoto);
+    }
+    
+    private Object[] loadClientNames() throws PersistenceException, ClassNotFoundException {
+        List<String> data = new ArrayList<>();
+        for (Client client : clients) {
+            String name = client.getName() + " " + client.getLastname();
+            data.add(name);
+        }
+        return data.toArray();
     }
 }

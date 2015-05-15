@@ -191,8 +191,6 @@ public class BillForm extends JFrame implements KeyListener {
         contentPane.add(submitBtn);
         contentPane.add(backBtn);
 
-        //clientNit.setText("9813");
-        //clientNit.addKeyListener(this);
         clientNit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
