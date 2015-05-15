@@ -15,6 +15,8 @@ import com.liquidbol.model.RechargeableItem;
 import com.liquidbol.model.Service;
 import com.liquidbol.model.ServiceReception;
 import com.liquidbol.model.Store;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -47,6 +49,7 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -56,6 +59,7 @@ import javax.swing.table.TableRowSorter;
 public class ShopCartForm extends JFrame {
 
     private final String[] SEARCH_PARAMETERS = {"Cod.", "Descripcion", "Tipo"};
+    private final int MIN_STOCK = 10;
     
     private JPanel parentPane;
     private JPanel inventoryPane;
@@ -160,7 +164,20 @@ public class ShopCartForm extends JFrame {
 
         itemsLbl = new JLabel("Articulos");
         itemsTableModel = new ShopCartItemTableModel(selectedStore);
-        itemsTable = new JTable(itemsTableModel);
+        itemsTable = new JTable(itemsTableModel){
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+                if (itemsTableModel.getItemStock(row) < MIN_STOCK) {
+                        c.setBackground(Color.RED);
+                } else {
+                    c.setBackground(getBackground());
+                }
+
+                return c;
+            }
+
+        };
         itemsTable.getTableHeader().setReorderingAllowed(false);
         itemsTable.setFont(new Font("Arial", Font.BOLD, 16));
         itemsTable.setRowHeight(25);

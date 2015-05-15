@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Class that represents LiquidBol company.
@@ -179,7 +180,7 @@ public class Company implements Serializable {
         Set<Supplier> result = new HashSet<>();
         for (Supplier current : suppliers) {
             String fullName = current.getName() + " " + current.getLastname();
-            if (fullName.contains(name)) {
+            if (StringUtils.containsIgnoreCase(fullName,name)) {
                 result.add(current);
             }
         }
@@ -189,7 +190,7 @@ public class Company implements Serializable {
     public static Collection<Supplier> searchSuppliersByCompany(String company) {
         Set<Supplier> result = new HashSet<>();
         for (Supplier current : suppliers) {
-            if (current.getCompany().contains(company)) {
+            if (StringUtils.containsIgnoreCase(current.getCompany(),company)) {
                 result.add(current);
             }
         }
@@ -199,7 +200,7 @@ public class Company implements Serializable {
     public static Collection<Supplier> searchSuppliersByCity(String city) {
         Set<Supplier> result = new HashSet<>();
         for (Supplier current : suppliers) {
-            if (current.getCity().contains(city)) {
+            if (StringUtils.containsIgnoreCase(current.getCity(),city)) {
                 result.add(current);
             }
         }
@@ -209,7 +210,7 @@ public class Company implements Serializable {
     public static Collection<Item> searchItemsById(String id) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
-            if (current.getId().contains(id)) {
+            if (StringUtils.containsIgnoreCase(current.getId(),id)) {
                 result.add(current);
             }
         }
@@ -219,7 +220,7 @@ public class Company implements Serializable {
     public static Collection<Item> searchItemsByDescription(String description) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
-            if (current.getDescription().contains(description)) {
+            if (StringUtils.containsIgnoreCase(current.getDescription(),description)) {
                 result.add(current);
             }
         }
@@ -229,7 +230,7 @@ public class Company implements Serializable {
     public static Collection<Item> searchItemsByBrand(String brand) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
-            if (current.getBrand().contains(brand)) {
+            if (StringUtils.containsIgnoreCase(current.getBrand(),brand)) {
                 result.add(current);
             }
         }
@@ -239,7 +240,7 @@ public class Company implements Serializable {
     public static Collection<Item> searchItemsByIndustry(String industry) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
-            if (current.getIndustry().contains(industry)) {
+            if (StringUtils.containsIgnoreCase(current.getIndustry(),industry)) {
                 result.add(current);
             }
         }
@@ -249,7 +250,7 @@ public class Company implements Serializable {
     public static Collection<Item> searchItemsByType(String type) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
-            if (current.getType().contains(type)) {
+            if (StringUtils.containsIgnoreCase(current.getType(),type)) {
                 result.add(current);
             }
         }
@@ -259,7 +260,7 @@ public class Company implements Serializable {
     public static Collection<Item> searchItemsBySubtype(String subtype) {
         Set<Item> result = new HashSet<>();
         for (Item current : items) {
-            if (current.getSubtype().contains(subtype)) {
+            if (StringUtils.containsIgnoreCase(current.getSubtype(),subtype)) {
                 result.add(current);
             }
         }
@@ -281,7 +282,7 @@ public class Company implements Serializable {
     public static Collection<Offer> searchOffersByType(String type) {
         Set<Offer> result = new HashSet<>();
         for (Offer current : offers) {
-            if (current.getType().contains(type)) {
+            if (StringUtils.containsIgnoreCase(current.getType(),type)) {
                 result.add(current);
             }
         }
@@ -291,7 +292,7 @@ public class Company implements Serializable {
     public static Collection<Store> searchStoresByName(String name) {
         Set<Store> result = new HashSet<>();
         for (Store current : stores) {
-            if (current.getName().contains(name)) {
+            if (StringUtils.containsIgnoreCase(current.getName(),name)) {
                 result.add(current);
             }
         }
@@ -301,7 +302,7 @@ public class Company implements Serializable {
     public static Collection<Client> searchClientsById(String id) {
         Set<Client> result = new HashSet<>();
         for (Client current : clients) {
-            if (String.valueOf(current.getId()).contains(id)) {
+            if (StringUtils.containsIgnoreCase(String.valueOf(current.getId()),id)) {
                 result.add(current);
             }
         }
@@ -312,7 +313,7 @@ public class Company implements Serializable {
         Set<Client> result = new HashSet<>();
         for (Client current : clients) {
             String fullName = current.getName() + " " + current.getLastname();
-            if (fullName.contains(name)) {
+            if (StringUtils.containsIgnoreCase(fullName,name)) {
                 result.add(current);
             }
         }
@@ -322,7 +323,7 @@ public class Company implements Serializable {
     public static Collection<Client> searchClientsByNit(String nit) {
         Set<Client> result = new HashSet<>();
         for (Client current : clients) {
-            if (String.valueOf(current.getNit()).contains(nit)) {
+            if (StringUtils.containsIgnoreCase(String.valueOf(current.getNit()),nit)) {
                 result.add(current);
             }
         }
@@ -332,7 +333,7 @@ public class Company implements Serializable {
     public static Collection<Client> searchClientsByBillName(String billName) {
         Set<Client> result = new HashSet<>();
         for (Client current : clients) {
-            if (current.getBillName().contains(billName)) {
+            if (StringUtils.containsIgnoreCase(current.getBillName(),billName)) {
                 result.add(current);
             }
         }
@@ -352,7 +353,7 @@ public class Company implements Serializable {
     public static Collection<Service> searchServicesById(String id) {
         Set<Service> result = new HashSet<>();
         for (Service current : services) {
-            if (current.getId().contains(id)) {
+            if (StringUtils.containsIgnoreCase(current.getId(),id)) {
                 result.add(current);
             }
         }
@@ -362,7 +363,7 @@ public class Company implements Serializable {
     public static Collection<Service> searchServicesByDescription(String description) {
         Set<Service> result = new HashSet<>();
         for (Service current : services) {
-            if (current.getDescription().contains(description)) {
+            if (StringUtils.containsIgnoreCase(current.getDescription(),description)) {
                 result.add(current);
             }
         }
@@ -372,7 +373,7 @@ public class Company implements Serializable {
     public static Collection<Service> searchServicesByType(String type) {
         Set<Service> result = new HashSet<>();
         for (Service current : services) {
-            if (current.getType().contains(type)) {
+            if (StringUtils.containsIgnoreCase(current.getType(),type)) {
                 result.add(current);
             }
         }

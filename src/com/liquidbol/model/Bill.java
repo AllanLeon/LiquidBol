@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Class that represents a bill.
@@ -299,7 +300,7 @@ public class Bill implements Serializable {
     public Collection<ItemSale> searchItemSalesByItemId(String itemId) {
         Set<ItemSale> result = new HashSet<>();
         for (ItemSale current : itemSales) {
-            if (current.getItem().getId().contains(itemId)) {
+            if (StringUtils.containsIgnoreCase(current.getItem().getId(),itemId)) {
                 result.add(current);
             }
         }
@@ -309,7 +310,7 @@ public class Bill implements Serializable {
     public Collection<ItemSale> searchItemSalesByItemDescription(String itemDesc) {
         Set<ItemSale> result = new HashSet<>();
         for (ItemSale current : itemSales) {
-            if (current.getItem().getDescription().contains(itemDesc)) {
+            if (StringUtils.containsIgnoreCase(current.getItem().getDescription(),itemDesc)) {
                 result.add(current);
             }
         }
@@ -319,7 +320,7 @@ public class Bill implements Serializable {
     public Collection<ServiceReception> searchServiceReceptionsByServiceId(String serviceId) {
         Set<ServiceReception> result = new HashSet<>();
         for (ServiceReception current : serviceReceptions) {
-            if (current.getService().getId().contains(serviceId)) {
+            if (StringUtils.containsIgnoreCase(current.getService().getId(),serviceId)) {
                 result.add(current);
             }
         }
@@ -329,7 +330,7 @@ public class Bill implements Serializable {
     public Collection<ServiceReception> searchServiceReceptionsByServiceDescription(String serviceDesc) {
         Set<ServiceReception> result = new HashSet<>();
         for (ServiceReception current : serviceReceptions) {
-            if (current.getService().getDescription().contains(serviceDesc)) {
+            if (StringUtils.containsIgnoreCase(current.getService().getDescription(),serviceDesc)) {
                 result.add(current);
             }
         }
@@ -339,7 +340,7 @@ public class Bill implements Serializable {
     public Collection<ServiceReception> searchServiceReceptionsByRechargeableItemId(String rechItemId) {
         Set<ServiceReception> result = new HashSet<>();
         for (ServiceReception current : serviceReceptions) {
-            if (current.getItem().getId().contains(rechItemId)) {
+            if (StringUtils.containsIgnoreCase(current.getItem().getId(),rechItemId)) {
                 result.add(current);
             }
         }
