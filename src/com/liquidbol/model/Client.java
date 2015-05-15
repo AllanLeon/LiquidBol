@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Class that represents a client.
@@ -215,7 +216,7 @@ public class Client extends Person implements Serializable {
     public Collection<CXC> searchReceivableAccountsByState(String state) {
         Set<CXC> result = new HashSet<>();
         for (CXC cxc : receivableAccounts) {
-            if (cxc.getState().contains(state)) {
+            if (StringUtils.containsIgnoreCase(cxc.getState(),state)) {
                 result.add(cxc);
             }
         }
@@ -225,7 +226,7 @@ public class Client extends Person implements Serializable {
     public Collection<RechargeableItem> searchRechargeableItemsById(String id) {
         Set<RechargeableItem> result = new HashSet<>();
         for (RechargeableItem recItem : rechargeableItems) {
-            if (recItem.getId().contains(id)) {
+            if (StringUtils.containsIgnoreCase(recItem.getId(),id)) {
                 result.add(recItem);
             }
         }
@@ -235,7 +236,7 @@ public class Client extends Person implements Serializable {
     public Collection<RechargeableItem> searchRechargeableItemsByDescription(String description) {
         Set<RechargeableItem> result = new HashSet<>();
         for (RechargeableItem recItem : rechargeableItems) {
-            if (recItem.getDescription().contains(description)) {
+            if (StringUtils.containsIgnoreCase(recItem.getDescription(),description)) {
                 result.add(recItem);
             }
         }
@@ -245,7 +246,7 @@ public class Client extends Person implements Serializable {
     public Collection<RechargeableItem> searchRechargeableItemsByType(String type) {
         Set<RechargeableItem> result = new HashSet<>();
         for (RechargeableItem recItem : rechargeableItems) {
-            if (recItem.getType().contains(type)) {
+            if (StringUtils.containsIgnoreCase(recItem.getType(),type)) {
                 result.add(recItem);
             }
         }
