@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Class that represents a store.
@@ -133,7 +134,7 @@ public class Store implements Serializable {
     public Collection<Expense> searchExpensesByDescription(String desc) {
         Set<Expense> result = new HashSet<>();
         for (Expense expense : expenses) {
-            if (expense.getDescription().contains(desc)) {
+            if (StringUtils.containsIgnoreCase(expense.getDescription(),desc)) {
                 result.add(expense);
             }
         }
@@ -186,7 +187,7 @@ public class Store implements Serializable {
     public Collection<Inventory> searchInventorysByItemId(String itemId) {
         Set<Inventory> result = new HashSet<>();
         for (Inventory inventory : inventorys) {
-            if (inventory.getItem().getId().contains(itemId)) {
+            if (StringUtils.containsIgnoreCase(inventory.getItem().getId(),itemId)) {
                 result.add(inventory);
             }
         }
@@ -196,7 +197,7 @@ public class Store implements Serializable {
     public Collection<Inventory> searchInventorysByItemDescription(String description) {
         Set<Inventory> result = new HashSet<>();
         for (Inventory inventory : inventorys) {
-            if (inventory.getItem().getDescription().contains(description)) {
+            if (StringUtils.containsIgnoreCase(inventory.getItem().getDescription(),description)) {
                 result.add(inventory);
             }
         }
@@ -206,7 +207,7 @@ public class Store implements Serializable {
     public Collection<Inventory> searchInventorysByItemType(String type) {
         Set<Inventory> result = new HashSet<>();
         for (Inventory inventory : inventorys) {
-            if (inventory.getItem().getType().contains(type)) {
+            if (StringUtils.containsIgnoreCase(inventory.getItem().getType(),type)) {
                 result.add(inventory);
             }
         }
@@ -247,7 +248,7 @@ public class Store implements Serializable {
     public Collection<Employee> searchEmployeesById(String id) {
         Set<Employee> result = new HashSet<>();
         for (Employee employee : employees) {
-            if (String.valueOf(employee.getId()).contains(id)) {
+            if (StringUtils.containsIgnoreCase(String.valueOf(employee.getId()),id)) {
                 result.add(employee);
             }
         }
@@ -257,7 +258,8 @@ public class Store implements Serializable {
     public Collection<Employee> searchEmployeesByName(String name) {
         Set<Employee> result = new HashSet<>();
         for (Employee employee : employees) {
-            if (employee.getName().contains(name)) {
+            String fullName = employee.getName() + " " + employee.getLastname();
+            if (StringUtils.containsIgnoreCase(fullName,name)) {
                 result.add(employee);
             }
         }
@@ -267,7 +269,7 @@ public class Store implements Serializable {
     public Collection<Employee> searchEmployeesByType(String type) {
         Set<Employee> result = new HashSet<>();
         for (Employee employee : employees) {
-            if (employee.getType().contains(type)) {
+            if (StringUtils.containsIgnoreCase(employee.getType(),type)) {
                 result.add(employee);
             }
         }

@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Class that represents and item estimate.
@@ -149,7 +150,7 @@ public class ItemEstimate implements Serializable {
     public Collection<ItemRequest> searchItemRequestsByItemId(String itemId) {
         Set<ItemRequest> result = new HashSet<>();
         for (ItemRequest current : requests) {
-            if (current.getItem().getId().contains(itemId)) {
+            if (StringUtils.containsIgnoreCase(current.getItem().getId(),itemId)) {
                 result.add(current);
             }
         }
@@ -159,7 +160,7 @@ public class ItemEstimate implements Serializable {
     public Collection<ItemRequest> searchItemRequestsByItemDescription(String itemDescription) {
         Set<ItemRequest> result = new HashSet<>();
         for (ItemRequest current : requests) {
-            if (current.getItem().getDescription().contains(itemDescription)) {
+            if (StringUtils.containsIgnoreCase(current.getItem().getDescription(),itemDescription)) {
                 result.add(current);
             }
         }
