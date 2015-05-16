@@ -92,8 +92,7 @@ public class ShopCartForm extends JFrame {
         UIStyle sty = new UIStyle();
         stores = new ArrayList<>(Company.getAllStores());
         selectedStore = stores.get(0);
-        List<Employee> employees = new ArrayList<>(Company.getAllEmployees());
-        newBill = new Bill(0, selectedStore, employees.get(0), new Date(new java.util.Date().getTime()), false, false, "");
+        newBill = new Bill(0, selectedStore, Company.getLoggedEmployee(), new Date(new java.util.Date().getTime()), false, false, "");
         initComponents();
         setVisible(true);
     }
