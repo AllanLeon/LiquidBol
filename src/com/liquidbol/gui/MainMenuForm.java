@@ -38,6 +38,7 @@ public class MainMenuForm extends JFrame {
     private JButton repoBtn;
     private JButton sellListBtn;
     private JButton invBtn;
+    private JButton itemBtn;
     private JButton clientBtn;
     private JButton cxcBtn;
     private JButton arBtn;
@@ -117,6 +118,15 @@ public class MainMenuForm extends JFrame {
             }
         });
         
+        itemBtn = new JButton("Articulos");
+        itemBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListItemsForm lif = new ListItemsForm();
+                dispose();
+            }
+        });
+        
         buyBtn = new JButton("Compras");
         buyBtn.addActionListener(new ActionListener() {
             @Override
@@ -186,7 +196,8 @@ public class MainMenuForm extends JFrame {
         quoteBtn.setBounds(260, 40, 110, 50);
         repoBtn.setBounds(60, 100, 110, 50);
         sellListBtn.setBounds(160, 100, 110, 50);
-        invBtn.setBounds(60, 160, 110, 50);
+        invBtn.setBounds(260, 100, 110, 50);
+        itemBtn.setBounds(60, 160, 110, 50);
         buyBtn.setBounds(160, 160, 110, 50);
         provBtn.setBounds(260, 160, 110, 50);
         clientBtn.setBounds(60, 220, 110, 50);
@@ -202,6 +213,7 @@ public class MainMenuForm extends JFrame {
         contentPane.add(repoBtn);
         contentPane.add(sellListBtn);
         contentPane.add(invBtn);
+        contentPane.add(itemBtn);
         contentPane.add(buyBtn);
         contentPane.add(provBtn);
         contentPane.add(clientBtn);

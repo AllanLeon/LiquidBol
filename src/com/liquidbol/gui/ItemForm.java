@@ -137,7 +137,7 @@ public class ItemForm extends JFrame {
                     Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JOptionPane.showMessageDialog(null, "Item added! \n Respect+");
-                ListInventorysForm lif = new ListInventorysForm();
+                ListItemsForm lif = new ListItemsForm();
                 dispose();
             }
         });
@@ -145,7 +145,7 @@ public class ItemForm extends JFrame {
         backBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListInventorysForm lif = new ListInventorysForm();
+                ListItemsForm lif = new ListItemsForm();
                 dispose();
             }
         });
