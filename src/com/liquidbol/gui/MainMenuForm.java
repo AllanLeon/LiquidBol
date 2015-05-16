@@ -112,7 +112,7 @@ public class MainMenuForm extends JFrame {
         invBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ListItemsForm lif = new ListItemsForm();
+                ListInventorysForm lif = new ListInventorysForm();
                 dispose();
             }
         });

@@ -214,6 +214,16 @@ public class Store implements Serializable {
         return result;
     }
     
+    public Collection<Inventory> searchInventorysByItemSubtype(String subtype) {
+        Set<Inventory> result = new HashSet<>();
+        for (Inventory inventory : inventorys) {
+            if (StringUtils.containsIgnoreCase(inventory.getItem().getSubtype(),subtype)) {
+                result.add(inventory);
+            }
+        }
+        return result;
+    }
+    
     public Inventory searchInventoryByItemId(String itemId) throws OperationFailedException {
         for (Inventory inventory : inventorys) {
             if (inventory.getItem().getId().equals(itemId)) {

@@ -1,14 +1,20 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.UIStyle;
-import com.liquidbol.gui.tables.model.ItemTableModel;
+import com.liquidbol.db.persistence.PersistenceException;
+import com.liquidbol.gui.tables.model.InventoryTableModel;
 import com.liquidbol.model.Company;
+import com.liquidbol.model.Store;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -25,28 +31,36 @@ import javax.swing.JTextField;
 import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
  * @author Franco
  */
-public class ListItemsForm extends JFrame {
+public class ListInventorysForm extends JFrame {
 
-    private final String[] SEARCH_PARAMETERS = {"Cod.", "Descripcion", "Marca", "Industria", "Tipo", "Subtipo"};
+    private final String[] SEARCH_PARAMETERS = {"Cod.", "Descripcion", "Tipo", "Subtipo"};
+    private final int MIN_STOCK = 10;
     
     private JPanel contentPane;
     private JLabel title;
-    private JButton addBtn;
+    //private JButton addBtn;
+    private JLabel branchLbl;
+    private JComboBox branchNameCB;
     private JComboBox searchCB;
     private JTextField searchBox;
     private JButton searchBtn;
     private JTable itemsTable;
     private JButton backBtn;
-    private ItemTableModel itemsTableModel;
+    private InventoryTableModel inventorysTableModel;
+    private List<Store> stores;
+    private Store selectedStore;
     
-    public ListItemsForm() {
+    public ListInventorysForm() {
         UIStyle sty = new UIStyle();
+        stores = new ArrayList<>(Company.getAllStores());
+        selectedStore = stores.get(0);
         initComponents();
         setVisible(true);
     }
@@ -63,15 +77,30 @@ public class ListItemsForm extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        title = new JLabel("ITEMS");
+        title = new JLabel("INVENTARIO");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         
-        addBtn = new JButton("+");
+        /*addBtn = new JButton("+");
         addBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ItemForm itf = new ItemForm(1);
                 dispose();
+            }
+        });*/
+        
+        branchLbl = new JLabel("Sucursal");
+        branchNameCB = new JComboBox();
+        try {
+            branchNameCB.setModel(new DefaultComboBoxModel(loadBranchNames()));
+        } catch (PersistenceException | ClassNotFoundException ex) {
+            Logger.getLogger(ShopCartForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        branchNameCB.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                selectedStore = stores.get(branchNameCB.getSelectedIndex());
+                inventorysTableModel.setStore(selectedStore);
             }
         });
 
@@ -91,7 +120,7 @@ public class ListItemsForm extends JFrame {
 
             @Override
             public void keyReleased(KeyEvent ke) {
-                updateItemTableModel();
+                updateInventoryTableModel();
             }
         });
         
@@ -101,12 +130,24 @@ public class ListItemsForm extends JFrame {
             Logger.getLogger(ListInventorysForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        itemsTableModel = new ItemTableModel(Company.getAllItems());
-        itemsTable = new JTable(itemsTableModel);
+        inventorysTableModel = new InventoryTableModel(selectedStore);
+        itemsTable = new JTable(inventorysTableModel){
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+                if (inventorysTableModel.getItemStock(row) < MIN_STOCK) {
+                        c.setBackground(Color.RED);
+                } else {
+                    c.setBackground(getBackground());
+                }
+                return c;
+            }
+
+        };
         itemsTable.getTableHeader().setReorderingAllowed(false);
         itemsTable.setFont(new Font("Arial", Font.PLAIN, 16));
         itemsTable.setRowHeight(25);
-        itemsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        /*itemsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
         itemsTable.getColumnModel().getColumn(1).setPreferredWidth(50);
         itemsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
         itemsTable.getColumnModel().getColumn(3).setPreferredWidth(200);
@@ -115,7 +156,7 @@ public class ListItemsForm extends JFrame {
         itemsTable.getColumnModel().getColumn(6).setPreferredWidth(80);
         itemsTable.getColumnModel().getColumn(7).setPreferredWidth(50);
         itemsTable.getColumnModel().getColumn(8).setPreferredWidth(40);
-        itemsTable.getColumnModel().getColumn(9).setPreferredWidth(40);
+        itemsTable.getColumnModel().getColumn(9).setPreferredWidth(40);*/
         itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(itemsTable.getModel());
         itemsTable.setRowSorter(sorter);
@@ -131,7 +172,9 @@ public class ListItemsForm extends JFrame {
         });  
 
         title.setBounds(350, 30, 500, 30);
-        addBtn.setBounds(570, 80, 100, 30);
+        //addBtn.setBounds(570, 80, 100, 30);
+        branchLbl.setBounds(20, 40, 80, 30);
+        branchNameCB.setBounds(80, 40, 150, 30);
         searchCB.setBounds(150, 120, 150, 30);
         searchBox.setBounds(310, 120, 250, 30);
         searchBtn.setBounds(550, 120, 50, 30);
@@ -139,7 +182,9 @@ public class ListItemsForm extends JFrame {
         backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
-        contentPane.add(addBtn);
+        //contentPane.add(addBtn);
+        contentPane.add(branchLbl);
+        contentPane.add(branchNameCB);
         contentPane.add(searchCB);
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
@@ -147,25 +192,29 @@ public class ListItemsForm extends JFrame {
         contentPane.add(backBtn);
     }
     
-    private void updateItemTableModel() {
+    private Object[] loadBranchNames() throws PersistenceException, ClassNotFoundException {
+        List<String> data = new ArrayList<>();
+        for (Store store : stores) {
+            String name = store.getName();
+            data.add(name);
+        }
+        return data.toArray();
+    }
+    
+    private void updateInventoryTableModel() {
+        String searchQuery = searchBox.getText().trim();
         switch (searchCB.getSelectedIndex()) {
             case 0:
-                itemsTableModel.setItems(Company.searchItemsById(searchBox.getText()));
+                inventorysTableModel.setInventorys(selectedStore.searchInventorysByItemId(searchQuery));
                 break;
             case 1:
-                itemsTableModel.setItems(Company.searchItemsByDescription(searchBox.getText()));
+                inventorysTableModel.setInventorys(selectedStore.searchInventorysByItemDescription(searchQuery));
                 break;
             case 2:
-                itemsTableModel.setItems(Company.searchItemsByBrand(searchBox.getText()));
+                inventorysTableModel.setInventorys(selectedStore.searchInventorysByItemType(searchQuery));
                 break;
             case 3:
-                itemsTableModel.setItems(Company.searchItemsByIndustry(searchBox.getText()));
-                break;
-            case 4:
-                itemsTableModel.setItems(Company.searchItemsByType(searchBox.getText()));
-                break;
-            case 5:
-                itemsTableModel.setItems(Company.searchItemsBySubtype(searchBox.getText()));
+                inventorysTableModel.setInventorys(selectedStore.searchInventorysByItemSubtype(searchQuery));
                 break;
             default:;
         }

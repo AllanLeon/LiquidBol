@@ -95,8 +95,4 @@ public class ShopCartItemTableModel extends AbstractTableModel {
         this.inventorys = new ArrayList<>(inventorys);
         fireTableDataChanged();
     }
-    
-    public int getItemStock(int row) {
-        return inventorys.get(row).getQuantity();
-    }
 }
