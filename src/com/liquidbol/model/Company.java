@@ -19,6 +19,7 @@ public class Company implements Serializable {
     private static Collection<Offer> offers;
     private static Collection<Store> stores;
     private static Collection<Supplier> suppliers;
+    private static Employee loggedEmployee;
 
     /**
      * Constructor method.
@@ -30,6 +31,14 @@ public class Company implements Serializable {
         offers = new HashSet<>();
         stores = new HashSet<>();
         suppliers = new HashSet<>();
+        loggedEmployee = new Employee(0);
+    }
+    
+    /**
+     * @return the loggedEmployee
+     */
+    public static Employee getLoggedEmployee() {
+        return loggedEmployee;
     }
 
     /**
@@ -72,6 +81,13 @@ public class Company implements Serializable {
      */
     public static Collection<Supplier> getAllSuppliers() {
         return suppliers;
+    }
+
+    /**
+     * @param employee the loggedEmployee to set
+     */
+    public static void setLoggedEmployee(Employee employee) {
+        Company.loggedEmployee = employee;
     }
 
     /**
