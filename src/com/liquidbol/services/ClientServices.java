@@ -80,7 +80,7 @@ public class ClientServices {
             throws PersistenceException, ClassNotFoundException {
         element = rechargeableItemCrudManager.save(element, parent);
         parent.addRechargeableItem(element);
-        LOG.info(String.format(ANSI_PURPLE + "Rechargeable item: %d saved" + ANSI_RESET, element.getId()));
+        LOG.info(String.format(ANSI_PURPLE + "Rechargeable item: %s saved" + ANSI_RESET, element.getId()));
         return element;
     }
     

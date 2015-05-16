@@ -26,7 +26,7 @@ public class RechargeableItemCrud implements DBCrud<RechargeableItem> {
             connection = ConnectionManager.getInstance().getConnection();
             String insert = "INSERT INTO rechargeable_items(rechargeableitem_id, "
                     + "client_id, description, type, capacity, unit, warranty_limit_date, "
-                    + "obs) VALUES(?,?,?,?,?,?,?)";
+                    + "obs) VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareCall(insert);
             statement.setString(1, element.getId());
             statement.setInt(2, parent.getId());

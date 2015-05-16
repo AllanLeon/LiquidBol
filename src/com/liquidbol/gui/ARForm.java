@@ -1,5 +1,6 @@
 package com.liquidbol.gui;
 
+import com.liquidbol.addons.DateConverter;
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.addons.UIStyle;
@@ -7,7 +8,6 @@ import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
 import com.liquidbol.model.RechargeableItem;
-import com.liquidbol.model.Supplier;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
@@ -19,7 +19,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -172,16 +176,16 @@ public class ARForm extends JFrame {
         }
 
         submitBtn = new JButton("Add");
-         submitBtn.addActionListener(new ActionListener() {
+        submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              /*  readIt();
+                readIt();
                 try {
                     saveIt(readItData);
                 } catch (PersistenceException | ClassNotFoundException ex) {
                     Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
-              */  JOptionPane.showMessageDialog(null, "Rechargeable ttem added! \n Respect+");
+                JOptionPane.showMessageDialog(null, "Rechargeable item added! \n Respect+");
                 ListARForm larf = new ListARForm();
                 dispose();
             }
@@ -240,22 +244,31 @@ public class ARForm extends JFrame {
     }
 
     private void readIt() {
-        String id = ((JTextField) ritemId).getText();
-        String desc = ((JTextField) ritemDesc).getText();
-        double capac = Double.parseDouble(((JTextField) ritemCapacity).getText());
-        String unit = ritemUnits.getSelectedItem().toString();
-        String type = "";
-        if(isCylinderRB.isSelected()){
-            type = isCylinderRB.getText();
-        } else if (isExtinguisherRB.isSelected()) {
-            type = isExtinguisherRB.getText();
-        }
-        Date date = Date.valueOf(datePicker.getToolTipText());
-        String obs = ((JTextField) ritemObs).getText();
-        if(1 == 0) {
-            JOptionPane.showMessageDialog(this,"MISSING!","Missing some important data input!", JOptionPane.WARNING_MESSAGE);
-        } else {
-            readItData = new Object[] {id, desc, capac, unit, type, date, obs};
+        try {
+            String id = ((JTextField) ritemId).getText();
+            String desc = ((JTextField) ritemDesc).getText();
+            double capac = Double.parseDouble(((JTextField) ritemCapacity).getText());
+            String unit = ritemUnits.getSelectedItem().toString();
+            String type = "";
+            if(isCylinderRB.isSelected()){
+                type = isCylinderRB.getText();
+            } else if (isExtinguisherRB.isSelected()) {
+                type = isExtinguisherRB.getText();
+            }
+            
+            String strDate = datePicker.getJFormattedTextField().getText();
+            DateFormat localDF = new SimpleDateFormat("dd/MM/yyyy");
+            java.util.Date utilDate = null;
+            utilDate = localDF.parse(strDate);
+            Date sqlDate = new Date(utilDate.getTime());
+            String obs = ((JTextField) ritemObs).getText();
+            if(1 == 0) {
+                JOptionPane.showMessageDialog(this,"MISSING!","Missing some important data input!", JOptionPane.WARNING_MESSAGE);
+            } else {
+                readItData = new Object[] {id, desc, capac, unit, type, sqlDate, obs};
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(ARForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
