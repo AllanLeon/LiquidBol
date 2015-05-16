@@ -8,15 +8,12 @@ import com.liquidbol.gui.tables.model.ShopCartTableModel;
 import com.liquidbol.model.Bill;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
-import com.liquidbol.model.Employee;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemSale;
 import com.liquidbol.model.RechargeableItem;
 import com.liquidbol.model.Service;
 import com.liquidbol.model.ServiceReception;
 import com.liquidbol.model.Store;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -49,7 +46,6 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -163,20 +159,7 @@ public class ShopCartForm extends JFrame {
 
         itemsLbl = new JLabel("Articulos");
         itemsTableModel = new ShopCartItemTableModel(selectedStore);
-        itemsTable = new JTable(itemsTableModel){
-            @Override
-            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-                Component c = super.prepareRenderer(renderer, row, column);
-                if (itemsTableModel.getItemStock(row) < MIN_STOCK) {
-                        c.setBackground(Color.RED);
-                } else {
-                    c.setBackground(getBackground());
-                }
-
-                return c;
-            }
-
-        };
+        itemsTable = new JTable(itemsTableModel);
         itemsTable.getTableHeader().setReorderingAllowed(false);
         itemsTable.setFont(new Font("Arial", Font.BOLD, 16));
         itemsTable.setRowHeight(25);
@@ -223,7 +206,7 @@ public class ShopCartForm extends JFrame {
         wholeTable.getColumnModel().getColumn(5).setPreferredWidth(40);
         wholeTable.getColumnModel().getColumn(6).setPreferredWidth(50);
         wholeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        RowSorter<TableModel> sorter = new TableRowSorter<>(wholeTable.getModel());
+        RowSorter<TableModel> sorter = new TableRowSorter<>(shopCartTableModel);
         wholeTable.setRowSorter(sorter);
         wholeTable.getModel().addTableModelListener(new TableModelListener() {
             @Override
@@ -242,7 +225,8 @@ public class ShopCartForm extends JFrame {
         toNoteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                NoteForm nf = new NoteForm(wholeTable.getModel(), newBill);
+                shopCartTableModel.verifyItems(selectedStore);
+                NoteForm nf = new NoteForm(shopCartTableModel, newBill);
                 setVisible(false);
             }
         });
@@ -250,7 +234,8 @@ public class ShopCartForm extends JFrame {
         toBillBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BillForm bf = new BillForm(wholeTable.getModel(), newBill);
+                shopCartTableModel.verifyItems(selectedStore);
+                BillForm bf = new BillForm(shopCartTableModel, newBill);
                 setVisible(false);
             }
         });
@@ -258,7 +243,8 @@ public class ShopCartForm extends JFrame {
         toEstimateBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ItemEstimateForm ief = new ItemEstimateForm(wholeTable.getModel(), newBill);
+                shopCartTableModel.verifyItems(selectedStore);
+                ItemEstimateForm ief = new ItemEstimateForm(shopCartTableModel, newBill);
                 setVisible(false);
             }
         });

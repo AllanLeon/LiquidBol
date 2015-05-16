@@ -1,6 +1,7 @@
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Inventory;
+import com.liquidbol.model.Item;
 import com.liquidbol.model.Store;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,29 +14,29 @@ import javax.swing.table.AbstractTableModel;
  */
 public class InventoryTableModel extends AbstractTableModel {
     
-    private static final String[] COLUMN_NAMES = {"Nro.", "Cantidad", "Articulo", "Tienda"};
-    private final List<Store> stores;
-    private final List<Inventory> inventorys;
+    private static final String[] COLUMN_NAMES = {"Nro.", "Cod. Articulo",
+        "Articulo", "Tipo", "Subtipo", "Cantidad"};
+    private Store store;
+    private List<Inventory> inventorys;
 
-    public InventoryTableModel(Collection<Store> stores) {
-        this.stores = new ArrayList<>();
+    public InventoryTableModel(Store store) {
+        this.store = store;
         inventorys = new ArrayList<>();
-        initializeLists(stores);
+        updateInventorys();
     }
     
-    private void initializeLists(Collection<Store> stores) {
-        for (Store store : stores) {
-            for (Inventory inventory : store.getAllInventorys()) {
-                this.stores.add(store);
-                inventorys.add(inventory);
-            }
+    private void updateInventorys() {
+        inventorys.clear();
+        for (Inventory inventory : store.getAllInventorys()) {
+            inventorys.add(inventory);
         }
+        fireTableDataChanged();
     }
     
     @Override
     public Class getColumnClass(int columnIndex) {
         switch (columnIndex) {
-            case 0:  case 1:
+            case 0:  case 5:
                 return Integer.class;
             default :
                 return String.class;
@@ -44,17 +45,21 @@ public class InventoryTableModel extends AbstractTableModel {
     
     @Override
     public Object getValueAt(int row, int column) {
-        Store store = stores.get(row);
         Inventory inventory = inventorys.get(row);
+        Item item = inventory.getItem();
         switch (column) {
             case 0:
                 return row + 1;
             case 1:
-                return inventory.getQuantity();
+                return item.getId();
             case 2:
-                return inventory.getItem().getDescription();
+                return item.getDescription();
             case 3:
-                return store.getName();
+                return item.getType();
+            case 4:
+                return item.getSubtype();
+            case 5:
+                return inventory.getQuantity();
             default:
                 return null;
         }
@@ -73,5 +78,19 @@ public class InventoryTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return inventorys.size();
+    }
+    
+    public void setStore(Store store) {
+        this.store = store;
+        updateInventorys();
+    }
+    
+    public void setInventorys(Collection<Inventory> inventorys) {
+        this.inventorys = new ArrayList<>(inventorys);
+        fireTableDataChanged();
+    }
+    
+    public int getItemStock(int row) {
+        return inventorys.get(row).getQuantity();
     }
 }
