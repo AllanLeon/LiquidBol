@@ -1,6 +1,9 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.OperationFailedException;
+import com.liquidbol.services.CompanyServices;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -23,16 +27,20 @@ import javax.swing.border.EmptyBorder;
  * @author Franco
  */
 public class LoginForm extends JFrame {
-
+    
+    protected static MainMenuForm mm;
+    protected static LoginForm LF;
+    
     private JPanel contentPane;
     private JButton submitBtn;
     private JLabel bgLabel;
-    private JTextField jTextField1;
-    protected static MainMenuForm mm;
-    protected static LoginForm LF;
+    private JTextField idTextField;
+    private JTextField passTextField;
+    private CompanyServices companyServices;
 
     public LoginForm() {
         UIStyle sty = new UIStyle();
+        companyServices = new CompanyServices();
         initComponents();
         setVisible(true);
     }
@@ -60,22 +68,40 @@ public class LoginForm extends JFrame {
         }
         bgLabel.setHorizontalAlignment(SwingConstants.CENTER);
         
-        jTextField1 = new JTextField();
+        idTextField = new JTextField();
+        passTextField = new JTextField();
         submitBtn = new JButton();
         submitBtn.setText("OK");
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mm = new MainMenuForm();
-                setVisible(false);
+                autenticate();
             }
         });
         
-        jTextField1.setBounds(90, 160, 200, 30);
+        idTextField.setBounds(90, 160, 200, 30);
+        passTextField.setBounds(90, 190, 200, 30);
         submitBtn.setBounds(300, 160, 50, 30);
         
-        contentPane.add(jTextField1);
+        contentPane.add(idTextField);
+        contentPane.add(passTextField);
         contentPane.add(submitBtn);
         contentPane.add(bgLabel);
+    }
+    
+    private void autenticate() {
+        try {
+            int id = Integer.parseInt(idTextField.getText().trim());
+            String pass = passTextField.getText();
+            Company.setLoggedEmployee(companyServices.autenticateEmployee(id, pass));
+            mm = new MainMenuForm();
+            setVisible(false);
+        } catch (OperationFailedException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error de autenticacion", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Id de empleado incorrecto", "Error de autenticacion", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

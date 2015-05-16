@@ -1,11 +1,15 @@
 package com.liquidbol.gui.tables.model;
 
 import com.liquidbol.model.Bill;
+import com.liquidbol.model.Inventory;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemSale;
+import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.model.Service;
 import com.liquidbol.model.ServiceReception;
+import com.liquidbol.model.Store;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -137,5 +141,20 @@ public class ShopCartTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return itemSales.size() + serviceReceptions.size();
+    }
+    
+    public void verifyItems(Store store) {
+        Iterator<ItemSale> iter = itemSales.iterator();
+        while (iter.hasNext()) {
+            ItemSale current = iter.next();
+            try {
+                Inventory currentInv = store.searchInventoryByItemId(current.getItem().getId());
+                if (currentInv.getQuantity() < current.getQuantity()) {
+                    current.setQuantity(currentInv.getQuantity());
+                }
+            } catch (OperationFailedException ex) {
+                iter.remove();
+            }
+        }
     }
 }
