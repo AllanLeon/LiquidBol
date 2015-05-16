@@ -8,7 +8,6 @@ import com.liquidbol.gui.tables.model.ShopCartTableModel;
 import com.liquidbol.model.Bill;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
-import com.liquidbol.model.Employee;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemSale;
 import com.liquidbol.model.RechargeableItem;
@@ -223,7 +222,7 @@ public class ShopCartForm extends JFrame {
         wholeTable.getColumnModel().getColumn(5).setPreferredWidth(40);
         wholeTable.getColumnModel().getColumn(6).setPreferredWidth(50);
         wholeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        RowSorter<TableModel> sorter = new TableRowSorter<>(wholeTable.getModel());
+        RowSorter<TableModel> sorter = new TableRowSorter<>(shopCartTableModel);
         wholeTable.setRowSorter(sorter);
         wholeTable.getModel().addTableModelListener(new TableModelListener() {
             @Override
@@ -242,7 +241,8 @@ public class ShopCartForm extends JFrame {
         toNoteBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                NoteForm nf = new NoteForm(wholeTable.getModel(), newBill);
+                shopCartTableModel.verifyItems(selectedStore);
+                NoteForm nf = new NoteForm(shopCartTableModel, newBill);
                 setVisible(false);
             }
         });
@@ -250,7 +250,8 @@ public class ShopCartForm extends JFrame {
         toBillBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BillForm bf = new BillForm(wholeTable.getModel(), newBill);
+                shopCartTableModel.verifyItems(selectedStore);
+                BillForm bf = new BillForm(shopCartTableModel, newBill);
                 setVisible(false);
             }
         });
@@ -258,7 +259,8 @@ public class ShopCartForm extends JFrame {
         toEstimateBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ItemEstimateForm ief = new ItemEstimateForm(wholeTable.getModel(), newBill);
+                shopCartTableModel.verifyItems(selectedStore);
+                ItemEstimateForm ief = new ItemEstimateForm(shopCartTableModel, newBill);
                 setVisible(false);
             }
         });
