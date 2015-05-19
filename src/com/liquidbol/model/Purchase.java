@@ -129,7 +129,8 @@ public class Purchase implements Serializable {
         return result;
     }
     
-    public void execute() {
+    public Collection<Inventory> execute() {
+        Collection<Inventory> result = new HashSet<>();
         Inventory inventory;
         List<Store> stores = new ArrayList<>(Company.getAllStores());
         StoreServices storeServices = new StoreServices();
@@ -137,16 +138,19 @@ public class Purchase implements Serializable {
             try {
                 inventory = stores.get(0).searchInventoryByItemId(itemPurchase.getItem().getId());
                 inventory.increaseQuantityBy(itemPurchase.getQuantity());
+                result.add(inventory);
             } catch (OperationFailedException ex) {
                 try {
                     inventory = storeServices.createInventory(0, itemPurchase.getItem(), 0);
                     storeServices.addInventoryToStore(inventory, stores.get(0));
                     inventory.increaseQuantityBy(id);
+                    result.add(inventory);
                 } catch (PersistenceException | ClassNotFoundException ex1) {
                     Logger.getLogger(Purchase.class.getName()).log(Level.SEVERE, null, ex1);
                 }
             }
         }
+        return result;
     }
 
     @Override

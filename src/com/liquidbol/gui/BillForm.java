@@ -7,6 +7,7 @@ import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Bill;
 import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
+import com.liquidbol.model.Inventory;
 import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.services.ClientServices;
 import com.liquidbol.services.CompanyServices;
@@ -16,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Collection;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -201,11 +203,11 @@ public class BillForm extends JFrame implements KeyListener {
 
     private void invoice() {
         try {
-            bill.execute();
+            Collection<Inventory> changes = bill.execute();
             clientServices.addBillToClient(bill, client);
-            companyServices.mergeClient(client);
-            storeServices.updateInventorys(bill.getStore());
-            storeServices.loadStoreInventorys(bill.getStore());
+            for (Inventory current : changes) {
+                storeServices.mergeInventory(current.getId(), current.getQuantity());
+            }
         } catch (OperationFailedException | PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
         }
