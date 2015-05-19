@@ -1,11 +1,11 @@
 package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
-import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.addons.UIStyle;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.gui.tables.model.PurchaseTableModel;
 import com.liquidbol.model.Company;
+import com.liquidbol.model.Inventory;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemPurchase;
 import com.liquidbol.model.OperationFailedException;
@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -247,11 +248,11 @@ public class PurchaseForm extends JFrame {
     
     public void invoice() {
         try {
-            newPurchase.execute();
-            List<Store> stores = new ArrayList<>(Company.getAllStores());
+            Collection<Inventory> changes = newPurchase.execute();
             supplierServices.addPurchaseToSupplier(newPurchase, suppliers.get(supplierCombo.getSelectedIndex()));
-            storeServices.updateInventorys(stores.get(0));
-            storeServices.loadStoreInventorys(stores.get(0));
+            for (Inventory current : changes) {
+                storeServices.mergeInventory(current.getId(), current.getQuantity());
+            }
         } catch (PersistenceException | ClassNotFoundException ex) {
             Logger.getLogger(BillForm.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -137,8 +137,6 @@ public class ListInventorysForm extends JFrame {
                 Component c = super.prepareRenderer(renderer, row, column);
                 if (inventorysTableModel.getItemStock(row) < MIN_STOCK) {
                         c.setBackground(Color.RED);
-                } else {
-                    c.setBackground(getBackground());
                 }
                 return c;
             }

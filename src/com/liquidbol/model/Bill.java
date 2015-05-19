@@ -377,12 +377,15 @@ public class Bill implements Serializable {
         }
     }
     
-    public void execute() throws OperationFailedException {
+    public Collection<Inventory> execute() throws OperationFailedException {
+        Collection<Inventory> result = new HashSet<>();
         Inventory inventory;
         for (ItemSale itemSale : itemSales) {
             inventory = store.searchInventoryByItemId(itemSale.getItem().getId());
             inventory.reduceQuantityBy(itemSale.getQuantity());
+            result.add(inventory);
         }
+        return result;
     }
 
     @Override
