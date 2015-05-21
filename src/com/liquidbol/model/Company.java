@@ -177,17 +177,36 @@ public class Company implements Serializable {
     public static Client findClientByNit(int nit) throws OperationFailedException {
         for (Client client : clients) {
             if (client.getNit() == nit) {
-                System.out.println(nit);
                 return client;
             }
         }
         throw new OperationFailedException(String.format("Client nit: %d not found", nit));
     }
     
+    public static RechargeableItem findRechargeableItemById(String id) throws OperationFailedException {
+        id.trim();
+        for (Client client : clients) {
+            for (RechargeableItem current : client.getAllRechargeableItems()) {
+                if (StringUtils.equalsIgnoreCase(current.getId(), id)) {
+                    return current;
+                }
+            }
+        }
+        throw new OperationFailedException(String.format("Rechargeable item id: %s not found", id));
+    }
+    
     public static Collection<Employee> getAllEmployees() {
         Collection<Employee> result = new HashSet<>();
         for (Store store : stores) {
             result.addAll(store.getAllEmployees());
+        }
+        return result;
+    }
+    
+    public static Collection<RechargeableItem> getAllRechargeableItems() {
+        Collection<RechargeableItem> result = new HashSet<>();
+        for (Client client : clients) {
+            result.addAll(client.getAllRechargeableItems());
         }
         return result;
     }

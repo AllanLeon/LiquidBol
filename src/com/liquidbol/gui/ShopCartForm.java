@@ -6,13 +6,11 @@ import com.liquidbol.gui.tables.model.ShopCartItemTableModel;
 import com.liquidbol.gui.tables.model.ShopCartServiceTableModel;
 import com.liquidbol.gui.tables.model.ShopCartTableModel;
 import com.liquidbol.model.Bill;
-import com.liquidbol.model.Client;
 import com.liquidbol.model.Company;
 import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemSale;
 import com.liquidbol.model.RechargeableItem;
 import com.liquidbol.model.Service;
-import com.liquidbol.model.ServiceReception;
 import com.liquidbol.model.Store;
 import java.awt.Font;
 import java.awt.Point;
@@ -24,8 +22,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,10 +81,13 @@ public class ShopCartForm extends JFrame {
     private ShopCartTableModel shopCartTableModel;
     private List<Store> stores;
     private Store selectedStore;
+    private List<String> recItemsId;
 
     public ShopCartForm() {
         UIStyle sty = new UIStyle();
         stores = new ArrayList<>(Company.getAllStores());
+        recItemsId = new ArrayList<>();
+        updateRechargeableItemIdList(Company.getAllRechargeableItems());
         selectedStore = stores.get(0);
         newBill = new Bill(0, selectedStore, Company.getLoggedEmployee(), new Date(new java.util.Date().getTime()), false, false, "");
         initComponents();
@@ -289,8 +290,8 @@ public class ShopCartForm extends JFrame {
         cartPane.add(toBillBtn);
         cartPane.add(toEstimateBtn);
 
-        addDoubleClickList(itemsTable, wholeTable, false);
-        addDoubleClickList(serviceTable, wholeTable, true);
+        addDoubleClickListener(itemsTable, wholeTable, false);
+        addDoubleClickListener(serviceTable, wholeTable, true);
     }
 
     private Object[] loadBranchNames() throws PersistenceException, ClassNotFoundException {
@@ -302,7 +303,7 @@ public class ShopCartForm extends JFrame {
         return data.toArray();
     }
     
-    private void addDoubleClickList(JTable aTable, JTable bTable, boolean isService) {
+    private void addDoubleClickListener(JTable aTable, JTable bTable, boolean isService) {
         aTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent me) {
@@ -314,9 +315,7 @@ public class ShopCartForm extends JFrame {
                     if (isService) {
                         ShopCartServiceTableModel model = (ShopCartServiceTableModel) aTable.getModel();
                         Service reqService = model.getServiceAt(row);
-                        List<Client> clients = new ArrayList<>(Company.getAllClients());
-                        List<RechargeableItem> recItems = new ArrayList<>(clients.get(0).getAllRechargeableItems());
-                        newBill.addServiceReception(new ServiceReception(1, reqService, recItems.get(0), new Date(new java.util.Date().getTime()), new Timestamp(new java.util.Date().getTime()), 1.0, ""));
+                        showRechargeableItemIdDialog(shopCart, reqService);
                     } else {
                         ShopCartItemTableModel model = (ShopCartItemTableModel) aTable.getModel();
                         Item reqItem = model.getItemAt(row);
@@ -344,5 +343,16 @@ public class ShopCartForm extends JFrame {
                 break;
             default:;
         }
+    }
+    
+    private void updateRechargeableItemIdList(Collection<RechargeableItem> rechargeableItems) {
+        recItemsId.clear();
+        for (RechargeableItem current : rechargeableItems) {
+            recItemsId.add(current.getId());
+        }
+    }
+    
+    private void showRechargeableItemIdDialog(ShopCartTableModel shopCart, Service reqService) {
+        new RechargeableItemDialog(this, recItemsId, newBill, reqService, shopCart);
     }
 }
