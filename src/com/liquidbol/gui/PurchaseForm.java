@@ -2,6 +2,7 @@ package com.liquidbol.gui;
 
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.UIStyle;
+import com.liquidbol.addons.suggestor.AutoSuggestor;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.gui.tables.model.PurchaseTableModel;
 import com.liquidbol.model.Company;
@@ -10,10 +11,10 @@ import com.liquidbol.model.Item;
 import com.liquidbol.model.ItemPurchase;
 import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.model.Purchase;
-import com.liquidbol.model.Store;
 import com.liquidbol.model.Supplier;
 import com.liquidbol.services.StoreServices;
 import com.liquidbol.services.SupplierServices;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -74,11 +75,14 @@ public class PurchaseForm extends JFrame {
     private List<Supplier> suppliers;
     private SupplierServices supplierServices;
     private StoreServices storeServices;
+    private List<String> itemsId;
     
     public PurchaseForm(int state) {
         UIStyle sty = new UIStyle();
         newPurchase = new Purchase(0, new Date(new java.util.Date().getTime()));
         suppliers = new ArrayList<>(Company.getAllSuppliers());
+        itemsId = new ArrayList<>();
+        updateItemsIdList(Company.getAllItems());
         supplierServices = new SupplierServices();
         storeServices = new StoreServices();
         switch (state) {
@@ -116,9 +120,28 @@ public class PurchaseForm extends JFrame {
         idShower = new JLabel("Nº 000001");
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
         addBtn = new JButton("+");
-        searchCB = new JComboBox();
-        searchCB.setModel(new DefaultComboBoxModel(SEARCH_PARAMETERS));
+        searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
+        AutoSuggestor suggestor = new AutoSuggestor(searchBox, this, itemsId, Color.DARK_GRAY, Color.WHITE, Color.RED, 0.8f);
+        
+        //AutoCompleteDecorator.decorate(searchBox);
+        /*searchBox.getEditor().getEditorComponent().addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent ke) {
+                //searchItems();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                //searchItems();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+                searchItems();
+            }
+        });*/
         try {
             searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
         } catch (IOException ex) {
@@ -314,5 +337,12 @@ public class PurchaseForm extends JFrame {
             data.add(name);
         }
         return data.toArray();
+    }
+    
+    private void updateItemsIdList(Collection<Item> items) {
+        itemsId.clear();
+        for (Item item : items) {
+            itemsId.add(item.getId());
+        }
     }
 }
