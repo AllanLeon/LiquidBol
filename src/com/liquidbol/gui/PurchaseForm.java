@@ -59,6 +59,7 @@ public class PurchaseForm extends JFrame {
     private JLabel idShower;
     private JLabel title;
     private JButton addBtn;
+    private JButton addItemBtn;
     private JComboBox searchCB;
     private JTextField searchBox;
     private JButton searchBtn;
@@ -117,6 +118,16 @@ public class PurchaseForm extends JFrame {
         title = new JLabel();
         title.setText("NUEVA COMPRA");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
+        
+        addItemBtn = new JButton("+ Item");
+        addItemBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ItemForm itf = new ItemForm(1);
+                dispose();
+            }
+        });
+        
         idShower = new JLabel("Nº 000001");
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
         addBtn = new JButton("+");
@@ -240,6 +251,7 @@ public class PurchaseForm extends JFrame {
         datePicker.setBounds(170, 80, 150, 30);
         idShower.setBounds(370, 80, 150, 30);
         addBtn.setBounds(450, 120, 100, 30);
+        addItemBtn.setBounds(50, 80, 100, 30);
         searchCB.setBounds(50, 120, 120, 30);
         searchBox.setBounds(180, 120, 200, 30);
         searchBtn.setBounds(370, 120, 50, 30);
@@ -256,6 +268,7 @@ public class PurchaseForm extends JFrame {
         contentPane.add(datePicker);
         contentPane.add(idShower);
         contentPane.add(addBtn);
+        contentPane.add(addItemBtn);
         contentPane.add(searchCB);
         contentPane.add(searchBox);
         contentPane.add(searchBtn);
