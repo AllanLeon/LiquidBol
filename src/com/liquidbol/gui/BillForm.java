@@ -226,9 +226,7 @@ public class BillForm extends JFrame implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent ke) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void keyTyped(KeyEvent ke) {}
 
     @Override
     public void keyPressed(KeyEvent ke) {
@@ -243,7 +241,5 @@ public class BillForm extends JFrame implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent ke) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void keyReleased(KeyEvent ke) {}
 }

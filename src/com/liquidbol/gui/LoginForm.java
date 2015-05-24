@@ -4,9 +4,12 @@ import com.liquidbol.addons.UIStyle;
 import com.liquidbol.model.Company;
 import com.liquidbol.model.OperationFailedException;
 import com.liquidbol.services.CompanyServices;
+import java.awt.Component;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -30,12 +33,11 @@ public class LoginForm extends JFrame {
     
     protected static MainMenuForm mm;
     protected static LoginForm LF;
-    
     private JPanel contentPane;
-    private JButton submitBtn;
     private JLabel bgLabel;
     private JTextField idTextField;
     private JTextField passTextField;
+    private JButton submitBtn;
     private CompanyServices companyServices;
 
     public LoginForm() {
@@ -69,7 +71,9 @@ public class LoginForm extends JFrame {
         bgLabel.setHorizontalAlignment(SwingConstants.CENTER);
         
         idTextField = new JTextField();
+        enter2Login(idTextField);
         passTextField = new JTextField();
+        enter2Login(passTextField);
         submitBtn = new JButton();
         submitBtn.setText("OK");
         submitBtn.addActionListener(new ActionListener() {
@@ -78,10 +82,11 @@ public class LoginForm extends JFrame {
                 autenticate();
             }
         });
+        enter2Login(submitBtn);
         
-        idTextField.setBounds(90, 160, 200, 30);
-        passTextField.setBounds(90, 190, 200, 30);
-        submitBtn.setBounds(300, 160, 50, 30);
+        idTextField.setBounds(100, 100, 200, 30);
+        passTextField.setBounds(100, 130, 200, 30);
+        submitBtn.setBounds(150, 170, 100, 30);
         
         contentPane.add(idTextField);
         contentPane.add(passTextField);
@@ -89,7 +94,7 @@ public class LoginForm extends JFrame {
         contentPane.add(bgLabel);
     }
     
-    private void autenticate() {
+    public void autenticate() {
         try {
             int id = Integer.parseInt(idTextField.getText().trim());
             String pass = passTextField.getText();
@@ -103,5 +108,21 @@ public class LoginForm extends JFrame {
             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, "Id de empleado incorrecto", "Error de autenticacion", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    private void enter2Login(Component comp) {
+        comp.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent ke) {}
+
+            @Override
+            public void keyPressed(KeyEvent ke) {
+                if (ke.getKeyCode() == KeyEvent.VK_ENTER)
+                    autenticate();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {}
+        });
     }
 }
