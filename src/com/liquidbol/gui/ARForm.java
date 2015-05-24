@@ -1,6 +1,5 @@
 package com.liquidbol.gui;
 
-import com.liquidbol.addons.DateConverter;
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.addons.UIStyle;
@@ -23,7 +22,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;

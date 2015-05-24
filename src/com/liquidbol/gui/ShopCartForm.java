@@ -20,17 +20,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -53,8 +50,7 @@ import javax.swing.table.TableRowSorter;
 public class ShopCartForm extends JFrame {
 
     private final String[] SEARCH_PARAMETERS = {"Cod.", "Descripcion", "Tipo"};
-    private final int MIN_STOCK = 10;
-    
+    private final int MIN_STOCK = 10;    
     private JPanel parentPane;
     private JPanel inventoryPane;
     private JLabel title;
@@ -62,7 +58,6 @@ public class ShopCartForm extends JFrame {
     private JComboBox branchNameCB;
     private JComboBox searchCB;
     private JTextField searchBox;
-    private JButton searchBtn;
     private JLabel itemsLbl;
     private JTable itemsTable;
     private JLabel serviceLbl;
@@ -138,11 +133,6 @@ public class ShopCartForm extends JFrame {
         
         searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
-        try {
-            searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
-        } catch (IOException ex) {
-            Logger.getLogger(ShopCartForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
         searchBox.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent ke) {
@@ -256,8 +246,7 @@ public class ShopCartForm extends JFrame {
         branchLbl.setBounds(20, 40, 80, 30);
         branchNameCB.setBounds(80, 40, 150, 30);
         searchCB.setBounds(20, 80, 150, 30);
-        searchBox.setBounds(180, 80, 300, 30);
-        searchBtn.setBounds(470, 80, 50, 30);
+        searchBox.setBounds(180, 80, 320, 30);
         itemsLbl.setBounds(10, 110, 50, 30);
         itemsTableSP.setBounds(10, 130, 530, 170);
         serviceLbl.setBounds(10, 310, 50, 30);
@@ -278,7 +267,6 @@ public class ShopCartForm extends JFrame {
         inventoryPane.add(branchNameCB);
         inventoryPane.add(searchCB);
         inventoryPane.add(searchBox);
-        inventoryPane.add(searchBtn);
         inventoryPane.add(itemsLbl);
         inventoryPane.add(itemsTableSP);
         inventoryPane.add(serviceLbl);

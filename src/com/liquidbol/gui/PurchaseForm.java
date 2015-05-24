@@ -1,8 +1,9 @@
 package com.liquidbol.gui;
 
+import ca.odell.glazedlists.GlazedLists;
+import ca.odell.glazedlists.swing.AutoCompleteSupport;
 import com.liquidbol.addons.DateLabelFormatter;
 import com.liquidbol.addons.UIStyle;
-import com.liquidbol.addons.suggestor.AutoSuggestor;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.gui.tables.model.PurchaseTableModel;
 import com.liquidbol.model.Company;
@@ -14,7 +15,6 @@ import com.liquidbol.model.Purchase;
 import com.liquidbol.model.Supplier;
 import com.liquidbol.services.StoreServices;
 import com.liquidbol.services.SupplierServices;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -27,9 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -39,10 +37,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -53,7 +54,6 @@ import org.jdatepicker.impl.UtilDateModel;
 public class PurchaseForm extends JFrame {
     
     private final String[] SEARCH_PARAMETERS = {"Cod."};
-
     private JPanel contentPane;
     private Component datePicker;
     private JLabel idShower;
@@ -61,8 +61,7 @@ public class PurchaseForm extends JFrame {
     private JButton addBtn;
     private JButton addItemBtn;
     private JComboBox searchCB;
-    private JTextField searchBox;
-    private JButton searchBtn;
+    private JComboBox searchBox;
     private JLabel itemLbl;
     private JTable contentTable;
     private JLabel totalLbl;
@@ -74,16 +73,15 @@ public class PurchaseForm extends JFrame {
     private JLabel supplierLbl;
     private Purchase newPurchase;
     private List<Supplier> suppliers;
+    private List<Item> items;
     private SupplierServices supplierServices;
     private StoreServices storeServices;
-    private List<String> itemsId;
     
     public PurchaseForm(int state) {
         UIStyle sty = new UIStyle();
         newPurchase = new Purchase(0, new Date(new java.util.Date().getTime()));
         suppliers = new ArrayList<>(Company.getAllSuppliers());
-        itemsId = new ArrayList<>();
-        updateItemsIdList(Company.getAllItems());
+        items = new ArrayList<>(Company.getAllItems());
         supplierServices = new SupplierServices();
         storeServices = new StoreServices();
         switch (state) {
@@ -132,32 +130,9 @@ public class PurchaseForm extends JFrame {
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
         addBtn = new JButton("+");
         searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
-        searchBox = new JTextField();
-        AutoSuggestor suggestor = new AutoSuggestor(searchBox, this, itemsId, Color.DARK_GRAY, Color.WHITE, Color.RED, 0.8f);
-        
-        //AutoCompleteDecorator.decorate(searchBox);
-        /*searchBox.getEditor().getEditorComponent().addKeyListener(new KeyListener() {
+        searchBox = new JComboBox();
+        AutoCompleteSupport.install(searchBox, GlazedLists.eventListOf(loadItemIds()));
 
-            @Override
-            public void keyTyped(KeyEvent ke) {
-                //searchItems();
-            }
-
-            @Override
-            public void keyPressed(KeyEvent ke) {
-                //searchItems();
-            }
-
-            @Override
-            public void keyReleased(KeyEvent ke) {
-                searchItems();
-            }
-        });*/
-        try {
-            searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
-        } catch (IOException ex) {
-            Logger.getLogger(ListCxcForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
         p.put("text.today", "Today");
@@ -179,7 +154,8 @@ public class PurchaseForm extends JFrame {
         Object[][] tempData = {
             {"00126", 120, "Kg.", "Electrodo 7018 1/8", 18, 0},
             {"00119", 50, "Kg.", "Electrodo 6013 1/8", 19.5, 0}
-        };contentTable = new JTable(tempData, columnNames);
+        };
+        contentTable = new JTable(tempData, columnNames); */
         contentTable.getTableHeader().setReorderingAllowed(false);
         contentTable.setFont(new Font("Arial", Font.PLAIN, 20));
         contentTable.setRowHeight(25);
@@ -191,7 +167,7 @@ public class PurchaseForm extends JFrame {
         contentTable.getColumnModel().getColumn(5).setPreferredWidth(50);
         contentTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(contentTable.getModel());
-        contentTable.setRowSorter(sorter);*/
+        contentTable.setRowSorter(sorter);
         contentTable.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -217,7 +193,7 @@ public class PurchaseForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 try {
-                    Item res = Company.findItemById(searchBox.getText());
+                    Item res = Company.findItemById(searchBox.getSelectedItem().toString());
                     ItemPurchase itemPurchase = new ItemPurchase(0, res, res.getCost(), 0);
                     newPurchase.addItemPurchase(itemPurchase);
                     PurchaseTableModel tableModel = (PurchaseTableModel) contentTable.getModel();
@@ -253,8 +229,7 @@ public class PurchaseForm extends JFrame {
         addBtn.setBounds(450, 120, 100, 30);
         addItemBtn.setBounds(50, 80, 100, 30);
         searchCB.setBounds(50, 120, 120, 30);
-        searchBox.setBounds(180, 120, 200, 30);
-        searchBtn.setBounds(370, 120, 50, 30);
+        searchBox.setBounds(180, 120, 250, 30);
         itemLbl.setBounds(40, 150, 50, 30);
         tablesp.setBounds(30, 170, 570, 180);
         supplierLbl.setBounds(40, 360, 60, 30);
@@ -271,7 +246,6 @@ public class PurchaseForm extends JFrame {
         contentPane.add(addItemBtn);
         contentPane.add(searchCB);
         contentPane.add(searchBox);
-        contentPane.add(searchBtn);
         contentPane.add(itemLbl);
         contentPane.add(tablesp);
         contentPane.add(supplierLbl);
@@ -294,8 +268,7 @@ public class PurchaseForm extends JFrame {
         }
     }
     
-/*
-    private void readIt() {
+/*    private void readIt() {
             //id, item, unitCost, quantity
         String name = ((JTextField) supplierName).getText();
         String lname = ((JTextField) supplierLName).getText();
@@ -323,7 +296,6 @@ public class PurchaseForm extends JFrame {
         contentPane.remove(datePicker);
         contentPane.remove(searchCB);
         contentPane.remove(searchBox);
-        contentPane.remove(searchBtn);
         contentPane.remove(addBtn);
         supplierCombo.setEnabled(false);
         contentPane.remove(totalAmount);
@@ -351,11 +323,13 @@ public class PurchaseForm extends JFrame {
         }
         return data.toArray();
     }
-    
-    private void updateItemsIdList(Collection<Item> items) {
-        itemsId.clear();
+
+    private Object[] loadItemIds() {
+        List<String> data = new ArrayList<>();
         for (Item item : items) {
-            itemsId.add(item.getId());
+            String id = item.getId();
+            data.add(id);
         }
+        return data.toArray();
     }
 }

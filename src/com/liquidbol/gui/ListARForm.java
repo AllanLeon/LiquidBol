@@ -8,12 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -40,7 +35,6 @@ public class ListARForm extends JFrame {
     private JButton addBtn;
     private JComboBox searchCB;
     private JTextField searchBox;
-    private JButton searchBtn;
     private JTable arsTable;
     private JButton backBtn;
     private RechargeableItemTableModel rechargeableItemTableModel;
@@ -77,11 +71,6 @@ public class ListARForm extends JFrame {
         
         searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
-        try {
-            searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
-        } catch (IOException ex) {
-            Logger.getLogger(ListARForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
         searchBox.addKeyListener(new KeyListener() {
 
             @Override
@@ -125,8 +114,7 @@ public class ListARForm extends JFrame {
         title.setBounds(140, 30, 550, 30);
         addBtn.setBounds(550, 80, 100, 30);
         searchCB.setBounds(130, 120, 150, 30);
-        searchBox.setBounds(290, 120, 250, 30);
-        searchBtn.setBounds(540, 120, 50, 30);
+        searchBox.setBounds(290, 120, 280, 30);
         arsTableSP.setBounds(30, 170, 730, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
@@ -134,7 +122,6 @@ public class ListARForm extends JFrame {
         contentPane.add(addBtn);
         contentPane.add(searchCB);
         contentPane.add(searchBox);
-        contentPane.add(searchBtn);
         contentPane.add(arsTableSP);
         contentPane.add(backBtn);
     }

@@ -8,12 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -33,14 +28,12 @@ import javax.swing.table.TableRowSorter;
  */
 public class ListClientsForm extends JFrame {
 
-    private final String[] SEARCH_PARAMETERS = {"Cod.", "Nombre", "Nit", "Factura"};
-    
+    private final String[] SEARCH_PARAMETERS = {"Cod.", "Nombre", "Nit", "Factura"};    
     private JPanel contentPane;
     private JLabel title;
     private JButton addBtn;
     private JComboBox searchCB;
     private JTextField searchBox;
-    private JButton searchBtn;
     private JTable clientsTable;
     private JButton backBtn;
     private ClientTableModel clientsTableModel;
@@ -77,13 +70,7 @@ public class ListClientsForm extends JFrame {
 
         searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
-        try {
-            searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
-        } catch (IOException ex) {
-            Logger.getLogger(ListClientsForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
         searchBox.addKeyListener(new KeyListener() {
-
             @Override
             public void keyTyped(KeyEvent ke) { }
 
@@ -126,8 +113,7 @@ public class ListClientsForm extends JFrame {
         title.setBounds(300, 30, 300, 30);
         addBtn.setBounds(630, 80, 100, 30);
         searchCB.setBounds(90, 120, 150, 30);
-        searchBox.setBounds(250, 120, 300, 30);
-        searchBtn.setBounds(540, 120, 50, 30);
+        searchBox.setBounds(250, 120, 330, 30);
         clientsTableSP.setBounds(30, 170, 730, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
@@ -135,7 +121,6 @@ public class ListClientsForm extends JFrame {
         contentPane.add(addBtn);
         contentPane.add(searchCB);
         contentPane.add(searchBox);
-        contentPane.add(searchBtn);
         contentPane.add(clientsTableSP);
         contentPane.add(backBtn);
     }

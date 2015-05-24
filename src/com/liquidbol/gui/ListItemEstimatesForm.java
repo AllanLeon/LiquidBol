@@ -6,11 +6,6 @@ import com.liquidbol.model.Company;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -35,7 +30,6 @@ public class ListItemEstimatesForm extends JFrame {
     private JButton addBtn;
     private JComboBox searchCB;
     private JTextField searchBox;
-    private JButton searchBtn;
     private JTable quotesTable;
     private JButton backBtn;
     
@@ -71,11 +65,6 @@ public class ListItemEstimatesForm extends JFrame {
 
         searchCB = new JComboBox();
         searchBox = new JTextField();
-        try {
-            searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
-        } catch (IOException ex) {
-            Logger.getLogger(ListItemEstimatesForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
         /*String[] columnNames = {"Cod",
             "Tienda",
@@ -118,8 +107,7 @@ public class ListItemEstimatesForm extends JFrame {
         title.setBounds(250, 30, 400, 30);
         addBtn.setBounds(570, 80, 100, 30);
         searchCB.setBounds(150, 120, 150, 30);
-        searchBox.setBounds(310, 120, 250, 30);
-        searchBtn.setBounds(550, 120, 50, 30);
+        searchBox.setBounds(310, 120, 280, 30);
         quotesTableSP.setBounds(15, 170, 730, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
@@ -127,7 +115,6 @@ public class ListItemEstimatesForm extends JFrame {
         contentPane.add(addBtn);
         contentPane.add(searchCB);
         contentPane.add(searchBox);
-        contentPane.add(searchBtn);
         contentPane.add(quotesTableSP);
         contentPane.add(backBtn);
     }

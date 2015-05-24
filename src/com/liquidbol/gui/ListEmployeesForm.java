@@ -8,12 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -40,7 +35,6 @@ public class ListEmployeesForm extends JFrame {
     private JButton addBtn;
     private JComboBox searchCB;
     private JTextField searchBox;
-    private JButton searchBtn;
     private JTable employeesTable;
     private JButton backBtn;
     private EmployeeTableModel employeesTableModel;
@@ -77,13 +71,7 @@ public class ListEmployeesForm extends JFrame {
 
         searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
-        try {
-            searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
-        } catch (IOException ex) {
-            Logger.getLogger(ListEmployeesForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
         searchBox.addKeyListener(new KeyListener() {
-
             @Override
             public void keyTyped(KeyEvent ke) { }
 
@@ -122,8 +110,7 @@ public class ListEmployeesForm extends JFrame {
         title.setBounds(120, 30, 300, 30);
         addBtn.setBounds(340, 80, 100, 30);
         searchCB.setBounds(80, 120, 130, 30);
-        searchBox.setBounds(210, 120, 150, 30);
-        searchBtn.setBounds(350, 120, 50, 30);
+        searchBox.setBounds(210, 120, 180, 30);
         employeesTableSP.setBounds(30, 170, 450, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
@@ -131,7 +118,6 @@ public class ListEmployeesForm extends JFrame {
         contentPane.add(addBtn);
         contentPane.add(searchCB);
         contentPane.add(searchBox);
-        contentPane.add(searchBtn);
         contentPane.add(employeesTableSP);
         contentPane.add(backBtn);
     }

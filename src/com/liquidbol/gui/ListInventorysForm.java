@@ -50,7 +50,6 @@ public class ListInventorysForm extends JFrame {
     private JComboBox branchNameCB;
     private JComboBox searchCB;
     private JTextField searchBox;
-    private JButton searchBtn;
     private JTable itemsTable;
     private JButton backBtn;
     private InventoryTableModel inventorysTableModel;
@@ -107,7 +106,6 @@ public class ListInventorysForm extends JFrame {
         searchCB = new JComboBox(new DefaultComboBoxModel(SEARCH_PARAMETERS));
         searchBox = new JTextField();
         searchBox.addKeyListener(new KeyListener() {
-
             @Override
             public void keyTyped(KeyEvent ke) {
                 //updateItemTableModel();
@@ -123,13 +121,7 @@ public class ListInventorysForm extends JFrame {
                 updateInventoryTableModel();
             }
         });
-        
-        try {
-            searchBtn = new JButton(null, new ImageIcon(ImageIO.read(this.getClass().getResource("/com/liquidbol/images/zoom.png"))));
-        } catch (IOException ex) {
-            Logger.getLogger(ListInventorysForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+                
         inventorysTableModel = new InventoryTableModel(selectedStore);
         itemsTable = new JTable(inventorysTableModel){
             @Override
@@ -145,7 +137,7 @@ public class ListInventorysForm extends JFrame {
         itemsTable.getTableHeader().setReorderingAllowed(false);
         itemsTable.setFont(new Font("Arial", Font.PLAIN, 16));
         itemsTable.setRowHeight(25);
-        /*itemsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        itemsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
         itemsTable.getColumnModel().getColumn(1).setPreferredWidth(50);
         itemsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
         itemsTable.getColumnModel().getColumn(3).setPreferredWidth(200);
@@ -154,7 +146,7 @@ public class ListInventorysForm extends JFrame {
         itemsTable.getColumnModel().getColumn(6).setPreferredWidth(80);
         itemsTable.getColumnModel().getColumn(7).setPreferredWidth(50);
         itemsTable.getColumnModel().getColumn(8).setPreferredWidth(40);
-        itemsTable.getColumnModel().getColumn(9).setPreferredWidth(40);*/
+        itemsTable.getColumnModel().getColumn(9).setPreferredWidth(40);
         itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(itemsTable.getModel());
         itemsTable.setRowSorter(sorter);
@@ -174,8 +166,7 @@ public class ListInventorysForm extends JFrame {
         branchLbl.setBounds(20, 40, 80, 30);
         branchNameCB.setBounds(80, 40, 150, 30);
         searchCB.setBounds(150, 120, 150, 30);
-        searchBox.setBounds(310, 120, 250, 30);
-        searchBtn.setBounds(550, 120, 50, 30);
+        searchBox.setBounds(310, 120, 280, 30);
         itemsTableSP.setBounds(30, 170, 830, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
@@ -185,7 +176,6 @@ public class ListInventorysForm extends JFrame {
         contentPane.add(branchNameCB);
         contentPane.add(searchCB);
         contentPane.add(searchBox);
-        contentPane.add(searchBtn);
         contentPane.add(itemsTableSP);
         contentPane.add(backBtn);
     }
