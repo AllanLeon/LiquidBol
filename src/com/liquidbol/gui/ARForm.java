@@ -86,11 +86,6 @@ public class ARForm extends JFrame {
                 initComponents();
                 setVisible(true);
                 break;
-            case 2: //show rechargeable item data
-                initComponents();
-                convertToReadOnly();
-                setVisible(true);
-                break;
             case 3: //edit rechargable item data
                 initComponents();
                 setVisible(true);
@@ -100,6 +95,15 @@ public class ARForm extends JFrame {
                 setVisible(true);
                 break;
         }
+    }
+
+    public ARForm(Object[] data) {
+        //Show data on read-only mode.
+        UIStyle sty = new UIStyle();
+        clients = new ArrayList<>(Company.getAllClients());
+        initComponents();
+        convertToReadOnly(data);
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -320,21 +324,27 @@ public class ARForm extends JFrame {
         lbl.addMouseListener(ml);
     }
 
-    private void convertToReadOnly() {
+    private void convertToReadOnly(Object[] d) {
         Icon temp = ritemPhoto.getIcon();
+        ritemClient.setSelectedItem(d[2]);
         ritemClient.setEnabled(false);
         contentPane.remove(ritemId);
         contentPane.remove(ritemDesc);
+        if(isCylinderRB.getText().equals((String) d[4]))
+            isCylinderRB.setSelected(true);
+        else if(isExtinguisherRB.getText().equals((String) d[4]))
+            isExtinguisherRB.setSelected(true);            
         isCylinderRB.setEnabled(false);
         isExtinguisherRB.setEnabled(false);
+        datePicker.getJFormattedTextField().setText((String) d[5]);
         datePicker.setTextEditable(false);
         contentPane.remove(ritemObs);
         contentPane.remove(ritemPhoto);
         contentPane.remove(submitBtn);
 
-        ritemId = new JLabel();
-        ritemDesc = new JLabel();
-        ritemObs = new JLabel();
+        ritemId = new JLabel((String) d[1]);
+        ritemDesc = new JLabel((String) d[3]);
+        ritemObs = new JLabel((String) d[6]);
         ritemPhoto = new JLabel(temp);
         title.setText("VER ARTICULO RECARGABLE"); //CHANGE!!!!
 

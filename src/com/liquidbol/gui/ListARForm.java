@@ -4,10 +4,15 @@ import com.liquidbol.addons.UIStyle;
 import com.liquidbol.gui.tables.model.RechargeableItemTableModel;
 import com.liquidbol.model.Company;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -101,6 +106,7 @@ public class ListARForm extends JFrame {
         RowSorter<TableModel> sorter = new TableRowSorter<>(arsTable.getModel());
         arsTable.setRowSorter(sorter);
         JScrollPane arsTableSP = new JScrollPane(arsTable);
+        addDoubleClickViewer(arsTable);
         
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
@@ -143,4 +149,23 @@ public class ListARForm extends JFrame {
             default:;
         }
     }
+    
+    private void addDoubleClickViewer(JTable table) {
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                if (me.getClickCount() == 2) {
+                    Point p = me.getPoint();
+                    int row = table.rowAtPoint(p);
+                    List<String> data = new ArrayList<>();
+                    for (int col = 0; col < table.getColumnCount(); col++) {
+                        data.add(String.valueOf(table.getModel().getValueAt(row, col)));
+                    }
+                    ARForm arf = new ARForm(data.toArray());
+                    dispose();
+                }
+            }
+        });
+    }
+
 }
