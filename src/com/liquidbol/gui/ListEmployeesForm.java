@@ -47,7 +47,7 @@ public class ListEmployeesForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(500, 450);
+        setSize(600, 450);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -107,11 +107,11 @@ public class ListEmployeesForm extends JFrame {
             }
         });  
 
-        title.setBounds(120, 30, 300, 30);
-        addBtn.setBounds(340, 80, 100, 30);
-        searchCB.setBounds(80, 120, 130, 30);
-        searchBox.setBounds(210, 120, 180, 30);
-        employeesTableSP.setBounds(30, 170, 450, 200);
+        title.setBounds(170, 30, 300, 30);
+        addBtn.setBounds(400, 80, 100, 30);
+        searchCB.setBounds(120, 120, 130, 30);
+        searchBox.setBounds(250, 120, 200, 30);
+        employeesTableSP.setBounds(20, 170, 550, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);

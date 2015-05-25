@@ -47,7 +47,7 @@ public class ListSuppliersForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(500, 450);
+        setSize(550, 450);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -90,9 +90,10 @@ public class ListSuppliersForm extends JFrame {
         suppliersTable.setFont(new Font("Arial", Font.PLAIN, 20));
         suppliersTable.setRowHeight(25);
         suppliersTable.getColumnModel().getColumn(0).setPreferredWidth(30);
-        suppliersTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        suppliersTable.getColumnModel().getColumn(1).setPreferredWidth(30);
         suppliersTable.getColumnModel().getColumn(2).setPreferredWidth(150);
-        suppliersTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+        suppliersTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+        suppliersTable.getColumnModel().getColumn(4).setPreferredWidth(90);
         suppliersTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(suppliersTable.getModel());
         suppliersTable.setRowSorter(sorter);
@@ -107,11 +108,11 @@ public class ListSuppliersForm extends JFrame {
             }
         });  
 
-        title.setBounds(100, 30, 350, 30);
-        addBtn.setBounds(350, 80, 100, 30);
-        searchCB.setBounds(60, 120, 100, 30);
-        searchBox.setBounds(170, 120, 230, 30);
-        clientsTableSP.setBounds(30, 170, 430, 200);
+        title.setBounds(120, 30, 350, 30);
+        addBtn.setBounds(370, 80, 100, 30);
+        searchCB.setBounds(80, 120, 100, 30);
+        searchBox.setBounds(190, 120, 230, 30);
+        clientsTableSP.setBounds(30, 170, 480, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);

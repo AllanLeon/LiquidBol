@@ -47,7 +47,7 @@ public class ListPurchasesForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(500, 450);
+        setSize(600, 450);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -89,9 +89,11 @@ public class ListPurchasesForm extends JFrame {
         purchasesTable.getTableHeader().setReorderingAllowed(false);
         purchasesTable.setFont(new Font("Arial", Font.PLAIN, 20));
         purchasesTable.setRowHeight(25);
-        purchasesTable.getColumnModel().getColumn(0).setPreferredWidth(60);
-        purchasesTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-        purchasesTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+        purchasesTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+        purchasesTable.getColumnModel().getColumn(1).setPreferredWidth(40);
+        purchasesTable.getColumnModel().getColumn(2).setPreferredWidth(150);
+        purchasesTable.getColumnModel().getColumn(3).setPreferredWidth(70);
+        purchasesTable.getColumnModel().getColumn(4).setPreferredWidth(120);
         purchasesTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(purchasesTable.getModel());
         purchasesTable.setRowSorter(sorter);
@@ -106,11 +108,11 @@ public class ListPurchasesForm extends JFrame {
             }
         });  
         
-        title.setBounds(140, 30, 400, 30);
-        addBtn.setBounds(360, 80, 100, 30);
-        searchCB.setBounds(80, 120, 120, 30);
-        searchBox.setBounds(210, 120, 180, 30);
-        purchasesTableSP.setBounds(30, 170, 430, 200);
+        title.setBounds(190, 30, 400, 30);
+        addBtn.setBounds(410, 80, 100, 30);
+        searchCB.setBounds(130, 120, 120, 30);
+        searchBox.setBounds(260, 120, 200, 30);
+        purchasesTableSP.setBounds(30, 170, 530, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);

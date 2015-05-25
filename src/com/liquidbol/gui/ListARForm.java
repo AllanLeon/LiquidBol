@@ -90,13 +90,13 @@ public class ListARForm extends JFrame {
         arsTable.getTableHeader().setReorderingAllowed(false);
         arsTable.setFont(new Font("Arial", Font.PLAIN, 16));
         arsTable.setRowHeight(25);
-        arsTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+        arsTable.getColumnModel().getColumn(0).setPreferredWidth(30);
         arsTable.getColumnModel().getColumn(1).setPreferredWidth(50);
         arsTable.getColumnModel().getColumn(2).setPreferredWidth(140);
         arsTable.getColumnModel().getColumn(3).setPreferredWidth(250);
         arsTable.getColumnModel().getColumn(4).setPreferredWidth(60);
         arsTable.getColumnModel().getColumn(5).setPreferredWidth(100);
-        arsTable.getColumnModel().getColumn(5).setPreferredWidth(100);
+        arsTable.getColumnModel().getColumn(6).setPreferredWidth(100);
         arsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(arsTable.getModel());
         arsTable.setRowSorter(sorter);

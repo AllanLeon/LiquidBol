@@ -48,7 +48,7 @@ public class ListStoresForm extends JFrame {
         contentPane.setLayout(null);
 
         title = new JLabel();
-        title.setText("TIENDAS");
+        title.setText("SUCURSALES");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         addBtn = new JButton("+");
         addBtn.addActionListener(new ActionListener() {
@@ -72,10 +72,11 @@ public class ListStoresForm extends JFrame {
         storeTable.getTableHeader().setReorderingAllowed(false);
         storeTable.setFont(new Font("Arial", Font.PLAIN, 16));
         storeTable.setRowHeight(25);
-        storeTable.getColumnModel().getColumn(0).setPreferredWidth(50);
-        storeTable.getColumnModel().getColumn(1).setPreferredWidth(60);
-        storeTable.getColumnModel().getColumn(2).setPreferredWidth(250);
-        storeTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+        storeTable.getColumnModel().getColumn(0).setPreferredWidth(40);
+        storeTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+        storeTable.getColumnModel().getColumn(2).setPreferredWidth(100);
+        storeTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+        storeTable.getColumnModel().getColumn(4).setPreferredWidth(80);
         storeTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(storeTable.getModel());
         storeTable.setRowSorter(sorter);

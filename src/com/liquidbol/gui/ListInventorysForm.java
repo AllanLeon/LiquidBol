@@ -12,14 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -45,7 +42,6 @@ public class ListInventorysForm extends JFrame {
     
     private JPanel contentPane;
     private JLabel title;
-    //private JButton addBtn;
     private JLabel branchLbl;
     private JComboBox branchNameCB;
     private JComboBox searchCB;
@@ -66,7 +62,7 @@ public class ListInventorysForm extends JFrame {
 
     private void initComponents() {
         setTitle("Liquid");
-        setSize(900, 450);
+        setSize(700, 450);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -78,16 +74,7 @@ public class ListInventorysForm extends JFrame {
 
         title = new JLabel("INVENTARIO");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
-        
-        /*addBtn = new JButton("+");
-        addBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ItemForm itf = new ItemForm(1);
-                dispose();
-            }
-        });*/
-        
+                
         branchLbl = new JLabel("Sucursal");
         branchNameCB = new JComboBox();
         try {
@@ -139,14 +126,10 @@ public class ListInventorysForm extends JFrame {
         itemsTable.setRowHeight(25);
         itemsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
         itemsTable.getColumnModel().getColumn(1).setPreferredWidth(50);
-        itemsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
-        itemsTable.getColumnModel().getColumn(3).setPreferredWidth(200);
+        itemsTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+        itemsTable.getColumnModel().getColumn(3).setPreferredWidth(50);
         itemsTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-        itemsTable.getColumnModel().getColumn(5).setPreferredWidth(80);
-        itemsTable.getColumnModel().getColumn(6).setPreferredWidth(80);
-        itemsTable.getColumnModel().getColumn(7).setPreferredWidth(50);
-        itemsTable.getColumnModel().getColumn(8).setPreferredWidth(40);
-        itemsTable.getColumnModel().getColumn(9).setPreferredWidth(40);
+        itemsTable.getColumnModel().getColumn(5).setPreferredWidth(40);
         itemsTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         RowSorter<TableModel> sorter = new TableRowSorter<>(itemsTable.getModel());
         itemsTable.setRowSorter(sorter);
@@ -161,17 +144,15 @@ public class ListInventorysForm extends JFrame {
             }
         });  
 
-        title.setBounds(350, 30, 500, 30);
-        //addBtn.setBounds(570, 80, 100, 30);
-        branchLbl.setBounds(20, 40, 80, 30);
-        branchNameCB.setBounds(80, 40, 150, 30);
+        title.setBounds(250, 30, 500, 30);
+        branchLbl.setBounds(30, 80, 80, 30);
+        branchNameCB.setBounds(90, 80, 150, 30);
         searchCB.setBounds(150, 120, 150, 30);
         searchBox.setBounds(310, 120, 280, 30);
-        itemsTableSP.setBounds(30, 170, 830, 200);
+        itemsTableSP.setBounds(30, 170, 630, 200);
         backBtn.setBounds(50, 380, 70, 30);
 
         contentPane.add(title);
-        //contentPane.add(addBtn);
         contentPane.add(branchLbl);
         contentPane.add(branchNameCB);
         contentPane.add(searchCB);

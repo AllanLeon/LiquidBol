@@ -54,7 +54,7 @@ public class StoreForm extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        title = new JLabel("NUEVA TIENDA");
+        title = new JLabel("NUEVA SUCURSAL");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
         idShower = new JLabel("Nº 000001");
         idShower.setFont(new Font("Courier New", Font.PLAIN, 20));
@@ -89,7 +89,7 @@ public class StoreForm extends JFrame {
             }
         });
 
-        title.setBounds(120, 30, 350, 30);
+        title.setBounds(100, 30, 400, 30);
         idShower.setBounds(380, 70, 150, 30);
         nameLbl.setBounds(40, 110, 70, 30);
         storeName.setBounds(100, 110, 160, 30);
