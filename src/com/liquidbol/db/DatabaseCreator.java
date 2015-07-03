@@ -366,10 +366,7 @@ public class DatabaseCreator {
             result.createStatement().execute(query21);
             result.createStatement().execute(query22);
             result.createStatement().execute(query23);
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -397,9 +394,7 @@ public class DatabaseCreator {
                 statement.setDate(11, new Date(new java.util.Date().getTime()));
                 statement.setBoolean(12, false);
                 statement.executeUpdate();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -419,9 +414,7 @@ public class DatabaseCreator {
                     + ")";
             result.createStatement().execute(query1);
             result.createStatement().execute(query2);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -520,7 +513,6 @@ public class DatabaseCreator {
             result.createStatement().execute(query21);
             result.createStatement().execute(query22);
             result.createStatement().execute(query23);
-            
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DatabaseCreator.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -22,6 +22,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -74,13 +75,15 @@ public class ARForm extends JFrame {
     private JButton backBtn;
     private Object[] readItData;
     private JLabel capacityLbl;
-    private JTextField ritemCapacity;
+    private Component ritemCapacity;
     private JComboBox ritemUnits;
     private List<Client> clients;
+    private List<RechargeableItem> ars;
 
     public ARForm(int state) {
         UIStyle sty = new UIStyle();
         clients = new ArrayList<>(Company.getAllClients());
+        ars = new ArrayList<>(Company.getAllRechargeableItems());
         switch (state) {
             case 1: //Add new rechargable item
                 initComponents();
@@ -97,12 +100,13 @@ public class ARForm extends JFrame {
         }
     }
 
-    public ARForm(Object[] data) {
+    public ARForm(int arnumber, String clientname) {
         //Show data on read-only mode.
         UIStyle sty = new UIStyle();
         clients = new ArrayList<>(Company.getAllClients());
+        ars = new ArrayList<>(Company.getAllRechargeableItems());
         initComponents();
-        convertToReadOnly(data);
+        convertToReadOnly(arnumber, clientname);
         setVisible(true);
     }
 
@@ -137,8 +141,8 @@ public class ARForm extends JFrame {
         isCylinderRB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                String[] unitContent = {"Mts3","Kg"};
-                if(isCylinderRB.isSelected()){
+                String[] unitContent = {"Mts3", "Kg"};
+                if (isCylinderRB.isSelected()) {
                     ritemUnits.setModel(new DefaultComboBoxModel(unitContent));
                 }
             }
@@ -147,8 +151,8 @@ public class ARForm extends JFrame {
         isExtinguisherRB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                String[] unitContent = {"Lb","Kg"};
-                if(isExtinguisherRB.isSelected()){
+                String[] unitContent = {"Lb", "Kg"};
+                if (isExtinguisherRB.isSelected()) {
                     ritemUnits.setModel(new DefaultComboBoxModel(unitContent));
                 }
             }
@@ -200,7 +204,7 @@ public class ARForm extends JFrame {
                 dispose();
             }
         });
-        
+
         title.setBounds(40, 30, 500, 30);
         clientLbl.setBounds(70, 90, 70, 30);
         ritemClient.setBounds(110, 90, 200, 30);
@@ -221,7 +225,7 @@ public class ARForm extends JFrame {
         ritemPhoto.setBounds(80, 180, 150, 150);
         submitBtn.setBounds(360, 350, 100, 30);
         backBtn.setBounds(60, 350, 100, 30);
-        
+
         contentPane.add(title);
         contentPane.add(clientLbl);
         contentPane.add(ritemClient);
@@ -252,22 +256,21 @@ public class ARForm extends JFrame {
             double capac = Double.parseDouble(((JTextField) ritemCapacity).getText());
             String unit = ritemUnits.getSelectedItem().toString();
             String type = "";
-            if(isCylinderRB.isSelected()){
+            if (isCylinderRB.isSelected()) {
                 type = isCylinderRB.getText();
             } else if (isExtinguisherRB.isSelected()) {
                 type = isExtinguisherRB.getText();
             }
-            
+
             String strDate = datePicker.getJFormattedTextField().getText();
             DateFormat localDF = new SimpleDateFormat("dd/MM/yyyy");
-            java.util.Date utilDate = null;
-            utilDate = localDF.parse(strDate);
+            java.util.Date utilDate = localDF.parse(strDate);
             Date sqlDate = new Date(utilDate.getTime());
             String obs = ((JTextField) ritemObs).getText();
-            if(1 == 0) {
-                JOptionPane.showMessageDialog(this,"MISSING!","Missing some important data input!", JOptionPane.WARNING_MESSAGE);
+            if (1 == 0) {
+                JOptionPane.showMessageDialog(this, "MISSING!", "Missing some important data input!", JOptionPane.WARNING_MESSAGE);
             } else {
-                readItData = new Object[] {id, desc, capac, unit, type, sqlDate, obs};
+                readItData = new Object[]{id, desc, capac, unit, type, sqlDate, obs};
             }
         } catch (ParseException ex) {
             Logger.getLogger(ARForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -275,8 +278,8 @@ public class ARForm extends JFrame {
     }
 
     private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
-        RechargeableItem temp = MagikarpScreen.clientServ.createRechargeableItem((String)data[0],(String)data[1],(double)data[2],
-                (String)data[3],(String)data[4],(Date)data[5],(String)data[6]);
+        RechargeableItem temp = MagikarpScreen.clientServ.createRechargeableItem((String) data[0], (String) data[1], (double) data[2],
+                (String) data[3], (String) data[4], (Date) data[5], (String) data[6]);
         MagikarpScreen.clientServ.addRechargeableItemToClient(temp, clients.get(ritemClient.getSelectedIndex()));
     }
 
@@ -324,45 +327,66 @@ public class ARForm extends JFrame {
         lbl.addMouseListener(ml);
     }
 
-    private void convertToReadOnly(Object[] d) {
+    private void convertToReadOnly(int itemnumber, String clientname) {
+        RechargeableItem selectedAR = ars.get(itemnumber - 1);
+
         Icon temp = ritemPhoto.getIcon();
-        ritemClient.setSelectedItem(d[2]);
-        ritemClient.setEnabled(false);
+        contentPane.remove(ritemClient);
         contentPane.remove(ritemId);
         contentPane.remove(ritemDesc);
-        if(isCylinderRB.getText().equals((String) d[4]))
-            isCylinderRB.setSelected(true);
-        else if(isExtinguisherRB.getText().equals((String) d[4]))
-            isExtinguisherRB.setSelected(true);            
-        isCylinderRB.setEnabled(false);
-        isExtinguisherRB.setEnabled(false);
-        datePicker.getJFormattedTextField().setText((String) d[5]);
-        datePicker.setTextEditable(false);
+        contentPane.remove(isCylinderRB);
+        contentPane.remove(isExtinguisherRB);
+        contentPane.remove(ritemCapacity);
+        contentPane.remove(ritemUnits);
+        contentPane.remove(datePicker);
         contentPane.remove(ritemObs);
         contentPane.remove(ritemPhoto);
         contentPane.remove(submitBtn);
 
-        ritemId = new JLabel((String) d[1]);
-        ritemDesc = new JLabel((String) d[3]);
-        ritemObs = new JLabel((String) d[6]);
+        JLabel readName = new JLabel(clientname);
+        ritemId = new JLabel(selectedAR.getId());
+        ritemDesc = new JLabel(selectedAR.getDescription());
+        JLabel readType = new JLabel(selectedAR.getType());
+        ritemCapacity = new JLabel(selectedAR.getCapacity().toString());
+        JLabel readUnits = new JLabel(selectedAR.getUnit());
+        Date selectedDate = selectedAR.getWarrantyLimitDate();
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String formattedUtilDate = df.format(selectedDate);
+        JLabel readDate = new JLabel(formattedUtilDate);
+        ritemObs = new JLabel(selectedAR.getObs());
         ritemPhoto = new JLabel(temp);
         title.setText("VER ARTICULO RECARGABLE"); //CHANGE!!!!
 
+        readName.setFont(new Font("Arial", Font.PLAIN, 20));
         ritemId.setFont(new Font("Arial", Font.PLAIN, 20));
         ritemDesc.setFont(new Font("Arial", Font.PLAIN, 20));
+        readType.setFont(new Font("Arial", Font.PLAIN, 20));
+        ritemCapacity.setFont(new Font("Arial", Font.PLAIN, 20));
+        readUnits.setFont(new Font("Arial", Font.PLAIN, 20));
+        readDate.setFont(new Font("Arial", Font.PLAIN, 20));
         ritemObs.setFont(new Font("Arial", Font.PLAIN, 20));
 
+        readName.setBounds(110, 90, 200, 30);
         ritemId.setBounds(380, 90, 80, 30);
         ritemDesc.setBounds(110, 130, 400, 30);
+        readType.setBounds(300, 180, 100, 30);
+        ritemCapacity.setBounds(410, 185, 40, 30);
+        readUnits.setBounds(450, 185, 60, 30);
+        readDate.setBounds(270, 245, 150, 30);
         ritemObs.setBounds(280, 300, 220, 30);
         ritemPhoto.setBounds(80, 190, 150, 150);
-        
+
+        contentPane.add(readName);
         contentPane.add(ritemId);
         contentPane.add(ritemDesc);
+        contentPane.add(readType);
+        contentPane.add(ritemCapacity);
+        contentPane.add(readUnits);
+        contentPane.add(readDate);
         contentPane.add(ritemObs);
         contentPane.add(ritemPhoto);
     }
-    
+
     private Object[] loadClientNames() throws PersistenceException, ClassNotFoundException {
         List<String> data = new ArrayList<>();
         for (Client client : clients) {

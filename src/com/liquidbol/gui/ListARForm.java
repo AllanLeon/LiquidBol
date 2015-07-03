@@ -157,15 +157,12 @@ public class ListARForm extends JFrame {
                 if (me.getClickCount() == 2) {
                     Point p = me.getPoint();
                     int row = table.rowAtPoint(p);
-                    List<String> data = new ArrayList<>();
-                    for (int col = 0; col < table.getColumnCount(); col++) {
-                        data.add(String.valueOf(table.getModel().getValueAt(row, col)));
-                    }
-                    ARForm arf = new ARForm(data.toArray());
+                    int arNumber = (int) table.getModel().getValueAt(row, 0);
+                    String clientName = table.getModel().getValueAt(row, 2).toString();
+                    ARForm arf = new ARForm(arNumber, clientName);
                     dispose();
                 }
             }
         });
     }
-
 }
