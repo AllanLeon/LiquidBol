@@ -4,10 +4,13 @@ import com.liquidbol.addons.UIStyle;
 import com.liquidbol.gui.tables.model.ClientTableModel;
 import com.liquidbol.model.Company;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -28,7 +31,7 @@ import javax.swing.table.TableRowSorter;
  */
 public class ListClientsForm extends JFrame {
 
-    private final String[] SEARCH_PARAMETERS = {"Cod.", "Nombre", "Nit", "Factura"};    
+    private final String[] SEARCH_PARAMETERS = {"Cod.", "Nombre", "Nit", "Factura"};
     private JPanel contentPane;
     private JLabel title;
     private JButton addBtn;
@@ -58,7 +61,7 @@ public class ListClientsForm extends JFrame {
 
         title = new JLabel("CLIENTES");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
-        
+
         addBtn = new JButton("+");
         addBtn.addActionListener(new ActionListener() {
             @Override
@@ -72,18 +75,19 @@ public class ListClientsForm extends JFrame {
         searchBox = new JTextField();
         searchBox.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent ke) { }
+            public void keyTyped(KeyEvent ke) {
+            }
 
             @Override
-            public void keyPressed(KeyEvent ke) { }
+            public void keyPressed(KeyEvent ke) {
+            }
 
             @Override
             public void keyReleased(KeyEvent ke) {
                 updateClientTableModel();
             }
         });
-        
-        
+
         clientsTableModel = new ClientTableModel(Company.getAllClients());
         clientsTable = new JTable(clientsTableModel);
         clientsTable.getTableHeader().setReorderingAllowed(false);
@@ -101,6 +105,7 @@ public class ListClientsForm extends JFrame {
         RowSorter<TableModel> sorter = new TableRowSorter<>(clientsTable.getModel());
         clientsTable.setRowSorter(sorter);
         JScrollPane clientsTableSP = new JScrollPane(clientsTable);
+        addDoubleClickViewer(clientsTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override
@@ -109,7 +114,7 @@ public class ListClientsForm extends JFrame {
                 dispose();
             }
         });
-        
+
         title.setBounds(300, 30, 300, 30);
         addBtn.setBounds(630, 80, 100, 30);
         searchCB.setBounds(90, 120, 150, 30);
@@ -124,7 +129,7 @@ public class ListClientsForm extends JFrame {
         contentPane.add(clientsTableSP);
         contentPane.add(backBtn);
     }
-    
+
     private void updateClientTableModel() {
         switch (searchCB.getSelectedIndex()) {
             case 0:
@@ -141,5 +146,20 @@ public class ListClientsForm extends JFrame {
                 break;
             default:;
         }
+    }
+
+    private void addDoubleClickViewer(JTable table) {
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                if (me.getClickCount() == 2) {
+                    Point p = me.getPoint();
+                    int row = table.rowAtPoint(p);
+                    String nit = table.getModel().getValueAt(row, 3).toString();
+                    ClientForm cf = new ClientForm(nit);
+                    dispose();
+                }
+            }
+        });
     }
 }

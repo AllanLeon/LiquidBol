@@ -4,6 +4,8 @@ import com.liquidbol.addons.MagikarpScreen;
 import com.liquidbol.addons.UIStyle;
 import com.liquidbol.db.persistence.PersistenceException;
 import com.liquidbol.model.Client;
+import com.liquidbol.model.Company;
+import com.liquidbol.model.OperationFailedException;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
@@ -14,6 +16,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -69,14 +72,9 @@ public class ClientForm extends JFrame {
 
     public ClientForm(int state) {
         UIStyle sty = new UIStyle();
-        switch(state){
+        switch (state) {
             case 1: //Add new client
                 initComponents();
-                setVisible(true);
-                break;
-            case 2: //show client data
-                initComponents();
-                convertToReadOnly();
                 setVisible(true);
                 break;
             case 3: //edit client data
@@ -93,6 +91,14 @@ public class ClientForm extends JFrame {
                 setVisible(true);
                 break;
         }
+    }
+
+    public ClientForm(String clientnit) {
+        //Show data on read-only mode.
+        UIStyle sty = new UIStyle();
+        initComponents();
+        convertToReadOnly(clientnit);
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -152,7 +158,7 @@ public class ClientForm extends JFrame {
                     Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JOptionPane.showMessageDialog(null, "Client added! \n Respect+");
-                if(!isExpress){
+                if (!isExpress) {
                     ListClientsForm lcf = new ListClientsForm();
                 }
                 dispose();
@@ -233,16 +239,16 @@ public class ClientForm extends JFrame {
         String mail = ((JTextField) clientEmail).getText();
         String emp = ((JTextField) clientCompany).getText();
         boolean route = routeCB.isSelected();
-        if(1 == 0) {
-            JOptionPane.showMessageDialog(this,"WARNING.","Warning", JOptionPane.WARNING_MESSAGE);
+        if (1 == 0) {
+            JOptionPane.showMessageDialog(this, "WARNING.", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            readItData = new Object[] {fname, lname, nit, nick, adrs, telf1, telf2, mail, emp, route};
+            readItData = new Object[]{fname, lname, nit, nick, adrs, telf1, telf2, mail, emp, route};
         }
     }
 
     private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
-        Client temp = MagikarpScreen.compServ.createClient(0,(String)data[0],(String)data[1],(int)data[2],(String)data[3],
-                    (String)data[4],(int)data[5],(int)data[6],(String)data[7],(String)data[8],(boolean)data[9]);
+        Client temp = MagikarpScreen.compServ.createClient(0, (String) data[0], (String) data[1], (int) data[2], (String) data[3],
+                (String) data[4], (int) data[5], (int) data[6], (String) data[7], (String) data[8], (boolean) data[9]);
         MagikarpScreen.compServ.saveClient(temp);
     }
 
@@ -289,38 +295,51 @@ public class ClientForm extends JFrame {
         };
         lbl.addMouseListener(ml);
     }
-    
-    private void convertToReadOnly() {
-        Icon temp = clientPhoto.getIcon();
-        Icon temp2 = companyPhoto.getIcon();
-        contentPane.remove(nitBox);
-        contentPane.remove(clientName);
-        contentPane.remove(clientLName);
-        contentPane.remove(clientCompany);
-        contentPane.remove(clientAddress);
-        contentPane.remove(clientPhone);
-        contentPane.remove(clientPhone2);
-        contentPane.remove(clientEmail);
-        contentPane.remove(clientPhoto);
-        contentPane.remove(companyPhoto);
-        contentPane.remove(submitBtn);
-        routeCB.setEnabled(false);
 
-        nitBox = new JLabel();
-        clientName = new JLabel();
-        clientLName = new JLabel();
-        clientCompany = new JLabel();
-        clientAddress = new JLabel();
-        clientPhone = new JLabel();
-        clientPhone2 = new JLabel();
-        clientEmail = new JLabel();
-        clientPhoto = new JLabel(temp);
-        companyPhoto = new JLabel(temp2);
+    private void convertToReadOnly(String clientnit) {
+        try {
+            Client cli = Company.findClientByNit(Integer.parseInt(clientnit));
+            Icon temp = clientPhoto.getIcon();
+            Icon temp2 = companyPhoto.getIcon();
+            contentPane.remove(nitBox);
+            contentPane.remove(nickBox);
+            contentPane.remove(clientName);
+            contentPane.remove(clientLName);
+            contentPane.remove(clientCompany);
+            contentPane.remove(clientAddress);
+            routeCB.setEnabled(false);
+            contentPane.remove(clientPhone);
+            contentPane.remove(clientPhone2);
+            contentPane.remove(clientEmail);
+            contentPane.remove(clientPhoto);
+            contentPane.remove(companyPhoto);
+            contentPane.remove(submitBtn);
+
+            idShower.setText("Nº " + cli.getId());
+            nitBox = new JLabel(String.valueOf(cli.getNit()));
+            nickBox = new JLabel(cli.getBillName());
+            clientName = new JLabel(cli.getName());
+            clientLName = new JLabel(cli.getLastname());
+            clientCompany = new JLabel(cli.getCompanyName());
+            clientAddress = new JLabel(cli.getAddress());
+            if (cli.isRoute())
+                routeCB.setSelected(true);
+            else
+                routeCB.setSelected(false);
+            clientPhone = new JLabel(String.valueOf(cli.getPhone()));
+            clientPhone2 = new JLabel(String.valueOf(cli.getPhone2()));
+            clientEmail = new JLabel(cli.getEmail());
+            clientPhoto = new JLabel(temp);
+            companyPhoto = new JLabel(temp2);
+        } catch (OperationFailedException ex) {
+            Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
         JButton cxc = new JButton("CXC");
         JButton ar = new JButton("Art. Recargables");
         title.setText("VER CLIENTE"); //CHANGE!!!!
 
         nitBox.setFont(new Font("Arial", Font.PLAIN, 20));
+        nickBox.setFont(new Font("Arial", Font.PLAIN, 20));
         clientName.setFont(new Font("Arial", Font.PLAIN, 20));
         clientLName.setFont(new Font("Arial", Font.PLAIN, 20));
         clientCompany.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -329,20 +348,24 @@ public class ClientForm extends JFrame {
         clientPhone2.setFont(new Font("Arial", Font.PLAIN, 20));
         clientEmail.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        nitBox.setBounds(120, 80, 100, 30);
-        clientName.setBounds(100, 120, 160, 30);
-        clientLName.setBounds(350, 120, 160, 30);
-        clientCompany.setBounds(130, 160, 300, 30);
-        clientAddress.setBounds(100, 210, 350, 30);
-        clientPhone.setBounds(100, 250, 150, 30);
-        clientPhone2.setBounds(330, 250, 150, 30);
-        clientEmail.setBounds(100, 290, 250, 30);
-        clientPhoto.setBounds(75, 330, 100, 100);
-        companyPhoto.setBounds(200, 330, 150, 100);
-        cxc.setBounds(380, 350, 120, 30);
-        ar.setBounds(380, 390, 120, 30);
+        nitBox.setBounds(120, 110, 100, 30);
+        nickBox.setBounds(310, 110, 100, 30);
+        clientName.setBounds(100, 150, 160, 30);
+        clientLName.setBounds(350, 150, 160, 30);
+        clientCompany.setBounds(130, 200, 300, 30);
+        routeCB.setBounds(470, 240, 100, 30);
+        clientAddress.setBounds(100, 240, 350, 30);
+        clientPhone.setBounds(100, 280, 150, 30);
+        clientPhone2.setBounds(330, 280, 150, 30);
+        clientEmail.setBounds(100, 320, 250, 30);
+        clientPhoto.setBounds(75, 360, 100, 100);
+        companyPhoto.setBounds(200, 360, 150, 100);
+        cxc.setBounds(380, 380, 120, 30);
+        ar.setBounds(380, 420, 120, 30);
+        backBtn.setBounds(50, 470, 70, 30);
 
         contentPane.add(nitBox);
+        contentPane.add(nickBox);
         contentPane.add(clientName);
         contentPane.add(clientLName);
         contentPane.add(clientCompany);
