@@ -307,7 +307,7 @@ public class ClientForm extends JFrame {
             contentPane.remove(clientLName);
             contentPane.remove(clientCompany);
             contentPane.remove(clientAddress);
-            routeCB.setEnabled(false);
+            contentPane.remove(routeCB);
             contentPane.remove(clientPhone);
             contentPane.remove(clientPhone2);
             contentPane.remove(clientEmail);
@@ -322,60 +322,67 @@ public class ClientForm extends JFrame {
             clientLName = new JLabel(cli.getLastname());
             clientCompany = new JLabel(cli.getCompanyName());
             clientAddress = new JLabel(cli.getAddress());
-            if (cli.isRoute())
-                routeCB.setSelected(true);
-            else
-                routeCB.setSelected(false);
+            JLabel routeLbl = new JLabel("Ruta ");
+            JLabel readRoute = new JLabel();
+            if (cli.isRoute()) {
+                readRoute.setText("Si");
+            } else {
+                readRoute.setText("No");
+            }
             clientPhone = new JLabel(String.valueOf(cli.getPhone()));
             clientPhone2 = new JLabel(String.valueOf(cli.getPhone2()));
             clientEmail = new JLabel(cli.getEmail());
             clientPhoto = new JLabel(temp);
             companyPhoto = new JLabel(temp2);
+            JButton cxc = new JButton("CXC");
+            JButton ar = new JButton("Art. Recargables");
+            title.setText("VER CLIENTE"); //CHANGE!!!!
+
+            nitBox.setFont(new Font("Arial", Font.PLAIN, 20));
+            nickBox.setFont(new Font("Arial", Font.PLAIN, 20));
+            clientName.setFont(new Font("Arial", Font.PLAIN, 20));
+            clientLName.setFont(new Font("Arial", Font.PLAIN, 20));
+            clientCompany.setFont(new Font("Arial", Font.PLAIN, 20));
+            clientAddress.setFont(new Font("Arial", Font.PLAIN, 20));
+            readRoute.setFont(new Font("Arial", Font.PLAIN, 20));
+            clientPhone.setFont(new Font("Arial", Font.PLAIN, 20));
+            clientPhone2.setFont(new Font("Arial", Font.PLAIN, 20));
+            clientEmail.setFont(new Font("Arial", Font.PLAIN, 20));
+
+            nitBox.setBounds(120, 110, 100, 30);
+            nickBox.setBounds(310, 110, 100, 30);
+            clientName.setBounds(100, 150, 160, 30);
+            clientLName.setBounds(350, 150, 160, 30);
+            clientCompany.setBounds(130, 200, 300, 30);
+            routeLbl.setBounds(440, 240, 50, 30);
+            readRoute.setBounds(470, 240, 40, 30);
+            clientAddress.setBounds(100, 240, 350, 30);
+            clientPhone.setBounds(100, 280, 150, 30);
+            clientPhone2.setBounds(330, 280, 150, 30);
+            clientEmail.setBounds(100, 320, 250, 30);
+            clientPhoto.setBounds(75, 360, 100, 100);
+            companyPhoto.setBounds(200, 360, 150, 100);
+            cxc.setBounds(380, 380, 120, 30);
+            ar.setBounds(380, 420, 120, 30);
+            backBtn.setBounds(50, 470, 70, 30);
+
+            contentPane.add(nitBox);
+            contentPane.add(nickBox);
+            contentPane.add(clientName);
+            contentPane.add(clientLName);
+            contentPane.add(clientCompany);
+            contentPane.add(routeLbl);
+            contentPane.add(readRoute);
+            contentPane.add(clientAddress);
+            contentPane.add(clientPhone);
+            contentPane.add(clientPhone2);
+            contentPane.add(clientEmail);
+            contentPane.add(clientPhoto);
+            contentPane.add(companyPhoto);
+            contentPane.add(cxc);
+            contentPane.add(ar);
         } catch (OperationFailedException ex) {
             Logger.getLogger(ClientForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-        JButton cxc = new JButton("CXC");
-        JButton ar = new JButton("Art. Recargables");
-        title.setText("VER CLIENTE"); //CHANGE!!!!
-
-        nitBox.setFont(new Font("Arial", Font.PLAIN, 20));
-        nickBox.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientName.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientLName.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientCompany.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientAddress.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientPhone.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientPhone2.setFont(new Font("Arial", Font.PLAIN, 20));
-        clientEmail.setFont(new Font("Arial", Font.PLAIN, 20));
-
-        nitBox.setBounds(120, 110, 100, 30);
-        nickBox.setBounds(310, 110, 100, 30);
-        clientName.setBounds(100, 150, 160, 30);
-        clientLName.setBounds(350, 150, 160, 30);
-        clientCompany.setBounds(130, 200, 300, 30);
-        routeCB.setBounds(470, 240, 100, 30);
-        clientAddress.setBounds(100, 240, 350, 30);
-        clientPhone.setBounds(100, 280, 150, 30);
-        clientPhone2.setBounds(330, 280, 150, 30);
-        clientEmail.setBounds(100, 320, 250, 30);
-        clientPhoto.setBounds(75, 360, 100, 100);
-        companyPhoto.setBounds(200, 360, 150, 100);
-        cxc.setBounds(380, 380, 120, 30);
-        ar.setBounds(380, 420, 120, 30);
-        backBtn.setBounds(50, 470, 70, 30);
-
-        contentPane.add(nitBox);
-        contentPane.add(nickBox);
-        contentPane.add(clientName);
-        contentPane.add(clientLName);
-        contentPane.add(clientCompany);
-        contentPane.add(clientAddress);
-        contentPane.add(clientPhone);
-        contentPane.add(clientPhone2);
-        contentPane.add(clientEmail);
-        contentPane.add(clientPhoto);
-        contentPane.add(companyPhoto);
-        contentPane.add(cxc);
-        contentPane.add(ar);
     }
 }
