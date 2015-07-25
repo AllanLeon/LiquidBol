@@ -4,10 +4,13 @@ import com.liquidbol.addons.UIStyle;
 import com.liquidbol.gui.tables.model.EmployeeTableModel;
 import com.liquidbol.model.Company;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -29,7 +32,7 @@ import javax.swing.table.TableRowSorter;
 public class ListEmployeesForm extends JFrame {
 
     private final String[] SEARCH_PARAMETERS = {"Cod.", "Nombre", "Tipo", "Sucursal"};
-    
+
     private JPanel contentPane;
     private JLabel title;
     private JButton addBtn;
@@ -59,7 +62,7 @@ public class ListEmployeesForm extends JFrame {
 
         title = new JLabel("EMPLEADOS");
         title.setFont(new Font("Arial", Font.PLAIN, 40));
-        
+
         addBtn = new JButton("+");
         addBtn.addActionListener(new ActionListener() {
             @Override
@@ -73,10 +76,12 @@ public class ListEmployeesForm extends JFrame {
         searchBox = new JTextField();
         searchBox.addKeyListener(new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent ke) { }
+            public void keyTyped(KeyEvent ke) {
+            }
 
             @Override
-            public void keyPressed(KeyEvent ke) { }
+            public void keyPressed(KeyEvent ke) {
+            }
 
             @Override
             public void keyReleased(KeyEvent ke) {
@@ -97,7 +102,7 @@ public class ListEmployeesForm extends JFrame {
         RowSorter<TableModel> sorter = new TableRowSorter<>(employeesTable.getModel());
         employeesTable.setRowSorter(sorter);
         JScrollPane employeesTableSP = new JScrollPane(employeesTable);
-
+        addDoubleClickViewer(employeesTable);
         backBtn = new JButton("Back");
         backBtn.addActionListener(new ActionListener() {
             @Override
@@ -105,7 +110,7 @@ public class ListEmployeesForm extends JFrame {
                 LoginForm.mm.setVisible(true);
                 dispose();
             }
-        });  
+        });
 
         title.setBounds(170, 30, 300, 30);
         addBtn.setBounds(400, 80, 100, 30);
@@ -121,11 +126,11 @@ public class ListEmployeesForm extends JFrame {
         contentPane.add(employeesTableSP);
         contentPane.add(backBtn);
     }
-    
+
     private void updateEmployeeTableModel() {
         switch (searchCB.getSelectedIndex()) {
             case 0:
-                employeesTableModel.updateListsByEmployeeId(Company.getAllStores(), searchBox.getText());
+                employeesTableModel.updateListsByEmployeeId(Company.getAllStores(), Integer.parseInt(searchBox.getText()));
                 break;
             case 1:
                 employeesTableModel.updateListsByEmployeeName(Company.getAllStores(), searchBox.getText());
@@ -138,5 +143,20 @@ public class ListEmployeesForm extends JFrame {
                 break;
             default:;
         }
+    }
+
+    private void addDoubleClickViewer(JTable table) {
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                if (me.getClickCount() == 2) {
+                    Point p = me.getPoint();
+                    int row = table.rowAtPoint(p);
+                    String ci = table.getModel().getValueAt(row, 1).toString();
+                    EmployeeForm ef = new EmployeeForm(ci);
+                    dispose();
+                }
+            }
+        });
     }
 }

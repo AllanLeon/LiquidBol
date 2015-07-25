@@ -86,7 +86,7 @@ public class EmployeeTableModel extends AbstractTableModel {
         updateLists(stores);
     }
     
-    public void updateListsByEmployeeId(Collection<Store> stores, String employeeId) {
+    public void updateListsByEmployeeId(Collection<Store> stores, int employeeId) {
         this.stores.clear();
         employees.clear();
         for (Store store : stores) {

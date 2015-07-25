@@ -139,7 +139,8 @@ public class DB3MItemsCreator {
                     + "VALUES('TM-1150', 20, 4)";
             String query5c = "INSERT INTO inventorys(item_id, store_id, quantity) "
                     + "VALUES('TM-1150', 1, 10)";
-            //check profit value
+            //data insertion....no need of DIF or PROFIT! talk 2 Allan
+            //Should us CompanyServices>CreateItem()...then save using ItemCrud save()
             result.createStatement().execute(query1a);
             result.createStatement().execute(query1b);
             result.createStatement().execute(query1c);            

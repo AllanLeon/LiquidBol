@@ -70,24 +70,15 @@ public class EmployeeForm extends JFrame {
     private JButton submitBtn;
     private MouseListener ml;
     private JButton backBtn;
-    private Employee newEmployee;
     private Object[] readItData;
     private List<Store> stores;
-    private StoreServices storeServices;
-    
+
     public EmployeeForm(int state) {
         UIStyle sty = new UIStyle();
-        newEmployee = new Employee(0);
         stores = new ArrayList<>(Company.getAllStores());
-        storeServices = new StoreServices();
         switch (state) {
             case 1: //Add new employee
                 initComponents();
-                setVisible(true);
-                break;
-            case 2: //show employee data
-                initComponents();
-                convertToReadOnly();
                 setVisible(true);
                 break;
             case 3: //edit employee data
@@ -99,6 +90,15 @@ public class EmployeeForm extends JFrame {
                 setVisible(true);
                 break;
         }
+    }
+
+    public EmployeeForm(String employeeci) {
+        //Show data on read-only mode.
+        UIStyle sty = new UIStyle();
+        stores = new ArrayList<>(Company.getAllStores());
+        initComponents();
+        convertToReadOnly(employeeci);
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -133,8 +133,7 @@ public class EmployeeForm extends JFrame {
         emailLbl = new JLabel("Email");
         employeeEmail = new JTextField();
         typeLbl = new JLabel("Tipo");
-        Object[] CBdata = new Object[] {"Rookie", "Midway", "Pro"};
-        employeeType = new JComboBox(CBdata);
+        employeeType = new JComboBox(new Object[]{"Novato", "Avanzado", "Admin"});
         storeLbl = new JLabel("Sucursal:");
         employeeStore = new JComboBox();
         try {
@@ -204,8 +203,6 @@ public class EmployeeForm extends JFrame {
         contentPane.add(employeeCI);
         contentPane.add(passLbl);
         contentPane.add(employeePass);
-        contentPane.add(typeLbl);
-        contentPane.add(employeeType);
         contentPane.add(nameLbl);
         contentPane.add(employeeName);
         contentPane.add(lnameLbl);
@@ -218,6 +215,8 @@ public class EmployeeForm extends JFrame {
         contentPane.add(employeePhone2);
         contentPane.add(emailLbl);
         contentPane.add(employeeEmail);
+        contentPane.add(typeLbl);
+        contentPane.add(employeeType);
         contentPane.add(storeLbl);
         contentPane.add(employeeStore);
         contentPane.add(employeePhoto);
@@ -236,16 +235,16 @@ public class EmployeeForm extends JFrame {
         String mail = ((JTextField) employeeEmail).getText();
         String pass = ((JTextField) employeePass).getText();
         String type = ((JComboBox) employeeType).getSelectedItem().toString();
-        if(1 == 0) {
-            JOptionPane.showMessageDialog(this,"WARNING.","Warning", JOptionPane.WARNING_MESSAGE);
+        if (1 == 0) {
+            JOptionPane.showMessageDialog(this, "WARNING.", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            readItData = new Object[] {id, fname, lname, adrs, telf1, telf2, mail, pass, type};
+            readItData = new Object[]{id, fname, lname, adrs, telf1, telf2, mail, pass, type};
         }
     }
 
     private void saveIt(Object[] data) throws PersistenceException, ClassNotFoundException {
-        Employee temp = MagikarpScreen.storeServ.createEmployee((int)data[0],(String)data[1],(String)data[2],(String)data[3],
-                    (int)data[4],(int)data[5],(String)data[6],(String)data[7],(String)data[8]);
+        Employee temp = MagikarpScreen.storeServ.createEmployee((int) data[0], (String) data[1], (String) data[2], (String) data[3],
+                (int) data[4], (int) data[5], (String) data[6], (String) data[7], (String) data[8]);
         Store temp1;
         try {
             temp1 = Company.findStoreById(1);
@@ -299,63 +298,76 @@ public class EmployeeForm extends JFrame {
         lbl.addMouseListener(ml);
     }
 
-    private void convertToReadOnly() {        
-        Icon temp = employeePhoto.getIcon();
-        contentPane.remove(employeeCI);
-        contentPane.remove(employeePass);
-        contentPane.remove(employeeType);
-        contentPane.remove(employeeName);
-        contentPane.remove(employeeLName);
-        contentPane.remove(employeeAddress);
-        contentPane.remove(employeePhone);
-        contentPane.remove(employeePhone2);
-        contentPane.remove(employeeEmail);
-        employeeType.setEnabled(false);
-        employeeStore.setEnabled(false);
-        contentPane.remove(employeePhoto);
-        contentPane.remove(submitBtn);
+    private void convertToReadOnly(String employeeci) {
+        try {
+            Employee emp = Company.findEmployeeById(Integer.parseInt(employeeci));
+            Icon temp = employeePhoto.getIcon();
+            contentPane.remove(employeeCI);
+            contentPane.remove(employeePass);
+            contentPane.remove(employeeType);
+            contentPane.remove(employeeName);
+            contentPane.remove(employeeLName);
+            contentPane.remove(employeeAddress);
+            contentPane.remove(employeePhone);
+            contentPane.remove(employeePhone2);
+            contentPane.remove(employeeEmail);
+            contentPane.remove(employeeType);
+            contentPane.remove(employeeStore);
+            contentPane.remove(employeePhoto);
+            contentPane.remove(submitBtn);
 
-        employeeCI = new JLabel();
-        employeePass = new JLabel();
-        employeeName = new JLabel();
-        employeeLName = new JLabel();
-        employeeAddress = new JLabel();
-        employeePhone = new JLabel();
-        employeePhone2 = new JLabel();
-        employeeEmail = new JLabel();
-        employeePhoto = new JLabel(temp);
-        title.setText("VER EMPLEADO"); //CHANGE!!!!
+            employeeCI = new JLabel(String.valueOf(emp.getId()));
+            employeePass = new JLabel(emp.getPassword());
+            employeeName = new JLabel(emp.getName());
+            employeeLName = new JLabel(emp.getLastname());
+            employeeAddress = new JLabel(emp.getAddress());
+            employeePhone = new JLabel(String.valueOf(emp.getPhone()));
+            employeePhone2 = new JLabel(String.valueOf(emp.getPhone2()));
+            employeeEmail = new JLabel(emp.getEmail());
+            JLabel readType = new JLabel(emp.getType());
+            JLabel readStore = new JLabel(Company.findStoreById(1).getName());
+            employeePhoto = new JLabel(temp);
+            title.setText("VER EMPLEADO"); //CHANGE!!!!
 
-        employeeCI.setFont(new Font("Arial", Font.PLAIN, 20));
-        employeePass.setFont(new Font("Arial", Font.PLAIN, 20));
-        employeeName.setFont(new Font("Arial", Font.PLAIN, 20));
-        employeeLName.setFont(new Font("Arial", Font.PLAIN, 20));
-        employeeAddress.setFont(new Font("Arial", Font.PLAIN, 20));
-        employeePhone.setFont(new Font("Arial", Font.PLAIN, 20));
-        employeePhone2.setFont(new Font("Arial", Font.PLAIN, 20));
-        employeeEmail.setFont(new Font("Arial", Font.PLAIN, 20));
-        
-        employeeCI.setBounds(60, 80, 100, 30);
-        employeePass.setBounds(250, 80, 100, 30);
-        employeeName.setBounds(100, 120, 160, 30);
-        employeeLName.setBounds(350, 120, 160, 30);
-        employeeAddress.setBounds(100, 170, 350, 30);
-        employeePhone.setBounds(100, 210, 150, 30);
-        employeePhone2.setBounds(330, 210, 150, 30);
-        employeeEmail.setBounds(100, 250, 250, 30);
-        employeePhoto.setBounds(210, 350, 100, 100);
-        
-        contentPane.add(employeeCI);
-        contentPane.add(employeePass);
-        contentPane.add(employeeName);
-        contentPane.add(employeeLName);
-        contentPane.add(employeeAddress);
-        contentPane.add(employeePhone);
-        contentPane.add(employeePhone2);
-        contentPane.add(employeeEmail);
-        contentPane.add(employeePhoto);
+            employeeCI.setFont(new Font("Arial", Font.PLAIN, 20));
+            employeePass.setFont(new Font("Arial", Font.PLAIN, 20));
+            employeeName.setFont(new Font("Arial", Font.PLAIN, 20));
+            employeeLName.setFont(new Font("Arial", Font.PLAIN, 20));
+            employeeAddress.setFont(new Font("Arial", Font.PLAIN, 20));
+            employeePhone.setFont(new Font("Arial", Font.PLAIN, 20));
+            employeePhone2.setFont(new Font("Arial", Font.PLAIN, 20));
+            employeeEmail.setFont(new Font("Arial", Font.PLAIN, 20));
+            readType.setFont(new Font("Arial", Font.PLAIN, 20));
+            readStore.setFont(new Font("Arial", Font.PLAIN, 20));
+
+            employeeCI.setBounds(140, 80, 100, 30);
+            employeePass.setBounds(350, 80, 100, 30);
+            employeeName.setBounds(100, 120, 160, 30);
+            employeeLName.setBounds(350, 120, 160, 30);
+            employeeAddress.setBounds(100, 170, 350, 30);
+            employeePhone.setBounds(100, 210, 150, 30);
+            employeePhone2.setBounds(330, 210, 150, 30);
+            employeeEmail.setBounds(100, 250, 250, 30);
+            readType.setBounds(110, 290, 100, 30);
+            readStore.setBounds(350, 290, 100, 30);
+            employeePhoto.setBounds(210, 350, 100, 100);
+
+            contentPane.add(employeeCI);
+            contentPane.add(employeePass);
+            contentPane.add(employeeName);
+            contentPane.add(employeeLName);
+            contentPane.add(employeeAddress);
+            contentPane.add(employeePhone);
+            contentPane.add(employeePhone2);
+            contentPane.add(employeeEmail);
+            contentPane.add(readType);
+            contentPane.add(readStore);
+            contentPane.add(employeePhoto);
+        } catch (OperationFailedException ex) {
+            Logger.getLogger(EmployeeForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
     private Object[] loadStoreNames() throws PersistenceException, ClassNotFoundException {
         List<String> data = new ArrayList<>();
         for (Store store : stores) {

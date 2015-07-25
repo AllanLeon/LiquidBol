@@ -245,20 +245,10 @@ public class Store implements Serializable {
         return employees;
     }
     
-    public Collection<Employee> searchEmployeeById(int id) {
+    public Collection<Employee> searchEmployeesById(int id) {
         Set<Employee> result = new HashSet<>();
         for (Employee employee : employees) {
             if (employee.getId() == id) {
-                result.add(employee);
-            }
-        }
-        return result;
-    }
-    
-    public Collection<Employee> searchEmployeesById(String id) {
-        Set<Employee> result = new HashSet<>();
-        for (Employee employee : employees) {
-            if (StringUtils.containsIgnoreCase(String.valueOf(employee.getId()),id)) {
                 result.add(employee);
             }
         }
